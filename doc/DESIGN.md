@@ -3,13 +3,13 @@
 
 ## Team Roles and Responsibilities
 
- * Team Member #1
+ * Mayari Merchant
 
- * Team Member #2
+ * James Qu
 
- * Team Member #3
+ * Nick Ward
 
- * Team Member #4
+ * Nikki Lee
 
  * Melanie Wang: frontend, sprite/asset design
 
