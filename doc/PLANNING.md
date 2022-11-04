@@ -59,4 +59,4 @@ Tower defence game (More variations)
 
  * Team Member 4
 
- * Team Member 5
+ * Melanie Wang: frontend, sprite/asset design
