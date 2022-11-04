@@ -20,4 +20,22 @@ board in order to prevent the enemies from reaching the Git Repository.
 
 ## Game Specific Features
 1. Player uses currency to purchase defenders, which they can then place on the board.
-2. 
+2. Power-ups and/or rewards when the enemies are defeated within a certain time frame 
+3. 
+
+## Use Cases
+Mayari: 
+1.  d
+2. 2
+3. 3
+4. 4
+5. 5
+6.  
+
+Melanie: 
+
+Nick: 
+
+James: 
+
+Nikki: 
