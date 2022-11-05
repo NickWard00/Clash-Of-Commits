@@ -25,17 +25,41 @@ board in order to prevent the enemies from reaching the Git Repository.
 
 ## Use Cases
 Mayari: 
-1.  d
-2. 2
-3. 3
-4. 4
-5. 5
-6.  
+1. 
+2. 
+3. 
+4. 
+5. 
+6. 
 
 Melanie: 
+1. 
+2. 
+3. 
+4. 
+5. 
+6. 
 
-Nick: 
+Nick:
+1. 
+2. 
+3. 
+4. 
+5. 
+6. 
 
 James: 
+1. 
+2. 
+3. 
+4. 
+5. 
+6. 
 
-Nikki: 
+Nikki:
+1. 
+2. 
+3. 
+4. 
+5. 
+6. 
