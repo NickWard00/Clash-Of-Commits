@@ -41,9 +41,9 @@ Melanie:
 6. 
 
 Nick:
-1. 
-2. 
-3. 
+1. Entity, Attacker, and Defender Implementation
+2. Level Parser (make it so that levels are generated in code, but created from resource/csvs)
+3. Game Objects (lazers, bullets, etc)
 4. 
 5. 
 6. 
