@@ -57,9 +57,9 @@ James:
 6. 
 
 Nicki:
-1. Entity, Attacker, and Defender Implementation
-2. 
-3. 
-4. 
-5. 
-6. 
+1. Enemy attack implementation
+2. Enemy movement implementation
+3. Data files for enemy attributes 
+4. Data files for levels/environments
+5. Backend testing
+6. Power-up/special ability implementation
