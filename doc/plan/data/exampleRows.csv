@@ -1,0 +1,9 @@
+# Format: String type of enemy, Integer row to be placed on, Double seconds to wait for the enemy to be instantiated into the scene
+# Thoughts: I'm not sure if this is how we'll want to implement this, but I'm just jotting down my ideas for the moment
+# cont. If enemy type is specified as "random," the model chooses a random type of enemy
+
+bug, 0, 3.0
+bug, 2, 0.8
+switch, 1, 1.5
+random, 1, 2.0
+etc.

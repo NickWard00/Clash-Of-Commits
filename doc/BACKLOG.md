@@ -56,8 +56,8 @@ James:
 5. 
 6. 
 
-Nikki:
-1. 
+Nicki:
+1. Entity, Attacker, and Defender Implementation
 2. 
 3. 
 4. 
