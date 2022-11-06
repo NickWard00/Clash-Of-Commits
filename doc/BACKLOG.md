@@ -1,10 +1,11 @@
 # OOGA BACKLOG
 ### Team Number 6
 ### Nick Ward, Nicki Lee, Mayari Merchant, James Qu, Melanie Wang
-Collection of use cases for the project. 
 
-Clash of Commits is a "tower defense" type game where the player can purchase various defenders and place them on the
-board in order to prevent the enemies from reaching the Git Repository.
+Our project is a side scroller game where you play as a programmer who must traverse
+the map, avoiding and defeating "bad coding habit" enemies. The hero programmer can 
+activate various "good coding habit" power-ups and abilities to help them reach the
+end of the map.
 
 ## Base Project Requirements
 1. Player can select 4 languages in the start screen.
@@ -19,9 +20,9 @@ board in order to prevent the enemies from reaching the Git Repository.
 10. The game keeps track of high scores.
 
 ## Game Specific Features
-1. Player uses currency to purchase defenders, which they can then place on the board.
-2. Power-ups and/or rewards when the enemies are defeated within a certain time frame 
-3. 
+1. Power-ups and/or rewards when the enemies are defeated 
+2. 
+3.
 
 ## Use Cases
 Mayari: 
@@ -56,10 +57,10 @@ James:
 5. 
 6. 
 
-Nikki:
-1. 
-2. 
-3. 
-4. 
-5. 
-6. 
+Nicki:
+1. Enemy attack implementation
+2. Enemy movement implementation
+3. Data files for enemy attributes 
+4. Data files for levels/environments
+5. Backend testing
+6. Power-up/special ability implementation
