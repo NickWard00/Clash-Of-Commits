@@ -1,0 +1,7 @@
+Type=magicValue
+Sprite=data/sprites/magicValue
+HP=5
+Speed=5
+Attack=long (close or long - string indicating the range of this type of enemy's attack)
+Damage=1 (int indicating how much damage this type of enemy deals to hero)
+Projectile=data/sprites/spell

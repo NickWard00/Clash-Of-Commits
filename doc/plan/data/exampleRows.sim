@@ -1,7 +1,0 @@
-Title=Example Tower Defense
-Author=Cool Name
-GameType=Rows (Basic, Continuous, or Rows)
-Description=A super cool tower defense game that will blow Professor Duvall's socks off
-Level=Easy (Easy, Medium, or Hard)
-StarterMoney=20 (integer indicating the amount of money player starts the game with)
-CSV=data/exampleRows.csv

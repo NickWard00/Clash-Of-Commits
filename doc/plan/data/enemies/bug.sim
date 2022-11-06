@@ -4,4 +4,3 @@ HP=5
 Speed=10
 Attack=close (close or long - string indicating the range of this type of enemy's attack)
 Damage=2 (int indicating how much damage this type of enemy deals to hero)
-Reward=10 (int indicating how much money the hero gets for destroying this type of enemy)
