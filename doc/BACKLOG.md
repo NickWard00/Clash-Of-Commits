@@ -34,12 +34,12 @@ Mayari:
 6. 
 
 Melanie: 
-1. 
-2. 
-3. 
-4. 
-5. 
-6. 
+1. Start Screen Implementation (language select)
+2. Players can change CSS in the settings popup
+3. Implement settings popup (allows return to main menu, saving current game, etc.)
+4. Implement HUD that dynamically updates during play
+5. Implement moving screen (background objects, block objects, etc.)
+6. Implement game pausing
 
 Nick:
 1. Entity, Attacker, and Defender Implementation
