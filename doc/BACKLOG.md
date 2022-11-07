@@ -50,12 +50,12 @@ Nick:
 6. 
 
 James: 
-1. 
-2. 
-3. 
-4. 
-5. 
-6. 
+1. Implement upgrades to attacker, defender, etc
+2. Determining and implementing how specifically to win or lose a particular game type
+3. Implement key binds for the game
+4. Implement logic to track status/interactions within the game
+5. Display information about a game
+6. Implement selection settings at the beginning of the program
 
 Nicki:
 1. Enemy attack implementation
