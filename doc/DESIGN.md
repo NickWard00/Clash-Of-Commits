@@ -1,5 +1,5 @@
 # OOGA Design Final
-### Names
+### Clash of Commits
 
 ## Team Roles and Responsibilities
 
