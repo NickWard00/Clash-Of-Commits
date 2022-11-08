@@ -14,3 +14,19 @@ James Qu:
 * Testing for when an upgrade is successfully used on an entity
   * Happy test case that would show if the upgrade went through on the character or not and if their
 stats increased as expected
+
+Mayari Merchant: 
+* Testing for what should happen on different cases with file upload 
+  * Happy case: correct file uploaded --> information is parsed as expected 
+  * Sad cases: incorrect file type, or no file uploaded --> catch exceptions and handle them properly 
+  * Will try calling different FileHandler methods and check their output 
+* Frontend testing to ensure that buttons to upload files, pause, select game mode, language, etc. work 
+  * Happy case: user knows what to do, selects buttons in the right order, and they lead to the logical next step 
+  * Sad case: user presses buttons in an unexpected manner/order and game behaves erratically as such without feedback to user 
+  * Sad case: user presses buttons properly, but the buttons don't function properly 
+  * Using GUI testing to simulate different button-pressing patterns and checking their output 
+* Testing what happens when the user tries to save game to file 
+  * Happy case: game in its current state is saved to a file 
+  * Sad case: game is not saved to file, game's saved state is not up-to-date
+  * Using GUI testing to see what happens with the file save UI option. 
+  * Loading a simulation from this saved file and comparing the states between the two versions 

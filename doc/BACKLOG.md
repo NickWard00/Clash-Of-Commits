@@ -26,12 +26,12 @@ end of the map.
 
 ## Use Cases
 Mayari: 
-1. 
-2. 
-3. 
-4. 
-5. 
-6. 
+1. Allow user the option to upload a .PNG to change personalize their character's sprite 
+2. Make a MapParser class to extract information from .csv file to render original game setting 
+3. Implement a specific power-up for increasing hero's speed 
+4. Implement error handling in the controller by catching exceptions and displaying messages to the user 
+5. Implementing a "collision" method (likely in the GameMap class) to alert whenever two Entity's collide 
+6. Keep track of information about a hero's number lives, health points, number coins, etc. in Hero class 
 
 Melanie: 
 1. Start Screen Implementation (language select)
