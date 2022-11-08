@@ -4,7 +4,7 @@ public abstract class Enemy {
     // instantiates the new enemy at coordinates xPos, yPos
     makeEnemy(Class<? extends Enemy> enemyClass, int xPos, int yPos) {}
 
-    // method which takes a list of enemy classes, picks one at random, then calls
+    // method Hwhich takes a list of enemy classes, picks one at random, then calls
     // makeEnemy with that class
     makeRandomEnemy(List<Class> possibleEnemies, int xPos, int yPos) {}
 
