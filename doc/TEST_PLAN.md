@@ -20,7 +20,7 @@ Mayari Merchant:
   * Happy case: correct file uploaded --> information is parsed as expected 
   * Sad cases: incorrect file type, or no file uploaded --> catch exceptions and handle them properly 
   * Will try calling different FileHandler methods and check their output 
-* Frontend testing to ensure that buttons to upload files, pause, select game mode, language, etc. work 
+* Frontend testing to ensure that buttons to upload files, pause, select game mode, etc. work 
   * Happy case: user knows what to do, selects buttons in the right order, and they lead to the logical next step 
   * Sad case: user presses buttons in an unexpected manner/order and game behaves erratically as such without feedback to user 
   * Sad case: user presses buttons properly, but the buttons don't function properly 
@@ -30,3 +30,13 @@ Mayari Merchant:
   * Sad case: game is not saved to file, game's saved state is not up-to-date
   * Using GUI testing to see what happens with the file save UI option. 
   * Loading a simulation from this saved file and comparing the states between the two versions 
+
+Melanie Wang:
+* Test for when different language buttons are clicked
+  * Happy test to ensure the next screen's buttons are displaying the correct texts.
+* Test to make sure the GUI is properly updating
+  * Sad test to make sure the user cannot get two of the same type of upgrade applied at once
+  * Happy test to see that when injured the player's health depletes the correct amount
+* Test for making sure character movement is accurate
+  * Happy test case to make sure character coordinates are in the right place after moving a certain amount
+  * Sad test to make sure character cannot move out of bounds
