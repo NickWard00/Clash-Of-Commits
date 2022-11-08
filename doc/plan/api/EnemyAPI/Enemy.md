@@ -1,4 +1,4 @@
-# Make Enemy API
+# Enemy API
 
 #### Nicki Lee
 
