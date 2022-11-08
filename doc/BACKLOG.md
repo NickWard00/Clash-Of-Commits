@@ -42,12 +42,12 @@ Melanie:
 6. Implement game pausing
 
 Nick:
-1. Entity, Attacker, and Defender Implementation
-2. Level Parser (make it so that levels are generated in code, but created from resource/csvs)
-3. Game Objects (lazers, bullets, etc)
-4. 
-5. 
-6. 
+1. Parse in parameters from resource file based on heroes, enemies, and other entities
+2. Parse in Level Parser from CSV (make it so that levels are generated in code, but created from resource/csvs)
+3. Create Entity superclass which enemies hero classes can be made and determined using reflection
+4. Keep track of positions of each entity in a class that can be given to the view
+5. Make a EntityView Class that based on the entity state, displays the corresponding photo on screen and puts the entity at the corresponding place in space
+6. Class with all types of enemy behavior, but can be accessed from resource file using reflection
 
 James: 
 1. Implement upgrades to attacker, defender, etc
