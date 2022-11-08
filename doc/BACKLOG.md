@@ -58,9 +58,9 @@ James:
 6. Implement selection settings at the beginning of the program
 
 Nicki:
-1. Enemy attack implementation
-2. Enemy movement implementation
-3. Data files for enemy attributes 
-4. Data files for levels/environments
-5. Backend testing
-6. Power-up/special ability implementation
+1. Create Enemy superclass (extends Entity) which can instantiate specific enemy type classes through reflection
+2. Enemy movement and logic implementation
+3. Create data files for default enemy attributes of all enemy types
+4. Create data files for levels/environments which can be parsed to generate maps and correct sprites
+5. Backend testing - focused on testing for enemies
+6. Create Ability superclass which can instantiate specific ability/power-up classes through reflection
