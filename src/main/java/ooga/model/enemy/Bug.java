@@ -1,4 +1,4 @@
-package ooga.model;
+package ooga.model.enemy;
 
 public class Bug extends Enemy {
     private static final int DEFAULT_ATTACK_STRENGTH = 1;

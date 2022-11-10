@@ -1,7 +1,8 @@
-package ooga.model;
+package ooga.model.enemy;
 
 import java.util.List;
 import java.util.Random;
+import ooga.model.Entity;
 
 public abstract class Enemy extends Entity {
 
