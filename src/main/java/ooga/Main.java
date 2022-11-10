@@ -1,8 +1,8 @@
 package ooga;
 
 
-import ooga.model.Bug;
-import ooga.model.Enemy;
+import ooga.model.enemy.Bug;
+import ooga.model.enemy.Enemy;
 import ooga.model.MagicValue;
 
 /**

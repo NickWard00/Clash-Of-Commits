@@ -1,5 +1,7 @@
 package ooga.model;
 
+import ooga.model.enemy.Enemy;
+
 public class MagicValue extends Enemy {
     private static final int DEFAULT_ATTACK_STRENGTH = 1;
     private static final String DEFAULT_MOVEMENT_TYPE = "stationary"; // we could have movement types like stationary, chase, random, etc?
