@@ -3,7 +3,7 @@
 
 ## Team Roles and Responsibilities
 
- * Mayari Merchant
+ * Mayari Merchant: file handling, exceptions
 
  * James Qu
 

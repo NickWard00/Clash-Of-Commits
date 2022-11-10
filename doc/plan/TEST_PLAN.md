@@ -40,3 +40,18 @@ Melanie Wang:
 * Test for making sure character movement is accurate
   * Happy test case to make sure character coordinates are in the right place after moving a certain amount
   * Sad test to make sure character cannot move out of bounds
+
+Nicki Lee:
+* Test for enemy generation using reflection
+  * Happy test with correct parameter types
+  * Sad test with incorrect parameter types to check exception handling
+* Test that activating and deactivating hero abilities works
+  * Check if multiple abilities can be active at the same time
+  * Test if abilities correctly check whether they are available to use
+  * Happy test when user tries to activate an ability that is enabled
+  * Sad test when user trites to activate an ability that is disabled
+* Test if enemy movement types can be set with data files
+  * Test default movement types work correctly
+  * Happy test when user selects game data file with different enemy movement types than
+  the default
+  * Sad test when user selects game data file with a typo or enemy type that doesn't exist
