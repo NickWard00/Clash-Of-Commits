@@ -1,0 +1,33 @@
+# This is where the bug enemy behavior is defined
+Type=Enemy
+Name=Bug
+Sprites=sprites/bug
+Speed=0.1
+HP=100
+States=
+{
+    State=0
+    {
+        # Idle
+        Animation=0
+        Movement=0
+    }
+    State=1
+    {
+        # Walking
+        Animation=1
+        Movement=1
+    }
+    State=2
+    {
+        # Attacking
+        Animation=2
+        Movement=0
+    }
+    State=3
+    {
+        # Dead
+        Animation=3
+        Movement=0
+    }
+}
