@@ -14,14 +14,15 @@ public class EntityMapParser {
         getSimData();
         properties.entrySet().forEach(entry->{
             String entityName = (String) entry.getKey();
-            String[] entityDataArray = ((String) entry.getValue()).split(",");
+            String[] entityDataArray = ((String) entry.getValue()).replaceAll("\\s+","").split(",");
+            EntityParser entityParser = new EntityParser(entityName, entityDataArray);
         });
     }
 
     /**
      * Method that gets the simulation data
      */
-    public void getSimData() throws IllegalStateException {
+    private void getSimData() throws IllegalStateException {
         properties = new Properties();
         try {
             properties.load(new FileReader(simFile));

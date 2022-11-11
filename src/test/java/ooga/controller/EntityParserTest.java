@@ -6,11 +6,10 @@ import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class EntityMapParserTest {
+class EntityParserTest {
     @Test
-    void testEntityMapParser() {
-        EntityMapParser entityMapParser = new EntityMapParser(new File("data/EntityMap.sim"));
+    void testEntityParser() {
+        EntityParser entityParser = new EntityParser("bug1", new String[]{"bug", "0", "0"});
         assertEquals("EntityMap", "EntityMap");
-
     }
 }

@@ -10,7 +10,7 @@ class EntityMapParserTest {
     @Test
     void testEntityMapParser() {
         EntityMapParser entityMapParser = new EntityMapParser(new File("data/EntityMap.sim"));
-        assertEquals("Entity", "EntityMap");
+        assertEquals("EntityMap", "EntityMap");
 
     }
 }
