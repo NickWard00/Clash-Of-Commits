@@ -1,20 +1,17 @@
 package ooga;
 
 
-import ooga.model.Entity;
-import ooga.model.attack.Attack;
+import javafx.application.Application;
+import javafx.stage.Stage;
 import ooga.model.enemy.Bug;
 import ooga.model.enemy.Enemy;
 import ooga.model.enemy.MagicValue;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Consumer;
+import ooga.view.StartScreen;
 
 /**
  * Feel free to completely change this code or delete it entirely. 
  */
-public class Main {
+public class Main extends Application {
     /**
      * A method to test (and a joke :).
      */
@@ -25,15 +22,20 @@ public class Main {
     /**
      * Start of the program.
      */
-    public static void main (String[] args) {
-        Bug b = new Bug(10, 10, 10, "Attack1");
-        MagicValue m = new MagicValue(10, 10, 10, "Attack2");
 
-        Enemy bug = Enemy.makeEnemy(Bug.class, 1.0, 1.0);
-        Enemy magicValue = Enemy.makeEnemy(MagicValue.class, 5.0, 2.0);
-        List<Enemy> enemies = Arrays.asList(bug, magicValue);
+    @Override
+    public void start(Stage stage){
+        StartScreen ss = new StartScreen(stage);
 
-        Consumer<Enemy> attackMethod = (enemy) -> { Attack.attack(enemy); };
-        enemies.iterator().forEachRemaining(attackMethod);
+        stage.setScene(ss.makeScene());
+
+        stage.show();
     }
+
+   // public static void main (String[] args) {
+    //    Enemy bug = Enemy.makeEnemy(Bug.class, 1.0, 1.0);
+     //   bug.attack();
+     //   Enemy magicValue = Enemy.makeEnemy(MagicValue.class, 5.0, 2.0);
+     //   magicValue.attack();
+   // }
 }
