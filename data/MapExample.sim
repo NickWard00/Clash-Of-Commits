@@ -1,0 +1,5 @@
+GameType=Survival
+Title=Example
+Author=Nick Ward
+Description=Example game type, used for brainstorming
+GameMap=maps/map1.csv
