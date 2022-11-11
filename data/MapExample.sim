@@ -2,4 +2,6 @@ GameType=Survival
 Title=Example
 Author=Nick Ward
 Description=Example game type, used for brainstorming
+# BoxSize converts csv boxes to actual distance in pixels
+BoxSize=20
 GameMap=maps/map1.csv
