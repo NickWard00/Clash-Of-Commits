@@ -3,6 +3,7 @@ Type=Enemy
 Name=Bug
 Sprites=sprites/bug
 Speed=0.1
+Size=20
 HP=100
 States=
 {
