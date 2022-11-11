@@ -1,21 +1,28 @@
 package ooga.model.enemy;
 
 public class Bug extends Enemy {
-    private static final int DEFAULT_ATTACK_STRENGTH = 1;
-    private static final String DEFAULT_MOVEMENT_TYPE = "random"; // we could have movement types like stationary, chase, random, etc?
-    private static final int DEFAULT_HP = 2;
-    private static int attackStrength = DEFAULT_ATTACK_STRENGTH;
-    private static String movementType = DEFAULT_MOVEMENT_TYPE;
 
+    private static int bug_max_hp;
+    private static int bug_speed;
+    private static int bug_size;
+    private static String bug_attackType;
+
+    /**
+     * Constructor for the Bug subclass
+     * */
     public Bug(Double xPos, Double yPos) {
-        super(xPos, yPos, DEFAULT_HP);
+        super(xPos, yPos, bug_max_hp, bug_speed, bug_size, bug_attackType);
     }
 
-    @Override
-    public void attack() {
-        System.out.println("Bug attack");
+    /**
+     * Constructor for setting the Bug subclass' static values
+     * Should only be called by the file parser that reads subclass values from the subclass sim files
+     * NOT for creating new instances of Bug
+     * */
+    public Bug(int hp, int speed, int size, String attack) {
+        bug_max_hp = hp;
+        bug_speed = speed;
+        bug_size = size;
+        bug_attackType = attack;
     }
-
-    @Override
-    public void move() {}
 }

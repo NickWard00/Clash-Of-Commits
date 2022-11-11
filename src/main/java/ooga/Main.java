@@ -3,10 +3,13 @@ package ooga;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import ooga.model.attack.Attack;
 import ooga.model.enemy.Bug;
 import ooga.model.enemy.Enemy;
-import ooga.model.MagicValue;
+import ooga.model.enemy.MagicValue;
 import ooga.view.StartScreen;
+
+import java.util.List;
 
 /**
  * Feel free to completely change this code or delete it entirely. 
