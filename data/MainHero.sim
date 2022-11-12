@@ -1,6 +1,6 @@
-# This is where the bug enemy behavior is defined
-Type=Enemy
-Sprites=sprites/bug
+# This is where the Main hero attributes are defined
+Type=Hero
+Sprites=sprites/hero
 Speed=0.1
 Size=20
 HP=100

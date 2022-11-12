@@ -2,3 +2,4 @@
 Bug1 = Bug, 42, 54
 Bug2 = Bug, 35, 78
 Bug3 = Bug, 63, 85
+Hero1 = MainHero, 50, 50
