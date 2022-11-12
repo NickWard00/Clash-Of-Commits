@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class EntityMapParserTest {
     @Test
     void testEntityMapParser() {
-        EntityMapParser entityMapParser = new EntityMapParser(new File("data/EntityMap.sim"));
+        EntityMapParser entityMapParser = new EntityMapParser("EntityMap");
         assertEquals("EntityMap", "EntityMap");
     }
 }
