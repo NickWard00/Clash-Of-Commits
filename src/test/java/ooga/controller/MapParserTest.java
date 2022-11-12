@@ -10,12 +10,7 @@ class MapParserTest {
     void testMapParser() {
         MapParser mapParser = new MapParser("exampleSideScroller");
         MapWrapper map = mapParser.getMapWrapper();
-        map.getGrid().forEach(row -> {
-            row.forEach(System.out::print);
-            System.out.println();
-        });
-        assertEquals(1, map.getState(0, 0));
-
-        assertEquals("EntityMap", "EntityMap");
+        assertEquals(32, map.getColumnSize());
+        assertEquals(50, map.getRowSize(0));
     }
 }
