@@ -20,12 +20,10 @@ public abstract class Entity {
         this.hp = max_hp;
         this.speed = Double.parseDouble(attributes.get("Speed"));
         this.size = Integer.parseInt(attributes.get("Size"));
-        this.attackType = "S";
+        this.attackType = attributes.get("Attack");
         this.myStates = states;
         this.myAttributes = attributes;
     }
-
-    protected Entity() {}
 
     protected void changeHp(int diff) {
         hp += diff;

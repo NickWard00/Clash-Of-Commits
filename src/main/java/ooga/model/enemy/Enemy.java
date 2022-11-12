@@ -13,8 +13,6 @@ public abstract class Enemy extends Entity {
         super(attributes, states);
     }
 
-    protected Enemy() {}
-
     public static Enemy makeEnemy(Class<? extends Enemy> enemyClass, Map<String, String> attributes, Map<Integer, String> states) {
         try {
             Enemy newEnemy = enemyClass.getDeclaredConstructor(Map.class, Map.class).newInstance(attributes, states);
@@ -25,7 +23,7 @@ public abstract class Enemy extends Entity {
         }
     }
 
-    public void makeRandomEnemy(List<Class<? extends Enemy>> possibleEnemies, Map<String, String> attributes, Map<Integer, String> states) {
+    public static void makeRandomEnemy(List<Class<? extends Enemy>> possibleEnemies, Map<String, String> attributes, Map<Integer, String> states) {
         Random r = new Random();
         int randomIndex = r.nextInt(possibleEnemies.size());
         makeEnemy(possibleEnemies.get(randomIndex), attributes, states);

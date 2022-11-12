@@ -36,9 +36,5 @@ public class Main extends Application {
 
     public static void main (String[] args) {
         launch(args);
-//        Enemy bug = Enemy.makeEnemy(Bug.class, 1.0, 1.0);
-//        bug.attack();
-//        Enemy magicValue = Enemy.makeEnemy(MagicValue.class, 5.0, 2.0);
-//        magicValue.attack();
     }
 }
