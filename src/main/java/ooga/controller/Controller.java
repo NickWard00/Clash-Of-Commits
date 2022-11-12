@@ -20,7 +20,7 @@ public class Controller {
     private static final double FRAMES_PER_SECOND = 60;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     public Controller(Stage stage){
-        View view = new View(stage);
+        view = new View(stage);
     }
     public void startAnimation(){
         animation = new Timeline();
