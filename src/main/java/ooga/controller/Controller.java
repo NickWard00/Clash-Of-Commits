@@ -3,7 +3,9 @@ package ooga.controller;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.input.KeyCode;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+import ooga.view.StartScreen;
 import ooga.view.View;
 
 public class Controller {
@@ -11,8 +13,8 @@ public class Controller {
     private View view;
     private static final double FRAMES_PER_SECOND = 60;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-    public Controller(){
-        View view = new View();
+    public Controller(Stage stage){
+        View view = new View(stage);
     }
     public void startAnimation(){
         animation = new Timeline();

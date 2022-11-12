@@ -29,11 +29,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage){
-        StartScreen startScreen = new StartScreen(stage);
-
-        stage.setScene(startScreen.makeScene());
         stage.show();
-        Controller controller = new Controller();
+        Controller controller = new Controller(stage);
         controller.startAnimation();
     }
 
