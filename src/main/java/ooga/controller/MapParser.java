@@ -29,6 +29,7 @@ public class MapParser {
         });
         CSVParser csvParser = new CSVParser();
         mapWrapper = csvParser.parseData(mapInfo.get("Map"));
+        generateMapProperties();
     }
 
     private void generateMapProperties() {
