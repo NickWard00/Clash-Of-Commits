@@ -23,17 +23,19 @@ public class CSVParser {
       MapWrapper mapWrapper = new MapWrapper();
       CSVReader csvReader = new CSVReader(myFileReader);
       String[] nextRecord;
-      int row = -1;
+      int row = 0;
       while ((nextRecord = csvReader.readNext()) != null) {
         // if any strings in nextRecord start with "#" or "", ignore them
         nextRecord = Arrays.stream(nextRecord).filter(s -> !s.startsWith("#") && !s.isEmpty()).toArray(String[]::new);
-        if (row >= 0) {
-          mapWrapper.addRow();
-          for (String cell : nextRecord) {
-            mapWrapper.addValueToRow(row, Integer.parseInt(cell.trim()));
+        if (nextRecord.length > 0) {
+          if (row >= 0) {
+            mapWrapper.addRow();
+            for (String cell : nextRecord) {
+              mapWrapper.addValueToRow(row, Integer.parseInt(cell.trim()));
+            }
           }
+          row++;
         }
-        row++;
       }
       return mapWrapper;
     } catch (CsvValidationException | IOException e) {
