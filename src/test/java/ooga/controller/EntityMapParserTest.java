@@ -11,6 +11,5 @@ class EntityMapParserTest {
     void testEntityMapParser() {
         EntityMapParser entityMapParser = new EntityMapParser(new File("data/EntityMap.sim"));
         assertEquals("EntityMap", "EntityMap");
-
     }
 }
