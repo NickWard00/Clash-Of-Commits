@@ -5,11 +5,21 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class EntityMapParserTest {
     @Test
-    void testEntityMapParser() {
-        EntityMapParser entityMapParser = new EntityMapParser("EntityMap");
-        assertEquals("EntityMap", "EntityMap");
+    void testEntityMapParserGetEntities() {
+        EntityMapParser entityMapParser = new EntityMapParser("Entity_MainMap");
+        assertTrue(entityMapParser.getEntities().size() > 0);
+    }
+
+    @Test
+    void testEntityMapParserError() {
+        try{
+            EntityMapParser entityMapParser = new EntityMapParser("Entity_Noexist");
+        } catch (IllegalStateException e) {
+            assertEquals("fileUploadError", e.getMessage());
+        }
     }
 }

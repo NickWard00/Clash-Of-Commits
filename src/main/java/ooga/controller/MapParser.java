@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -29,12 +30,17 @@ public class MapParser {
         });
         CSVParser csvParser = new CSVParser();
         mapWrapper = csvParser.parseData(mapInfo.get("Map"));
+        generateMapProperties();
     }
 
     private void generateMapProperties() {
         cellSize = Double.parseDouble(mapInfo.get("BoxSize"));
         mapSize_X = cellSize * mapWrapper.getColumnSize();
         mapSize_Y = cellSize * mapWrapper.getRowSize(0);
+    }
+
+    public List<Double> getMapProperties() {
+        return List.of(cellSize, mapSize_X, mapSize_Y);
     }
 
     public MapWrapper getMapWrapper() {

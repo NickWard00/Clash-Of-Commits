@@ -1,0 +1,15 @@
+.button {
+    -fx-pref-width: 100;
+    -fx-pref-height: 30;
+}
+
+#buttonRow{
+    -fx-alignment: bottom center;
+    -fx-spacing: 10;
+    -fx-padding: 20 20 20 20;
+}
+
+.combo-box{
+    -fx-pref-width: 100;
+    -fx-pref-height: 30;
+}
