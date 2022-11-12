@@ -3,6 +3,7 @@ package ooga;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import ooga.controller.Controller;
 import ooga.model.attack.Attack;
 import ooga.model.enemy.Bug;
 import ooga.model.enemy.Enemy;
@@ -28,17 +29,19 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage){
-        StartScreen ss = new StartScreen(stage);
+        StartScreen startScreen = new StartScreen(stage);
 
-        stage.setScene(ss.makeScene());
-
+        stage.setScene(startScreen.makeScene());
         stage.show();
+        Controller controller = new Controller();
+        controller.startAnimation();
     }
 
-   // public static void main (String[] args) {
-    //    Enemy bug = Enemy.makeEnemy(Bug.class, 1.0, 1.0);
-     //   bug.attack();
-     //   Enemy magicValue = Enemy.makeEnemy(MagicValue.class, 5.0, 2.0);
-     //   magicValue.attack();
-   // }
+    public static void main (String[] args) {
+        launch(args);
+//        Enemy bug = Enemy.makeEnemy(Bug.class, 1.0, 1.0);
+//        bug.attack();
+//        Enemy magicValue = Enemy.makeEnemy(MagicValue.class, 5.0, 2.0);
+//        magicValue.attack();
+    }
 }
