@@ -1,5 +1,7 @@
 package ooga.model.enemy;
 
+import java.util.Map;
+
 public class MagicValue extends Enemy {
 
     private static int magicValue_max_hp;
@@ -10,8 +12,8 @@ public class MagicValue extends Enemy {
     /**
      * Constructor for the MagicValue subclass
      * */
-    public MagicValue(Double xPos, Double yPos) {
-        super(xPos, yPos, magicValue_max_hp, magicValue_speed, magicValue_size, magicValue_attackType);
+    public MagicValue(Map<String, String> attributes, Map<Integer, String> states) {
+        super(attributes, states);
     }
 
     /**

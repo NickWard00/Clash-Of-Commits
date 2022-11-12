@@ -36,7 +36,7 @@ public class EntityMapParser {
             double y = Double.parseDouble(attributeMap.get("YPosition"));
 
             Class<?> entityClass = Class.forName("ooga.model." + type + "." + entityType);
-            return (Entity) entityClass.getDeclaredConstructor(Double.class, Double.class).newInstance(x, y);
+            return (Entity) entityClass.getDeclaredConstructor(Map.class, Map.class).newInstance(attributeMap, stateMap);
         } catch (ClassNotFoundException | InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
