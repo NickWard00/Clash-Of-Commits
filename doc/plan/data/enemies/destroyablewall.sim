@@ -1,0 +1,3 @@
+Type=DestroyableWall
+Sprite=data/sprite/wall
+HP=10
