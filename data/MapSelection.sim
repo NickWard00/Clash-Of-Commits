@@ -1,0 +1,3 @@
+# This file will be used to dynamically create a selection of maps to choose from in the game.
+Map1=MainMap
+Map2=ExampleMap

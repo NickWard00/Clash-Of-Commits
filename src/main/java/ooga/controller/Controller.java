@@ -6,6 +6,7 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.model.Entity;
+import ooga.model.Model;
 import ooga.view.MapWrapper;
 import ooga.view.StartScreen;
 import ooga.view.View;
@@ -17,10 +18,16 @@ public class Controller {
     private View view;
     private MapWrapper mapWrapper;
     private List<Entity> myEntities;
+    private String mapName;
     private static final double FRAMES_PER_SECOND = 60;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+    private Model myModel;
     public Controller(Stage stage){
-        View view = new View(stage);
+        view = new View(stage);
+        // TODO: Change this so that maps can be chosen instead of hard coded here
+        mapName = "MainMap";
+        parseData(mapName);
+        myModel = new Model(this);
     }
     public void startAnimation(){
         animation = new Timeline();
