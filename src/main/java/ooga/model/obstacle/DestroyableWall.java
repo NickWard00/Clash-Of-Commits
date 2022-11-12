@@ -9,7 +9,7 @@ public class DestroyableWall extends Wall {
   private int hp;
 
   //TODO: Use config file to load this value
-  private static final int DEFAULT_HP = 100;
+  public static final int DEFAULT_HP = 100;
 
   public DestroyableWall(Double x, Double y) {
     super(x, y, true);
@@ -26,10 +26,18 @@ public class DestroyableWall extends Wall {
 //    }
   }
 
+  public int getHP() {
+    return this.hp;
+  }
+
 
   //TODO: Implement what happens when something hits this obstacle
   public void block() {
 
+  }
+
+  public void updateHP(int hpChange) {
+    this.hp += hpChange;
   }
 
 //  //TODO: Implement this method
