@@ -10,8 +10,8 @@ import java.util.Properties;
 public class EntityParser {
     private String entityName;
     private String entityType;
-    private int XPosition;
-    private int YPosition;
+    private String XPosition;
+    private String YPosition;
     private Properties entityProperties;
     private Map<String, String> attributeMap;
     private Map<Integer, String> stateMap;
@@ -19,8 +19,8 @@ public class EntityParser {
     public EntityParser(String entityName, String[] entityData) {
         this.entityName = entityName;
         this.entityType = entityData[0];
-        this.XPosition = Integer.parseInt(entityData[1]);
-        this.YPosition = Integer.parseInt(entityData[2]);
+        this.XPosition = entityData[1];
+        this.YPosition = entityData[2];
         getEntitySimData(entityType);
         attributeMap = new HashMap<>();
         stateMap = new HashMap<>();
@@ -36,8 +36,8 @@ public class EntityParser {
     }
 
     private void createAttributeAndStateMap() {
-        attributeMap.put("XPosition", String.valueOf(XPosition));
-        attributeMap.put("YPosition", String.valueOf(YPosition));
+        attributeMap.put("XPosition", XPosition);
+        attributeMap.put("YPosition", YPosition);
         attributeMap.put("EntityType", entityType);
         attributeMap.put("Name", entityName);
 
