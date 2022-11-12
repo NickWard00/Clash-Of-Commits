@@ -46,7 +46,7 @@ public class MapWrapper {
     grid.get(row).add(value);
   }
 
-  public int getRowCount() {
+  public int getColumnSize() {
     return grid.size();
   }
 

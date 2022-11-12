@@ -14,6 +14,9 @@ public class MapParser {
     private File simFile;
     private Map<String, String> mapInfo;
     private MapWrapper mapWrapper;
+    private double mapSize_X;
+    private double mapSize_Y;
+    private double cellSize;
 
     public MapParser(String mapSim) throws IllegalStateException {
         this.simFile = new File("data/maps/" + mapSim + ".sim");
@@ -26,6 +29,12 @@ public class MapParser {
         });
         CSVParser csvParser = new CSVParser();
         mapWrapper = csvParser.parseData(mapInfo.get("Map"));
+    }
+
+    private void generateMapProperties() {
+        cellSize = Double.parseDouble(mapInfo.get("BoxSize"));
+        mapSize_X = cellSize * mapWrapper.getColumnSize();
+        mapSize_Y = cellSize * mapWrapper.getRowSize(0);
     }
 
     public MapWrapper getMapWrapper() {
