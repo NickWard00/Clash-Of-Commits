@@ -1,5 +1,6 @@
 package ooga.view;
 
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -7,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.lang.reflect.InvocationTargetException;
@@ -24,6 +26,8 @@ public class StartScreen {
             "ResourceBundles.Images");
     public static final ResourceBundle constants = ResourceBundle.getBundle(
             "ResourceBundles.ViewConstants");
+
+    public static final ResourceBundle styles = ResourceBundle.getBundle("ResourceBundles.Stylesheets");
     private ResourceBundle labels = ResourceBundle.getBundle(
             "ResourceBundles.LabelsBundle");
 
@@ -60,10 +64,18 @@ public class StartScreen {
                 labels.getString("sim"));
         buttonRow = new HBox();
         buttonRow.getChildren().addAll(languageSelector, startGame);
-        startGamePane = new Pane();
+        buttonRow.setAlignment(Pos.BOTTOM_CENTER);
+        buttonRow.setId("buttonRow");
+        startGamePane = new StackPane();
+        startGamePane.setPrefSize(SCREEN_SIZE, SCREEN_SIZE);
         startGamePane.getChildren().addAll(background,buttonRow);
+        StackPane.setAlignment(startGamePane, Pos.CENTER);
+
+
         handleEvents();
-        return new Scene(startGamePane, SCREEN_SIZE, SCREEN_SIZE);
+        Scene s = new Scene(startGamePane, SCREEN_SIZE, SCREEN_SIZE);
+        s.getStylesheets().add(styles.getString("startScreenCSS"));
+        return s;
     }
 
     public void nextScreen(){
@@ -89,6 +101,10 @@ public class StartScreen {
     public void setSimlish(){
         labels= ResourceBundle.getBundle(
                 "ResourceBundles.LabelsBundle_sim");
+    }
+
+    public ResourceBundle getLabels(){
+        return labels;
     }
 
 
