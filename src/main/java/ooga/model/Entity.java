@@ -1,22 +1,28 @@
 package ooga.model;
 
+import java.util.Map;
+
 public abstract class Entity {
     private Double xPos;
     private Double yPos;
     private int max_hp;
-    private int speed;
+    private double speed;
     private int size;
+    private Map<Integer, String> myStates;
+    private Map<String, String> myAttributes;
     private String attackType;
     private int hp;
 
-    public Entity(Double xPos, Double yPos, int hp, int speed, int size, String attack) {
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.max_hp = hp;
+    public Entity(Map<String, String> attributes, Map<Integer, String> states) {
+        this.xPos = Double.parseDouble(attributes.get("XPosition"));
+        this.yPos = Double.parseDouble(attributes.get("YPosition"));
+        this.max_hp = Integer.parseInt(attributes.get("HP"));
         this.hp = max_hp;
-        this.speed = speed;
-        this.size = size;
-        this.attackType = attack;
+        this.speed = Double.parseDouble(attributes.get("Speed"));
+        this.size = Integer.parseInt(attributes.get("Size"));
+        this.attackType = "S";
+        this.myStates = states;
+        this.myAttributes = attributes;
     }
 
     protected Entity() {}
