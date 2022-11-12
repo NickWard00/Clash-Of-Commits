@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 public class ChooseGameScreen {
     private Stage stage;
     private Pane background;
-    
+
 
     public ChooseGameScreen(Stage s){
         stage = s;

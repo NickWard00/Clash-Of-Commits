@@ -26,9 +26,7 @@ public class StartScreen {
 
     private Button startGame;
     private ImageView background;
-    //private Scene startGameScene;
     private Pane startGamePane;
-
     private Stage currentStage;
 
     public StartScreen(Stage stage){
