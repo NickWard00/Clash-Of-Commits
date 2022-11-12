@@ -16,8 +16,8 @@ public class EntityMapParser {
     private File simFile;
     private List<Entity> entities;
 
-    public EntityMapParser(File simFile) throws IllegalStateException {
-        this.simFile = simFile;
+    public EntityMapParser(String entityMap) throws IllegalStateException {
+        this.simFile = new File("data/" + entityMap + ".sim");
         entities = new ArrayList<>();
         getSimData();
         properties.entrySet().forEach(entry->{
@@ -32,8 +32,6 @@ public class EntityMapParser {
         try {
             String type = attributeMap.get("Type").toLowerCase();
             String entityType = attributeMap.get("EntityType");
-            double x = Double.parseDouble(attributeMap.get("XPosition"));
-            double y = Double.parseDouble(attributeMap.get("YPosition"));
 
             Class<?> entityClass = Class.forName("ooga.model." + type + "." + entityType);
             return (Entity) entityClass.getDeclaredConstructor(Map.class, Map.class).newInstance(attributeMap, stateMap);
