@@ -31,7 +31,7 @@ public class Main extends Application {
     public void start(Stage stage){
         stage.show();
         Controller controller = new Controller(stage);
-        controller.startAnimation();
+        //controller.startAnimation();
     }
 
     public static void main (String[] args) {

@@ -2,11 +2,16 @@ package ooga.view;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -19,7 +24,7 @@ public class StartScreen {
             "ResourceBundles.Images");
     public static final ResourceBundle constants = ResourceBundle.getBundle(
             "ResourceBundles.ViewConstants");
-    public static final ResourceBundle labels = ResourceBundle.getBundle(
+    private ResourceBundle labels = ResourceBundle.getBundle(
             "ResourceBundles.LabelsBundle");
 
     public static final int SCREEN_SIZE = Integer.parseInt(constants.getString("screenSize"));
@@ -29,6 +34,17 @@ public class StartScreen {
     private Pane startGamePane;
     private Stage currentStage;
 
+    private ComboBox languageSelector;
+
+    private HBox buttonRow;
+
+    private final Map<String, String> languageMap= Map.of(
+            labels.getString("eng"), "setEnglish",
+            labels.getString("span"), "setSpanish",
+            labels.getString("germ"),"setGerman",
+            labels.getString("sim"), "setSimlish"
+            );
+
     public StartScreen(Stage stage){
         currentStage = stage;
     }
@@ -36,8 +52,16 @@ public class StartScreen {
     public Scene makeScene(){
         background = new ImageView(new Image(images.getString("startScreenImage")));
         startGame = new Button(labels.getString("startButton"));
+        languageSelector = new ComboBox<>();
+        languageSelector.getItems().addAll(
+                labels.getString("eng"),
+                labels.getString("span"),
+                labels.getString("germ"),
+                labels.getString("sim"));
+        buttonRow = new HBox();
+        buttonRow.getChildren().addAll(languageSelector, startGame);
         startGamePane = new Pane();
-        startGamePane.getChildren().addAll(background,startGame);
+        startGamePane.getChildren().addAll(background,buttonRow);
         handleEvents();
         return new Scene(startGamePane, SCREEN_SIZE, SCREEN_SIZE);
     }
@@ -48,9 +72,42 @@ public class StartScreen {
         currentStage.show();
     }
 
+    public void setEnglish() {
+        labels= ResourceBundle.getBundle(
+                "ResourceBundles.LabelsBundle");
+    }
+
+    public void setSpanish() {
+        labels= ResourceBundle.getBundle(
+                "ResourceBundles.LabelsBundle_es");
+    }
+    public void setGerman() {
+        labels= ResourceBundle.getBundle(
+                "ResourceBundles.LabelsBundle_de");
+    }
+
+    public void setSimlish(){
+        labels= ResourceBundle.getBundle(
+                "ResourceBundles.LabelsBundle_sim");
+    }
+
+
+
     public void handleEvents(){
         startGame.setOnAction(event -> {
             nextScreen();
         });
+        languageSelector.setOnAction(event -> {
+            try {
+                Method changeLanguage = this.getClass().getDeclaredMethod(
+                        languageMap.get(languageSelector.getValue()));
+                changeLanguage.invoke(this);
+
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        };
     }
-}
+
