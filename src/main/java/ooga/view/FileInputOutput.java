@@ -1,12 +1,4 @@
-package cellsociety.view;
-
-import static cellsociety.Main.START_SPLASH_CSS;
-
-import cellsociety.controller.CellSocietyController;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.List;
+package ooga.view;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -21,39 +13,50 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.ResourceBundle;
 
-public class FileInput extends SceneCreator {
-
-  public static final String OPEN_DATA_FILE = "Open Data File";
-  public static final String SIM_FILES = "SIM Files";
-  public static final String GRID_SCREEN_CSS = "gridScreen.css";
-  public static final String TITLE_TEXT = "titleText";
-  public static final String MAIN_TEXT = "mainText";
-  public static final String UPLOAD_GIF = "uploadGif";
-  public static final String UPLOAD_BOX = "uploadBox";
-  public static final String FILE_UPLOAD_ERROR = "fileUploadError";
-  public BorderPane inputPane;
+public class FileInputOutput {
+  private static final String OPEN_DATA_FILE = "Open Data File";
+  private static final String SIM_FILES = "SIM Files";
+  private static final String GRID_SCREEN_CSS = "gridScreen.css";
+  private static final String TITLE_TEXT = "titleText";
+  private static final String MAIN_TEXT = "mainText";
+  private static final String UPLOAD_GIF = "uploadGif";
+  private static final String UPLOAD_BOX = "uploadBox";
+  private static final String FILE_UPLOAD_ERROR = "fileUploadError";
+  private static final String BUTTON = "button";
   // kind of data files to look for
-  public static final String DATA_FILE_SIM_EXTENSION = "*.sim";
+  private static final String DATA_FILE_SIM_EXTENSION = "*.sim";
   // default to start in the data folder to make it easy on the user to find
-  public static final String DATA_FILE_FOLDER = System.getProperty("user.dir") + "/data";
+  private static final String DATA_FILE_FOLDER = System.getProperty("user.dir") + "/data";
   // NOTE: make ONE chooser since generally accepted behavior is that it remembers where user left it last
-  public final static FileChooser FILE_CHOOSER = makeChooser(DATA_FILE_SIM_EXTENSION);
+  private final static FileChooser FILE_CHOOSER = makeChooser(DATA_FILE_SIM_EXTENSION);
+  private static final String DEFAULT_RESOURCE_PACKAGE = String.format("%s.",
+          FileInputOutput.class.getPackageName());
+  private static final String COMMAND_PROPERTIES = "Command";
 
+  private ResourceBundle myResource;
+  private BorderPane inputPane;
+  private ResourceBundle myCommands = java.util.ResourceBundle.getBundle(
+          String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, COMMAND_PROPERTIES));
   private ImageView inputBackground;
   private final Stage myStage;
   private final List<String> buttonList = List.of("uploadButton", "backButton");
+  private double mySize;
 
   /**
    * Constructor for FileInput
    *
    * @param size
    */
-  public FileInput(double size, Stage stage) {
-    super(size, stage);
+  public FileInputOutput(double size, Stage stage) {
     inputPane = new BorderPane();
     inputBackground = new ImageView();
     myStage = stage;
+    mySize = size;
   }
 
   /**
@@ -62,12 +65,12 @@ public class FileInput extends SceneCreator {
    * @return
    */
   public Pane setUpRootPane() {
-    Text title = new Text(getResource().getString(TITLE_TEXT));
+    Text title = new Text(myResource.getString(TITLE_TEXT));
     title.getStyleClass().add(MAIN_TEXT);
 
-    inputBackground.setImage(new Image(getResource().getString(UPLOAD_GIF)));
-    inputBackground.setFitHeight(getMySize());
-    inputBackground.setFitWidth(getMySize());
+    inputBackground.setImage(new Image(myResource.getString(UPLOAD_GIF)));
+    inputBackground.setFitHeight(mySize);
+    inputBackground.setFitWidth(mySize);
     inputPane.getChildren().addAll(inputBackground);
 
     VBox upload = new VBox(title);
@@ -86,39 +89,25 @@ public class FileInput extends SceneCreator {
    * @param property
    * @return
    */
-  protected Button makeButton(String property) {
+  public Button makeButton(String property) {
     Button result = new Button();
-    String labelText = getResource().getString(property);
+    String labelText = myResource.getString(property);
     result.setText(labelText);
     result.setId(property);
     result.getStyleClass().add(BUTTON);
     result.setOnAction(event -> {
       try {
-        Method m = this.getClass().getDeclaredMethod(getMyCommands().getString(property));
+        Method m = this.getClass().getDeclaredMethod(myCommands.getString(property));
         m.invoke(this);
       } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException e) {
-        showMessage(Alert.AlertType.ERROR, getResource().getString(e.getCause().getMessage()), e);
+        showMessage(Alert.AlertType.ERROR, myResource.getString(e.getCause().getMessage()), e);
       }
     });
     return result;
   }
 
-  private void goBack() {
-    SplashScreen beginning = new SplashScreen(600, myStage);
-    myStage.setScene(beginning.createScene(START_SPLASH_CSS));
-  }
-
-  /**
-   * Sets up the file picker
-   */
-  public void uploadFile() throws IllegalStateException {
-    setMyDataFile(FILE_CHOOSER.showOpenDialog(myStage));
-    if (getLanguage() != null) {
-      CellSocietyController controller = new CellSocietyController(getMyDataFile());
-      controller.loadSimulation(myStage);
-      GridScreen firstGrid = new GridScreen(800, myStage, controller);
-      myStage.setScene(firstGrid.createScene(getLanguage(), GRID_SCREEN_CSS));
-    }
+  private void showMessage(Alert.AlertType type, String message, Exception e) {
+    new Alert(type, message).showAndWait();
   }
 
   /**
@@ -135,6 +124,10 @@ public class FileInput extends SceneCreator {
     result.getExtensionFilters()
         .setAll(new FileChooser.ExtensionFilter(SIM_FILES, extensionAccepted));
     return result;
+  }
+
+  private void setResource(ResourceBundle myResource) {
+    this.myResource = myResource;
   }
 }
 
