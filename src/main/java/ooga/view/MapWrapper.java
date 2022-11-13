@@ -8,7 +8,6 @@ public class MapWrapper {
   private int column = 0;
   private List<List<Integer>> grid;
 
-  // Initialize a GridWrapper with initial value 0
   public MapWrapper(int row, int column) {
     this.row = row;
     this.column = column;
@@ -23,7 +22,6 @@ public class MapWrapper {
     }
   }
 
-  //Initialize a GridWrapper with size 0
   public MapWrapper() {
     grid = new ArrayList<>();
   }
@@ -32,9 +30,12 @@ public class MapWrapper {
     return grid.get(row).get(column);
   }
 
-  //Before using this method, make sure you have added a row and a value of column index to that row
   public void setState(int row, int column, int state) {
-    grid.get(row).set(column, state);
+    if (row < this.row && column < this.column) {
+      grid.get(row).set(column, state);
+    } else {
+      throw new IllegalStateException("outOfBounds");
+    }
   }
 
   public void addRow() {
