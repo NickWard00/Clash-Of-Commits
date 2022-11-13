@@ -13,13 +13,13 @@ import java.util.Properties;
 
 public class EntityMapParser {
     private Properties properties;
-    private File simFile;
     private List<Entity> entities;
+    private static final String ENTITY_PACKAGE = "ooga.model.%s.%s";
+    private static final String ENTITY_MAP_DIRECTORY = "data/%s.sim";
 
     public EntityMapParser(String entityMap) throws IllegalStateException {
-        this.simFile = new File("data/" + entityMap + ".sim");
         entities = new ArrayList<>();
-        getSimData();
+        getSimData(entityMap);
         properties.entrySet().forEach(entry->{
             String entityName = (String) entry.getKey();
             String[] entityDataArray = ((String) entry.getValue()).replaceAll("\\s+","").split(",");
@@ -32,9 +32,11 @@ public class EntityMapParser {
         try {
             String type = attributeMap.get("Type").toLowerCase();
             String entityType = attributeMap.get("EntityType");
+            String className = String.format(ENTITY_PACKAGE, type, entityType);
 
-            Class<?> entityClass = Class.forName("ooga.model." + type + "." + entityType);
+            Class<?> entityClass = Class.forName(className);
             return (Entity) entityClass.getDeclaredConstructor(Map.class, Map.class).newInstance(attributeMap, stateMap);
+
         } catch (ClassNotFoundException | InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -43,7 +45,8 @@ public class EntityMapParser {
     /**
      * Method that gets the simulation data
      */
-    private void getSimData() throws IllegalStateException {
+    private void getSimData(String map) throws IllegalStateException {
+        File simFile = new File(String.format(ENTITY_MAP_DIRECTORY, map));
         properties = new Properties();
         try {
             properties.load(new FileReader(simFile));

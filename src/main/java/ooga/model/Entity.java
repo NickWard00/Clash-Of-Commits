@@ -3,8 +3,8 @@ package ooga.model;
 import java.util.Map;
 
 public abstract class Entity {
-    private Double xPos;
-    private Double yPos;
+    private double xPos;
+    private double yPos;
     private int max_hp;
     private double speed;
     private int size;

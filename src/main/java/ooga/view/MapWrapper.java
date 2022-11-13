@@ -53,8 +53,4 @@ public class MapWrapper {
   public int getRowSize(int row) {
     return grid.get(row).size();
   }
-
-  public List<List<Integer>> getGrid() {
-    return grid;
-  }
 }
