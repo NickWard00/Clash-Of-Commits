@@ -1,4 +1,15 @@
 package ooga.view;
 
-public class GameSlot {
+import javafx.scene.control.Label;
+
+import java.util.ResourceBundle;
+
+public class GameSlot extends Slot{
+
+    private Label gameType;
+    public GameSlot(String g, ResourceBundle labels) {
+        super(labels);
+        gameType=new Label(g);
+        this.getChildren().add(gameType);
+    }
 }

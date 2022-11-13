@@ -1,5 +1,6 @@
 package ooga.view;
 
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
@@ -28,6 +29,7 @@ public class ChooseGameScreen {
         background = new Pane();
         VBox buttonCol = new VBox(loadSave,newGame);
         buttonCol.setId("buttonCol");
+        buttonCol.setAlignment(Pos.CENTER);
         background.getChildren().add(buttonCol);
         handleEvents();
         Scene s = new Scene(background, StartScreen.SCREEN_SIZE, StartScreen.SCREEN_SIZE);
@@ -40,7 +42,9 @@ public class ChooseGameScreen {
 
         });
         newGame.setOnAction(event->{
-            
+            OpenNewGameScreen os = new OpenNewGameScreen(labels);
+            stage.setScene(os.makeScene());
+            stage.show();
         });
     }
 }
