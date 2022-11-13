@@ -12,16 +12,16 @@ import java.util.Properties;
 
 public class MapParser {
     private Properties properties;
-    private File simFile;
     private Map<String, String> mapInfo;
     private MapWrapper mapWrapper;
     private double mapSize_X;
     private double mapSize_Y;
     private double cellSize;
+    private static final String MAP_DIRECTORY = "data/maps/%s.sim";
 
     public MapParser(String mapSim) throws IllegalStateException {
-        this.simFile = new File("data/maps/" + mapSim + ".sim");
-        getSimData();
+        GeneralParser simParser = new GeneralParser();
+        properties = simParser.getSimData(String.format(MAP_DIRECTORY, mapSim));
         mapInfo = new HashMap<>();
         properties.entrySet().forEach(entry->{
             String key = (String) entry.getKey();
@@ -45,19 +45,6 @@ public class MapParser {
 
     public MapWrapper getMapWrapper() {
         return mapWrapper;
-    }
-
-    /**
-     * Method that gets the simulation data
-     */
-    private void getSimData() throws IllegalStateException {
-        properties = new Properties();
-        try {
-            properties.load(new FileReader(simFile));
-        }
-        catch (IOException e) {
-            throw new IllegalStateException("fileUploadError", e);
-        }
     }
 }
 
