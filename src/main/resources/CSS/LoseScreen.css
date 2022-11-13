@@ -1,0 +1,6 @@
+.root {
+  -fx-font-size: 20 pt;
+  -fx-font-family: Calibri;
+  -fx-background-color: rgb(150, 50, 50);
+  -fx-background-size: 600;
+}

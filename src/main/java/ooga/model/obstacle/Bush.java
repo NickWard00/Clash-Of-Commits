@@ -10,7 +10,7 @@ import ooga.model.obstacle.Obstacle;
 public class Bush extends Obstacle {
 
   public Bush(Double x, Double y) {
-    super(x, y, false, false);
+    super(x, y, false, false, true);
   }
 
 
