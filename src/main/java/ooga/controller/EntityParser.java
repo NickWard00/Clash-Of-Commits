@@ -22,7 +22,8 @@ public class EntityParser {
         this.entityType = entityData[0];
         this.XPosition = entityData[1];
         this.YPosition = entityData[2];
-        getEntitySimData(entityType);
+        GeneralParser simParser = new GeneralParser();
+        entityProperties = simParser.getSimData(String.format(ENTITY_DIRECTORY, entityType));
         attributeMap = new HashMap<>();
         stateMap = new HashMap<>();
         createAttributeAndStateMap();
@@ -55,16 +56,4 @@ public class EntityParser {
 
         });
     }
-
-    private void getEntitySimData(String entityType) throws IllegalStateException {
-        File simFile = new File(String.format(ENTITY_DIRECTORY, entityType));
-        entityProperties = new Properties();
-        try {
-            entityProperties.load(new FileReader(simFile));
-        }
-        catch (IOException e) {
-            throw new IllegalStateException("fileUploadError", e);
-        }
-    }
-
 }

@@ -19,7 +19,8 @@ public class EntityMapParser {
 
     public EntityMapParser(String entityMap) throws IllegalStateException {
         entities = new ArrayList<>();
-        getSimData(entityMap);
+        GeneralParser simParser = new GeneralParser();
+        properties = simParser.getSimData(String.format(ENTITY_MAP_DIRECTORY, entityMap));
         properties.entrySet().forEach(entry->{
             String entityName = (String) entry.getKey();
             String[] entityDataArray = ((String) entry.getValue()).replaceAll("\\s+","").split(",");
@@ -39,20 +40,6 @@ public class EntityMapParser {
 
         } catch (ClassNotFoundException | InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Method that gets the simulation data
-     */
-    private void getSimData(String map) throws IllegalStateException {
-        File simFile = new File(String.format(ENTITY_MAP_DIRECTORY, map));
-        properties = new Properties();
-        try {
-            properties.load(new FileReader(simFile));
-        }
-        catch (IOException e) {
-            throw new IllegalStateException("fileUploadError", e);
         }
     }
 
