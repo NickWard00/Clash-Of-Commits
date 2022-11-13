@@ -34,7 +34,7 @@ public class OpenNewGameScreen {
     }
     public void handleEvents(){
         slot1.setOnMouseClicked(event -> {
-            
+
                 });
         slot2.setOnMouseClicked(event -> {
 
