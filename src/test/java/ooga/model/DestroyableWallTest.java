@@ -2,6 +2,7 @@ package ooga.model;
 
 import static ooga.model.obstacle.DestroyableWall.DEFAULT_HP;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import ooga.model.obstacle.DestroyableWall;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,11 +29,7 @@ class DestroyableWallTest {
     wall = new DestroyableWall(1.0, 1.0, testHP);
     assertEquals(testHP, wall.getHP());
   }
-//
-//  @Test
-//  void testRemoveWall() {
-//
-//  }
+
 //
 //  @Test
 //  void testBlock() {
@@ -43,6 +40,12 @@ class DestroyableWallTest {
   void changeHP() {
     defaultWall.updateHP(-10);
     assertEquals(90, defaultWall.getHP());
+  }
+
+  @Test
+  void testRemoveWallWhenNoHitpointsLeft() {
+    defaultWall.updateHP(-100);
+    assertFalse(defaultWall.determineOnScreen());
   }
 
 
