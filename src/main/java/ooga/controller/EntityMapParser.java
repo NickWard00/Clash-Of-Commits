@@ -2,9 +2,6 @@ package ooga.controller;
 
 import ooga.model.Entity;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +14,10 @@ public class EntityMapParser {
     private static final String ENTITY_PACKAGE = "ooga.model.%s.%s";
     private static final String ENTITY_MAP_DIRECTORY = "data/%s.sim";
 
+    /**
+     * Constructor for EntityMapParser
+     * @param entityMap
+     */
     public EntityMapParser(String entityMap) throws IllegalStateException {
         entities = new ArrayList<>();
         GeneralParser simParser = new GeneralParser();
@@ -29,6 +30,12 @@ public class EntityMapParser {
         });
     }
 
+    /**
+     * Dynamically creates an instance of an entity
+     * @param attributeMap
+     * @param stateMap
+     * @return
+     */
     private Entity createEntityInstance(Map<String, String> attributeMap, Map<Integer, String> stateMap) {
         try {
             String type = attributeMap.get("Type").toLowerCase();
@@ -43,6 +50,9 @@ public class EntityMapParser {
         }
     }
 
+    /**
+     * Returns the list of entities
+     */
     public List<Entity> getEntities() {
         return entities;
     }

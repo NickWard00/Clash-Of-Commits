@@ -2,7 +2,11 @@ package ooga.controller;
 
 import ooga.view.MapWrapper;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
 
 public class MapParser {
     private Properties properties;
@@ -14,7 +18,11 @@ public class MapParser {
     private Map<String, MapWrapper> allMaps;
     private static final String MAP_DIRECTORY = "data/maps/%s.sim";
 
-    public MapParser(String mapSim) throws IllegalStateException {
+    /**
+     * Constructor for MapParser
+     * @param mapSim
+     */
+    public MapParser(String mapSim) {
         GeneralParser simParser = new GeneralParser();
         mapInfo = new HashMap<>();
         mapCSVSelection = new HashMap<>();
@@ -23,9 +31,15 @@ public class MapParser {
         properties = simParser.getSimData(String.format(MAP_DIRECTORY, mapSim));
 
         populateCSVandInfoMaps();
+        setupMapWrapperMap();
+        generateMapProperties();
+    }
 
+    /**
+     * Sets up the map wrapper map will all of the maps per level
+     */
+    private void setupMapWrapperMap() {
         CSVParser csvParser = new CSVParser();
-
         mapCSVSelection.entrySet().forEach(entry->{
             String key = entry.getKey();
             String value = entry.getValue();
@@ -33,9 +47,11 @@ public class MapParser {
             MapWrapper mapData = csvParser.parseData(value);
             allMaps.put(key, mapData);
         });
-        generateMapProperties();
     }
 
+    /**
+     * Populates the mapInfo and mapCSVSelection maps
+     */
     private void populateCSVandInfoMaps() {
         properties.entrySet().forEach(entry->{
             String key = (String) entry.getKey();
@@ -49,16 +65,27 @@ public class MapParser {
         });
     }
 
+    /**
+     * Generates the map properties
+     */
     private void generateMapProperties() {
         cellSize = Double.parseDouble(mapInfo.get("BoxSize"));
         mapSize_X = cellSize * allMaps.get("Map").getColumnSize();
         mapSize_Y = cellSize * allMaps.get("Map").getRowSize(0);
     }
 
+    /**
+     * Returns the map properties
+     * @return
+     */
     public List<Double> getMapProperties() {
         return List.of(cellSize, mapSize_X, mapSize_Y);
     }
 
+    /**
+     * Returns the Map Wrapper
+     * @return
+     */
     public MapWrapper getMapWrapper() {
         return allMaps.get("Map");
     }

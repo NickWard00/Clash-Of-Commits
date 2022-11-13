@@ -1,8 +1,5 @@
 package ooga.controller;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -17,6 +14,11 @@ public class EntityParser {
     private Map<Integer, String> stateMap;
     private static final String ENTITY_DIRECTORY = "data/%s.sim";
 
+    /**
+     * Constructor for EntityParser
+     * @param entityName
+     * @param entityData
+     */
     public EntityParser(String entityName, String[] entityData) {
         this.entityName = entityName;
         this.entityType = entityData[0];
@@ -29,14 +31,23 @@ public class EntityParser {
         createAttributeAndStateMap();
     }
 
+    /**
+     * Returns the attribute map
+     */
     public Map<String, String> getAttributeMap() {
         return attributeMap;
     }
 
+    /**
+     * Returns the state map
+     */
     public Map<Integer, String> getStateMap() {
         return stateMap;
     }
 
+    /**
+     * Creates the attribute and state map
+     */
     private void createAttributeAndStateMap() {
         attributeMap.put("XPosition", XPosition);
         attributeMap.put("YPosition", YPosition);
