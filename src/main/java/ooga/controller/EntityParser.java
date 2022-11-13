@@ -15,6 +15,7 @@ public class EntityParser {
     private Properties entityProperties;
     private Map<String, String> attributeMap;
     private Map<Integer, String> stateMap;
+    private static final String ENTITY_DIRECTORY = "data/%s.sim";
 
     public EntityParser(String entityName, String[] entityData) {
         this.entityName = entityName;
@@ -56,7 +57,7 @@ public class EntityParser {
     }
 
     private void getEntitySimData(String entityType) throws IllegalStateException {
-        File simFile = new File("data/" + entityType + ".sim");
+        File simFile = new File(String.format(ENTITY_DIRECTORY, entityType));
         entityProperties = new Properties();
         try {
             entityProperties.load(new FileReader(simFile));
