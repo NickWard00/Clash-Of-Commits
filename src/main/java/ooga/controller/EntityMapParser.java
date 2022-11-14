@@ -28,7 +28,7 @@ public class EntityMapParser {
         });
     }
 
-    private Entity createEntityInstance(Map<String, String> attributeMap, Map<Integer, String> stateMap) {
+    private Entity createEntityInstance(Map<String, String> attributeMap, Map<Integer, List<String>> stateMap) {
         try {
             String type = attributeMap.get("Type").toLowerCase();
             String entityType = attributeMap.get("EntityType");

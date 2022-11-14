@@ -3,9 +3,7 @@ package ooga.controller;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 public class EntityParser {
     private String entityName;
@@ -14,7 +12,7 @@ public class EntityParser {
     private String YPosition;
     private Properties entityProperties;
     private Map<String, String> attributeMap;
-    private Map<Integer, String> stateMap;
+    private Map<Integer, List<String>> stateMap;
 
     public EntityParser(String entityName, String[] entityData) {
         this.entityName = entityName;
@@ -31,7 +29,7 @@ public class EntityParser {
         return attributeMap;
     }
 
-    public Map<Integer, String> getStateMap() {
+    public Map<Integer, List<String>> getStateMap() {
         return stateMap;
     }
 
@@ -46,13 +44,29 @@ public class EntityParser {
             String value = ((String) entry.getValue()).replaceAll("\\s+","");
             if (key.startsWith("State")) {
                 int state = Integer.parseInt(key.replace("State", ""));
-                stateMap.put(state, value);
+                List<String> stateStrings = getStateData(value);
+                stateMap.put(state, stateStrings);
             }
             else {
                 attributeMap.put(key, value);
             }
 
         });
+    }
+
+    private List<String> getStateData(String stringData) {
+        List<String> states = new ArrayList<>();
+        try {
+            List<String> listData = Arrays.stream(stringData.split(",")).toList();
+            String directionString = String.valueOf(listData.stream().filter(data -> data.startsWith("Direction")).findAny()).replaceAll("Direction=", "");
+            String movementString = String.valueOf(listData.stream().filter(data -> data.startsWith("Movement")).findAny()).replaceAll("Movement=", "");
+            states.add(directionString);
+            states.add(movementString);
+            return states;
+        }
+        catch(NullPointerException n) {
+            throw new RuntimeException(n);
+        }
     }
 
     private void getEntitySimData(String entityType) throws IllegalStateException {

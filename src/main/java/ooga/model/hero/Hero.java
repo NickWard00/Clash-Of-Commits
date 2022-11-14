@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 public abstract class Hero extends Entity {
-    public Hero(Map<String, String> attributes, Map<Integer, String> states) {
+    public Hero(Map<String, String> attributes, Map<Integer, List<String>> states) {
         super(attributes, states);
     }
 

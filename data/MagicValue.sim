@@ -5,7 +5,10 @@ Speed=0.1
 Size=20
 HP=100
 Attack=Attack2
-State0={Animation=0, Movement=0}
-State1={Animation=1, Movement=1}
-State2={Animation=2, Movement=0}
-State3={Animation=3, Movement=0}
+Direction=SOUTH
+Movement=STATIONARY
+
+# State0={Animation=0, Movement=0}
+# State1={Animation=1, Movement=1}
+# State2={Animation=2, Movement=0}
+# State3={Animation=3, Movement=0}
