@@ -58,10 +58,8 @@ public class StartScreen {
         startGame = new Button(labels.getString("startButton"));
         languageSelector = new ComboBox<>();
         languageSelector.getItems().addAll(
-                labels.getString("eng"),
-                labels.getString("span"),
-                labels.getString("germ"),
-                labels.getString("sim"));
+                labels.getString("eng"), labels.getString("span"),
+                labels.getString("germ"), labels.getString("sim"));
         buttonRow = new HBox();
         buttonRow.getChildren().addAll(languageSelector, startGame);
         buttonRow.setAlignment(Pos.BOTTOM_CENTER);
@@ -70,8 +68,6 @@ public class StartScreen {
         startGamePane.setPrefSize(SCREEN_SIZE, SCREEN_SIZE);
         startGamePane.getChildren().addAll(background,buttonRow);
         StackPane.setAlignment(startGamePane, Pos.CENTER);
-
-
         handleEvents();
         Scene s = new Scene(startGamePane, SCREEN_SIZE, SCREEN_SIZE);
         s.getStylesheets().add(styles.getString("startScreenCSS"));
@@ -79,7 +75,7 @@ public class StartScreen {
     }
 
     public void nextScreen(){
-        ChooseGameScreen c = new ChooseGameScreen(currentStage);
+        ChooseGameScreen c = new ChooseGameScreen(currentStage, labels);
         currentStage.setScene(c.makeScene());
         currentStage.show();
     }

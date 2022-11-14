@@ -9,7 +9,7 @@ import ooga.model.obstacle.Obstacle;
  */
 public abstract class Wall extends Obstacle {
 
-  public Wall(Double x, Double y, boolean canBeDestroyed) {
-    super(x, y, true, canBeDestroyed);
+  public Wall(Double x, Double y, boolean canBeDestroyed, boolean onScreen) {
+    super(x, y, true, canBeDestroyed, onScreen);
   }
 }

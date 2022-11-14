@@ -8,7 +8,11 @@ public class MapWrapper {
   private int column = 0;
   private List<List<Integer>> grid;
 
-  // Initialize a GridWrapper with initial value 0
+  /**
+   * Constructor for MapWrapper
+   * @param row
+   * @param column
+   */
   public MapWrapper(int row, int column) {
     this.row = row;
     this.column = column;
@@ -23,38 +27,66 @@ public class MapWrapper {
     }
   }
 
-  //Initialize a GridWrapper with size 0
+  /**
+   * Constructor for MapWrapper
+   */
   public MapWrapper() {
     grid = new ArrayList<>();
   }
 
+  /**
+   * Get the value held at the given row and column
+   * @param row
+   * @param column
+   * @return
+   */
   public int getState(int row, int column) {
     return grid.get(row).get(column);
   }
 
-  //Before using this method, make sure you have added a row and a value of column index to that row
+  /**
+   * Set the value at the given row and column
+   * @param row
+   * @param column
+   * @param state
+   */
   public void setState(int row, int column, int state) {
-    grid.get(row).set(column, state);
+    if (row < this.row && column < this.column) {
+      grid.get(row).set(column, state);
+    } else {
+      throw new IllegalStateException("outOfBounds");
+    }
   }
 
+  /**
+   * Adds row to the grid
+   */
   public void addRow() {
     grid.add(new ArrayList<>());
     row = grid.size();
   }
 
+  /**
+   * Adds value to a certain row
+   */
   public void addValueToRow(int row, int value) {
     grid.get(row).add(value);
   }
 
+  /**
+   * Returns the number of columns
+   * @return
+   */
   public int getColumnSize() {
     return grid.size();
   }
 
+  /**
+   * Returns the number of rows
+   * @param row
+   * @return
+   */
   public int getRowSize(int row) {
     return grid.get(row).size();
-  }
-
-  public List<List<Integer>> getGrid() {
-    return grid;
   }
 }

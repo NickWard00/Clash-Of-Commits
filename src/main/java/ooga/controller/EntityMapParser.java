@@ -2,9 +2,6 @@ package ooga.controller;
 
 import ooga.model.Entity;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +10,18 @@ import java.util.Properties;
 
 public class EntityMapParser {
     private Properties properties;
-    private File simFile;
     private List<Entity> entities;
+    private static final String ENTITY_PACKAGE = "ooga.model.%s.%s";
+    private static final String ENTITY_MAP_DIRECTORY = "data/%s.sim";
 
+    /**
+     * Constructor for EntityMapParser
+     * @param entityMap
+     */
     public EntityMapParser(String entityMap) throws IllegalStateException {
-        this.simFile = new File("data/" + entityMap + ".sim");
         entities = new ArrayList<>();
-        getSimData();
+        GeneralParser simParser = new GeneralParser();
+        properties = simParser.getSimData(String.format(ENTITY_MAP_DIRECTORY, entityMap));
         properties.entrySet().forEach(entry->{
             String entityName = (String) entry.getKey();
             String[] entityDataArray = ((String) entry.getValue()).replaceAll("\\s+","").split(",");
@@ -28,31 +30,29 @@ public class EntityMapParser {
         });
     }
 
+    /**
+     * Dynamically creates an instance of an entity
+     * @param attributeMap
+     * @param stateMap
+     * @return
+     */
     private Entity createEntityInstance(Map<String, String> attributeMap, Map<Integer, List<String>> stateMap) {
         try {
             String type = attributeMap.get("Type").toLowerCase();
             String entityType = attributeMap.get("EntityType");
+            String className = String.format(ENTITY_PACKAGE, type, entityType);
 
-            Class<?> entityClass = Class.forName("ooga.model." + type + "." + entityType);
+            Class<?> entityClass = Class.forName(className);
             return (Entity) entityClass.getDeclaredConstructor(Map.class, Map.class).newInstance(attributeMap, stateMap);
+
         } catch (ClassNotFoundException | InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
 
     /**
-     * Method that gets the simulation data
+     * Returns the list of entities
      */
-    private void getSimData() throws IllegalStateException {
-        properties = new Properties();
-        try {
-            properties.load(new FileReader(simFile));
-        }
-        catch (IOException e) {
-            throw new IllegalStateException("fileUploadError", e);
-        }
-    }
-
     public List<Entity> getEntities() {
         return entities;
     }
