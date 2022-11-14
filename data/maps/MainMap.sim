@@ -4,4 +4,8 @@ Mode=solo (solo, two-player, or timed)
 Description=A super cool side scroller game that will blow Professor Duvall's socks off
 Level=easy (easy, medium, or hard)
 BoxSize=20
+Cell0=blocks/grass.jpeg
+Cell1=blocks/wall.jpeg
+Cell2=blocks/water.jpeg
+
 Map=data/maps/MainMap.csv
