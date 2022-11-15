@@ -1,11 +1,13 @@
 package ooga.model.attack;
 
+import ooga.model.enemy.Enemy;
 import ooga.model.state.DirectionState;
 import ooga.model.Entity;
 import ooga.model.state.MovementState;
 
 import java.awt.*;
 import java.lang.reflect.Method;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public abstract class Attack {
@@ -26,11 +28,13 @@ public abstract class Attack {
      * Method which takes an entity and invokes that entity's set attack
      * @param entity the entity to initiate an attack
      * */
-    public static void attack(Entity entity) {
+    public static Attack attack(Entity entity) {
         try {
             Object o = Class.forName(attackBundle.getString(entity.getAttackType())).getConstructor(Entity.class).newInstance(entity);
-            Method attackMethod = o.getClass().getMethod("activateAttack", Entity.class);
-            attackMethod.invoke(o, entity);
+            // Method attackMethod = o.getClass().getMethod("activateAttack", Entity.class);
+            // attackMethod.invoke(o, entity);
+            Attack a = (Attack) o;
+            return a;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

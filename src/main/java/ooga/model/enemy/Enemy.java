@@ -27,10 +27,11 @@ public abstract class Enemy extends Entity {
         }
     }
 
-    public static void makeRandomEnemy(List<Class<? extends Enemy>> possibleEnemies, Map<String, String> attributes) {
+    public static Enemy makeRandomEnemy(List<Class<? extends Enemy>> possibleEnemies, Map<String, String> attributes) {
         Random r = new Random();
         int randomIndex = r.nextInt(possibleEnemies.size());
-        makeEnemy(possibleEnemies.get(randomIndex), attributes);
+        Enemy randomEnemy = makeEnemy(possibleEnemies.get(randomIndex), attributes);
+        return randomEnemy;
     }
 
 }

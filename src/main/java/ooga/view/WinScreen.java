@@ -15,24 +15,21 @@ import javafx.stage.Stage;
  * @author James Qu
  */
 public class WinScreen {
-  private Stage winGameStage;
   private Scene winGameScene;
-  private Pane pane;
   private Group root;
   private Text text;
 
-  public WinScreen(Stage stage) {
-    winGameStage = stage;
-    pane = new Pane();
+  public WinScreen() {
     root = new Group();
+    root.setId("WinningScreen");
   }
 
   //Currently implementing just a "Congratulations" screen, will change later
-  public Scene makeScene() {
+  public Scene createScene() {
     text = new Text("Congratulations");
-    winGameScene = new Scene(pane, SCREEN_SIZE, SCREEN_SIZE);
-    winGameScene.getStylesheets().add(styles.getString("winScreenCSS"));
     root.getChildren().add(text);
+    winGameScene = new Scene(root, SCREEN_SIZE, SCREEN_SIZE);
+    winGameScene.getStylesheets().add(styles.getString("winScreenCSS"));
     return winGameScene;
   }
 }

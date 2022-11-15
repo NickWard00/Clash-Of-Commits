@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class EnemyTest {
@@ -28,5 +30,11 @@ class EnemyTest {
     void makeEnemyTest_MagicValue() {
         Enemy myEnemyMagicValue = Enemy.makeEnemy(MagicValue.class, magicValueParser.getAttributeMap());
         assertInstanceOf(MagicValue.class, myEnemyMagicValue);
+    }
+
+    @Test
+    void makeRandomEnemyTest() {
+        Enemy myRandomEnemy = Enemy.makeRandomEnemy(Arrays.asList(Bug.class, MagicValue.class), bugParser.getAttributeMap());
+        assertInstanceOf(Enemy.class, myRandomEnemy);
     }
 }

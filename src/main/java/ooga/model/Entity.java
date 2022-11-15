@@ -44,10 +44,11 @@ public abstract class Entity {
      * Method to update this entity's x and y positions based on the elapsed time since the previous step
      * @param elapsedTime Time passed since the previous step
      * */
-    public void move(double elapsedTime) {
-        xPos = myDirection.getVelocity().get(0) * myMovement.getSpeedConverter() * speed * elapsedTime;
-        yPos = myDirection.getVelocity().get(1) * myMovement.getSpeedConverter() * speed * elapsedTime;
+    public List<Double> move(double elapsedTime) {
+        xPos += myDirection.getVelocity().get(0) * myMovement.getSpeedConverter() * speed * elapsedTime;
+        yPos += myDirection.getVelocity().get(1) * myMovement.getSpeedConverter() * speed * elapsedTime;
         myHitBox.move(xPos, yPos);
+        return Arrays.asList(xPos, yPos);
     }
 
 
@@ -56,7 +57,6 @@ public abstract class Entity {
     protected void changeHp(int diff) {
         hp += diff;
     }
-
     public String getAttackType() {
         return attackType;
     }
@@ -73,5 +73,8 @@ public abstract class Entity {
     public List<String> getStateStrings() {
         return Arrays.asList(myDirection.getDirection(), myMovement.getMovement());
     }
+
+    protected int getHp() { return hp; } // only using for testing purposes before I implement records next week
+
 
 }

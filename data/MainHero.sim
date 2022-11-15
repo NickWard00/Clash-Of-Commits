@@ -1,8 +1,9 @@
 # This is where the Main hero attributes are defined
 Type=Hero
 Sprites=sprites/hero
-Speed=0.1
+Speed=10
 Size=20
 HP=100
+Attack=ShortRange
 Direction=SOUTH
 Movement=STATIONARY

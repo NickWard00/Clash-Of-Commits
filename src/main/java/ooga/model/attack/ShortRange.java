@@ -23,8 +23,9 @@ public class ShortRange extends Attack {
     public ShortRange(Entity entity) {
         super(entity);
         try {
-            // TODO: establish whether or not entity coordinates are centered or upper left aligned and adjust this accordingly
+            // TODO: establish whether entity coordinates are centered or upper left aligned and adjust this accordingly
             // calculates the x and y positions based on the positions its entity plus an offset based on direction of attack and size of the entity
+            myDirection = DirectionState.valueOf(entity.getMyAttributes().get("Direction"));
             this.xPos = entity.coordinates().get(0) + (myDirection.getVelocity().get(0) * Integer.parseInt(entity.getMyAttributes().get("Size")));
             this.yPos = entity.coordinates().get(1) + (myDirection.getVelocity().get(1) * Integer.parseInt(entity.getMyAttributes().get("Size")));
             this.myHitBox = new AttackHitBox(this, xPos, yPos, range, range);
