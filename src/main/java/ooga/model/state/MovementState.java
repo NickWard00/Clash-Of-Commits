@@ -3,18 +3,19 @@ package ooga.model.state;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * I'm not sure how we'll implement movement yet, but just some skeleton code for now. We can build off/use this next week.
- * */
 public enum MovementState {
 
-    STATIONARY("stationary", 0),
-    MOVING("moving", 1);
+    STATIONARY("STATIONARY", 0),
+    MOVING("MOVING", 1);
 
     private String movement;
+    private int speedConverter;
     private static Map<String, MovementState> movementStateMap = new HashMap<>();
 
-    MovementState(String movement, int speedConverter) { this.movement = movement; }
+    MovementState(String movement, int speedConverter) {
+        this.movement = movement;
+        this.speedConverter = speedConverter;
+    }
 
     static {
         for (MovementState state : MovementState.values()) {
@@ -22,8 +23,9 @@ public enum MovementState {
         }
     }
 
+    // TODO: implement a record to cover the public getters
 
-    /** Next week I'll implement a record to cover the public getters */
+    public int getSpeedConverter() { return speedConverter; }
 
     public String getMovement() { return movement; }
 

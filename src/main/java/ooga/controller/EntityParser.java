@@ -15,7 +15,6 @@ public class EntityParser {
     private String YPosition;
     private Properties entityProperties;
     private Map<String, String> attributeMap;
-    private Map<Integer, List<String>> stateMap;
     private static final String ENTITY_DIRECTORY = "data/%s.sim";
 
 
@@ -32,8 +31,7 @@ public class EntityParser {
         GeneralParser simParser = new GeneralParser();
         entityProperties = simParser.getSimData(String.format(ENTITY_DIRECTORY, entityType));
         attributeMap = new HashMap<>();
-        stateMap = new HashMap<>();
-        createAttributeAndStateMap();
+        createAttributeMap();
     }
 
     /**
@@ -45,16 +43,9 @@ public class EntityParser {
 
 
     /**
-     * Returns the state map
-     */
-    public Map<Integer, List<String>> getStateMap() {
-        return stateMap;
-    }
-
-    /**
      * Creates the attribute and state map
      */
-    private void createAttributeAndStateMap() {
+    private void createAttributeMap() {
         attributeMap.put("XPosition", XPosition);
         attributeMap.put("YPosition", YPosition);
         attributeMap.put("EntityType", entityType);
@@ -63,31 +54,8 @@ public class EntityParser {
         entityProperties.entrySet().forEach(entry->{
             String key = (String) entry.getKey();
             String value = ((String) entry.getValue()).replaceAll("\\s+","");
-            if (key.startsWith("State")) {
-                int state = Integer.parseInt(key.replace("State", ""));
-                List<String> stateStrings = getStateData(value);
-                stateMap.put(state, stateStrings);
-            }
-            else {
-                attributeMap.put(key, value);
-            }
-
+            attributeMap.put(key, value);
         });
-    }
-
-    private List<String> getStateData(String stringData) {
-        List<String> states = new ArrayList<>();
-        try {
-            List<String> listData = Arrays.stream(stringData.split(",")).toList();
-            String directionString = String.valueOf(listData.stream().filter(data -> data.startsWith("Direction")).findAny()).replaceAll("Direction=", "");
-            String movementString = String.valueOf(listData.stream().filter(data -> data.startsWith("Movement")).findAny()).replaceAll("Movement=", "");
-            states.add(directionString);
-            states.add(movementString);
-            return states;
-        }
-        catch(NullPointerException n) {
-            throw new RuntimeException(n);
-        }
     }
 
     private void getEntitySimData(String entityType) throws IllegalStateException {

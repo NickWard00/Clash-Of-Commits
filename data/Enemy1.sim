@@ -1,6 +1,7 @@
 Type=Enemy
 Name=Enemy1
 Sprites=example_folder/Enemy1
-States=0,1,2,3
 HP=100
+Direction=SOUTH
+Movement=MOVING
 # ... and so on

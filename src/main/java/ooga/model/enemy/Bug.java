@@ -6,9 +6,10 @@ import java.util.Map;
 public class Bug extends Enemy {
 
     /**
-     * Constructor for the Bug subclass
+     * Constructor for the Bug subclass which extends Enemy
+     * @param attributes a string to string map of the bug's attributes (speed, hp, etc.)
      * */
-    public Bug(Map<String, String> attributes, Map<Integer, List<String>> states) {
-        super(attributes, states);
+    public Bug(Map<String, String> attributes) {
+        super(attributes);
     }
 }

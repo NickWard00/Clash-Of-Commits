@@ -20,13 +20,13 @@ class EnemyTest {
 
     @Test
     void makeEnemyTest_Bug() {
-        Enemy myEnemyBug = Enemy.makeEnemy(Bug.class, bugParser.getAttributeMap(), bugParser.getStateMap());
+        Enemy myEnemyBug = Enemy.makeEnemy(Bug.class, bugParser.getAttributeMap());
         assertInstanceOf(Bug.class, myEnemyBug);
     }
 
     @Test
     void makeEnemyTest_MagicValue() {
-        Enemy myEnemyMagicValue = Enemy.makeEnemy(MagicValue.class, magicValueParser.getAttributeMap(), magicValueParser.getStateMap());
+        Enemy myEnemyMagicValue = Enemy.makeEnemy(MagicValue.class, magicValueParser.getAttributeMap());
         assertInstanceOf(MagicValue.class, myEnemyMagicValue);
     }
 }
