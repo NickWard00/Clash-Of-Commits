@@ -12,6 +12,7 @@ public class MapParser {
     private Properties properties;
     private Map<String, String> mapInfo;
     private Map<String, String> mapCSVSelection;
+    private Map<Integer, String> stateToImage;
     private double mapSize_X;
     private double mapSize_Y;
     private double cellSize;
@@ -27,6 +28,7 @@ public class MapParser {
         mapInfo = new HashMap<>();
         mapCSVSelection = new HashMap<>();
         allMaps = new HashMap<>();
+        stateToImage = new HashMap<>();
 
         properties = simParser.getSimData(String.format(MAP_DIRECTORY, mapSim));
 
@@ -59,6 +61,10 @@ public class MapParser {
             if (key.startsWith("Map")) {
                 mapCSVSelection.put(key, value);
             }
+            else if (key.startsWith("Cell")) {
+                int state = Integer.parseInt(key.replace("Cell", ""));
+                stateToImage.put(state, value);
+            }
             else {
                 mapInfo.put(key, value);
             }
@@ -88,6 +94,22 @@ public class MapParser {
      */
     public MapWrapper getMapWrapper() {
         return allMaps.get("Map");
+    }
+
+    /**
+     * Returns the state to image map (given a cell state, returns the path to image)
+     * @return stateToImage
+     */
+    public Map<Integer, String> getStateToImageMap() {
+        return stateToImage;
+    }
+
+    /**
+     * Returns the map info
+     * @return mapInfo
+     */
+    public Map<String, String> getMapInfo() {
+        return mapInfo;
     }
 }
 
