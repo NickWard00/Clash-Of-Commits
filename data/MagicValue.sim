@@ -1,9 +1,9 @@
 # This is where the MagicValue enemy behavior is defined
 Type=Enemy
 Sprites=sprites/magicValue
-Speed=0.1
+Speed=10
 Size=20
 HP=100
-Attack=Attack2
+Attack=LongRange
 Direction=SOUTH
 Movement=STATIONARY

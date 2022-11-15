@@ -3,6 +3,9 @@ package ooga.model.hitBox;
 import ooga.model.Entity;
 
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public abstract class HitBox extends Rectangle2D.Double {
 
@@ -28,6 +31,11 @@ public abstract class HitBox extends Rectangle2D.Double {
     public void move(double newX, double newY) {
         xPos = newX;
         yPos = newY;
+    }
+
+    public List<java.lang.Double> coordinates() {
+        List<java.lang.Double> res = Arrays.asList(xPos, yPos);
+        return res;
     }
 
 }
