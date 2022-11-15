@@ -20,8 +20,11 @@ import java.util.ResourceBundle;
  * @author Melanie Wang
  */
 
+/**
+ * creates the starting screen of the game, which allows you to toggle the language before proceeding.
+ */
 public class StartScreen {
-    //load images and constants
+
     public static final ResourceBundle images = ResourceBundle.getBundle(
             "ResourceBundles.Images");
     public static final ResourceBundle constants = ResourceBundle.getBundle(
@@ -53,10 +56,13 @@ public class StartScreen {
         currentStage = stage;
     }
 
+    //makes the scene that is displayed on the screen
     public Scene makeScene(){
         background = new ImageView(new Image(images.getString("startScreenImage")));
         startGame = new Button(labels.getString("startButton"));
+        startGame.setId("startGame");
         languageSelector = new ComboBox<>();
+        languageSelector.setId("languageSelector");
         languageSelector.getItems().addAll(
                 labels.getString("eng"), labels.getString("span"),
                 labels.getString("germ"), labels.getString("sim"));
@@ -74,37 +80,42 @@ public class StartScreen {
         return s;
     }
 
+    //moves to the next screen of the game
     public void nextScreen(){
         ChooseGameScreen c = new ChooseGameScreen(currentStage, labels);
         currentStage.setScene(c.makeScene());
         currentStage.show();
     }
 
+    //sets the language to english
     public void setEnglish() {
         labels= ResourceBundle.getBundle(
                 "ResourceBundles.LabelsBundle");
     }
-
+    //sets the language to spanish
     public void setSpanish() {
         labels= ResourceBundle.getBundle(
                 "ResourceBundles.LabelsBundle_es");
     }
+    //sets the language to german
     public void setGerman() {
         labels= ResourceBundle.getBundle(
                 "ResourceBundles.LabelsBundle_de");
     }
-
+    //sets the language to simlish
     public void setSimlish(){
         labels= ResourceBundle.getBundle(
-                "ResourceBundles.LabelsBundle_sim");
+                "ResourceBundles.LabelsBundle_simlish");
     }
 
+    //is necessary in order to pass the language resourcebundle to other screens
+    //other resourcebundles are final and do not need to be passed this way
     public ResourceBundle getLabels(){
         return labels;
     }
 
 
-
+    //handles the changing of languages using the selector and the clicking of the start button
     public void handleEvents(){
         startGame.setOnAction(event -> {
             nextScreen();
