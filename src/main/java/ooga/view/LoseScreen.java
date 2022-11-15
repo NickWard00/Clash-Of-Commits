@@ -17,24 +17,21 @@ import javafx.stage.Stage;
  * @author James Qu
  */
 public class LoseScreen {
-  private Stage loseGameStage;
   private Scene loseGameScene;
-  private Pane pane;
   private Group root;
   private Text text;
 
-  public LoseScreen(Stage stage) {
-    loseGameStage = stage;
-    pane = new Pane();
+  public LoseScreen() {
     root = new Group();
+    root.setId("LosingScreen");
   }
 
   //Currently implementing just a "You have lost" screen, will change later
-  public Scene makeScene() {
+  public Scene createScene() {
     text = new Text("You have lost");
-    loseGameScene = new Scene(pane, SCREEN_SIZE, SCREEN_SIZE);
-    loseGameScene.getStylesheets().add(styles.getString("loseScreenCSS"));
     root.getChildren().add(text);
+    loseGameScene = new Scene(root, SCREEN_SIZE, SCREEN_SIZE);
+    loseGameScene.getStylesheets().add(styles.getString("loseScreenCSS"));
     return loseGameScene;
   }
 }

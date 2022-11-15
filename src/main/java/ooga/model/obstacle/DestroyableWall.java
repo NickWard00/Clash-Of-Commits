@@ -22,7 +22,7 @@ public class DestroyableWall extends Wall {
     checkRemove();
   }
 
-  public int getHP() {
+  public int determineHP() {
     return this.hp;
   }
 
