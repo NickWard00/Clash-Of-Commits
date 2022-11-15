@@ -11,12 +11,13 @@ public abstract class HitBox extends Rectangle2D.Double {
     private double yPos;
 
     /**
-    public HitBox(Entity entity, int width, int height, int direction) {
-        super((int) Math.rint(entity.coordinates().get(0)), (int) Math.rint(entity.coordinates().get(1)), width, height);
-        this.myEntity = entity;
-    } */
-
-
+     * Constructor for the HitBox superclass
+     * @param entity the entity that this hitbox is associated with
+     * @param startX X coordinate of the upper left corner of the hitbox
+     * @param startY Y coordinate of the upper left corner of the hitbox
+     * @param width width of the hitbox
+     * @param height height of the hitbox
+     * */
     public HitBox(Entity entity, double startX, double startY, int width, int height) {
         super(startX, startY, width, height);
         this.myEntity = entity;

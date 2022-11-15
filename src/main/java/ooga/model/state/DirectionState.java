@@ -30,7 +30,7 @@ public enum DirectionState {
     }
 
 
-    /** Next week I'll implement a record to cover the public getters */
+    // TODO: implement a record to cover the public getters
 
     public String getDirection() { return direction; }
 

@@ -40,6 +40,18 @@ public abstract class Entity {
         }
     }
 
+    /**
+     * Method to update this entity's x and y positions based on the elapsed time since the previous step
+     * @param elapsedTime Time passed since the previous step
+     * */
+    public void move(double elapsedTime) {
+        xPos = myDirection.getVelocity().get(0) * myMovement.getSpeedConverter() * speed * elapsedTime;
+        yPos = myDirection.getVelocity().get(1) * myMovement.getSpeedConverter() * speed * elapsedTime;
+        myHitBox.move(xPos, yPos);
+    }
+
+
+    public Map<String, String> getMyAttributes() { return myAttributes; } // TODO: next week, make a record for entity
 
     protected void changeHp(int diff) {
         hp += diff;
