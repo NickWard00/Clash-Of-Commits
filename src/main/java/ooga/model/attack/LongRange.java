@@ -2,7 +2,7 @@ package ooga.model.attack;
 
 import ooga.model.state.DirectionState;
 import ooga.model.Entity;
-import ooga.model.HitBox.AttackHitBox;
+import ooga.model.hitBox.AttackHitBox;
 
 public class LongRange extends Attack {
 

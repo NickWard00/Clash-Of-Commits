@@ -10,8 +10,8 @@ public class MainHero extends Hero {
     private static int attackStrength = DEFAULT_ATTACK_STRENGTH;
     private static String movementType = DEFAULT_MOVEMENT_TYPE;
 
-    public MainHero(Map<String, String> attributes, Map<Integer, List<String>> states) {
-        super(attributes, states);
+    public MainHero(Map<String, String> attributes) {
+        super(attributes);
     }
 
     @Override

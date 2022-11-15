@@ -1,8 +1,7 @@
-package ooga.model.HitBox;
+package ooga.model.hitBox;
 
 import ooga.model.Entity;
 
-import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 public abstract class HitBox extends Rectangle2D.Double {

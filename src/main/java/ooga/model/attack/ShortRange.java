@@ -1,6 +1,6 @@
 package ooga.model.attack;
 
-import ooga.model.HitBox.AttackHitBox;
+import ooga.model.hitBox.AttackHitBox;
 import ooga.model.state.DirectionState;
 import ooga.model.Entity;
 

@@ -7,10 +7,10 @@ import java.util.Map;
 
 public enum DirectionState {
 
-    NORTH("north", 0, 1),
-    EAST("east", 1, 0),
-    SOUTH("south", 0, -1),
-    WEST("west", -1, 0);
+    NORTH("NORTH", 0, 1),
+    EAST("EAST", 1, 0),
+    SOUTH("SOUTH", 0, -1),
+    WEST("WEST", -1, 0);
 
     private String direction;
     private int xVelocity;

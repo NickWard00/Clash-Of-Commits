@@ -6,8 +6,3 @@ Size=20
 HP=100
 Direction=SOUTH
 Movement=STATIONARY
-
-# State0={Direction=north,Movement=stationary}
-# State1={Direction=east,Movement=stationary}
-# State2={Direction=south,Movement=stationary}
-# State3={Direction=west,Movement=stationary}

@@ -26,24 +26,23 @@ public class EntityMapParser {
             String entityName = (String) entry.getKey();
             String[] entityDataArray = ((String) entry.getValue()).replaceAll("\\s+","").split(",");
             EntityParser entityParser = new EntityParser(entityName, entityDataArray);
-            entities.add(createEntityInstance(entityParser.getAttributeMap(), entityParser.getStateMap()));
+            entities.add(createEntityInstance(entityParser.getAttributeMap()));
         });
     }
 
     /**
      * Dynamically creates an instance of an entity
      * @param attributeMap
-     * @param stateMap
      * @return
      */
-    private Entity createEntityInstance(Map<String, String> attributeMap, Map<Integer, List<String>> stateMap) {
+    private Entity createEntityInstance(Map<String, String> attributeMap) {
         try {
             String type = attributeMap.get("Type").toLowerCase();
             String entityType = attributeMap.get("EntityType");
             String className = String.format(ENTITY_PACKAGE, type, entityType);
 
             Class<?> entityClass = Class.forName(className);
-            return (Entity) entityClass.getDeclaredConstructor(Map.class, Map.class).newInstance(attributeMap, stateMap);
+            return (Entity) entityClass.getDeclaredConstructor(Map.class).newInstance(attributeMap);
 
         } catch (ClassNotFoundException | InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);

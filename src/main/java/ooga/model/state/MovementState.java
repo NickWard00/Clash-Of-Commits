@@ -8,8 +8,8 @@ import java.util.Map;
  * */
 public enum MovementState {
 
-    STATIONARY("stationary", 0),
-    MOVING("moving", 1);
+    STATIONARY("STATIONARY", 0),
+    MOVING("MOVING", 1);
 
     private String movement;
     private static Map<String, MovementState> movementStateMap = new HashMap<>();

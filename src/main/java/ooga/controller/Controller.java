@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.model.Entity;
 import ooga.model.Model;
-import ooga.model.HitBox.HitBox;
+import ooga.model.hitBox.HitBox;
 import ooga.view.MapWrapper;
 import ooga.view.View;
 

@@ -1,4 +1,4 @@
-package ooga.model.HitBox;
+package ooga.model.hitBox;
 
 import ooga.model.attack.Attack;
 
