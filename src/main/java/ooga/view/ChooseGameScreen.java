@@ -42,7 +42,7 @@ public class ChooseGameScreen {
 
         });
         newGame.setOnAction(event->{
-            OpenNewGameScreen os = new OpenNewGameScreen(labels);
+            OpenNewGameScreen os = new OpenNewGameScreen(labels, stage);
             stage.setScene(os.makeScene());
             stage.show();
         });
