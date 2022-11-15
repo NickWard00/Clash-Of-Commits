@@ -1,18 +1,15 @@
 package ooga.model.enemy;
 
+import java.util.List;
 import java.util.Map;
 
 public class Bug extends Enemy {
 
-    private static int bug_max_hp;
-    private static int bug_speed;
-    private static int bug_size;
-    private static String bug_attackType;
-
     /**
-     * Constructor for the Bug subclass
+     * Constructor for the Bug subclass which extends Enemy
+     * @param attributes a string to string map of the bug's attributes (speed, hp, etc.)
      * */
-    public Bug(Map<String, String> attributes, Map<Integer, String> states) {
-        super(attributes, states);
+    public Bug(Map<String, String> attributes) {
+        super(attributes);
     }
 }

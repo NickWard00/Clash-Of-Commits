@@ -2,62 +2,114 @@ package ooga.controller;
 
 import ooga.view.MapWrapper;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+
 public class MapParser {
     private Properties properties;
-    private File simFile;
     private Map<String, String> mapInfo;
-    private MapWrapper mapWrapper;
+    private Map<String, String> mapCSVSelection;
+    private Map<Integer, String> stateToImage;
     private double mapSize_X;
     private double mapSize_Y;
     private double cellSize;
+    private Map<String, MapWrapper> allMaps;
+    private static final String MAP_DIRECTORY = "data/maps/%s.sim";
 
-    public MapParser(String mapSim) throws IllegalStateException {
-        this.simFile = new File("data/maps/" + mapSim + ".sim");
-        getSimData();
+    /**
+     * Constructor for MapParser
+     * @param mapSim
+     */
+    public MapParser(String mapSim) {
+        GeneralParser simParser = new GeneralParser();
         mapInfo = new HashMap<>();
-        properties.entrySet().forEach(entry->{
-            String key = (String) entry.getKey();
-            String value = ((String) entry.getValue()).replaceAll("\\s+","");
-            mapInfo.put(key, value);
-        });
-        CSVParser csvParser = new CSVParser();
-        mapWrapper = csvParser.parseData(mapInfo.get("Map"));
+        mapCSVSelection = new HashMap<>();
+        allMaps = new HashMap<>();
+        stateToImage = new HashMap<>();
+
+        properties = simParser.getSimData(String.format(MAP_DIRECTORY, mapSim));
+
+        populateCSVandInfoMaps();
+        setupMapWrapperMap();
         generateMapProperties();
     }
 
-    private void generateMapProperties() {
-        cellSize = Double.parseDouble(mapInfo.get("BoxSize"));
-        mapSize_X = cellSize * mapWrapper.getColumnSize();
-        mapSize_Y = cellSize * mapWrapper.getRowSize(0);
+    /**
+     * Sets up the map wrapper map will all of the maps per level
+     */
+    private void setupMapWrapperMap() {
+        CSVParser csvParser = new CSVParser();
+        mapCSVSelection.entrySet().forEach(entry->{
+            String key = entry.getKey();
+            String value = entry.getValue();
+
+            MapWrapper mapData = csvParser.parseData(value);
+            allMaps.put(key, mapData);
+        });
     }
 
+    /**
+     * Populates the mapInfo and mapCSVSelection maps
+     */
+    private void populateCSVandInfoMaps() {
+        properties.entrySet().forEach(entry->{
+            String key = (String) entry.getKey();
+            String value = ((String) entry.getValue()).replaceAll("\\s+","");
+            if (key.startsWith("Map")) {
+                mapCSVSelection.put(key, value);
+            }
+            else if (key.startsWith("Cell")) {
+                int state = Integer.parseInt(key.replace("Cell", ""));
+                stateToImage.put(state, value);
+            }
+            else {
+                mapInfo.put(key, value);
+            }
+        });
+    }
+
+    /**
+     * Generates the map properties
+     */
+    private void generateMapProperties() {
+        cellSize = Double.parseDouble(mapInfo.get("BoxSize"));
+        mapSize_X = cellSize * allMaps.get("Map").getColumnSize();
+        mapSize_Y = cellSize * allMaps.get("Map").getRowSize(0);
+    }
+
+    /**
+     * Returns the map properties
+     * @return
+     */
     public List<Double> getMapProperties() {
         return List.of(cellSize, mapSize_X, mapSize_Y);
     }
 
+    /**
+     * Returns the Map Wrapper
+     * @return
+     */
     public MapWrapper getMapWrapper() {
-        return mapWrapper;
+        return allMaps.get("Map");
     }
 
     /**
-     * Method that gets the simulation data
+     * Returns the state to image map (given a cell state, returns the path to image)
+     * @return stateToImage
      */
-    private void getSimData() throws IllegalStateException {
-        properties = new Properties();
-        try {
-            properties.load(new FileReader(simFile));
-        }
-        catch (IOException e) {
-            throw new IllegalStateException("fileUploadError", e);
-        }
+    public Map<Integer, String> getStateToImageMap() {
+        return stateToImage;
+    }
+
+    /**
+     * Returns the map info
+     * @return mapInfo
+     */
+    public Map<String, String> getMapInfo() {
+        return mapInfo;
     }
 }
 

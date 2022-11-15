@@ -2,13 +2,12 @@ package ooga.controller;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.model.Entity;
 import ooga.model.Model;
+import ooga.model.hitBox.HitBox;
 import ooga.view.MapWrapper;
-import ooga.view.StartScreen;
 import ooga.view.View;
 
 import java.util.List;
@@ -18,6 +17,7 @@ public class Controller {
     private View view;
     private MapWrapper mapWrapper;
     private List<Entity> myEntities;
+    private List<HitBox> myHitBoxes;
     private String mapName;
     private static final double FRAMES_PER_SECOND = 60;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;

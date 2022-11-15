@@ -1,0 +1,8 @@
+# Bad Input - missing a type field
+Sprites=sprites/bug
+Speed=0.1
+Size=20
+HP=100
+Attack=Attack1
+Direction=EAST
+Movement=MOVING
