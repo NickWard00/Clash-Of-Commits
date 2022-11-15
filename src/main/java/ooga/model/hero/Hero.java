@@ -20,7 +20,7 @@ public abstract class Hero extends Entity {
         }
     }
 
-    public void makeRandomEnemy(List<Class<? extends Hero>> possibleHeroes, Map<String, String> attributes) {
+    public void makeRandomHero(List<Class<? extends Hero>> possibleHeroes, Map<String, String> attributes, Map<Integer, String> states) {
         Random r = new Random();
         int randomIndex = r.nextInt(possibleHeroes.size());
         makeHero(possibleHeroes.get(randomIndex), attributes);

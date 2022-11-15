@@ -38,4 +38,12 @@ public abstract class Obstacle {
     int randomObstacle = random.nextInt(possibleObstacles.size());
     makeObstacle(possibleObstacles.get(randomObstacle), attributes, states);
   }
+
+  public double getPositionX() {
+    return this.xPosition;
+  }
+
+  public double getPositionY() {
+    return this.yPosition;
+  }
 }

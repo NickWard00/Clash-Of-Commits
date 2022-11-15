@@ -5,7 +5,7 @@ import ooga.view.LoseScreen;
 import ooga.view.WinScreen;
 
 /**
- * This interface shows what happens when the game determines whether you won or lost the game.
+ * This interface shows what happens when the game determines whether the user has won or lost the game.
  *
  * @author James Qu
  */
