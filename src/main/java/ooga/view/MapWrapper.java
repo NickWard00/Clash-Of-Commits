@@ -41,7 +41,15 @@ public class MapWrapper {
    * @return
    */
   public int getState(int row, int column) {
-    return grid.get(row).get(column);
+    int ret = 0;
+    try{
+      ret = grid.get(row).get(column);
+    }
+    catch(Exception e) { //CURRENTLY CATCHING BECAUSE CSV ISNT BEING READ CORRECTLY
+//      System.out.println("out of bounds? ");
+//      System.out.println("row: "+row+" column: "+column);
+    }
+    return ret;
   }
 
   /**

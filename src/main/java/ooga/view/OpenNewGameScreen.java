@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.util.ResourceBundle;
 
@@ -17,8 +18,10 @@ public class OpenNewGameScreen {
     private GameSlot slot3;
     private StackPane background;
     private ResourceBundle labels;
+    private Stage stage;
 
-    public OpenNewGameScreen(ResourceBundle l){
+    public OpenNewGameScreen(ResourceBundle l, Stage stage){
+        this.stage = stage;
         labels = l;
     }
 
@@ -41,8 +44,10 @@ public class OpenNewGameScreen {
     //parsing of files should occur here
     public void handleEvents(){
         slot1.setOnMouseClicked(event -> {
-
-                });
+            MainGameScreen mainGameScreen = new MainGameScreen();
+            stage.setScene(mainGameScreen.makeScene());
+            mainGameScreen.startGamePlay();
+        });
         slot2.setOnMouseClicked(event -> {
 
         });

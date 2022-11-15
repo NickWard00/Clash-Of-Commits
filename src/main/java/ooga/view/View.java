@@ -13,14 +13,18 @@ public class View {
 
     public View(Stage stage){
         setupGame(stage);
-        mapView = new MapView();
     }
     public void step(double elapsedTime){
 
     }
 
+
+
+
+
+
     public void setupGame(Stage stage){
-        root = new BorderPane();
+        root = new BorderPane(); //later change to Root object ??? 
         scene = new Scene(root);
         scene.setOnKeyPressed(e->getKeyInput(e.getCode()));
         StartScreen startScreen = new StartScreen(stage);
