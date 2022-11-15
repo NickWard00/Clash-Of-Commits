@@ -18,12 +18,7 @@ public class View {
 
     }
 
-
-
-
-
-
-    public void setupGame(Stage stage){
+    private void setupGame(Stage stage){
         root = new BorderPane(); //later change to Root object ??? 
         scene = new Scene(root);
         scene.setOnKeyPressed(e->getKeyInput(e.getCode()));
@@ -31,7 +26,7 @@ public class View {
         stage.setScene(startScreen.makeScene());
     }
 
-    public void getKeyInput(KeyCode key){
+    private void getKeyInput(KeyCode key){
         switch(key){
             case LEFT -> {
                 mapView.moveRight();

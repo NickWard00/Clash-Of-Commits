@@ -22,6 +22,8 @@ public class Controller {
     private static final double FRAMES_PER_SECOND = 60;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     private Model myModel;
+    private boolean playingGame;
+    private boolean choosingGame; //some sort of variable to control what is active at any given moment
     public Controller(Stage stage){
         view = new View(stage);
         // TODO: Change this so that maps can be chosen instead of hard coded here
