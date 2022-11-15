@@ -19,6 +19,7 @@ public class MainGameScreen {
     private MapWrapper mapWrapper;
     private MapParser mapParser;
     private MapView mapView;
+    private boolean isPlaying = false;
     public static final ResourceBundle constants = ResourceBundle.getBundle(
             "ResourceBundles.ViewConstants");
     public static final int SCREEN_SIZE = Integer.parseInt(constants.getString("screenSize"));
@@ -27,6 +28,7 @@ public class MainGameScreen {
 
     }
     public void startGamePlay() {
+        isPlaying = true;
         String mapName = "MainMap"; //for now!
         mapParser = new MapParser(mapName);
         mapWrapper = mapParser.getMapWrapper();
@@ -40,6 +42,12 @@ public class MainGameScreen {
         StackPane.setAlignment(gameScreenPane, Pos.CENTER);
         Scene s = new Scene(gameScreenPane, SCREEN_SIZE, SCREEN_SIZE);
         return s;
+    }
+    public boolean isPlaying(){
+        return isPlaying;
+    }
+    public void stopPlaying(){
+        isPlaying = false;
     }
 
 }
