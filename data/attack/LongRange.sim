@@ -1,0 +1,4 @@
+# This is where the LongRange attack attributes are defined
+Speed=20.0
+Damage=2.0
+CoolDown=0.5

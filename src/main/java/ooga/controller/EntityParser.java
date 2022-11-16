@@ -15,7 +15,7 @@ public class EntityParser {
     private String YPosition;
     private Properties entityProperties;
     private Map<String, String> attributeMap;
-    private static final String ENTITY_DIRECTORY = "data/%s.sim";
+    private static final String ENTITY_DIRECTORY = "data/entity/%s.sim";
 
 
     /**
