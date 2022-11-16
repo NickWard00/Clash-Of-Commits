@@ -7,10 +7,22 @@ import java.util.Map;
 
 public enum DirectionState {
 
-    NORTH("NORTH", 0, 1),
-    EAST("EAST", 1, 0),
-    SOUTH("SOUTH", 0, -1),
-    WEST("WEST", -1, 0);
+    NORTH("NORTH", 0, 1) {
+        @Override
+        public DirectionState oppositeDirection() { return SOUTH; }
+    },
+    EAST("EAST", 1, 0) {
+        @Override
+        public DirectionState oppositeDirection() { return WEST; }
+    },
+    SOUTH("SOUTH", 0, -1) {
+        @Override
+        public DirectionState oppositeDirection() { return NORTH; }
+    },
+    WEST("WEST", -1, 0) {
+        @Override
+        public DirectionState oppositeDirection() { return EAST; }
+    };
 
     private String direction;
     private int xVelocity;
@@ -37,5 +49,7 @@ public enum DirectionState {
     public List<Integer> getVelocity() { return Arrays.asList(xVelocity, yVelocity); }
 
     public static Map<String, DirectionState> getDirectionStateMap() { return directionStateMap; }
+
+    public abstract DirectionState oppositeDirection();
 
 }

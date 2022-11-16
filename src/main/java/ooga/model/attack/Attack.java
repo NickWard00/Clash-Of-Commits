@@ -73,4 +73,6 @@ public abstract class Attack {
 
 
     public Entity getMyEntity() { return myEntity; }
+
+    public int getDamage() { return damage; }
 }

@@ -3,7 +3,15 @@ package ooga;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import ooga.controller.CollisionHandler;
 import ooga.controller.Controller;
+import ooga.controller.EntityParser;
+import ooga.model.Entity;
+import ooga.model.attack.Attack;
+import ooga.model.enemy.Bug;
+import ooga.model.hero.MainHero;
+import ooga.model.obstacle.DestroyableWall;
+import ooga.model.obstacle.Obstacle;
 
 /**
  * Feel free to completely change this code or delete it entirely. 
