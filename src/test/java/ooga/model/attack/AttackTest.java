@@ -32,13 +32,13 @@ class AttackTest {
 
     @Test
     void getMyEntityTest_Enemy() {
-        Attack testAttack = new LongRange(testBug);
+        Attack testAttack = Attack.attack(testBug);
         assertEquals(testBug, testAttack.getMyEntity());
     }
 
     @Test
     void getMyEntityTest_Hero() {
-        Attack testAttack = new LongRange(testHero);
+        Attack testAttack = Attack.attack(testHero);
         assertEquals(testHero, testAttack.getMyEntity());
     }
 

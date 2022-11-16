@@ -1,0 +1,4 @@
+# This is where the ShortRange attack attributes are defined
+Speed=0.0
+Damage=2.0
+CoolDown=0.2
