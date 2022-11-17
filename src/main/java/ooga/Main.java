@@ -22,7 +22,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage){
-        stage.show();
         Controller controller = new Controller(stage);
         //controller.startAnimation();
     }

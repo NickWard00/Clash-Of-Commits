@@ -26,17 +26,19 @@ public class Controller {
     private boolean choosingGame; //some sort of variable to control what is active at any given moment
     public Controller(Stage stage){
         view = new View(stage);
-        // TODO: Change this so that maps can be chosen instead of hard coded here
-        mapName = "MainMap";
+        initializeModel("MainMap");
+    }
+
+    private void initializeModel(String mapName) {
+        this.mapName = mapName;
         parseData(mapName);
-        setupEntityView();
         myModel = new Model(this);
     }
+
     public void startAnimation(){
         animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
-        animation.getKeyFrames().add(new KeyFrame(Duration.seconds(SECOND_DELAY),
-                e->step(SECOND_DELAY)));
+        animation.getKeyFrames().add(new KeyFrame(Duration.seconds(SECOND_DELAY), e->step(SECOND_DELAY)));
         animation.play();
     }
 
@@ -49,6 +51,7 @@ public class Controller {
         mapWrapper = mapParser.getMapWrapper();
         EntityMapParser entityMapParser = new EntityMapParser("Entity_" + map);
         myEntities = entityMapParser.getEntities();
+        setupEntityView();
     }
 
     private void setupEntityView() {

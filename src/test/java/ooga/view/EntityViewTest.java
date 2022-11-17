@@ -1,17 +1,10 @@
 package ooga.view;
 
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
-import ooga.controller.EntityMapParser;
 import ooga.controller.EntityView;
-import ooga.model.Entity;
-import ooga.model.enemy.Bug;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
