@@ -1,6 +1,8 @@
 package ooga.view;
 
+import javafx.scene.control.Control;
 import javafx.stage.Stage;
+import ooga.controller.Controller;
 import ooga.controller.EntityView;
 import ooga.view.screens.StartScreen;
 import org.junit.jupiter.api.Test;
@@ -22,7 +24,8 @@ class EntityViewTest extends DukeApplicationTest {
 
     @Override
     public void start(Stage stage) {
-        StartScreen ss = new StartScreen(stage);
+        Controller controller = new Controller(stage);
+        StartScreen ss = new StartScreen(stage, controller);
         stage.setScene(ss.makeScene());
 
         entityAttributes = Map.of("Name", "Hero1", "XPosition", "50", "YPosition", "103", "Size", "20", "Sprites", "/sprites/hero/", "Direction", "SOUTH");

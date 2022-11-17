@@ -24,7 +24,7 @@ public class View {
 
     public View(Stage stage, Controller controller){
         this.stage = stage;
-        this.startScreen = new StartScreen(stage);
+        this.startScreen = new StartScreen(stage, controller);
         this.myController = controller;
         entityViewList = new ArrayList<>();
         setupGame(stage);
@@ -37,9 +37,7 @@ public class View {
         root = new BorderPane(); //later change to Root object ??? 
         scene = new Scene(root);
         scene.setOnKeyPressed(e->getKeyInput(e.getCode()));
-        ScreenSelector screenSelector = new ScreenSelector(stage, myController);
-        Scene scene = screenSelector.selectScreen("openNewGameScreen");
-        stage.setScene(scene);
+        stage.setScene(startScreen.makeScene());
         stage.show();
     }
 

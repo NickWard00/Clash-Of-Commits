@@ -15,24 +15,30 @@ public class ScreenSelector {
     private ChooseGameScreen chooseGameScreen;
     private WinScreen winScreen;
     private LoseScreen loseScreen;
+    private Stage myStage;
 
     public ScreenSelector(Stage stage, Controller controller) {
-        startScreen = new StartScreen(stage);
+        myStage = stage;
         mainGameScreen = new MainGameScreen();
         openSaveScreen = new OpenSaveScreen();
         openNewGameScreen = new OpenNewGameScreen(stage, controller);
-        chooseGameScreen = new ChooseGameScreen(stage);
         winScreen = new WinScreen();
         loseScreen = new LoseScreen();
     }
 
-    public Scene selectScreen(String screenName) {
+    public void selectScreen(String screenName) {
         try {
-            return (Scene) this.getClass().getDeclaredField(screenName).get(this).getClass().getMethod("makeScene").invoke(this.getClass().getDeclaredField(screenName).get(this));
+            Scene scene = (Scene) this.getClass().getDeclaredField(screenName).get(this).getClass().getMethod("makeScene").invoke(this.getClass().getDeclaredField(screenName).get(this));
+            displayScreen(scene);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new IllegalStateException("methodNotFound", e);
         } catch (NoSuchFieldException e) {
             throw new IllegalStateException("screenNotFound", e);
         }
+    }
+
+    private void displayScreen(Scene scene){
+        myStage.setScene(scene);
+        myStage.show();
     }
 }

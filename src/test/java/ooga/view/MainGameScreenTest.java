@@ -1,5 +1,6 @@
 package ooga.view;
 
+import ooga.controller.MapParser;
 import ooga.view.screens.MainGameScreen;
 import org.junit.jupiter.api.Test;
 
@@ -8,18 +9,26 @@ import static org.junit.jupiter.api.Assertions.*;
 class MainGameScreenTest {
     @Test
     void startGamePlayTest(){
+        MapParser mapParser = new MapParser("MainMap");
+        MapWrapper map = mapParser.getMapWrapper();
+        map.setStateToImageMap(mapParser.getStateToImageMap());
+
         MainGameScreen mainGameScreen = new MainGameScreen();
-        mainGameScreen.startGamePlay();
+        mainGameScreen.startGamePlay(map);
         mainGameScreen.makeScene();
-        mainGameScreen.startGamePlay();
+        mainGameScreen.startGamePlay(map);
         assertTrue(mainGameScreen.isPlaying());
     }
     @Test
     void startGamePlayErrorTest(){
         MainGameScreen mainGameScreen = new MainGameScreen();
+        MapParser mapParser = new MapParser("MainMap");
+        MapWrapper map = mapParser.getMapWrapper();
+        map.setStateToImageMap(mapParser.getStateToImageMap());
+
         try{
             mainGameScreen.makeScene();
-            mainGameScreen.startGamePlay();
+            mainGameScreen.startGamePlay(map);
         }catch(NullPointerException | IllegalStateException | IndexOutOfBoundsException e){
             e.printStackTrace();
         }catch(Exception e){

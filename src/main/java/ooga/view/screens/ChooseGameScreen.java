@@ -7,6 +7,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import ooga.controller.Controller;
 
 import java.util.ResourceBundle;
 
@@ -18,9 +19,10 @@ public class ChooseGameScreen extends SceneCreator {
     private ResourceBundle labels;
     private ResourceBundle styles;
     private int screenSize;
+    private Controller myController;
 
-
-    public ChooseGameScreen(Stage stage){
+    public ChooseGameScreen(Stage stage, Controller controller){
+        this.myController = controller;
         this.stage = stage;
         this.labels = getLabels();
         this.styles = getStyles();
@@ -48,9 +50,9 @@ public class ChooseGameScreen extends SceneCreator {
 
         });
         newGame.setOnAction(event->{
-            //OpenNewGameScreen os = new OpenNewGameScreen(stage);
-            //stage.setScene(os.makeScene());
-            //stage.show();
+            OpenNewGameScreen openNewGameScreen = new OpenNewGameScreen(stage, myController);
+            stage.setScene(openNewGameScreen.makeScene());
+            stage.show();
         });
     }
 }
