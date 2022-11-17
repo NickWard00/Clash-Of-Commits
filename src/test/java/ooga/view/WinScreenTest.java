@@ -3,7 +3,7 @@ package ooga.view;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import javafx.scene.Scene;
-import javafx.stage.Stage;
+import ooga.view.screens.WinScreen;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;

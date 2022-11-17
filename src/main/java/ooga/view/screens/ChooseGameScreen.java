@@ -1,4 +1,4 @@
-package ooga.view;
+package ooga.view.screens;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,12 +9,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.ResourceBundle;
-import java.util.Stack;
 
 public class ChooseGameScreen extends SceneCreator {
     private Stage stage;
     private Pane background;
-
     private Button loadSave;
     private Button newGame;
     private ResourceBundle labels;
@@ -35,7 +33,7 @@ public class ChooseGameScreen extends SceneCreator {
         newGame = new Button(labels.getString("startNewGameButton"));
         newGame.setId("newGame");
         background = new StackPane();
-        VBox buttonCol = new VBox(loadSave,newGame);
+        VBox buttonCol = new VBox(loadSave, newGame);
         buttonCol.setId("buttonCol");
         buttonCol.setAlignment(Pos.CENTER);
         background.getChildren().add(buttonCol);
@@ -45,7 +43,7 @@ public class ChooseGameScreen extends SceneCreator {
         return s;
     }
 
-    public void handleEvents(){
+    private void handleEvents(){
         loadSave.setOnAction(event ->{
 
         });

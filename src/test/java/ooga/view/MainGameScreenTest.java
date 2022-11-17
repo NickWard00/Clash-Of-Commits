@@ -1,5 +1,6 @@
 package ooga.view;
 
+import ooga.view.screens.MainGameScreen;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

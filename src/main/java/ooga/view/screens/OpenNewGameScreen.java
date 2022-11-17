@@ -1,12 +1,12 @@
-package ooga.view;
+package ooga.view.screens;
 
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import ooga.view.GameSlot;
 
 import java.util.ResourceBundle;
 
@@ -28,6 +28,7 @@ public class OpenNewGameScreen extends SceneCreator {
         screenSize = getScreenSize();
     }
 
+    @Override
     public Scene makeScene(){
         background = new StackPane();
         slot1 = new GameSlot(labels.getString("game1"), labels);
@@ -45,12 +46,11 @@ public class OpenNewGameScreen extends SceneCreator {
     }
 
     //parsing of files should occur here
-    public void handleEvents(){
+    private void handleEvents(){
         slot1.setOnMouseClicked(event -> {
             MainGameScreen mainGameScreen = new MainGameScreen();
             mainGameScreen.startGamePlay();
             stage.setScene(mainGameScreen.makeScene());
-
         });
         slot2.setOnMouseClicked(event -> {
 

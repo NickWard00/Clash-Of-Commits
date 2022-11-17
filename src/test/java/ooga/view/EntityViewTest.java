@@ -2,6 +2,7 @@ package ooga.view;
 
 import javafx.stage.Stage;
 import ooga.controller.EntityView;
+import ooga.view.screens.StartScreen;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
