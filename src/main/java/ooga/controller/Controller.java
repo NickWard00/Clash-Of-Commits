@@ -49,8 +49,11 @@ public class Controller {
     private void parseData(String map) {
         MapParser mapParser = new MapParser(map);
         mapWrapper = mapParser.getMapWrapper();
+        mapWrapper.setStateToImageMap(mapParser.getStateToImageMap());
+
         EntityMapParser entityMapParser = new EntityMapParser("Entity_" + map);
         myEntities = entityMapParser.getEntities();
+
         setupEntityView();
     }
 

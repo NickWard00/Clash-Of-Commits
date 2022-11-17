@@ -35,7 +35,7 @@ public class OpenNewGameScreen {
         slots.setAlignment(Pos.CENTER);
         background.setAlignment(Pos.CENTER);
         background.getChildren().add(slots);
-        Scene s = new Scene(background, StartScreen.SCREEN_SIZE,StartScreen.SCREEN_SIZE );
+        Scene s = new Scene(background, StartScreen.SCREEN_SIZE, StartScreen.SCREEN_SIZE);
         handleEvents();
         s.getStylesheets().add(StartScreen.styles.getString("openNewGameCSS"));
         return s;
