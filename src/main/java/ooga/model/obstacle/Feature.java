@@ -11,6 +11,4 @@ public class Feature extends Obstacle {
   public Feature(Double x, Double y) {
     super(x, y, false, false, true);
   }
-
-
 }

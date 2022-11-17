@@ -30,12 +30,6 @@ public class DestroyableWall extends Wall {
     return this.onScreen;
   }
 
-
-  //TODO: Implement what happens when something hits this obstacle
-  public void block() {
-
-  }
-
   public void updateHP(int hpChange) {
     this.hp += hpChange;
     checkRemove();
