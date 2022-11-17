@@ -1,5 +1,6 @@
 package ooga.view;
 
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +29,7 @@ class BlockViewTest {
         String actualPath;
         String expectedPath;
         for(int i = 0; i<4; i++) {
-            blockView = new BlockView(0, 0, i, new StackPane());
+            blockView = new BlockView(0, 0, i, new GridPane());
             actualPath = blockView.getImagePath();
             expectedPath = "/blocks/" + expectedValues.get(i%4);
             //System.out.println(i + ": actual: "+ actualPath + " expected: " + expectedPath);

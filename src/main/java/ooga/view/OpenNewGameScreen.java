@@ -45,8 +45,9 @@ public class OpenNewGameScreen {
     public void handleEvents(){
         slot1.setOnMouseClicked(event -> {
             MainGameScreen mainGameScreen = new MainGameScreen();
-            stage.setScene(mainGameScreen.makeScene());
             mainGameScreen.startGamePlay();
+            stage.setScene(mainGameScreen.makeScene());
+
         });
         slot2.setOnMouseClicked(event -> {
 
