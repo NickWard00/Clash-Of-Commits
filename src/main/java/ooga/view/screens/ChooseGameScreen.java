@@ -48,9 +48,9 @@ public class ChooseGameScreen extends SceneCreator {
 
         });
         newGame.setOnAction(event->{
-            OpenNewGameScreen os = new OpenNewGameScreen(stage);
-            stage.setScene(os.makeScene());
-            stage.show();
+            //OpenNewGameScreen os = new OpenNewGameScreen(stage);
+            //stage.setScene(os.makeScene());
+            //stage.show();
         });
     }
 }

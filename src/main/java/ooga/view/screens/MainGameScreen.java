@@ -19,12 +19,9 @@ public class MainGameScreen extends SceneCreator {
     public MainGameScreen(){
         this.screenSize = getScreenSize();
     }
-    public void startGamePlay() {
+    public void startGamePlay(MapWrapper map) {
         isPlaying = true;
-        String mapName = "MainMap"; //for now!
-        mapParser = new MapParser(mapName);
-        mapWrapper = mapParser.getMapWrapper();
-        mapWrapper.setStateToImageMap(mapParser.getStateToImageMap());
+        this.mapWrapper = map;
         mapView = new MapView(mapWrapper);
     }
 

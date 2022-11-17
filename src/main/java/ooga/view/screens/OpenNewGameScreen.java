@@ -6,7 +6,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import ooga.controller.Controller;
 import ooga.view.GameSlot;
+import ooga.view.MapWrapper;
 
 import java.util.ResourceBundle;
 
@@ -20,12 +22,14 @@ public class OpenNewGameScreen extends SceneCreator {
     private ResourceBundle styles;
     private Stage stage;
     private int screenSize;
+    private Controller myController;
 
-    public OpenNewGameScreen(Stage stage){
+    public OpenNewGameScreen(Stage stage, Controller controller){
         this.stage = stage;
         labels = getLabels();
         styles = getStyles();
         screenSize = getScreenSize();
+        myController = controller;
     }
 
     @Override
@@ -48,8 +52,9 @@ public class OpenNewGameScreen extends SceneCreator {
     //parsing of files should occur here
     private void handleEvents(){
         slot1.setOnMouseClicked(event -> {
+            MapWrapper map = getMapWrapper("MainMap");
             MainGameScreen mainGameScreen = new MainGameScreen();
-            mainGameScreen.startGamePlay();
+            mainGameScreen.startGamePlay(map);
             stage.setScene(mainGameScreen.makeScene());
         });
         slot2.setOnMouseClicked(event -> {
@@ -58,5 +63,9 @@ public class OpenNewGameScreen extends SceneCreator {
         slot3.setOnMouseClicked(event -> {
 
         });
+    }
+
+    public MapWrapper getMapWrapper(String mapName){
+        return myController.getMapWrapper(mapName);
     }
 }
