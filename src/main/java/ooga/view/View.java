@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import ooga.controller.Controller;
 import ooga.controller.EntityView;
 import ooga.model.Entity;
 import ooga.view.screens.*;
@@ -19,14 +20,12 @@ public class View {
     private MapView mapView;
     private List<EntityView> entityViewList;
     private StartScreen startScreen;
+    private Controller myController;
 
-    public View(Stage stage){
+    public View(Stage stage, Controller controller){
         this.stage = stage;
-        this.startScreen = new StartScreen(stage);
-        OpenNewGameScreen openNewGameScreen = new OpenNewGameScreen(stage);
-        ChooseGameScreen chooseGameScreen = new ChooseGameScreen(stage);
-        OpenSaveScreen openSaveScreen = new OpenSaveScreen();
-        MainGameScreen mainGameScreen = new MainGameScreen();
+        this.startScreen = new StartScreen(stage, controller);
+        this.myController = controller;
         entityViewList = new ArrayList<>();
         setupGame(stage);
     }
@@ -35,11 +34,10 @@ public class View {
     }
 
     private void setupGame(Stage stage){
-        root = new BorderPane(); //later change to Root object ??? 
+        root = new BorderPane(); //later change to Root object ???
         scene = new Scene(root);
         scene.setOnKeyPressed(e->getKeyInput(e.getCode()));
-        stage.setScene(startScreen.makeScene());
-        stage.show();
+        changeScene("startScreen");
     }
 
     public void addEntity(Entity entity){
@@ -64,6 +62,11 @@ public class View {
                 }
             });
         }
+    }
+
+    private void changeScene(String sceneName){
+        ScreenSelector screenSelector = new ScreenSelector(stage, myController);
+        screenSelector.selectScreen(sceneName);
     }
 
     private void getKeyInput(KeyCode key){

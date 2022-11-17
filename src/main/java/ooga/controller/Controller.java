@@ -26,8 +26,7 @@ public class Controller {
     private boolean playingGame;
     private boolean choosingGame; //some sort of variable to control what is active at any given moment
     public Controller(Stage stage){
-        view = new View(stage);
-        initializeModel("MainMap");
+        view = new View(stage, this);
     }
 
     private void initializeModel(String mapName) {
@@ -65,7 +64,8 @@ public class Controller {
         });
     }
 
-    public MapWrapper getMapWrapper() {
+    public MapWrapper getMapWrapper(String mapName) {
+        initializeModel(mapName);
         return mapWrapper;
     }
 

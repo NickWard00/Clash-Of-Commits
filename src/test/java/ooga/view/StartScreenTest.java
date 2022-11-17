@@ -4,6 +4,7 @@ package ooga.view;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
+import ooga.controller.Controller;
 import ooga.view.screens.ChooseGameScreen;
 import ooga.view.screens.StartScreen;
 import org.junit.jupiter.api.Test;
@@ -19,8 +20,9 @@ class StartScreenTest extends DukeApplicationTest {
 
     @Override
     public void start(Stage stage) {
-        StartScreen ss = new StartScreen(stage);
-        ChooseGameScreen cgs = new ChooseGameScreen(stage);
+        Controller controller = new Controller(stage);
+        StartScreen ss = new StartScreen(stage, controller);
+        ChooseGameScreen cgs = new ChooseGameScreen(stage, controller);
         stage.setScene(ss.makeScene());
         stage.show();
         startGame = lookup("#startGame").query();
