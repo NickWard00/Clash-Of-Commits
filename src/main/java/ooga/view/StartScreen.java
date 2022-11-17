@@ -45,7 +45,7 @@ public class StartScreen {
 
     private HBox buttonRow;
 
-    private final Map<String, String> languageMap= Map.of(
+    private Map<String, String> languageMap= Map.of(
             labels.getString("eng"), "setEnglish",
             labels.getString("span"), "setSpanish",
             labels.getString("germ"),"setGerman",

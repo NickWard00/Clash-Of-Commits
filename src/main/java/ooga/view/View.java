@@ -33,6 +33,7 @@ public class View {
         scene.setOnKeyPressed(e->getKeyInput(e.getCode()));
         StartScreen startScreen = new StartScreen(stage);
         stage.setScene(startScreen.makeScene());
+        stage.show();
     }
 
     public void addEntity(Entity entity){

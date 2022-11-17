@@ -26,7 +26,7 @@ public class ChooseGameScreen {
     }
 
     public Scene makeScene(){
-        loadSave=new Button(labels.getString("loadSaveButton"));
+        loadSave = new Button(labels.getString("loadSaveButton"));
         newGame = new Button(labels.getString("startNewGameButton"));
         newGame.setId("newGame");
         background = new StackPane();
