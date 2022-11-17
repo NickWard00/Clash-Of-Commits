@@ -5,7 +5,7 @@ import javafx.scene.Scene;
 
 import java.util.ResourceBundle;
 
-public class SceneCreator {
+public abstract class SceneCreator {
     private static final ResourceBundle images = ResourceBundle.getBundle(
             "ResourceBundles.Images");
     private static final ResourceBundle constants = ResourceBundle.getBundle(

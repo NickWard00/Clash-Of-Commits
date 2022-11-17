@@ -34,11 +34,10 @@ public class View {
     }
 
     private void setupGame(Stage stage){
-        root = new BorderPane(); //later change to Root object ??? 
+        root = new BorderPane(); //later change to Root object ???
         scene = new Scene(root);
         scene.setOnKeyPressed(e->getKeyInput(e.getCode()));
-        stage.setScene(startScreen.makeScene());
-        stage.show();
+        changeScene("startScreen");
     }
 
     public void addEntity(Entity entity){
@@ -63,6 +62,11 @@ public class View {
                 }
             });
         }
+    }
+
+    private void changeScene(String sceneName){
+        ScreenSelector screenSelector = new ScreenSelector(stage, myController);
+        screenSelector.selectScreen(sceneName);
     }
 
     private void getKeyInput(KeyCode key){

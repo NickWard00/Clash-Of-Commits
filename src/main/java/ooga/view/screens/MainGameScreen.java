@@ -9,9 +9,7 @@ import ooga.view.MapWrapper;
 public class MainGameScreen extends SceneCreator {
     //TODO: refactor all "Screens" into subclasses of a screen superclass
     //TODO: refactor stackpane
-    private GridPane gameScreenPane;
     private MapWrapper mapWrapper;
-    private MapParser mapParser;
     private MapView mapView;
     private boolean isPlaying = false;
     private int screenSize;
@@ -19,6 +17,7 @@ public class MainGameScreen extends SceneCreator {
     public MainGameScreen(){
         this.screenSize = getScreenSize();
     }
+
     public void startGamePlay(MapWrapper map) {
         isPlaying = true;
         this.mapWrapper = map;

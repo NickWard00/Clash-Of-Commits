@@ -24,6 +24,7 @@ public class ScreenSelector {
         openNewGameScreen = new OpenNewGameScreen(stage, controller);
         winScreen = new WinScreen();
         loseScreen = new LoseScreen();
+        startScreen = new StartScreen(stage, controller);
     }
 
     public void selectScreen(String screenName) {
