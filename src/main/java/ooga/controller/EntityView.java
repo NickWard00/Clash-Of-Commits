@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 
 public class EntityView extends ImageView {
     private String entityName;
+    private String imagePath;
     private Image northSprite;
     private Image southSprite;
     private Image westSprite;
@@ -34,7 +35,8 @@ public class EntityView extends ImageView {
      */
     public EntityView(String imagePath, String direction, String entityName, double xPosition, double yPosition, int xSize, int ySize) {
         // Example: imagePath = "sprites/bug/", direction = "NORTH", so Image will be created with "sprites/bug/NORTH.gif"
-        super(new Image(String.format("%s%s.gif", imagePath, direction)));
+        super(new Image(String.format("%s%s.GIF", imagePath, direction.toUpperCase())));
+        this.imagePath = imagePath;
         setupSprites(imagePath);
         this.entityName = entityName;
         this.setX(xPosition);

@@ -38,8 +38,8 @@ public class View {
     public void addEntity(Entity entity){
         Map<String, String> entityAttributes = entity.getMyAttributes();
         String imageName = entityAttributes.get("Name");
-        double xPos = Double.parseDouble(entityAttributes.get("xPosition"));
-        double yPos = Double.parseDouble(entityAttributes.get("yPosition"));
+        double xPos = Double.parseDouble(entityAttributes.get("XPosition"));
+        double yPos = Double.parseDouble(entityAttributes.get("YPosition"));
         int size = Integer.parseInt(entityAttributes.get("Size"));
         String spriteLocation = entityAttributes.get("Sprites");
         String startingDirection = entityAttributes.get("Direction");
