@@ -4,10 +4,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 public class ChooseGameScreen {
     private Stage stage;
@@ -27,7 +29,7 @@ public class ChooseGameScreen {
         loadSave=new Button(labels.getString("loadSaveButton"));
         newGame = new Button(labels.getString("startNewGameButton"));
         newGame.setId("newGame");
-        background = new Pane();
+        background = new StackPane();
         VBox buttonCol = new VBox(loadSave,newGame);
         buttonCol.setId("buttonCol");
         buttonCol.setAlignment(Pos.CENTER);
