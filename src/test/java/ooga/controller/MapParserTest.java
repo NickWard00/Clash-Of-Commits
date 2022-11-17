@@ -16,6 +16,13 @@ class MapParserTest {
     }
 
     @Test
+    void testMapParserStateMap() {
+        MapParser mapParser = new MapParser("MainMap");
+        MapWrapper map = mapParser.getMapWrapper();
+        map.setStateToImageMap(mapParser.getStateToImageMap());
+    }
+
+    @Test
     void testMapParserError() {
         try {
             MapParser mapParser = new MapParser("noexistmap");

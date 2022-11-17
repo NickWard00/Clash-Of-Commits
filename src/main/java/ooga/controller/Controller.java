@@ -11,6 +11,7 @@ import ooga.view.MapWrapper;
 import ooga.view.View;
 
 import java.util.List;
+import java.util.Map;
 
 public class Controller {
     private Timeline animation;
@@ -49,7 +50,8 @@ public class Controller {
     private void parseData(String map) {
         MapParser mapParser = new MapParser(map);
         mapWrapper = mapParser.getMapWrapper();
-        mapWrapper.setStateToImageMap(mapParser.getStateToImageMap());
+        Map<Integer, String> stateToImageMap = mapParser.getStateToImageMap();
+        mapWrapper.setStateToImageMap(stateToImageMap);
 
         EntityMapParser entityMapParser = new EntityMapParser("Entity_" + map);
         myEntities = entityMapParser.getEntities();

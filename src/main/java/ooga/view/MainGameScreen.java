@@ -33,6 +33,7 @@ public class MainGameScreen {
         String mapName = "MainMap"; //for now!
         mapParser = new MapParser(mapName);
         mapWrapper = mapParser.getMapWrapper();
+        mapWrapper.setStateToImageMap(mapParser.getStateToImageMap());
         mapView = new MapView(mapWrapper);
     }
 
