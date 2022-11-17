@@ -19,9 +19,8 @@ public class BlockView {
     private static final String MAP_BLOCKS_PROPERTIES = "ResourceBundles.MapBlocks";
     private static ResourceBundle blockStates = ResourceBundle.getBundle(MAP_BLOCKS_PROPERTIES);
 
-    public BlockView(int x, int y, int state, GridPane root){
+    public BlockView(int x, int y, String imagePath, GridPane root){
         this.state = state %4; // for now mod 4 until we get more block images
-        imagePath = generateImagePath(state);
         imageView = new ImageView(new Image(imagePath));
         root.add(imageView, x, y);
        // root.getChildren().add(imageView);

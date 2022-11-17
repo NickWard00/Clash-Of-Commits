@@ -20,6 +20,7 @@ class MapViewTest {
         String mapName = "MainMap"; //for now!
         MapParser mapParser = new MapParser(mapName);
         MapWrapper mapWrapper = mapParser.getMapWrapper();
+        mapWrapper.setStateToImageMap(mapParser.getStateToImageMap());
         MapView mapView = new MapView(mapWrapper);
         mapView.createMap();
         int state;

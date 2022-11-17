@@ -8,6 +8,7 @@ class MainGameScreenTest {
     @Test
     void startGamePlayTest(){
         MainGameScreen mainGameScreen = new MainGameScreen();
+        mainGameScreen.startGamePlay();
         mainGameScreen.makeScene();
         mainGameScreen.startGamePlay();
         assertTrue(mainGameScreen.isPlaying());

@@ -17,9 +17,15 @@ public class View {
     private Stage stage;
     private MapView mapView;
     private List<EntityView> entityViewList;
+    private StartScreen startScreen;
 
     public View(Stage stage){
         this.stage = stage;
+        this.startScreen = new StartScreen(stage);
+        OpenNewGameScreen openNewGameScreen = new OpenNewGameScreen(stage);
+        ChooseGameScreen chooseGameScreen = new ChooseGameScreen(stage);
+        OpenSaveScreen openSaveScreen = new OpenSaveScreen(stage);
+        MainGameScreen mainGameScreen = new MainGameScreen();
         entityViewList = new ArrayList<>();
         setupGame(stage);
     }
@@ -31,7 +37,6 @@ public class View {
         root = new BorderPane(); //later change to Root object ??? 
         scene = new Scene(root);
         scene.setOnKeyPressed(e->getKeyInput(e.getCode()));
-        StartScreen startScreen = new StartScreen(stage);
         stage.setScene(startScreen.makeScene());
         stage.show();
     }

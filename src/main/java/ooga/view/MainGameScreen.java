@@ -13,7 +13,7 @@ import ooga.controller.MapParser;
 
 import java.util.ResourceBundle;
 
-public class MainGameScreen {
+public class MainGameScreen extends SceneCreator {
     //TODO: refactor all "Screens" into subclasses of a screen superclass
     //TODO: refactor stackpane
     private GridPane gameScreenPane;
@@ -21,27 +21,27 @@ public class MainGameScreen {
     private MapParser mapParser;
     private MapView mapView;
     private boolean isPlaying = false;
-    public static final ResourceBundle constants = ResourceBundle.getBundle(
-            "ResourceBundles.ViewConstants");
-    public static final int SCREEN_SIZE = Integer.parseInt(constants.getString("screenSize"));
+    private int screenSize;
 
     public MainGameScreen(){
-
+        this.screenSize = getScreenSize();
     }
     public void startGamePlay() {
         isPlaying = true;
         String mapName = "MainMap"; //for now!
         mapParser = new MapParser(mapName);
         mapWrapper = mapParser.getMapWrapper();
+        mapWrapper.setStateToImageMap(mapParser.getStateToImageMap());
         mapView = new MapView(mapWrapper);
     }
 
     //make new scene
+    @Override
     public Scene makeScene(){
        // gameScreenPane = new GridPane();
         //gameScreenPane.setPrefSize(SCREEN_SIZE, SCREEN_SIZE);
         //StackPane.setAlignment(gameScreenPane, Pos.CENTER);
-        Scene s = new Scene(mapView.createMap(), SCREEN_SIZE, SCREEN_SIZE);
+        Scene s = new Scene(mapView.createMap(), screenSize, screenSize);
         return s;
     }
     public boolean isPlaying(){

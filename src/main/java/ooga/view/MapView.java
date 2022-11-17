@@ -34,18 +34,14 @@ public class MapView {
         numRows = wrapper.getRowSize(0);
         numColumns = wrapper.getColumnSize();
         grid = new GridPane();
-        for(int row = 0; row < numRows; row++){
-            for(int col = 0; col < numColumns; col++){
+        for (int row = 0; row < numRows; row++){
+            for (int col = 0; col < numColumns; col++){
                 int state = wrapper.getState(row, col);
-                BlockView blockView = new BlockView(
-                        row,col, state, grid
-                );
+                String imagePath = wrapper.getImageFromState(state);
+
+                BlockView blockView = new BlockView(row, col, imagePath, grid);
             }
         }
         return grid;
-//        HARDCODED VERSION BEFORE MAP FILE READ IN:
-//        BlockView blockView = new BlockView(
-//                BLOCK_X_OFFSET, BLOCK_Y_OFFSET,0, stackPane
-//        );
     }
 }
