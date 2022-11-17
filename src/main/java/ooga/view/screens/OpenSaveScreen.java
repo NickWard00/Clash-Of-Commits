@@ -1,9 +1,11 @@
-package ooga.view;
+package ooga.view.screens;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import ooga.view.SaveSlot;
+import ooga.view.screens.SceneCreator;
 
 import java.util.ResourceBundle;
 
@@ -16,7 +18,7 @@ public class OpenSaveScreen extends SceneCreator {
     private ResourceBundle labels;
     private int screenSize;
 
-    public OpenSaveScreen(Stage stage){
+    public OpenSaveScreen(){
         this.labels = getLabels();
         this.screenSize = getScreenSize();
     }

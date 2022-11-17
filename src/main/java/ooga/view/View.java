@@ -6,6 +6,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import ooga.controller.EntityView;
 import ooga.model.Entity;
+import ooga.view.screens.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class View {
         this.startScreen = new StartScreen(stage);
         OpenNewGameScreen openNewGameScreen = new OpenNewGameScreen(stage);
         ChooseGameScreen chooseGameScreen = new ChooseGameScreen(stage);
-        OpenSaveScreen openSaveScreen = new OpenSaveScreen(stage);
+        OpenSaveScreen openSaveScreen = new OpenSaveScreen();
         MainGameScreen mainGameScreen = new MainGameScreen();
         entityViewList = new ArrayList<>();
         setupGame(stage);

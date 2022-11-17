@@ -4,6 +4,8 @@ package ooga.view;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
+import ooga.view.screens.ChooseGameScreen;
+import ooga.view.screens.StartScreen;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 import static org.junit.jupiter.api.Assertions.*;

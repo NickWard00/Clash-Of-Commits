@@ -1,4 +1,4 @@
-package ooga.view;
+package ooga.view.screens;
 
 import java.util.ResourceBundle;
 import javafx.scene.Group;

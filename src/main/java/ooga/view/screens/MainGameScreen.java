@@ -1,17 +1,10 @@
-package ooga.view;
+package ooga.view.screens;
 
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import ooga.controller.MapParser;
-
-import java.util.ResourceBundle;
+import ooga.view.MapView;
+import ooga.view.MapWrapper;
 
 public class MainGameScreen extends SceneCreator {
     //TODO: refactor all "Screens" into subclasses of a screen superclass
@@ -38,9 +31,9 @@ public class MainGameScreen extends SceneCreator {
     //make new scene
     @Override
     public Scene makeScene(){
-       // gameScreenPane = new GridPane();
-        //gameScreenPane.setPrefSize(SCREEN_SIZE, SCREEN_SIZE);
-        //StackPane.setAlignment(gameScreenPane, Pos.CENTER);
+        // gameScreenPane = new GridPane();
+        // gameScreenPane.setPrefSize(SCREEN_SIZE, SCREEN_SIZE);
+        // StackPane.setAlignment(gameScreenPane, Pos.CENTER);
         Scene s = new Scene(mapView.createMap(), screenSize, screenSize);
         return s;
     }
