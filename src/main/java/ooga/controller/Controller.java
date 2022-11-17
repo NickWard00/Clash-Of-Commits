@@ -29,6 +29,7 @@ public class Controller {
         // TODO: Change this so that maps can be chosen instead of hard coded here
         mapName = "MainMap";
         parseData(mapName);
+        setupEntityView();
         myModel = new Model(this);
     }
     public void startAnimation(){
@@ -50,6 +51,12 @@ public class Controller {
         myEntities = entityMapParser.getEntities();
     }
 
+    private void setupEntityView() {
+        myEntities.forEach(entity -> {
+            view.addEntity(entity);
+        });
+    }
+
     public MapWrapper getMapWrapper() {
         return mapWrapper;
     }
@@ -57,7 +64,4 @@ public class Controller {
     public List<Entity> getEntities() {
         return myEntities;
     }
-
-
-
 }
