@@ -11,20 +11,25 @@ import javafx.stage.Stage;
 import java.util.ResourceBundle;
 import java.util.Stack;
 
-public class ChooseGameScreen {
+public class ChooseGameScreen extends SceneCreator {
     private Stage stage;
     private Pane background;
 
     private Button loadSave;
     private Button newGame;
     private ResourceBundle labels;
+    private ResourceBundle styles;
+    private int screenSize;
 
 
-    public ChooseGameScreen(Stage s, ResourceBundle l){
-        stage = s;
-        labels = l;
+    public ChooseGameScreen(Stage stage){
+        this.stage = stage;
+        this.labels = getLabels();
+        this.styles = getStyles();
+        this.screenSize = getScreenSize();
     }
 
+    @Override
     public Scene makeScene(){
         loadSave = new Button(labels.getString("loadSaveButton"));
         newGame = new Button(labels.getString("startNewGameButton"));
@@ -35,8 +40,8 @@ public class ChooseGameScreen {
         buttonCol.setAlignment(Pos.CENTER);
         background.getChildren().add(buttonCol);
         handleEvents();
-        Scene s = new Scene(background, StartScreen.SCREEN_SIZE, StartScreen.SCREEN_SIZE);
-        s.getStylesheets().add(StartScreen.styles.getString("chooseGameCSS"));
+        Scene s = new Scene(background, screenSize, screenSize);
+        s.getStylesheets().add(styles.getString("chooseGameCSS"));
         return s;
     }
 
@@ -45,7 +50,7 @@ public class ChooseGameScreen {
 
         });
         newGame.setOnAction(event->{
-            OpenNewGameScreen os = new OpenNewGameScreen(labels, stage);
+            OpenNewGameScreen os = new OpenNewGameScreen(stage);
             stage.setScene(os.makeScene());
             stage.show();
         });

@@ -11,18 +11,21 @@ import javafx.stage.Stage;
 import java.util.ResourceBundle;
 
 //this screen is for when a player wishes to start a brand new game.
-public class OpenNewGameScreen {
-
+public class OpenNewGameScreen extends SceneCreator {
     private GameSlot slot1;
     private GameSlot slot2;
     private GameSlot slot3;
     private StackPane background;
     private ResourceBundle labels;
+    private ResourceBundle styles;
     private Stage stage;
+    private int screenSize;
 
-    public OpenNewGameScreen(ResourceBundle l, Stage stage){
+    public OpenNewGameScreen(Stage stage){
         this.stage = stage;
-        labels = l;
+        labels = getLabels();
+        styles = getStyles();
+        screenSize = getScreenSize();
     }
 
     public Scene makeScene(){
@@ -35,9 +38,9 @@ public class OpenNewGameScreen {
         slots.setAlignment(Pos.CENTER);
         background.setAlignment(Pos.CENTER);
         background.getChildren().add(slots);
-        Scene s = new Scene(background, StartScreen.SCREEN_SIZE, StartScreen.SCREEN_SIZE);
+        Scene s = new Scene(background, screenSize, screenSize);
         handleEvents();
-        s.getStylesheets().add(StartScreen.styles.getString("openNewGameCSS"));
+        s.getStylesheets().add(styles.getString("openNewGameCSS"));
         return s;
     }
 

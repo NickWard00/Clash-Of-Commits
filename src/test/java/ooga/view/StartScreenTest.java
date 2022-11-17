@@ -18,7 +18,7 @@ class StartScreenTest extends DukeApplicationTest {
     @Override
     public void start(Stage stage) {
         StartScreen ss = new StartScreen(stage);
-        ChooseGameScreen cgs = new ChooseGameScreen(stage,ss.getLabels());
+        ChooseGameScreen cgs = new ChooseGameScreen(stage);
         stage.setScene(ss.makeScene());
         stage.show();
         startGame = lookup("#startGame").query();
@@ -43,7 +43,7 @@ class StartScreenTest extends DukeApplicationTest {
     @Test
     void testSelectGerman() {
         String language = "Deutsch";
-        select(languageSelector,language);
+        select(languageSelector, language);
         clickOn(startGame);
         newGame = lookup("#newGame").query();
         assertText("Neues Spiel", newGame.getText());
@@ -52,7 +52,7 @@ class StartScreenTest extends DukeApplicationTest {
     @Test
     void testSelectSimlish() {
         String language = "Simlish";
-        select(languageSelector,language);
+        select(languageSelector, language);
         clickOn(startGame);
         newGame = lookup("#newGame").query();
         assertText("New Game", newGame.getText());
