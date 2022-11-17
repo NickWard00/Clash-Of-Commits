@@ -23,7 +23,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage){
         Controller controller = new Controller(stage);
-        //controller.startAnimation();
+        controller.startAnimation();
     }
 
     public static void main (String[] args) {

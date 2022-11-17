@@ -2,11 +2,13 @@ package ooga.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MapWrapper {
   private int row = 0;
   private int column = 0;
   private List<List<Integer>> grid;
+  private Map<Integer, String> stateImageMap;
 
   /**
    * Constructor for MapWrapper
@@ -96,5 +98,13 @@ public class MapWrapper {
    */
   public int getRowSize(int row) {
     return grid.get(row).size();
+  }
+
+  public void setStateToImageMap(Map<Integer, String> map) {
+    stateImageMap = map;
+  }
+
+  public void getImageFromState(int state) {
+
   }
 }
