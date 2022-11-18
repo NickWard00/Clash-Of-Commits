@@ -7,9 +7,9 @@ import java.util.Map;
 
 public enum DirectionState {
 
-    NORTH("NORTH", 0, 1),
+    NORTH("NORTH", 0, -1),
     EAST("EAST", 1, 0),
-    SOUTH("SOUTH", 0, -1),
+    SOUTH("SOUTH", 0, 1),
     WEST("WEST", -1, 0);
 
     private String direction;
