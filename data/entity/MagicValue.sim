@@ -2,7 +2,7 @@
 Type=Enemy
 Sprites=sprites/magicValue/
 Speed=50
-Size=20
+Size=30
 HP=100
 Attack=LongRange
 Direction=SOUTH
