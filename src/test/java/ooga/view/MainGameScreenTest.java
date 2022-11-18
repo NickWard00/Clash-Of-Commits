@@ -14,9 +14,9 @@ class MainGameScreenTest {
         map.setStateToImageMap(mapParser.getStateToImageMap());
 
         MainGameScreen mainGameScreen = new MainGameScreen();
-        mainGameScreen.startGamePlay(map);
+        mainGameScreen.startGamePlay(map, null);
         mainGameScreen.makeScene();
-        mainGameScreen.startGamePlay(map);
+        mainGameScreen.startGamePlay(map, null);
         assertTrue(mainGameScreen.isPlaying());
     }
     @Test
@@ -28,7 +28,7 @@ class MainGameScreenTest {
 
         try{
             mainGameScreen.makeScene();
-            mainGameScreen.startGamePlay(map);
+            mainGameScreen.startGamePlay(map, null);
         }catch(NullPointerException | IllegalStateException | IndexOutOfBoundsException e){
             e.printStackTrace();
         }catch(Exception e){

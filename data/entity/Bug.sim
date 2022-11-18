@@ -2,7 +2,7 @@
 Type=Enemy
 Sprites=/sprites/bug/
 Speed=5
-Size=20
+Size=25
 HP=100
 Attack=ShortRange
 Direction=SOUTH

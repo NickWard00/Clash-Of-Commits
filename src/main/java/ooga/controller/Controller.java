@@ -10,6 +10,7 @@ import ooga.model.hitBox.HitBox;
 import ooga.view.MapWrapper;
 import ooga.view.View;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,14 +24,17 @@ public class Controller {
     private static final double FRAMES_PER_SECOND = 60;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     private Model myModel;
+    private List<EntityView> entityViewList;
     private boolean playingGame;
     private boolean choosingGame; //some sort of variable to control what is active at any given moment
-    public Controller(Stage stage){
+    public Controller(Stage stage, String mapName){
+        this.mapName = mapName;
+        entityViewList = new ArrayList<>();
+        initializeModel(mapName);
         view = new View(stage, this);
     }
 
     private void initializeModel(String mapName) {
-        this.mapName = mapName;
         parseData(mapName);
         myModel = new Model(this);
     }
@@ -60,12 +64,39 @@ public class Controller {
 
     private void setupEntityView() {
         myEntities.forEach(entity -> {
-            view.addEntity(entity);
+            addEntity(entity);
         });
     }
 
-    public MapWrapper getMapWrapper(String mapName) {
-        initializeModel(mapName);
+    private void addEntity(Entity entity){
+        Map<String, String> entityAttributes = entity.getMyAttributes();
+        String imageName = entityAttributes.get("Name");
+        double xPos = Double.parseDouble(entityAttributes.get("XPosition"));
+        double yPos = Double.parseDouble(entityAttributes.get("YPosition"));
+        int size = Integer.parseInt(entityAttributes.get("Size"));
+        String spriteLocation = entityAttributes.get("Sprites");
+        String startingDirection = entityAttributes.get("Direction");
+        EntityView entityView = new EntityView(spriteLocation, startingDirection, imageName, xPos, yPos, size, size);
+
+        entityViewList.add(entityView);
+    }
+
+    public List<EntityView> getEntityViewList(){
+        return entityViewList;
+    }
+
+    private void removeEntity(Entity entity){
+        String entityName = entity.getMyAttributes().get("Name");
+        if (!entityViewList.isEmpty()) {
+            entityViewList.forEach(entityView -> {
+                if (entityView.getEntityName().equals(entityName)) {
+                    entityViewList.remove(entityView);
+                }
+            });
+        }
+    }
+
+    public MapWrapper getMapWrapper() {
         return mapWrapper;
     }
 

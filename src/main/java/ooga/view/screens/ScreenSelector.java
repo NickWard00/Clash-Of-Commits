@@ -17,14 +17,14 @@ public class ScreenSelector {
     private LoseScreen loseScreen;
     private Stage myStage;
 
-    public ScreenSelector(Stage stage, Controller controller) {
+    public ScreenSelector(Stage stage) {
         myStage = stage;
         mainGameScreen = new MainGameScreen();
         openSaveScreen = new OpenSaveScreen();
-        openNewGameScreen = new OpenNewGameScreen(stage, controller);
+        openNewGameScreen = new OpenNewGameScreen(stage);
         winScreen = new WinScreen();
         loseScreen = new LoseScreen();
-        startScreen = new StartScreen(stage, controller);
+        startScreen = new StartScreen(stage);
     }
 
     public void selectScreen(String screenName) {

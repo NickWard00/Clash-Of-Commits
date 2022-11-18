@@ -24,8 +24,7 @@ class EntityViewTest extends DukeApplicationTest {
 
     @Override
     public void start(Stage stage) {
-        Controller controller = new Controller(stage);
-        StartScreen ss = new StartScreen(stage, controller);
+        StartScreen ss = new StartScreen(stage);
         stage.setScene(ss.makeScene());
 
         entityAttributes = Map.of("Name", "Hero1", "XPosition", "50", "YPosition", "103", "Size", "20", "Sprites", "/sprites/hero/", "Direction", "SOUTH");

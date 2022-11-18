@@ -36,10 +36,8 @@ public class StartScreen extends SceneCreator {
     private ResourceBundle styles;
     private int screenSize;
     private Map<String, String> languageMap;
-    private Controller myController;
 
-    public StartScreen(Stage stage, Controller controller) {
-        this.myController = controller;
+    public StartScreen(Stage stage) {
         this.currentStage = stage;
         this.labels = getLabels();
         this.images = getImages();
@@ -79,8 +77,8 @@ public class StartScreen extends SceneCreator {
     }
 
     //moves to the next screen of the game
-    public void nextScreen(Controller controller){
-        ChooseGameScreen c = new ChooseGameScreen(currentStage, controller);
+    public void nextScreen(){
+        ChooseGameScreen c = new ChooseGameScreen(currentStage);
         currentStage.setScene(c.makeScene());
         currentStage.show();
     }
@@ -113,7 +111,7 @@ public class StartScreen extends SceneCreator {
     //handles the changing of languages using the selector and the clicking of the start button
     public void handleEvents(){
         startGame.setOnAction(event -> {
-            nextScreen(myController);
+            nextScreen();
         });
         languageSelector.setOnAction(event -> {
             try {
