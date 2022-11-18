@@ -2,6 +2,7 @@ package ooga.controller;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import ooga.model.state.DirectionState;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -45,8 +46,8 @@ public class EntityView extends ImageView {
         this.setFitHeight(ySize);
     }
 
-    public void updateSprite(String direction) {
-        String spriteDirection = direction.toUpperCase();
+    public void changeDirection(DirectionState newDirection) {
+        String spriteDirection = newDirection.getDirection();
         try {
             this.getClass().getDeclaredMethod(String.format("set%sSprite", spriteDirection)).invoke(this);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
