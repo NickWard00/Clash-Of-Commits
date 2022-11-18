@@ -7,7 +7,8 @@ import java.util.Map;
 
 public enum DirectionState {
 
-    NORTH("NORTH", 0, 1) {
+
+    NORTH("NORTH", 0, -1) {
         @Override
         public DirectionState oppositeDirection() { return SOUTH; }
     },
@@ -15,7 +16,7 @@ public enum DirectionState {
         @Override
         public DirectionState oppositeDirection() { return WEST; }
     },
-    SOUTH("SOUTH", 0, -1) {
+    SOUTH("SOUTH", 0, 1) {
         @Override
         public DirectionState oppositeDirection() { return NORTH; }
     },

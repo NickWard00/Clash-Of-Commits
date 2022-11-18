@@ -1,7 +1,7 @@
 # This is where the Main hero attributes are defined
 Type=Hero
 Sprites=/sprites/hero/
-Speed=10
+Speed=100
 Size=25
 HP=100
 Attack=ShortRange
