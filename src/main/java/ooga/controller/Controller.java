@@ -50,6 +50,16 @@ public class Controller {
 
     private void step(double elapsedTime) {
         view.step(elapsedTime);
+        updateEntityPosition();
+    }
+
+    private void updateEntityPosition() {
+        for (String entityName : myModelEntities.keySet()) {
+            Entity modelEntity = myModelEntities.get(entityName);
+            EntityView viewEntity = myViewEntities.get(entityName);
+            viewEntity.setX(modelEntity.coordinates().get(0));
+            viewEntity.setY(modelEntity.coordinates().get(1));
+        }
     }
 
     private void parseData(String map) {

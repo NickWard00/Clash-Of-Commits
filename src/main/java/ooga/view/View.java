@@ -25,7 +25,6 @@ public class View {
         setupGame(stage);
     }
     public void step(double elapsedTime){
-
     }
 
     private void setupGame(Stage stage){
