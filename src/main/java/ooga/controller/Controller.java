@@ -67,6 +67,7 @@ public class Controller {
         mapWrapper = mapParser.getMapWrapper();
         Map<Integer, String> stateToImageMap = mapParser.getStateToImageMap();
         mapWrapper.setStateToImageMap(stateToImageMap);
+        mapWrapper.setVisualProperties(mapParser.getMapProperties());
 
         EntityMapParser entityMapParser = new EntityMapParser("Entity_" + map);
         myModelEntities = entityMapParser.getEntities();

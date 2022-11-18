@@ -9,7 +9,8 @@ public class MapWrapper {
   private int row = 0;
   private int column = 0;
   private List<List<Integer>> grid;
-  private Map<Integer, String> stateImageMap = new HashMap<>();
+  private Map<Integer, String> stateImageMap;
+  private List<Double> visualProperties;
 
   /**
    * Constructor for MapWrapper
@@ -19,6 +20,8 @@ public class MapWrapper {
   public MapWrapper(int row, int column) {
     this.row = row;
     this.column = column;
+    this.stateImageMap = new HashMap<>();
+    this.visualProperties = new ArrayList<>();
 
     grid = new ArrayList<>();
     for (int i = 0; i < this.row; i++) {
@@ -35,6 +38,7 @@ public class MapWrapper {
    */
   public MapWrapper() {
     this.stateImageMap = new HashMap<>();
+    this.visualProperties = new ArrayList<>();
     grid = new ArrayList<>();
   }
 
@@ -49,9 +53,8 @@ public class MapWrapper {
     try{
       ret = grid.get(row).get(column);
     }
-    catch(Exception e) { //CURRENTLY CATCHING BECAUSE CSV ISNT BEING READ CORRECTLY
-//      System.out.println("out of bounds? ");
-//      System.out.println("row: "+row+" column: "+column);
+    catch(IllegalStateException e) {
+      throw new IllegalStateException("Invalid row or column");
     }
     return ret;
   }
@@ -100,6 +103,14 @@ public class MapWrapper {
    */
   public int getRowSize(int row) {
     return grid.get(row).size();
+  }
+
+  public void setVisualProperties(List<Double> visualProperties) {
+    this.visualProperties = visualProperties;
+  }
+
+  public List<Double> getVisualProperties() {
+    return visualProperties;
   }
 
   public void setStateToImageMap(Map<Integer, String> map) {
