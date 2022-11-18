@@ -11,6 +11,8 @@ import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
 import ooga.view.screens.*;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +23,13 @@ public class View {
     private Controller myController;
     private Map<String, EntityView> myViewEntities;
     private Map<String, Entity> myModelEntities;
+
+    private Map<KeyCode, String> actions = Map.of(
+            KeyCode.UP, "moveUp",
+            KeyCode.DOWN, "moveDown",
+            KeyCode.RIGHT, "moveRight",
+            KeyCode.LEFT, "moveLeft"
+    );
 
     public View(Stage stage, Controller controller){
         this.stage = stage;
@@ -37,8 +46,7 @@ public class View {
         MainGameScreen mainGameScreen = new MainGameScreen();
         mainGameScreen.startGamePlay(myController.getMapWrapper(), myViewEntities);
         myScene = mainGameScreen.makeScene();
-        myScene.setOnKeyPressed(e->keyPressedInput(e.getCode()));
-        myScene.setOnKeyReleased(e->keyReleasedInput(e.getCode()));
+        handleKeyInputs();
         stage.setScene(myScene);
     }
 
@@ -47,33 +55,43 @@ public class View {
         screenSelector.selectScreen(sceneName);
     }
 
-    private void keyPressedInput(KeyCode key){
-        if (key == KeyCode.UP){
-            myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
-            myModelEntities.get("Hero1").changeDirection(DirectionState.NORTH);
-            myViewEntities.get("Hero1").changeDirection(DirectionState.NORTH);
-        }
-        else if (key == KeyCode.DOWN){
-            myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
-            myModelEntities.get("Hero1").changeDirection(DirectionState.SOUTH);
-            myViewEntities.get("Hero1").changeDirection(DirectionState.SOUTH);
-        }
-        else if (key == KeyCode.LEFT){
-            myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
-            myModelEntities.get("Hero1").changeDirection(DirectionState.WEST);
-            myViewEntities.get("Hero1").changeDirection(DirectionState.WEST);
-        }
-        else if (key == KeyCode.RIGHT){
-            myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
-            myModelEntities.get("Hero1").changeDirection(DirectionState.EAST);
-            myViewEntities.get("Hero1").changeDirection(DirectionState.EAST);
-        }
+    private void handleKeyInputs(){
+        myScene.setOnKeyPressed(event ->{
+            try {
+                Method currentAction = this.getClass().getDeclaredMethod(
+                        actions.get(event.getCode()));
+                currentAction.invoke(this);
+
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        myScene.setOnKeyReleased(event ->{
+            myModelEntities.get("Hero1").changeMovement(MovementState.STATIONARY);
+        });
     }
 
-    private void keyReleasedInput(KeyCode key) {
-        if (key == KeyCode.UP || key == KeyCode.DOWN || key == KeyCode.LEFT || key == KeyCode.RIGHT) {
-            myModelEntities.get("Hero1").changeMovement(MovementState.STATIONARY);
-        }
+    private void moveUp() {
+        myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
+        myModelEntities.get("Hero1").changeDirection(DirectionState.NORTH);
+        myViewEntities.get("Hero1").changeDirection(DirectionState.NORTH);
+    }
+
+    private void moveDown() {
+        myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
+        myModelEntities.get("Hero1").changeDirection(DirectionState.SOUTH);
+        myViewEntities.get("Hero1").changeDirection(DirectionState.SOUTH);
+    }
+
+    private void moveLeft(){
+        myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
+        myModelEntities.get("Hero1").changeDirection(DirectionState.WEST);
+        myViewEntities.get("Hero1").changeDirection(DirectionState.WEST);
+    }
+    private void moveRight(){
+        myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
+        myModelEntities.get("Hero1").changeDirection(DirectionState.EAST);
+        myViewEntities.get("Hero1").changeDirection(DirectionState.EAST);
     }
 
 }
