@@ -4,8 +4,15 @@ package ooga;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ooga.controller.AttackParser;
+import ooga.controller.CollisionHandler;
 import ooga.controller.Controller;
+import ooga.controller.EntityParser;
+import ooga.model.Entity;
+import ooga.model.attack.Attack;
+import ooga.model.hero.MainHero;
 import ooga.view.screens.StartScreen;
+
 
 /**
  * Feel free to completely change this code or delete it entirely. 

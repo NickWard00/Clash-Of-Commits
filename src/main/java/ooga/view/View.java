@@ -37,7 +37,8 @@ public class View {
         MainGameScreen mainGameScreen = new MainGameScreen();
         mainGameScreen.startGamePlay(myController.getMapWrapper(), myViewEntities);
         myScene = mainGameScreen.makeScene();
-        myScene.setOnKeyPressed(e->getKeyInput(e.getCode()));
+        myScene.setOnKeyPressed(e->keyPressedInput(e.getCode()));
+        myScene.setOnKeyReleased(e->keyReleasedInput(e.getCode()));
         stage.setScene(myScene);
     }
 
@@ -46,7 +47,7 @@ public class View {
         screenSelector.selectScreen(sceneName);
     }
 
-    private void getKeyInput(KeyCode key){
+    private void keyPressedInput(KeyCode key){
         if (key == KeyCode.UP){
             myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
             myModelEntities.get("Hero1").changeDirection(DirectionState.NORTH);
@@ -67,7 +68,12 @@ public class View {
             myModelEntities.get("Hero1").changeDirection(DirectionState.EAST);
             myViewEntities.get("Hero1").changeDirection(DirectionState.EAST);
         }
+    }
 
+    private void keyReleasedInput(KeyCode key) {
+        if (key == KeyCode.UP || key == KeyCode.DOWN || key == KeyCode.LEFT || key == KeyCode.RIGHT) {
+            myModelEntities.get("Hero1").changeMovement(MovementState.STATIONARY);
+        }
     }
 
 }
