@@ -11,6 +11,7 @@ import ooga.view.MapWrapper;
 import ooga.view.View;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,18 +19,19 @@ public class Controller {
     private Timeline animation;
     private View view;
     private MapWrapper mapWrapper;
-    private List<Entity> myEntities;
+
     private List<HitBox> myHitBoxes;
     private String mapName;
     private static final double FRAMES_PER_SECOND = 60;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     private Model myModel;
-    private List<EntityView> entityViewList;
+    private Map<String, EntityView> myViewEntities;
+    private Map<String, Entity> myModelEntities;
     private boolean playingGame;
     private boolean choosingGame; //some sort of variable to control what is active at any given moment
     public Controller(Stage stage, String mapName){
         this.mapName = mapName;
-        entityViewList = new ArrayList<>();
+        myViewEntities = new HashMap<>();
         initializeModel(mapName);
         view = new View(stage, this);
     }
@@ -57,18 +59,18 @@ public class Controller {
         mapWrapper.setStateToImageMap(stateToImageMap);
 
         EntityMapParser entityMapParser = new EntityMapParser("Entity_" + map);
-        myEntities = entityMapParser.getEntities();
+        myModelEntities = entityMapParser.getEntities();
 
-        setupEntityView();
+        setupViewEntities();
     }
 
-    private void setupEntityView() {
-        myEntities.forEach(entity -> {
-            addEntity(entity);
+    private void setupViewEntities() {
+        myModelEntities.forEach((key, value) -> {
+            myViewEntities.put(key, createViewEntity(value));
         });
     }
 
-    private void addEntity(Entity entity){
+    private EntityView createViewEntity(Entity entity){
         Map<String, String> entityAttributes = entity.getMyAttributes();
         String imageName = entityAttributes.get("Name");
         double xPos = Double.parseDouble(entityAttributes.get("XPosition"));
@@ -76,31 +78,23 @@ public class Controller {
         int size = Integer.parseInt(entityAttributes.get("Size"));
         String spriteLocation = entityAttributes.get("Sprites");
         String startingDirection = entityAttributes.get("Direction");
-        EntityView entityView = new EntityView(spriteLocation, startingDirection, imageName, xPos, yPos, size, size);
-
-        entityViewList.add(entityView);
+        return new EntityView(spriteLocation, startingDirection, imageName, xPos, yPos, size, size);
     }
 
-    public List<EntityView> getEntityViewList(){
-        return entityViewList;
+    public Map<String, EntityView> getViewEntities(){
+        return myViewEntities;
     }
 
-    private void removeEntity(Entity entity){
-        String entityName = entity.getMyAttributes().get("Name");
-        if (!entityViewList.isEmpty()) {
-            entityViewList.forEach(entityView -> {
-                if (entityView.getEntityName().equals(entityName)) {
-                    entityViewList.remove(entityView);
-                }
-            });
-        }
+    private void removeEntity(String entityName){
+        myModelEntities.remove(entityName);
+        myViewEntities.remove(entityName);
     }
 
     public MapWrapper getMapWrapper() {
         return mapWrapper;
     }
 
-    public List<Entity> getEntities() {
-        return myEntities;
+    public Map<String, Entity> getModelEntities() {
+        return myModelEntities;
     }
 }

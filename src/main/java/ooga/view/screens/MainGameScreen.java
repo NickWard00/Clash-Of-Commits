@@ -9,6 +9,7 @@ import ooga.view.MapView;
 import ooga.view.MapWrapper;
 
 import java.util.List;
+import java.util.Map;
 
 public class MainGameScreen extends SceneCreator {
     //TODO: refactor all "Screens" into subclasses of a screen superclass
@@ -17,17 +18,18 @@ public class MainGameScreen extends SceneCreator {
     private MapView mapView;
     private boolean isPlaying = false;
     private int screenSize;
-    private List<EntityView> myEntities;
+    private Map<String, EntityView> myViewEntities;
+    private Group root;
 
     public MainGameScreen(){
         this.screenSize = getScreenSize();
     }
 
-    public void startGamePlay(MapWrapper map, List<EntityView> entities) {
+    public void startGamePlay(MapWrapper map, Map<String, EntityView> entities) {
         isPlaying = true;
         this.mapWrapper = map;
         mapView = new MapView(mapWrapper);
-        myEntities = entities;
+        myViewEntities = entities;
     }
 
     //make new scene
@@ -36,14 +38,19 @@ public class MainGameScreen extends SceneCreator {
         // gameScreenPane = new GridPane();
         // gameScreenPane.setPrefSize(SCREEN_SIZE, SCREEN_SIZE);
         // StackPane.setAlignment(gameScreenPane, Pos.CENTER);
-        Group root = new Group();
+        root = new Group();
         root.getChildren().add(mapView.createMap());
-        for (EntityView entity : myEntities) {
+        for (EntityView entity : myViewEntities.values()) {
             root.getChildren().add(entity);
         }
         Scene s = new Scene(root, screenSize, screenSize);
         return s;
     }
+
+    public void removeEntityFromScene(String entityName){
+        root.getChildren().remove(myViewEntities.get(entityName));
+    }
+
     public boolean isPlaying(){
         return isPlaying;
     }
