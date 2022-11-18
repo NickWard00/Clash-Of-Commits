@@ -13,7 +13,9 @@ public class ShortRange extends Attack {
      * @param entity the entity that initiated this attack
      * @param attributes map of the attributes (speed, damage, cool down, etc.) for this entity's designated attack
      */
-    public ShortRange(Entity entity, Map<String, Double> attributes) { super(entity, attributes); }
+    public ShortRange(Entity entity, Map<String, Double> attributes) {
+        super(entity, attributes);
+    }
 
     public void activateAttack() {
         System.out.println("SHORT RANGE ATTACK");

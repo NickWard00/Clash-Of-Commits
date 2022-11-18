@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.EntityView;
 import ooga.model.Entity;
+import ooga.model.attack.Attack;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
 import ooga.view.screens.*;
