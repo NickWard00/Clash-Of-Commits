@@ -15,11 +15,9 @@ import java.util.Map;
 
 public class View {
     private Scene myScene;
-    private BorderPane root;
     private Stage stage;
-    private MapView mapView;
-    private StartScreen startScreen;
     private Controller myController;
+    private Map<String, EntityView> myViewEntities;
 
     public View(Stage stage, Controller controller){
         this.stage = stage;
@@ -27,12 +25,12 @@ public class View {
         setupGame(stage);
     }
     public void step(double elapsedTime){
-
     }
 
     private void setupGame(Stage stage){
+        myViewEntities = myController.getViewEntities();
         MainGameScreen mainGameScreen = new MainGameScreen();
-        mainGameScreen.startGamePlay(myController.getMapWrapper(), myController.getEntityViewList());
+        mainGameScreen.startGamePlay(myController.getMapWrapper(), myViewEntities);
         myScene = mainGameScreen.makeScene();
         myScene.setOnKeyPressed(e->getKeyInput(e.getCode()));
         stage.setScene(myScene);
@@ -46,16 +44,12 @@ public class View {
     private void getKeyInput(KeyCode key){
         switch(key){
             case LEFT -> {
-                mapView.moveRight();
             }
             case RIGHT -> {
-                mapView.moveLeft();
             }
             case DOWN -> {
-                mapView.moveUp();
             }
             case UP -> {
-                mapView.moveDown();
             }
         }
     }

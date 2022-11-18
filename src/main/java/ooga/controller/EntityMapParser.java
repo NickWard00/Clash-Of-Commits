@@ -3,14 +3,11 @@ package ooga.controller;
 import ooga.model.Entity;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 public class EntityMapParser {
     private Properties properties;
-    private List<Entity> entities;
+    private Map<String, Entity> entities;
     private static final String ENTITY_PACKAGE = "ooga.model.%s.%s";
     private static final String ENTITY_MAP_DIRECTORY = "data/%s.sim";
 
@@ -19,14 +16,14 @@ public class EntityMapParser {
      * @param entityMap
      */
     public EntityMapParser(String entityMap) throws IllegalStateException {
-        entities = new ArrayList<>();
+        entities = new HashMap<>();
         GeneralParser simParser = new GeneralParser();
         properties = simParser.getSimData(String.format(ENTITY_MAP_DIRECTORY, entityMap));
         properties.entrySet().forEach(entry->{
             String entityName = (String) entry.getKey();
             String[] entityDataArray = ((String) entry.getValue()).replaceAll("\\s+","").split(",");
             EntityParser entityParser = new EntityParser(entityName, entityDataArray);
-            entities.add(createEntityInstance(entityParser.getAttributeMap()));
+            entities.put(entityName, createEntityInstance(entityParser.getAttributeMap()));
         });
     }
 
@@ -52,7 +49,7 @@ public class EntityMapParser {
     /**
      * Returns the list of entities
      */
-    public List<Entity> getEntities() {
+    public Map<String, Entity> getEntities() {
         return entities;
     }
 }
