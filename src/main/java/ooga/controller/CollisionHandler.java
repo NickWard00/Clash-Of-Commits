@@ -2,12 +2,12 @@ package ooga.controller;
 
 
 import ooga.model.Collision;
+import ooga.model.Entity;
 import ooga.model.attack.Attack;
+import ooga.model.obstacle.Obstacle;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class CollisionHandler {
 
@@ -16,16 +16,26 @@ public class CollisionHandler {
 
 
     public static void handleCollision(Object object1, Object object2) {
-        // TODO: find a better/cleaner way to implement this without using if's
+        Map<Class, Integer> indexMap = Map.of(Attack.class, 0, Entity.class, 1, Obstacle.class, 2);
         try {
-            Class class1 = object1.getClass().getSuperclass();
-            Class class2 = object2.getClass().getSuperclass();
-            if (class1 != Attack.class) { class1 = class1.getSuperclass(); }
-            if (class2 != Attack.class) { class2 = class2.getSuperclass(); }
-            Set<Class> classes = new HashSet<>(Arrays.asList(class1, class2));
-            Collision collision = Collision.class.getConstructor(class1, class2).newInstance(object1, object2);
+            Class class1 = getCorrectClassForCollision(object1);
+            Class class2 = getCorrectClassForCollision(object2);
+            Map<Object, Class> myClassCategory = Map.of(object1, class1, object2, class2);
+            List<Object> myObjects = Arrays.asList(object1, object2);
+            myObjects.sort(Comparator.comparing((Object o) -> indexMap.get(myClassCategory.get(o))));
+            Collision.class.getConstructor(
+                    myClassCategory.get(myObjects.get(0)), myClassCategory.get(myObjects.get(1))).newInstance(myObjects.get(0), myObjects.get(1));
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
+
+    private static Class getCorrectClassForCollision(Object object) {
+        Class myClass = object.getClass().getSuperclass();
+        if (myClass != Attack.class) {
+            myClass = myClass.getSuperclass();
+        }
+        return myClass;
+    }
+
 }
