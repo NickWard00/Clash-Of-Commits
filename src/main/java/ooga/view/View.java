@@ -75,8 +75,8 @@ public class View {
         myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
         myModelEntities.get("Hero1").changeDirection(DirectionState.NORTH);
         myViewEntities.get("Hero1").changeDirection(DirectionState.NORTH);
-
     }
+
     private void moveDown() {
         myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
         myModelEntities.get("Hero1").changeDirection(DirectionState.SOUTH);

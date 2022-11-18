@@ -1,6 +1,5 @@
 package ooga.model;
 
-import ooga.model.hitBox.EntityHitBox;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
 
@@ -19,7 +18,6 @@ public abstract class Entity {
     private Map<String, String> myAttributes;
     private String attackType;
     private int hp;
-    private EntityHitBox myHitBox;
 
     public Entity(Map<String, String> attributes) {
         try {
@@ -33,7 +31,6 @@ public abstract class Entity {
             this.attackType = attributes.get("Attack");
             this.myDirection = DirectionState.valueOf(attributes.getOrDefault("Direction", "SOUTH"));
             this.myMovement = MovementState.valueOf(attributes.getOrDefault("Movement", "STATIONARY"));
-            this.myHitBox = new EntityHitBox(this, xPos, yPos, size, size);
         }
         catch (NullPointerException | ClassCastException | IllegalArgumentException e) {
             throw new RuntimeException(e);
@@ -47,7 +44,6 @@ public abstract class Entity {
     public List<Double> move(double elapsedTime) {
         xPos += myDirection.getVelocity().get(0) * myMovement.getSpeedConverter() * speed * elapsedTime;
         yPos += myDirection.getVelocity().get(1) * myMovement.getSpeedConverter() * speed * elapsedTime;
-        myHitBox.move(xPos, yPos);
         return Arrays.asList(xPos, yPos);
     }
 
@@ -80,6 +76,8 @@ public abstract class Entity {
     protected int getHp() {
         return hp;
     } // only using for testing purposes before I implement records next week
+
+    public DirectionState getMyDirection() { return myDirection; }
 
 
 }
