@@ -1,30 +1,36 @@
-package ooga.view;
+package ooga.view.screens;
 
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import ooga.controller.Controller;
+import ooga.view.GameSlot;
+import ooga.view.MapWrapper;
 
 import java.util.ResourceBundle;
 
 //this screen is for when a player wishes to start a brand new game.
-public class OpenNewGameScreen {
-
+public class OpenNewGameScreen extends SceneCreator {
     private GameSlot slot1;
     private GameSlot slot2;
     private GameSlot slot3;
     private StackPane background;
     private ResourceBundle labels;
+    private ResourceBundle styles;
     private Stage stage;
+    private int screenSize;
 
-    public OpenNewGameScreen(ResourceBundle l, Stage stage){
+    public OpenNewGameScreen(Stage stage){
         this.stage = stage;
-        labels = l;
+        labels = getLabels();
+        styles = getStyles();
+        screenSize = getScreenSize();
     }
 
+    @Override
     public Scene makeScene(){
         background = new StackPane();
         slot1 = new GameSlot(labels.getString("game1"), labels);
@@ -35,18 +41,17 @@ public class OpenNewGameScreen {
         slots.setAlignment(Pos.CENTER);
         background.setAlignment(Pos.CENTER);
         background.getChildren().add(slots);
-        Scene s = new Scene(background, StartScreen.SCREEN_SIZE,StartScreen.SCREEN_SIZE );
+        Scene s = new Scene(background, screenSize, screenSize);
         handleEvents();
-        s.getStylesheets().add(StartScreen.styles.getString("openNewGameCSS"));
+        s.getStylesheets().add(styles.getString("openNewGameCSS"));
         return s;
     }
 
     //parsing of files should occur here
-    public void handleEvents(){
+    private void handleEvents(){
         slot1.setOnMouseClicked(event -> {
-            MainGameScreen mainGameScreen = new MainGameScreen();
-            stage.setScene(mainGameScreen.makeScene());
-            mainGameScreen.startGamePlay();
+            Controller controller = new Controller(stage, "MainMap");
+            controller.startAnimation();
         });
         slot2.setOnMouseClicked(event -> {
 

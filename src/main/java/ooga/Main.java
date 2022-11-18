@@ -2,16 +2,11 @@ package ooga;
 
 
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
-import ooga.controller.CollisionHandler;
 import ooga.controller.Controller;
-import ooga.controller.EntityParser;
-import ooga.model.Entity;
-import ooga.model.attack.Attack;
-import ooga.model.enemy.Bug;
-import ooga.model.hero.MainHero;
-import ooga.model.obstacle.DestroyableWall;
-import ooga.model.obstacle.Obstacle;
+import ooga.view.screens.StartScreen;
+
 
 /**
  * Feel free to completely change this code or delete it entirely. 
@@ -30,9 +25,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage){
+        StartScreen startScreen = new StartScreen(stage);
+        stage.setScene(startScreen.makeScene());
         stage.show();
-        Controller controller = new Controller(stage);
-        //controller.startAnimation();
     }
 
     public static void main (String[] args) {

@@ -1,5 +1,7 @@
 package ooga.view;
 
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import ooga.controller.MapParser;
 
@@ -8,10 +10,12 @@ public class MapView {
     private int numColumns;
     private static final double BLOCK_X_OFFSET = 20.0;
     private static final double BLOCK_Y_OFFSET = 20.0;
-    private StackPane stackPane;
-    public MapView(MapWrapper mapWrapper, StackPane stackPane){
-        this.stackPane = stackPane;
-        createMap(mapWrapper);
+    //private StackPane stackPane;
+    private MapWrapper wrapper;
+
+    private GridPane grid;
+    public MapView(MapWrapper mapWrapper){
+        this.wrapper = mapWrapper;
     }
     public void moveUp(){
 
@@ -26,21 +30,18 @@ public class MapView {
 
     }
 
-    public void createMap(MapWrapper mapWrapper){
-        numRows = mapWrapper.getRowSize(0);
-        numColumns = mapWrapper.getColumnSize();
-        for(int row = 0; row < numRows; row++){
-            for(int col = 0; col < numColumns; col++){
-                int state = mapWrapper.getState(row, col);
-                BlockView blockView = new BlockView(
-                        row*BLOCK_X_OFFSET, col*BLOCK_Y_OFFSET,
-                        state, stackPane
-                );
+    public GridPane createMap(){
+        numRows = wrapper.getRowSize(0);
+        numColumns = wrapper.getColumnSize();
+        grid = new GridPane();
+        for (int row = 0; row < numRows; row++){
+            for (int col = 0; col < numColumns; col++){
+                int state = wrapper.getState(row, col);
+                String imagePath = wrapper.getImageFromState(state);
+
+                BlockView blockView = new BlockView(row, col, imagePath, grid);
             }
         }
-//        HARDCODED VERSION BEFORE MAP FILE READ IN:
-//        BlockView blockView = new BlockView(
-//                BLOCK_X_OFFSET, BLOCK_Y_OFFSET,0, stackPane
-//        );
+        return grid;
     }
 }

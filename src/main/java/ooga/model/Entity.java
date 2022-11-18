@@ -21,6 +21,7 @@ public abstract class Entity {
 
     public Entity(Map<String, String> attributes) {
         try {
+            this.myAttributes = attributes;
             this.xPos = Double.parseDouble(attributes.get("XPosition"));
             this.yPos = Double.parseDouble(attributes.get("YPosition"));
             this.max_hp = Integer.parseInt(attributes.get("HP"));
@@ -30,7 +31,6 @@ public abstract class Entity {
             this.attackType = attributes.get("Attack");
             this.myDirection = DirectionState.valueOf(attributes.getOrDefault("Direction", "SOUTH"));
             this.myMovement = MovementState.valueOf(attributes.getOrDefault("Movement", "STATIONARY"));
-            this.myAttributes = attributes;
         }
         catch (NullPointerException | ClassCastException | IllegalArgumentException e) {
             throw new RuntimeException(e);
@@ -47,8 +47,9 @@ public abstract class Entity {
         return Arrays.asList(xPos, yPos);
     }
 
-
-    public Map<String, String> getMyAttributes() { return myAttributes; } // TODO: next week, make a record for entity
+    public Map<String, String> getMyAttributes() {
+        return myAttributes;
+    } // TODO: next week, make a record for entity
 
     protected void changeHp(int diff) {
         hp += diff;
@@ -57,7 +58,9 @@ public abstract class Entity {
         return attackType;
     }
 
-    public List<Double> coordinates() { return Arrays.asList(xPos, yPos); }
+    public List<Double> coordinates() {
+        return Arrays.asList(xPos, yPos);
+    }
 
     public void changeDirection(DirectionState newDirection) {
         myDirection = newDirection;
@@ -70,7 +73,9 @@ public abstract class Entity {
         return Arrays.asList(myDirection.getDirection(), myMovement.getMovement());
     }
 
-    protected int getHp() { return hp; } // only using for testing purposes before I implement records next week
+    protected int getHp() {
+        return hp;
+    } // only using for testing purposes before I implement records next week
 
     public DirectionState getMyDirection() { return myDirection; }
 

@@ -1,5 +1,6 @@
 package ooga.view;
 
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import ooga.controller.MapParser;
 import org.junit.jupiter.api.Test;
@@ -19,8 +20,9 @@ class MapViewTest {
         String mapName = "MainMap"; //for now!
         MapParser mapParser = new MapParser(mapName);
         MapWrapper mapWrapper = mapParser.getMapWrapper();
-        MapView mapView = new MapView(mapWrapper, new StackPane());
-        mapView.createMap(mapWrapper);
+        mapWrapper.setStateToImageMap(mapParser.getStateToImageMap());
+        MapView mapView = new MapView(mapWrapper);
+        mapView.createMap();
         int state;
         String expected;
         for(int i = 0; i<32; i++){

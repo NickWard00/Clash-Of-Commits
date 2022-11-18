@@ -4,41 +4,52 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import ooga.controller.Controller;
+import ooga.controller.EntityView;
+import ooga.model.Entity;
+import ooga.view.screens.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class View {
-    private Scene scene;
-    private BorderPane root;
+    private Scene myScene;
     private Stage stage;
-    private MapView mapView;
+    private Controller myController;
+    private Map<String, EntityView> myViewEntities;
 
-    public View(Stage stage){
+    public View(Stage stage, Controller controller){
+        this.stage = stage;
+        this.myController = controller;
         setupGame(stage);
     }
     public void step(double elapsedTime){
-
     }
 
     private void setupGame(Stage stage){
-        root = new BorderPane(); //later change to Root object ??? 
-        scene = new Scene(root);
-        scene.setOnKeyPressed(e->getKeyInput(e.getCode()));
-        StartScreen startScreen = new StartScreen(stage);
-        stage.setScene(startScreen.makeScene());
+        myViewEntities = myController.getViewEntities();
+        MainGameScreen mainGameScreen = new MainGameScreen();
+        mainGameScreen.startGamePlay(myController.getMapWrapper(), myViewEntities);
+        myScene = mainGameScreen.makeScene();
+        myScene.setOnKeyPressed(e->getKeyInput(e.getCode()));
+        stage.setScene(myScene);
+    }
+
+    private void changeScene(String sceneName){
+        ScreenSelector screenSelector = new ScreenSelector(stage);
+        screenSelector.selectScreen(sceneName);
     }
 
     private void getKeyInput(KeyCode key){
         switch(key){
             case LEFT -> {
-                mapView.moveRight();
             }
             case RIGHT -> {
-                mapView.moveLeft();
             }
             case DOWN -> {
-                mapView.moveUp();
             }
             case UP -> {
-                mapView.moveDown();
             }
         }
     }

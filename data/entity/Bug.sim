@@ -1,8 +1,8 @@
 # This is where the bug enemy behavior is defined
 Type=Enemy
-Sprites=sprites/bug
+Sprites=/sprites/bug/
 Speed=5
-Size=20
+Size=25
 HP=100
 Attack=ShortRange
 Direction=SOUTH

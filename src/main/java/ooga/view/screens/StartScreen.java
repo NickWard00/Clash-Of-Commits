@@ -1,4 +1,4 @@
-package ooga.view;
+package ooga.view.screens;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,6 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import ooga.controller.Controller;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -23,40 +24,35 @@ import java.util.ResourceBundle;
 /**
  * creates the starting screen of the game, which allows you to toggle the language before proceeding.
  */
-public class StartScreen {
-
-    public static final ResourceBundle images = ResourceBundle.getBundle(
-            "ResourceBundles.Images");
-    public static final ResourceBundle constants = ResourceBundle.getBundle(
-            "ResourceBundles.ViewConstants");
-
-    public static final ResourceBundle styles = ResourceBundle.getBundle("ResourceBundles.Stylesheets");
-    private ResourceBundle labels = ResourceBundle.getBundle(
-            "ResourceBundles.LabelsBundle");
-
-    public static final int SCREEN_SIZE = Integer.parseInt(constants.getString("screenSize"));
-
+public class StartScreen extends SceneCreator {
     private Button startGame;
     private ImageView background;
     private Pane startGamePane;
     private Stage currentStage;
-
     private ComboBox languageSelector;
-
     private HBox buttonRow;
+    private ResourceBundle labels;
+    private ResourceBundle images;
+    private ResourceBundle styles;
+    private int screenSize;
+    private Map<String, String> languageMap;
 
-    private final Map<String, String> languageMap= Map.of(
-            labels.getString("eng"), "setEnglish",
-            labels.getString("span"), "setSpanish",
-            labels.getString("germ"),"setGerman",
-            labels.getString("sim"), "setSimlish"
-            );
-
-    public StartScreen(Stage stage){
-        currentStage = stage;
+    public StartScreen(Stage stage) {
+        this.currentStage = stage;
+        this.labels = getLabels();
+        this.images = getImages();
+        this.styles = getStyles();
+        this.screenSize = getScreenSize();
+        this.languageMap = Map.of(
+                labels.getString("eng"), "setEnglish",
+                labels.getString("span"), "setSpanish",
+                labels.getString("germ"),"setGerman",
+                labels.getString("sim"), "setSimlish"
+        );
     }
 
     //makes the scene that is displayed on the screen
+    @Override
     public Scene makeScene(){
         background = new ImageView(new Image(images.getString("startScreenImage")));
         startGame = new Button(labels.getString("startButton"));
@@ -71,48 +67,45 @@ public class StartScreen {
         buttonRow.setAlignment(Pos.BOTTOM_CENTER);
         buttonRow.setId("buttonRow");
         startGamePane = new StackPane();
-        startGamePane.setPrefSize(SCREEN_SIZE, SCREEN_SIZE);
+        startGamePane.setPrefSize(screenSize, screenSize);
         startGamePane.getChildren().addAll(background,buttonRow);
         StackPane.setAlignment(startGamePane, Pos.CENTER);
         handleEvents();
-        Scene s = new Scene(startGamePane, SCREEN_SIZE, SCREEN_SIZE);
+        Scene s = new Scene(startGamePane, screenSize, screenSize);
         s.getStylesheets().add(styles.getString("startScreenCSS"));
         return s;
     }
 
     //moves to the next screen of the game
     public void nextScreen(){
-        ChooseGameScreen c = new ChooseGameScreen(currentStage, labels);
+        ChooseGameScreen c = new ChooseGameScreen(currentStage);
         currentStage.setScene(c.makeScene());
         currentStage.show();
     }
 
     //sets the language to english
     public void setEnglish() {
-        labels= ResourceBundle.getBundle(
+        labels = ResourceBundle.getBundle(
                 "ResourceBundles.LabelsBundle");
     }
     //sets the language to spanish
     public void setSpanish() {
-        labels= ResourceBundle.getBundle(
+        labels = ResourceBundle.getBundle(
                 "ResourceBundles.LabelsBundle_es");
     }
     //sets the language to german
     public void setGerman() {
-        labels= ResourceBundle.getBundle(
+        labels = ResourceBundle.getBundle(
                 "ResourceBundles.LabelsBundle_de");
     }
     //sets the language to simlish
     public void setSimlish(){
-        labels= ResourceBundle.getBundle(
+        labels = ResourceBundle.getBundle(
                 "ResourceBundles.LabelsBundle_simlish");
     }
 
     //is necessary in order to pass the language resourcebundle to other screens
     //other resourcebundles are final and do not need to be passed this way
-    public ResourceBundle getLabels(){
-        return labels;
-    }
 
 
     //handles the changing of languages using the selector and the clicking of the start button
