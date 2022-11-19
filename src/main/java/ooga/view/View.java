@@ -26,6 +26,8 @@ public class View {
     private Map<String, EntityView> myViewEntities;
     private Map<String, Entity> myModelEntities;
 
+    private double myHeroSpeed;
+
     private Map<KeyCode, String> actions = Map.of(
             KeyCode.UP, "moveUp",
             KeyCode.DOWN, "moveDown",
@@ -45,6 +47,7 @@ public class View {
     private void setupGame(Stage stage){
         myViewEntities = myController.getViewEntities();
         myModelEntities = myController.getModelEntities();
+        myHeroSpeed = Double.parseDouble(myModelEntities.get("Hero1").getMyAttributes().get("Speed"));
         MainGameScreen mainGameScreen = new MainGameScreen();
         mainGameScreen.startGamePlay(myController.getMapWrapper(), myViewEntities);
         myScene = mainGameScreen.makeScene();
@@ -69,14 +72,14 @@ public class View {
             }
         });
         myScene.setOnKeyReleased(event ->{
-            try{
-            Method currentAction = this.getClass().getDeclaredMethod(
+            try {
+                Method currentAction = this.getClass().getDeclaredMethod(
                     actions.get(event.getCode())+"Stop");
-            currentAction.invoke(this);
+                currentAction.invoke(this);
 
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException(e);
-        }
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
            // myModelEntities.get("Hero1").changeDirection(DirectionState.NORTH_STATIONARY);
         });
     }
@@ -105,7 +108,7 @@ public class View {
         BorderPane b = (BorderPane) myScene.getRoot();
         StackPane s = (StackPane) b.getCenter();
         ScrollPane bg = (ScrollPane) s.getChildren().get(0);
-        bg.setVvalue(bg.getVvalue()-0.03);
+        bg.setVvalue(bg.getVvalue()-myHeroSpeed*2);
     }
 
     private void moveDown() {
@@ -115,7 +118,7 @@ public class View {
         BorderPane b = (BorderPane) myScene.getRoot();
         StackPane s = (StackPane) b.getCenter();
         ScrollPane bg = (ScrollPane) s.getChildren().get(0);
-        bg.setVvalue(bg.getVvalue()+0.03);
+        bg.setVvalue(bg.getVvalue() + myHeroSpeed*2);
     }
 
     private void moveLeft(){
@@ -125,7 +128,7 @@ public class View {
         BorderPane b = (BorderPane) myScene.getRoot();
         StackPane s = (StackPane) b.getCenter();
         ScrollPane bg = (ScrollPane) s.getChildren().get(0);
-        bg.setHvalue(bg.getHvalue()-0.03);
+        bg.setHvalue(bg.getHvalue() - myHeroSpeed);
     }
     private void moveRight(){
         //myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
@@ -134,7 +137,7 @@ public class View {
         BorderPane b = (BorderPane) myScene.getRoot();
         StackPane s = (StackPane) b.getCenter();
         ScrollPane bg = (ScrollPane) s.getChildren().get(0);
-        bg.setHvalue(bg.getHvalue()+0.03);
+        bg.setHvalue(bg.getHvalue() + myHeroSpeed);
     }
 
 }
