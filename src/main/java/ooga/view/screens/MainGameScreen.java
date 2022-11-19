@@ -2,6 +2,8 @@ package ooga.view.screens;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import ooga.controller.EntityView;
 import ooga.controller.MapParser;
@@ -21,6 +23,9 @@ public class MainGameScreen extends SceneCreator {
     private Map<String, EntityView> myViewEntities;
     private Group root;
 
+    private BorderPane gameScreenPane;
+    private ScrollPane centerPane;
+
     public MainGameScreen(){
         this.screenSize = getScreenSize();
     }
@@ -35,7 +40,8 @@ public class MainGameScreen extends SceneCreator {
     //make new scene
     @Override
     public Scene makeScene(){
-        // gameScreenPane = new GridPane();
+        gameScreenPane = new BorderPane();
+        centerPane = new ScrollPane();
         // gameScreenPane.setPrefSize(SCREEN_SIZE, SCREEN_SIZE);
         // StackPane.setAlignment(gameScreenPane, Pos.CENTER);
         root = new Group();
@@ -43,7 +49,9 @@ public class MainGameScreen extends SceneCreator {
         for (EntityView entity : myViewEntities.values()) {
             root.getChildren().add(entity);
         }
-        Scene s = new Scene(root, screenSize, screenSize);
+        centerPane.setContent(root);
+        gameScreenPane.setCenter(centerPane);
+        Scene s = new Scene(gameScreenPane, screenSize, screenSize);
         return s;
     }
 
