@@ -27,6 +27,24 @@ public class MovementController {
     entity.changeDirection(DirectionState.SOUTH);
   }
 
+  public void moveRightStop(Entity entity) {
+    entity.changeMovement(MovementState.STATIONARY);
+    entity.changeDirection(DirectionState.EAST_STATIONARY);
+  }
+  public void moveLeftStop(Entity entity) {
+    entity.changeMovement(MovementState.STATIONARY);
+    entity.changeDirection(DirectionState.WEST_STATIONARY);
+  }
+
+  public void moveUpStop(Entity entity) {
+    entity.changeMovement(MovementState.STATIONARY);
+    entity.changeDirection(DirectionState.NORTH_STATIONARY);
+  }
+
+  public void moveDownStop(Entity entity) {
+    entity.changeMovement(MovementState.STATIONARY);
+    entity.changeDirection(DirectionState.SOUTH_STATIONARY);
+  }
 
 
 }
