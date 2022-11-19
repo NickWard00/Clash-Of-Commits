@@ -1,16 +1,25 @@
 package ooga.view;
 
+import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
 import ooga.view.screens.SceneCreator;
 
-public class HUD extends ToolBar {
+public class HUD extends SceneCreator {
 
     private HealthStatus playerHealth;
     private int playerScore;
+    private Label scoreText;
+    private ToolBar HUDBar;
 
     public HUD(){
-        //playerScore =
-        //this.getChildren().add();
+        //playerScore = Integer.parseInt(getConstants().getString("defaultScore"));
+        scoreText = new Label("Placeholder");
+
+    }
+    public ToolBar makeHUD(){
+        HUDBar = new ToolBar();
+        HUDBar.getItems().add(scoreText);
+        return HUDBar;
     }
 
     public void updateScore(int newScore){
