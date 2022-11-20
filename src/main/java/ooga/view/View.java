@@ -49,9 +49,8 @@ public class View {
     }
     public void step(double elapsedTime){
         myHeroModel.move(elapsedTime);
-        createScrollableBackground();
-        s.setTranslateX(-myHeroModel.coordinates().get(0) + startX);
-        s.setTranslateY(-myHeroModel.coordinates().get(1) + startY);
+        s.setTranslateX((myScene.getWidth() - blockSize) / 2 - myHeroModel.coordinates().get(0));
+        s.setTranslateY((myScene.getHeight() - blockSize) / 2 - myHeroModel.coordinates().get(1));
     }
 
     private void setupGame(Stage stage){

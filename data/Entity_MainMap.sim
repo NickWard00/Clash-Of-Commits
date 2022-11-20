@@ -2,4 +2,4 @@
 Bug1 = Bug, 90, 180
 Bug2 = Bug, 360, 90
 Bug3 = Bug, 30, 270
-Hero1 = MainHero, 270, 270
+Hero1 = MainHero, 500, 500
