@@ -150,7 +150,7 @@ public class View {
     }
 
     private void attack(){
-        myModelEntities.get("Hero1").getMyAttack().activateAttack();
+        myHeroModel.getMyAttack().activateAttack();
     }
 
     private void attackStop() {}
