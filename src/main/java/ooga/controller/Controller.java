@@ -7,10 +7,10 @@ import javafx.util.Duration;
 import ooga.model.Entity;
 import ooga.model.Model;
 import ooga.model.hitBox.HitBox;
+import ooga.view.EntityView;
 import ooga.view.MapWrapper;
 import ooga.view.View;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +27,7 @@ public class Controller {
     private Model myModel;
     private Map<String, EntityView> myViewEntities;
     private Map<String, Entity> myModelEntities;
+    private String myMainHeroName;
     private boolean playingGame;
     private boolean choosingGame; //some sort of variable to control what is active at any given moment
     public Controller(Stage stage, String mapName){
@@ -71,7 +72,12 @@ public class Controller {
 
         EntityMapParser entityMapParser = new EntityMapParser("Entity_" + map);
         myModelEntities = entityMapParser.getEntities();
-
+        // loop through all model entities and find the name of the MainHero entity and return the name of that entity
+        for (Entity entity : myModelEntities.values()) {
+            if (entity.getMyAttributes().get("EntityType").equals("MainHero")) {
+                myMainHeroName = entity.getMyAttributes().get("Name");
+            }
+        }
         setupViewEntities();
     }
 
@@ -99,6 +105,14 @@ public class Controller {
     private void removeEntity(String entityName){
         myModelEntities.remove(entityName);
         myViewEntities.remove(entityName);
+    }
+
+    public String getMainHeroName() {
+        if (myMainHeroName == null) {
+            throw new IllegalStateException("Main Hero not found");
+        } else {
+            return myMainHeroName;
+        }
     }
 
     public MapWrapper getMapWrapper() {

@@ -1,4 +1,4 @@
-package ooga.controller;
+package ooga.view;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
