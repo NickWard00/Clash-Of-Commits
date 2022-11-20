@@ -30,17 +30,8 @@ public class View {
     private double myWidth;
     private double myHeight;
     private double blockSize;
-    private EntityView myHeroView;
-    private Entity myHeroModel;
     private StackPane s;
-
-    private Map<KeyCode, String> actions = Map.of(
-            KeyCode.UP, "moveUp",
-            KeyCode.DOWN, "moveDown",
-            KeyCode.RIGHT, "moveRight",
-            KeyCode.LEFT, "moveLeft",
-            KeyCode.SPACE, "attack"
-    );
+    private EntityView myHeroView;
 
     public View(Stage stage, Controller controller){
         this.stage = stage;
@@ -48,19 +39,17 @@ public class View {
         setupGame(stage);
     }
     public void step(double elapsedTime){
-        myHeroModel.move(elapsedTime);
         s.setTranslateX((myScene.getWidth() - blockSize) / 2 - myHeroView.getX());
         s.setTranslateY((myScene.getHeight() - blockSize) / 2 - myHeroView.getY());
     }
 
     private void setupGame(Stage stage){
         myViewEntities = myController.getViewEntities();
-        pickControllableEntity(myController.getMainHeroName());
+        myHeroView = myViewEntities.get(myController.getMainHeroName());
+
+        setupMap();
+
         MainGameScreen mainGameScreen = new MainGameScreen();
-        myMapWrapper = myController.getMapWrapper();
-        myWidth = myMapWrapper.getVisualProperties().get(2);
-        myHeight = myMapWrapper.getVisualProperties().get(1);
-        blockSize = myMapWrapper.getVisualProperties().get(0);
         mainGameScreen.startGamePlay(myMapWrapper, myViewEntities);
         myScene = mainGameScreen.makeScene();
         handleKeyInputs();
@@ -68,9 +57,16 @@ public class View {
         createScrollableBackground();
     }
 
-    private void pickControllableEntity(String entityName) {
-        myHeroModel = myController.getModelEntities().get(entityName);
-        myHeroView = myViewEntities.get(entityName);
+    public void changeEntityState(String entityName, DirectionState direction) {
+        EntityView entity = myViewEntities.get(entityName);
+        entity.changeDirection(direction);
+    }
+
+    private void setupMap() {
+        myMapWrapper = myController.getMapWrapper();
+        myWidth = myMapWrapper.getVisualProperties().get(2);
+        myHeight = myMapWrapper.getVisualProperties().get(1);
+        blockSize = myMapWrapper.getVisualProperties().get(0);
     }
 
     private void createScrollableBackground() {
@@ -85,74 +81,12 @@ public class View {
         screenSelector.selectScreen(sceneName);
     }
 
-    private void handleKeyInputs(){
-        myScene.setOnKeyPressed(event ->{
-            try {
-                Method currentAction = this.getClass().getDeclaredMethod(
-                        actions.get(event.getCode()));
-                currentAction.invoke(this);
-
-
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                throw new RuntimeException(e);
-            }
+    private void handleKeyInputs() {
+        myScene.setOnKeyPressed(event -> {
+            myController.handleKeyPress(event.getCode());
         });
-        myScene.setOnKeyReleased(event ->{
-            try {
-                Method currentAction = this.getClass().getDeclaredMethod(
-                    actions.get(event.getCode())+"Stop");
-                currentAction.invoke(this);
-
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                throw new RuntimeException(e);
-            }
+        myScene.setOnKeyReleased(event -> {
+            myController.handleKeyRelease(event.getCode());
         });
     }
-    private void moveUpStop(){
-        myHeroModel.changeDirection(DirectionState.NORTH_STATIONARY);
-        myHeroView.changeDirection(DirectionState.NORTH_STATIONARY);
-    }
-    private void moveDownStop(){
-        myHeroModel.changeDirection(DirectionState.SOUTH_STATIONARY);
-        myHeroView.changeDirection(DirectionState.SOUTH_STATIONARY);
-    }
-    private void moveRightStop(){
-        myHeroModel.changeDirection(DirectionState.EAST_STATIONARY);
-        myHeroView.changeDirection(DirectionState.EAST_STATIONARY);
-    }
-
-    private void moveLeftStop(){
-        myHeroModel.changeDirection(DirectionState.WEST_STATIONARY);
-        myHeroView.changeDirection(DirectionState.WEST_STATIONARY);
-    }
-
-    private void moveUp() {
-        myHeroModel.changeMovement(MovementState.MOVING);
-        myHeroModel.changeDirection(DirectionState.NORTH);
-        myHeroView.changeDirection(DirectionState.NORTH);
-    }
-
-    private void moveDown() {
-        myHeroModel.changeMovement(MovementState.MOVING);
-        myHeroModel.changeDirection(DirectionState.SOUTH);
-        myHeroView.changeDirection(DirectionState.SOUTH);
-    }
-
-    private void moveLeft(){
-        myHeroModel.changeMovement(MovementState.MOVING);
-        myHeroModel.changeDirection(DirectionState.WEST);
-        myHeroView.changeDirection(DirectionState.WEST);
-    }
-    private void moveRight(){
-        myHeroModel.changeMovement(MovementState.MOVING);
-        myHeroModel.changeDirection(DirectionState.EAST);
-        myHeroView.changeDirection(DirectionState.EAST);
-    }
-
-    private void attack(){
-        myHeroModel.getMyAttack().activateAttack();
-    }
-
-    private void attackStop() {}
-
 }

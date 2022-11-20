@@ -2,22 +2,27 @@ package ooga.controller;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.model.Entity;
 import ooga.model.Model;
 import ooga.model.hitBox.HitBox;
+import ooga.model.state.DirectionState;
+import ooga.model.state.MovementState;
 import ooga.view.EntityView;
 import ooga.view.MapWrapper;
 import ooga.view.View;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Controller {
     private Timeline animation;
-    private View view;
+    private View myView;
     private MapWrapper mapWrapper;
 
     private List<HitBox> myHitBoxes;
@@ -28,13 +33,20 @@ public class Controller {
     private Map<String, EntityView> myViewEntities;
     private Map<String, Entity> myModelEntities;
     private String myMainHeroName;
+    private Map<KeyCode, String> actions = Map.of(
+            KeyCode.UP, "moveUp",
+            KeyCode.DOWN, "moveDown",
+            KeyCode.RIGHT, "moveRight",
+            KeyCode.LEFT, "moveLeft",
+            KeyCode.SPACE, "attack"
+    );
     private boolean playingGame;
     private boolean choosingGame; //some sort of variable to control what is active at any given moment
     public Controller(Stage stage, String mapName){
         this.mapName = mapName;
         myViewEntities = new HashMap<>();
         initializeModel(mapName);
-        view = new View(stage, this);
+        myView = new View(stage, this);
     }
 
     private void initializeModel(String mapName) {
@@ -50,14 +62,15 @@ public class Controller {
     }
 
     private void step(double elapsedTime) {
-        view.step(elapsedTime);
-        updateEntityPosition();
+        myView.step(elapsedTime);
+        updateEntityPosition(elapsedTime);
     }
 
-    private void updateEntityPosition() {
+    private void updateEntityPosition(double elapsedTime) {
         for (String entityName : myModelEntities.keySet()) {
             Entity modelEntity = myModelEntities.get(entityName);
             EntityView viewEntity = myViewEntities.get(entityName);
+            modelEntity.move(elapsedTime);
             viewEntity.setX(modelEntity.coordinates().get(0));
             viewEntity.setY(modelEntity.coordinates().get(1));
         }
@@ -105,6 +118,68 @@ public class Controller {
     private void removeEntity(String entityName){
         myModelEntities.remove(entityName);
         myViewEntities.remove(entityName);
+    }
+
+    public void handleKeyPress(KeyCode keyCode){
+        if (keyCode.isArrowKey()){
+            try {
+                Method currentAction = this.getClass().getDeclaredMethod(
+                        actions.get(keyCode));
+                currentAction.invoke(this);
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public void handleKeyRelease(KeyCode keyCode) {
+        if (keyCode.isArrowKey()) {
+            try {
+                Method currentAction = this.getClass().getDeclaredMethod(
+                        actions.get(keyCode) + "Stop");
+                currentAction.invoke(this);
+
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private void moveUpStop(){
+        myModel.changeEntityState(myMainHeroName, DirectionState.NORTH_STATIONARY);
+        myView.changeEntityState(myMainHeroName, DirectionState.NORTH_STATIONARY);
+    }
+    private void moveDownStop(){
+        myModel.changeEntityState(myMainHeroName, DirectionState.SOUTH_STATIONARY);
+        myView.changeEntityState(myMainHeroName, DirectionState.SOUTH_STATIONARY);
+    }
+    private void moveRightStop(){
+        myModel.changeEntityState(myMainHeroName, DirectionState.EAST_STATIONARY);
+        myView.changeEntityState(myMainHeroName, DirectionState.EAST_STATIONARY);
+    }
+
+    private void moveLeftStop(){
+        myModel.changeEntityState(myMainHeroName, DirectionState.WEST_STATIONARY);
+        myView.changeEntityState(myMainHeroName, DirectionState.WEST_STATIONARY);
+    }
+
+    private void moveUp() {
+        myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.NORTH);
+        myView.changeEntityState(myMainHeroName, DirectionState.NORTH);
+    }
+
+    private void moveDown() {
+        myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.SOUTH);
+        myView.changeEntityState(myMainHeroName, DirectionState.SOUTH);
+    }
+
+    private void moveLeft(){
+        myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.WEST);
+        myView.changeEntityState(myMainHeroName, DirectionState.WEST);
+    }
+    private void moveRight(){
+        myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.EAST);
+        myView.changeEntityState(myMainHeroName, DirectionState.EAST);
     }
 
     public String getMainHeroName() {
