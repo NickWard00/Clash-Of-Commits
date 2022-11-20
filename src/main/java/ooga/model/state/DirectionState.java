@@ -6,7 +6,22 @@ import java.util.List;
 import java.util.Map;
 
 public enum DirectionState {
-
+    NORTH_STATIONARY("NORTH_STATIONARY",0,0){
+        @Override
+        public DirectionState oppositeDirection() { return SOUTH_STATIONARY; }
+    },
+    EAST_STATIONARY("EAST_STATIONARY",0,0){
+        @Override
+        public DirectionState oppositeDirection() { return WEST_STATIONARY; }
+    },
+    SOUTH_STATIONARY("SOUTH_STATIONARY",0,0){
+        @Override
+        public DirectionState oppositeDirection() { return NORTH_STATIONARY; }
+    },
+    WEST_STATIONARY("WEST_STATIONARY",0,0){
+        @Override
+        public DirectionState oppositeDirection() { return EAST_STATIONARY; }
+    },
 
     NORTH("NORTH", 0, -1) {
         @Override

@@ -2,12 +2,19 @@ package ooga.view.screens;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import ooga.controller.EntityView;
 import ooga.controller.MapParser;
+import ooga.view.HUD;
 import ooga.view.MapView;
 import ooga.view.MapWrapper;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +27,16 @@ public class MainGameScreen extends SceneCreator {
     private int screenSize;
     private Map<String, EntityView> myViewEntities;
     private Group root;
+
+    private BorderPane gameScreenPane;
+    private ScrollPane background;
+
+    private StackPane centerPaneConsolidated;
+
+    private Pane characters;
+
+    private HUD hud;
+
 
     public MainGameScreen(){
         this.screenSize = getScreenSize();
@@ -35,17 +52,27 @@ public class MainGameScreen extends SceneCreator {
     //make new scene
     @Override
     public Scene makeScene(){
-        // gameScreenPane = new GridPane();
-        // gameScreenPane.setPrefSize(SCREEN_SIZE, SCREEN_SIZE);
-        // StackPane.setAlignment(gameScreenPane, Pos.CENTER);
+        gameScreenPane = new BorderPane();
+        background = new ScrollPane();
+        centerPaneConsolidated = new StackPane();
+        background.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        background.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        characters= new Pane();
+        hud = new HUD();
         root = new Group();
-        root.getChildren().add(mapView.createMap());
+        //root.getChildren().add(mapView.createMap());
         for (EntityView entity : myViewEntities.values()) {
             root.getChildren().add(entity);
         }
-        Scene s = new Scene(root, screenSize, screenSize);
+        characters.getChildren().add(root);
+        background.setContent(mapView.createMap());
+        centerPaneConsolidated.getChildren().addAll(background, characters);
+        gameScreenPane.setCenter(centerPaneConsolidated);
+        gameScreenPane.setTop(hud.makeHUD());
+        Scene s = new Scene(gameScreenPane, screenSize, screenSize);
         return s;
     }
+
 
     public void removeEntityFromScene(String entityName){
         root.getChildren().remove(myViewEntities.get(entityName));

@@ -5,6 +5,7 @@ import ooga.model.hero.Hero;
 import ooga.model.hero.MainHero;
 import ooga.model.obstacle.DestroyableWall;
 import ooga.model.obstacle.Obstacle;
+import ooga.model.obstacle.Wall;
 import ooga.model.state.MovementState;
 
 public class Collision {
@@ -24,10 +25,11 @@ public class Collision {
     }
 
     public Collision(Entity entity, Obstacle obstacle) {
-        if (entity.getClass() == MainHero.class) {
+        if (entity.getClass() == MainHero.class && obstacle.getClass() == Wall.class) {
             // TODO: this may introduce a bug where if the hero is directly next to a wall, they wont be able to move perpendicular to the wall
-            entity.changeMovement(MovementState.STATIONARY);
-        } else {
+//            entity.changeMovement(MovementState.STATIONARY);
+            ((Wall) obstacle).block(entity);
+        } else if (obstacle.getClass() == Wall.class) {
             entity.changeDirection(entity.getMyDirection().oppositeDirection());
         }
     }

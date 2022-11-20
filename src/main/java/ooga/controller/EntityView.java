@@ -13,6 +13,11 @@ public class EntityView extends ImageView {
     private Image southSprite;
     private Image westSprite;
     private Image eastSprite;
+    private Image northStationarySprite;
+    private Image eastStationarySprite;
+    private Image westStationarySprite;
+    private Image southStationarySprite;
+
 
     /**
      * Creates an EntityView with the given image path and entity name
@@ -71,15 +76,37 @@ public class EntityView extends ImageView {
         this.setImage(eastSprite);
     }
 
+    private void setNORTH_STATIONARYSprite(){
+        this.setImage(northStationarySprite);
+    }
+    private void setEAST_STATIONARYSprite(){
+        this.setImage(eastStationarySprite);
+    }
+    private void setSOUTH_STATIONARYSprite(){
+        this.setImage(southStationarySprite);
+    }
+
+    private void setWEST_STATIONARYSprite(){
+        this.setImage(westStationarySprite);
+    }
+
     private void setupSprites(String spritePath) {
         String imagePathNorth = String.format("%s%s.gif", spritePath, "NORTH");
         String imagePathSouth = String.format("%s%s.gif", spritePath, "SOUTH");
         String imagePathWest = String.format("%s%s.gif", spritePath, "WEST");
         String imagePathEast = String.format("%s%s.gif", spritePath, "EAST");
+        String imagePathNorthStationary = String.format("%s%s.gif", spritePath, "NORTH_STATIONARY");
+        String imagePathEastStationary = String.format("%s%s.gif", spritePath, "EAST_STATIONARY");
+        String imagePathSouthStationary = String.format("%s%s.gif", spritePath, "SOUTH_STATIONARY");
+        String imagePathWestStationary = String.format("%s%s.gif", spritePath, "WEST_STATIONARY");
         northSprite = new Image(imagePathNorth);
         southSprite = new Image(imagePathSouth);
         westSprite = new Image(imagePathWest);
         eastSprite = new Image(imagePathEast);
+        northStationarySprite = new Image(imagePathNorthStationary);
+        southStationarySprite = new Image(imagePathSouthStationary);
+        westStationarySprite = new Image(imagePathWestStationary);
+        eastStationarySprite = new Image(imagePathEastStationary);
     }
 
     /**

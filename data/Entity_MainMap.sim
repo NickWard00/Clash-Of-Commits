@@ -1,5 +1,5 @@
 # Key: Enemy name = Enemy Type, X position, Y position
-Bug1 = Bug, 80, 80
-Bug2 = Bug, 400, 650
-Bug3 = Bug, 500, 300
-Hero1 = MainHero, 50, 50
+Bug1 = Bug, 90, 180
+Bug2 = Bug, 360, 90
+Bug3 = Bug, 30, 270
+Hero1 = MainHero, 270, 270
