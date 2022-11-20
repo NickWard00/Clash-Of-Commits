@@ -17,6 +17,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 public class View {
     private Scene myScene;
@@ -29,7 +30,8 @@ public class View {
             KeyCode.UP, "moveUp",
             KeyCode.DOWN, "moveDown",
             KeyCode.RIGHT, "moveRight",
-            KeyCode.LEFT, "moveLeft"
+            KeyCode.LEFT, "moveLeft",
+            KeyCode.SPACE, "attack"
     );
 
     public View(Stage stage, Controller controller){
@@ -93,6 +95,10 @@ public class View {
         myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
         myModelEntities.get("Hero1").changeDirection(DirectionState.EAST);
         myViewEntities.get("Hero1").changeDirection(DirectionState.EAST);
+    }
+
+    private void attack(){
+        myModelEntities.get("Hero1").getMyAttack().activateAttack();
     }
 
 }

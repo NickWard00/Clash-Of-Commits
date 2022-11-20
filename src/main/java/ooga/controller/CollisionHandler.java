@@ -15,7 +15,7 @@ public class CollisionHandler {
     public CollisionHandler() {}
 
 
-    public static void handleCollision(Object object1, Object object2) {
+    public static void collision(Object object1, Object object2) {
         Map<Class, Integer> indexMap = Map.of(Attack.class, 0, Entity.class, 1, Obstacle.class, 2);
         try {
             Class class1 = getCorrectClassForCollision(object1);
