@@ -15,8 +15,6 @@ import ooga.view.screens.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class View {
@@ -25,8 +23,17 @@ public class View {
     private Controller myController;
     private Map<String, EntityView> myViewEntities;
     private Map<String, Entity> myModelEntities;
-
+    private MapWrapper myMapWrapper;
+    private double myWidth;
+    private double myHeight;
+    private double blockSize;
+    private double startX;
+    private double startY;
+    private Entity myHeroModel;
+    private EntityView myHeroView;
     private double myHeroSpeed;
+    private ScrollPane bg;
+    private StackPane s;
 
     private Map<KeyCode, String> actions = Map.of(
             KeyCode.UP, "moveUp",
@@ -41,18 +48,35 @@ public class View {
         setupGame(stage);
     }
     public void step(double elapsedTime){
-        myModelEntities.get("Hero1").move(elapsedTime);
+        myHeroModel.move(elapsedTime);
+        createScrollableBackground();
+        s.setTranslateX(-myHeroModel.coordinates().get(0) + startX);
+        s.setTranslateY(-myHeroModel.coordinates().get(1) + startY);
     }
 
     private void setupGame(Stage stage){
         myViewEntities = myController.getViewEntities();
         myModelEntities = myController.getModelEntities();
-        myHeroSpeed = Double.parseDouble(myModelEntities.get("Hero1").getMyAttributes().get("Speed"));
+        myHeroModel = myModelEntities.get("Hero1");
+        myHeroView = myViewEntities.get("Hero1");
+        myHeroSpeed = Double.parseDouble(myHeroModel.getMyAttributes().get("Speed"));
         MainGameScreen mainGameScreen = new MainGameScreen();
-        mainGameScreen.startGamePlay(myController.getMapWrapper(), myViewEntities);
+        myMapWrapper = myController.getMapWrapper();
+        myWidth = myMapWrapper.getVisualProperties().get(2);
+        myHeight = myMapWrapper.getVisualProperties().get(1);
+        blockSize = myMapWrapper.getVisualProperties().get(0);
+        startX = myHeroModel.coordinates().get(0);
+        startY = myHeroModel.coordinates().get(1);
+        mainGameScreen.startGamePlay(myMapWrapper, myViewEntities);
         myScene = mainGameScreen.makeScene();
         handleKeyInputs();
         stage.setScene(myScene);
+        createScrollableBackground();
+    }
+
+    private void createScrollableBackground() {
+        BorderPane b = (BorderPane) myScene.getRoot();
+        s = (StackPane) b.getChildren().get(0);
     }
 
     private void changeScene(String sceneName){
@@ -80,7 +104,6 @@ public class View {
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
-           // myModelEntities.get("Hero1").changeDirection(DirectionState.NORTH_STATIONARY);
         });
     }
     private void moveUpStop(){
@@ -102,42 +125,30 @@ public class View {
     }
 
     private void moveUp() {
-        //myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
+        myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
         myModelEntities.get("Hero1").changeDirection(DirectionState.NORTH);
         myViewEntities.get("Hero1").changeDirection(DirectionState.NORTH);
-        BorderPane b = (BorderPane) myScene.getRoot();
-        StackPane s = (StackPane) b.getCenter();
-        ScrollPane bg = (ScrollPane) s.getChildren().get(0);
-        bg.setVvalue(bg.getVvalue()-myHeroSpeed*2);
+        //bg.setVvalue(bg.getVvalue() - );
     }
 
     private void moveDown() {
-        //myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
+        myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
         myModelEntities.get("Hero1").changeDirection(DirectionState.SOUTH);
         myViewEntities.get("Hero1").changeDirection(DirectionState.SOUTH);
-        BorderPane b = (BorderPane) myScene.getRoot();
-        StackPane s = (StackPane) b.getCenter();
-        ScrollPane bg = (ScrollPane) s.getChildren().get(0);
-        bg.setVvalue(bg.getVvalue() + myHeroSpeed*2);
+        //bg.setVvalue(bg.getVvalue() + myHeroSpeed*2);
     }
 
     private void moveLeft(){
-        //myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
+        myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
         myModelEntities.get("Hero1").changeDirection(DirectionState.WEST);
         myViewEntities.get("Hero1").changeDirection(DirectionState.WEST);
-        BorderPane b = (BorderPane) myScene.getRoot();
-        StackPane s = (StackPane) b.getCenter();
-        ScrollPane bg = (ScrollPane) s.getChildren().get(0);
-        bg.setHvalue(bg.getHvalue() - myHeroSpeed);
+        //bg.setHvalue(bg.getHvalue() - myHeroSpeed);
     }
     private void moveRight(){
-        //myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
+        myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
         myModelEntities.get("Hero1").changeDirection(DirectionState.EAST);
         myViewEntities.get("Hero1").changeDirection(DirectionState.EAST);
-        BorderPane b = (BorderPane) myScene.getRoot();
-        StackPane s = (StackPane) b.getCenter();
-        ScrollPane bg = (ScrollPane) s.getChildren().get(0);
-        bg.setHvalue(bg.getHvalue() + myHeroSpeed);
+        //bg.setHvalue(bg.getHvalue() + myHeroSpeed);
     }
 
 }
