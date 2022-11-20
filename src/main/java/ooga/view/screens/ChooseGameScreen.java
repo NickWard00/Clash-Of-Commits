@@ -11,6 +11,9 @@ import ooga.controller.Controller;
 
 import java.util.ResourceBundle;
 
+/**
+ * @author Melanie Wang
+ */
 public class ChooseGameScreen extends SceneCreator {
     private Stage stage;
     private Pane background;

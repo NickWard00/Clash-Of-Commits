@@ -13,6 +13,10 @@ import ooga.view.MapWrapper;
 
 import java.util.Map;
 
+/**
+ * @author Melanie Wang, Nick Ward, Mayari Merchant
+ */
+
 public class MainGameScreen extends SceneCreator {
     //TODO: refactor all "Screens" into subclasses of a screen superclass
     //TODO: refactor stackpane

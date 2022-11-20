@@ -10,6 +10,9 @@ import ooga.view.screens.*;
 
 import java.util.Map;
 
+/**
+ * @author Melanie Wang, Nick Ward, Mayari Merchant
+ */
 public class View {
     private Scene myScene;
     private Stage stage;

@@ -20,6 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Nick Ward, Melanie Wang
+ */
 public class Controller {
     private Timeline animation;
     private View myView;

@@ -4,6 +4,9 @@ import javafx.scene.control.Label;
 
 import java.util.ResourceBundle;
 
+/**
+ * @author Melanie Wang
+ */
 public class GameSlot extends Slot{
 
     private Label gameType;

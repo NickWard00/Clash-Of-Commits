@@ -4,6 +4,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
 import ooga.view.screens.SceneCreator;
 
+/**
+ * @author Melanie Wang
+ */
 public class HUD extends SceneCreator {
 
     private HealthStatus playerHealth;

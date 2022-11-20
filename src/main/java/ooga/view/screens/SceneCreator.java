@@ -5,6 +5,9 @@ import javafx.scene.Scene;
 
 import java.util.ResourceBundle;
 
+/**
+ * @author Nick Ward
+ */
 public abstract class SceneCreator {
     private static final ResourceBundle images = ResourceBundle.getBundle(
             "ResourceBundles.Images");

@@ -12,6 +12,9 @@ import ooga.view.MapWrapper;
 
 import java.util.ResourceBundle;
 
+/**
+ * @author Melanie Wang
+ */
 //this screen is for when a player wishes to start a brand new game.
 public class OpenNewGameScreen extends SceneCreator {
     private GameSlot slot1;

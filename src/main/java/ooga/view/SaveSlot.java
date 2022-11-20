@@ -5,6 +5,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
+/**
+ * @author Melanie Wang
+ */
 //the save slot is the physical "slot" that loads and saves games. there will always be three slots.
 public class SaveSlot extends Slot{
 

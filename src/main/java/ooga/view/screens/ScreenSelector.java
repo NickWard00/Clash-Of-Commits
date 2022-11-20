@@ -7,6 +7,9 @@ import ooga.controller.Controller;
 
 import java.lang.reflect.InvocationTargetException;
 
+/**
+ * @author Nick Ward
+ */
 public class ScreenSelector {
     private StartScreen startScreen;
     private MainGameScreen mainGameScreen;

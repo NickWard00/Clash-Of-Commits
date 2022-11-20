@@ -6,6 +6,9 @@ import ooga.model.state.DirectionState;
 
 import java.lang.reflect.InvocationTargetException;
 
+/**
+ * @author Nick Ward, Melanie Wang
+ */
 public class EntityView extends ImageView {
     private String entityName;
     private String imagePath;
