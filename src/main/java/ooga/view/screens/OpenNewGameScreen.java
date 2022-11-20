@@ -26,9 +26,9 @@ public class OpenNewGameScreen extends SceneCreator {
     private Stage stage;
     private int screenSize;
 
-    public OpenNewGameScreen(Stage stage){
+    public OpenNewGameScreen(Stage stage, ResourceBundle label){
         this.stage = stage;
-        labels = getLabels();
+        labels = label;
         styles = getStyles();
         screenSize = getScreenSize();
     }
@@ -53,7 +53,7 @@ public class OpenNewGameScreen extends SceneCreator {
     //parsing of files should occur here
     private void handleEvents(){
         slot1.setOnMouseClicked(event -> {
-            Controller controller = new Controller(stage, "MainMap");
+            Controller controller = new Controller(stage, "MainMap", labels);
             controller.startAnimation();
         });
         slot2.setOnMouseClicked(event -> {

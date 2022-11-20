@@ -15,13 +15,15 @@ public class HUD extends SceneCreator {
     private ToolBar HUDBar;
 
     public HUD(){
-        //playerScore = Integer.parseInt(getConstants().getString("defaultScore"));
-        scoreText = new Label("Placeholder");
-
+        playerScore = Integer.parseInt(getConstants().getString("defaultScore"));
+        scoreText = new Label(getLabels().getString("score")+playerScore);
     }
     public ToolBar makeHUD(){
         HUDBar = new ToolBar();
-        HUDBar.getItems().add(scoreText);
+        playerHealth = new HealthStatus();
+
+        HUDBar.getItems().addAll(playerHealth, scoreText);
+        HUDBar.getStylesheets().add(styles.getString("HUDCSS"));
         return HUDBar;
     }
 

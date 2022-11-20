@@ -10,7 +10,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import ooga.controller.Controller;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -77,8 +76,8 @@ public class StartScreen extends SceneCreator {
     }
 
     //moves to the next screen of the game
-    public void nextScreen(){
-        ChooseGameScreen c = new ChooseGameScreen(currentStage);
+    public void nextScreen(ResourceBundle labels){
+        ChooseGameScreen c = new ChooseGameScreen(currentStage, labels);
         currentStage.setScene(c.makeScene());
         currentStage.show();
     }
@@ -111,7 +110,7 @@ public class StartScreen extends SceneCreator {
     //handles the changing of languages using the selector and the clicking of the start button
     public void handleEvents(){
         startGame.setOnAction(event -> {
-            nextScreen();
+            nextScreen(labels);
         });
         languageSelector.setOnAction(event -> {
             try {

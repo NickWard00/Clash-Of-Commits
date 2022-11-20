@@ -19,6 +19,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * @author Nick Ward, Melanie Wang
@@ -45,11 +46,11 @@ public class Controller {
     );
     private boolean playingGame;
     private boolean choosingGame; //some sort of variable to control what is active at any given moment
-    public Controller(Stage stage, String mapName){
+    public Controller(Stage stage, String mapName, ResourceBundle labels){
         this.mapName = mapName;
         myViewEntities = new HashMap<>();
         initializeModel(mapName);
-        myView = new View(stage, this);
+        myView = new View(stage, this, labels);
     }
 
     private void initializeModel(String mapName) {

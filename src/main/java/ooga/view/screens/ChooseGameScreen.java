@@ -23,9 +23,9 @@ public class ChooseGameScreen extends SceneCreator {
     private ResourceBundle styles;
     private int screenSize;
 
-    public ChooseGameScreen(Stage stage){
+    public ChooseGameScreen(Stage stage, ResourceBundle labels){
         this.stage = stage;
-        this.labels = getLabels();
+        this.labels = labels;
         this.styles = getStyles();
         this.screenSize = getScreenSize();
     }
@@ -51,7 +51,7 @@ public class ChooseGameScreen extends SceneCreator {
 
         });
         newGame.setOnAction(event->{
-            OpenNewGameScreen openNewGameScreen = new OpenNewGameScreen(stage);
+            OpenNewGameScreen openNewGameScreen = new OpenNewGameScreen(stage, labels);
             stage.setScene(openNewGameScreen.makeScene());
             stage.show();
         });

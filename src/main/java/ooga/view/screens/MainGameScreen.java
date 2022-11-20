@@ -69,6 +69,7 @@ public class MainGameScreen extends SceneCreator {
         gameScreenPane.setCenter(centerPaneConsolidated);
         gameScreenPane.setTop(hud.makeHUD());
         Scene s = new Scene(gameScreenPane, screenSize, screenSize);
+        s.getStylesheets().add(styles.getString("mainGameScreenCSS"));
         return s;
     }
 

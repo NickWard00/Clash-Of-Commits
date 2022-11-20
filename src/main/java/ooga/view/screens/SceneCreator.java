@@ -9,12 +9,12 @@ import java.util.ResourceBundle;
  * @author Nick Ward
  */
 public abstract class SceneCreator {
-    private static final ResourceBundle images = ResourceBundle.getBundle(
+    public static final ResourceBundle images = ResourceBundle.getBundle(
             "ResourceBundles.Images");
-    private static final ResourceBundle constants = ResourceBundle.getBundle(
+    public static final ResourceBundle constants = ResourceBundle.getBundle(
             "ResourceBundles.ViewConstants");
-    private static final ResourceBundle styles = ResourceBundle.getBundle("ResourceBundles.Stylesheets");
-    private static final ResourceBundle labels = ResourceBundle.getBundle(
+    public static final ResourceBundle styles = ResourceBundle.getBundle("ResourceBundles.Stylesheets");
+    public static final ResourceBundle labels = ResourceBundle.getBundle(
             "ResourceBundles.LabelsBundle");
     private static final int SCREEN_SIZE = Integer.parseInt(constants.getString("screenSize"));
 
