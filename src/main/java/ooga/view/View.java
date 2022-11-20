@@ -147,4 +147,6 @@ public class View {
         myModelEntities.get("Hero1").getMyAttack().activateAttack();
     }
 
+    private void attackStop() {}
+
 }
