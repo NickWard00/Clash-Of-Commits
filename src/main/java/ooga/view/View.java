@@ -77,6 +77,8 @@ public class View {
     private void createScrollableBackground() {
         BorderPane b = (BorderPane) myScene.getRoot();
         s = (StackPane) b.getChildren().get(0);
+        s.setMinHeight(myHeight);
+        s.setMinWidth(myWidth);
     }
 
     private void changeScene(String sceneName){
