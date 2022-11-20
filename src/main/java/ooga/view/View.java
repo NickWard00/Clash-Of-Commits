@@ -1,13 +1,15 @@
 package ooga.view;
 
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
-import ooga.controller.EntityView;
 import ooga.model.Entity;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
@@ -22,17 +24,12 @@ public class View {
     private Stage stage;
     private Controller myController;
     private Map<String, EntityView> myViewEntities;
-    private Map<String, Entity> myModelEntities;
     private MapWrapper myMapWrapper;
     private double myWidth;
     private double myHeight;
     private double blockSize;
-    private double startX;
-    private double startY;
-    private Entity myHeroModel;
     private EntityView myHeroView;
-    private double myHeroSpeed;
-    private ScrollPane bg;
+    private Entity myHeroModel;
     private StackPane s;
 
     private Map<KeyCode, String> actions = Map.of(
@@ -49,28 +46,28 @@ public class View {
     }
     public void step(double elapsedTime){
         myHeroModel.move(elapsedTime);
-        s.setTranslateX((myScene.getWidth() - blockSize) / 2 - myHeroModel.coordinates().get(0));
-        s.setTranslateY((myScene.getHeight() - blockSize) / 2 - myHeroModel.coordinates().get(1));
+        s.setTranslateX((myScene.getWidth() - blockSize) / 2 - myHeroView.getX());
+        s.setTranslateY((myScene.getHeight() - blockSize) / 2 - myHeroView.getY());
     }
 
     private void setupGame(Stage stage){
         myViewEntities = myController.getViewEntities();
-        myModelEntities = myController.getModelEntities();
-        myHeroModel = myModelEntities.get("Hero1");
-        myHeroView = myViewEntities.get("Hero1");
-        myHeroSpeed = Double.parseDouble(myHeroModel.getMyAttributes().get("Speed"));
+        pickControllableEntity(myController.getMainHeroName());
         MainGameScreen mainGameScreen = new MainGameScreen();
         myMapWrapper = myController.getMapWrapper();
         myWidth = myMapWrapper.getVisualProperties().get(2);
         myHeight = myMapWrapper.getVisualProperties().get(1);
         blockSize = myMapWrapper.getVisualProperties().get(0);
-        startX = myHeroModel.coordinates().get(0);
-        startY = myHeroModel.coordinates().get(1);
         mainGameScreen.startGamePlay(myMapWrapper, myViewEntities);
         myScene = mainGameScreen.makeScene();
         handleKeyInputs();
         stage.setScene(myScene);
         createScrollableBackground();
+    }
+
+    private void pickControllableEntity(String entityName) {
+        myHeroModel = myController.getModelEntities().get(entityName);
+        myHeroView = myViewEntities.get(entityName);
     }
 
     private void createScrollableBackground() {
@@ -92,6 +89,7 @@ public class View {
                         actions.get(event.getCode()));
                 currentAction.invoke(this);
 
+
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
@@ -108,48 +106,44 @@ public class View {
         });
     }
     private void moveUpStop(){
-        myModelEntities.get("Hero1").changeDirection(DirectionState.NORTH_STATIONARY);
-        myViewEntities.get("Hero1").changeDirection(DirectionState.NORTH_STATIONARY);
+        myHeroModel.changeDirection(DirectionState.NORTH_STATIONARY);
+        myHeroView.changeDirection(DirectionState.NORTH_STATIONARY);
     }
     private void moveDownStop(){
-        myModelEntities.get("Hero1").changeDirection(DirectionState.SOUTH_STATIONARY);
-        myViewEntities.get("Hero1").changeDirection(DirectionState.SOUTH_STATIONARY);
+        myHeroModel.changeDirection(DirectionState.SOUTH_STATIONARY);
+        myHeroView.changeDirection(DirectionState.SOUTH_STATIONARY);
     }
     private void moveRightStop(){
-        myModelEntities.get("Hero1").changeDirection(DirectionState.EAST_STATIONARY);
-        myViewEntities.get("Hero1").changeDirection(DirectionState.EAST_STATIONARY);
+        myHeroModel.changeDirection(DirectionState.EAST_STATIONARY);
+        myHeroView.changeDirection(DirectionState.EAST_STATIONARY);
     }
 
     private void moveLeftStop(){
-        myModelEntities.get("Hero1").changeDirection(DirectionState.WEST_STATIONARY);
-        myViewEntities.get("Hero1").changeDirection(DirectionState.WEST_STATIONARY);
+        myHeroModel.changeDirection(DirectionState.WEST_STATIONARY);
+        myHeroView.changeDirection(DirectionState.WEST_STATIONARY);
     }
 
     private void moveUp() {
-        myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
-        myModelEntities.get("Hero1").changeDirection(DirectionState.NORTH);
-        myViewEntities.get("Hero1").changeDirection(DirectionState.NORTH);
-        //bg.setVvalue(bg.getVvalue() - );
+        myHeroModel.changeMovement(MovementState.MOVING);
+        myHeroModel.changeDirection(DirectionState.NORTH);
+        myHeroView.changeDirection(DirectionState.NORTH);
     }
 
     private void moveDown() {
-        myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
-        myModelEntities.get("Hero1").changeDirection(DirectionState.SOUTH);
-        myViewEntities.get("Hero1").changeDirection(DirectionState.SOUTH);
-        //bg.setVvalue(bg.getVvalue() + myHeroSpeed*2);
+        myHeroModel.changeMovement(MovementState.MOVING);
+        myHeroModel.changeDirection(DirectionState.SOUTH);
+        myHeroView.changeDirection(DirectionState.SOUTH);
     }
 
     private void moveLeft(){
-        myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
-        myModelEntities.get("Hero1").changeDirection(DirectionState.WEST);
-        myViewEntities.get("Hero1").changeDirection(DirectionState.WEST);
-        //bg.setHvalue(bg.getHvalue() - myHeroSpeed);
+        myHeroModel.changeMovement(MovementState.MOVING);
+        myHeroModel.changeDirection(DirectionState.WEST);
+        myHeroView.changeDirection(DirectionState.WEST);
     }
     private void moveRight(){
-        myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
-        myModelEntities.get("Hero1").changeDirection(DirectionState.EAST);
-        myViewEntities.get("Hero1").changeDirection(DirectionState.EAST);
-        //bg.setHvalue(bg.getHvalue() + myHeroSpeed);
+        myHeroModel.changeMovement(MovementState.MOVING);
+        myHeroModel.changeDirection(DirectionState.EAST);
+        myHeroView.changeDirection(DirectionState.EAST);
     }
 
 }
