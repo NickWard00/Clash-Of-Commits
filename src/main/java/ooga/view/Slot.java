@@ -5,7 +5,9 @@ import javafx.scene.layout.VBox;
 
 import java.util.ResourceBundle;
 
-
+/**
+ * @author Melanie Wang
+ */
 //game slot and save slot extend off of this class.
 //slots are like manifestations of filechoosers in a more user-friendly format.
 public abstract class Slot extends VBox {

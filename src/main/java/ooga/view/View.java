@@ -9,7 +9,11 @@ import ooga.model.state.DirectionState;
 import ooga.view.screens.*;
 
 import java.util.Map;
+import java.util.ResourceBundle;
 
+/**
+ * @author Melanie Wang, Nick Ward, Mayari Merchant
+ */
 public class View {
     private Scene myScene;
     private Stage stage;
@@ -22,10 +26,12 @@ public class View {
     private StackPane s;
     private EntityView myHeroView;
 
-    public View(Stage stage, Controller controller){
+    private ResourceBundle labels;
+    public View(Stage stage, Controller controller, ResourceBundle label){
         this.stage = stage;
         this.myController = controller;
         setupGame(stage);
+        labels = label;
     }
     public void step(double elapsedTime){
         s.setTranslateX((myScene.getWidth() - blockSize) / 2 - myHeroView.getX());
@@ -66,7 +72,7 @@ public class View {
     }
 
     private void changeScene(String sceneName){
-        ScreenSelector screenSelector = new ScreenSelector(stage);
+        ScreenSelector screenSelector = new ScreenSelector(stage, labels);
         screenSelector.selectScreen(sceneName);
     }
 

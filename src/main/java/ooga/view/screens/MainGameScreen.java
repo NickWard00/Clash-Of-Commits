@@ -13,6 +13,10 @@ import ooga.view.MapWrapper;
 
 import java.util.Map;
 
+/**
+ * @author Melanie Wang, Nick Ward, Mayari Merchant
+ */
+
 public class MainGameScreen extends SceneCreator {
     //TODO: refactor all "Screens" into subclasses of a screen superclass
     //TODO: refactor stackpane
@@ -65,6 +69,7 @@ public class MainGameScreen extends SceneCreator {
         gameScreenPane.setCenter(centerPaneConsolidated);
         gameScreenPane.setTop(hud.makeHUD());
         Scene s = new Scene(gameScreenPane, screenSize, screenSize);
+        s.getStylesheets().add(styles.getString("mainGameScreenCSS"));
         return s;
     }
 
