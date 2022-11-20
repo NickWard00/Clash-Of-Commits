@@ -1,8 +1,8 @@
 package ooga.model;
 
+import ooga.model.attack.Attack;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +17,9 @@ public abstract class Entity {
     private MovementState myMovement;
     private Map<String, String> myAttributes;
     private String attackType;
+    private Attack myAttack;
     private int hp;
+    private double timeUntilAttack;
 
     public Entity(Map<String, String> attributes) {
         try {
@@ -31,11 +33,14 @@ public abstract class Entity {
             this.attackType = attributes.get("Attack");
             this.myDirection = DirectionState.valueOf(attributes.getOrDefault("Direction", "SOUTH"));
             this.myMovement = MovementState.valueOf(attributes.getOrDefault("Movement", "STATIONARY"));
+            this.myAttack = Attack.attack(this);
+            this.timeUntilAttack = Attack.getCoolDown(myAttack);
         }
         catch (NullPointerException | ClassCastException | IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
     }
+
 
     /**
      * Method to update this entity's x and y positions based on the elapsed time since the previous step
@@ -44,6 +49,7 @@ public abstract class Entity {
     public List<Double> move(double elapsedTime) {
         xPos += myDirection.getVelocity().get(0) * myMovement.getSpeedConverter() * speed * elapsedTime;
         yPos += myDirection.getVelocity().get(1) * myMovement.getSpeedConverter() * speed * elapsedTime;
+        timeUntilAttack -= elapsedTime;
         return Arrays.asList(xPos, yPos);
     }
 
@@ -79,5 +85,12 @@ public abstract class Entity {
 
     public DirectionState getMyDirection() { return myDirection; }
 
+    public double getTimeUntilAttack() { return timeUntilAttack; }
+
+    public Attack getMyAttack() { return myAttack; }
+
+    public void resetTimeUntilAttack() {
+        timeUntilAttack = Attack.getCoolDown(myAttack);
+    }
 
 }

@@ -26,7 +26,6 @@ public abstract class Attack {
     private DirectionState myDirection;
 
 
-
     /**
      * Constructor for the Attack superclass
      * @param entity the entity that initiated this attack
@@ -42,8 +41,6 @@ public abstract class Attack {
         this.xPos = entity.coordinates().get(0) + (myDirection.getVelocity().get(0) * Integer.parseInt(entity.getMyAttributes().get("Size")));
         this.yPos = entity.coordinates().get(1) + (myDirection.getVelocity().get(1) * Integer.parseInt(entity.getMyAttributes().get("Size")));
     }
-
-    public abstract void activateAttack();
 
     /**
      * Method which takes an entity and invokes that entity's set attack
@@ -61,6 +58,14 @@ public abstract class Attack {
         }
     }
 
+    public void activateAttack() {
+        if (myEntity.getTimeUntilAttack() <= 0) {
+            System.out.println("test");
+            myEntity.resetTimeUntilAttack();
+            // add attack to list of active attacks
+        }
+    }
+
     /**
      * @param elapsedTime indicates how much time has passed since the last step
      * updates the X and Y positions of the attack
@@ -71,8 +76,9 @@ public abstract class Attack {
         return Arrays.asList(xPos, yPos);
     }
 
-
     public Entity getMyEntity() { return myEntity; }
 
     public int getDamage() { return damage; }
+    public static double getCoolDown(Attack a) { return a.coolDown; }
+
 }

@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.EntityView;
 import ooga.model.Entity;
+import ooga.model.attack.Attack;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
 import ooga.view.screens.*;
@@ -18,6 +19,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 public class View {
     private Scene myScene;
@@ -32,7 +34,8 @@ public class View {
             KeyCode.UP, "moveUp",
             KeyCode.DOWN, "moveDown",
             KeyCode.RIGHT, "moveRight",
-            KeyCode.LEFT, "moveLeft"
+            KeyCode.LEFT, "moveLeft",
+            KeyCode.SPACE, "attack"
     );
 
     public View(Stage stage, Controller controller){
@@ -139,5 +142,11 @@ public class View {
         ScrollPane bg = (ScrollPane) s.getChildren().get(0);
         bg.setHvalue(bg.getHvalue() + myHeroSpeed);
     }
+
+    private void attack(){
+        myModelEntities.get("Hero1").getMyAttack().activateAttack();
+    }
+
+    private void attackStop() {}
 
 }
