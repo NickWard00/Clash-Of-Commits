@@ -11,6 +11,7 @@ import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.model.Entity;
+import ooga.model.attack.Attack;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
 import ooga.view.screens.*;
@@ -18,6 +19,7 @@ import ooga.view.screens.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 public class View {
     private Scene myScene;
@@ -36,7 +38,8 @@ public class View {
             KeyCode.UP, "moveUp",
             KeyCode.DOWN, "moveDown",
             KeyCode.RIGHT, "moveRight",
-            KeyCode.LEFT, "moveLeft"
+            KeyCode.LEFT, "moveLeft",
+            KeyCode.SPACE, "attack"
     );
 
     public View(Stage stage, Controller controller){
@@ -145,5 +148,11 @@ public class View {
         myHeroModel.changeDirection(DirectionState.EAST);
         myHeroView.changeDirection(DirectionState.EAST);
     }
+
+    private void attack(){
+        myModelEntities.get("Hero1").getMyAttack().activateAttack();
+    }
+
+    private void attackStop() {}
 
 }
