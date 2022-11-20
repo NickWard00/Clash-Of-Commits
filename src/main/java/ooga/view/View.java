@@ -1,25 +1,14 @@
 package ooga.view;
 
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
-import ooga.model.Entity;
-import ooga.model.attack.Attack;
 import ooga.model.state.DirectionState;
-import ooga.model.state.MovementState;
 import ooga.view.screens.*;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 public class View {
     private Scene myScene;
