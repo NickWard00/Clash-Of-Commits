@@ -1,5 +1,6 @@
 package ooga.view;
 
+import javafx.stage.Stage;
 import ooga.controller.MapParser;
 import ooga.view.screens.MainGameScreen;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,7 @@ class MainGameScreenTest {
         MapWrapper map = mapParser.getMapWrapper();
         map.setStateToImageMap(mapParser.getStateToImageMap());
 
-        MainGameScreen mainGameScreen = new MainGameScreen();
+        MainGameScreen mainGameScreen = new MainGameScreen(new Stage());
         mainGameScreen.startGamePlay(map, null);
         mainGameScreen.makeScene();
         mainGameScreen.startGamePlay(map, null);
@@ -21,7 +22,7 @@ class MainGameScreenTest {
     }
     @Test
     void startGamePlayErrorTest(){
-        MainGameScreen mainGameScreen = new MainGameScreen();
+        MainGameScreen mainGameScreen = new MainGameScreen(new Stage());
         MapParser mapParser = new MapParser("MainMap");
         MapWrapper map = mapParser.getMapWrapper();
         map.setStateToImageMap(mapParser.getStateToImageMap());
