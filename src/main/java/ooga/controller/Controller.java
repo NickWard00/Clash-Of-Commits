@@ -9,6 +9,7 @@ import ooga.model.Entity;
 import ooga.model.Model;
 import ooga.model.attack.Attack;
 import ooga.model.hitBox.HitBox;
+import ooga.model.obstacle.Obstacle;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
 import ooga.view.EntityView;
@@ -17,10 +18,7 @@ import ooga.view.View;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * @author Nick Ward, Melanie Wang
@@ -36,6 +34,7 @@ public class Controller {
     private Map<String, EntityView> myViewEntities;
     private Map<String, Entity> myModelEntities;
     private static Map<Integer, Attack> myModelAttacks;
+    private static List<Obstacle> obstacleList;
 
     private String myMainHeroName;
     private Map<KeyCode, String> actions = Map.of(
@@ -52,8 +51,13 @@ public class Controller {
         this.mapName = mapName;
         myViewEntities = new HashMap<>();
         myModelAttacks = new HashMap<>();
+        obstacleList = new ArrayList<>();
         initializeModel(mapName);
         myView = new View(stage, this, labels);
+    }
+
+    public static List<Obstacle> getModelObstacles() {
+        return obstacleList;
     }
 
     private void initializeModel(String mapName) {

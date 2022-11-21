@@ -16,6 +16,7 @@ public class CollisionHandler {
     private Controller controller;
     private Map<String, Entity> modelEntities;
     private Map<String, EntityView> viewEntities;
+    private Obstacle collisionObstacle;
     private Entity collisionEntity;
 
     public CollisionHandler() {
@@ -58,6 +59,16 @@ public class CollisionHandler {
         }
         System.out.println(myClass);
         return myClass;
+    }
+
+    public void translateCollision(EntityView entityView,BlockView obstacleView ){
+        try {
+            collisionEntity = controller.getModelEntities().get(entityView.getEntityName());
+            collisionObstacle = Controller.getModelObstacles().get(Arrays.asList(obstacleView.getXPosition(), obstacleView.getYPosition()));
+
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

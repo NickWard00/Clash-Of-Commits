@@ -1,5 +1,7 @@
 package ooga.model.obstacle;
 
+import ooga.controller.Controller;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -26,6 +28,7 @@ public abstract class Obstacle {
   public static Obstacle makeObstacle(Class<? extends Obstacle> obstacleClass, Map<String, String> attributes, Map<Integer, String> states) {
     try {
       Obstacle newObstacle = obstacleClass.getDeclaredConstructor(Map.class, Map.class).newInstance(attributes, states);
+      Controller.getModelObstacles().add(newObstacle);
       return newObstacle;
     }
     catch (Exception e) {
