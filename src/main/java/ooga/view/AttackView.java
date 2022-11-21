@@ -20,19 +20,14 @@ public class AttackView extends ImageView {
     /**
      * Creates a new AttackView with the given image path, attack type, x & y position, and size
      * @param imagePath
-     * @param direction
-     * @param xPosition
-     * @param yPosition
      * @param xSize
      * @param ySize
      */
-    public AttackView(String imagePath, DirectionState direction, String attackType, double xPosition, double yPosition, int xSize, int ySize) {
-        super(new Image(String.format("%s%s_%s.png", imagePath, attackType, direction.getDirection())));
+    public AttackView(String imagePath, String attackType, int xSize, int ySize) {
+        super();
         this.imagePath = imagePath;
         this.attackType = attackType;
         setupSprites();
-        this.setX(xPosition);
-        this.setY(yPosition);
         this.setFitWidth(xSize);
         this.setFitHeight(ySize);
     }

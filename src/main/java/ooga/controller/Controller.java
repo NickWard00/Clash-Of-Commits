@@ -8,9 +8,9 @@ import javafx.util.Duration;
 import ooga.model.Entity;
 import ooga.model.Model;
 import ooga.model.attack.Attack;
-import ooga.model.hitBox.HitBox;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
+import ooga.view.AttackView;
 import ooga.view.EntityView;
 import ooga.view.MapWrapper;
 import ooga.view.View;
@@ -36,6 +36,7 @@ public class Controller {
     private Map<String, EntityView> myViewEntities;
     private Map<String, Entity> myModelEntities;
     private static Map<Integer, Attack> myModelAttacks;
+    private static Map<Integer, AttackView> myViewAttacks;
 
     private String myMainHeroName;
     private Map<KeyCode, String> actions = Map.of(
@@ -48,10 +49,12 @@ public class Controller {
 
     private boolean playingGame;
     private boolean choosingGame; //some sort of variable to control what is active at any given moment
+
     public Controller(Stage stage, String mapName, ResourceBundle labels){
         this.mapName = mapName;
         myViewEntities = new HashMap<>();
         myModelAttacks = new HashMap<>();
+        myViewAttacks = new HashMap<>();
         initializeModel(mapName);
         myView = new View(stage, this, labels);
     }
@@ -86,9 +89,15 @@ public class Controller {
 
     private void updateAttackPosition(double elapsedTime) {
         myModelAttacks.keySet().iterator().forEachRemaining(attackID -> {
-            List<Double> newCoordinates = myModelAttacks.get(attackID).move(elapsedTime);
-            // myViewAttacks.get(attackID).setX(newCoordinates.get(0));
-            // myViewAttacks.get(attackID).setY(newCoordinates.get(1));
+            Attack attackModel = myModelAttacks.get(attackID);
+            List<Double> newCoordinates = attackModel.move(elapsedTime);
+            if (myViewAttacks.containsKey(attackID)) {
+                myViewAttacks.get(attackID).changeDirection(attackModel.getDirection());
+                myViewAttacks.get(attackID).setX(newCoordinates.get(0));
+                myViewAttacks.get(attackID).setY(newCoordinates.get(1));
+            } else {
+                myViewAttacks.put(attackID, createViewAttack(attackModel));
+            }
         });
     }
 
@@ -125,6 +134,12 @@ public class Controller {
         String spriteLocation = entityAttributes.get("Sprites");
         String startingDirection = entityAttributes.get("Direction");
         return new EntityView(spriteLocation, startingDirection, imageName, xPos, yPos, size, size);
+    }
+
+    private AttackView createViewAttack(Attack attack){
+        // TODO: Nicki, this is where we will need to get the attack image from the attack object
+        String attackType = attack.getClass().getSimpleName();
+        return new AttackView("/attacks/", attackType, 20, 20);
     }
 
     public Map<String, EntityView> getViewEntities(){
@@ -217,5 +232,11 @@ public class Controller {
         return myModelEntities;
     }
 
-    public static Map<Integer, Attack> getModelAttacks() { return myModelAttacks; }
+    public static Map<Integer, Attack> getModelAttacks() {
+        return myModelAttacks;
+    }
+
+    public static Map<Integer, AttackView> getViewAttacks() {
+        return myViewAttacks;
+    }
 }

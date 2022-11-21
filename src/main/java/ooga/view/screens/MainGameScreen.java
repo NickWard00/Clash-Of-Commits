@@ -36,17 +36,12 @@ public class MainGameScreen extends SceneCreator {
     private int screenSize;
     private Map<String, EntityView> myViewEntities;
     private Group root;
-
     private BorderPane gameScreenPane;
     private ScrollPane background;
-
     private StackPane centerPaneConsolidated;
-
     private Pane characters;
-
     private HUD hud;
     private List<BlockView> obstacleList;
-
     private Media music;
     private Media walk;
     private MediaPlayer musicPlayer;
@@ -62,7 +57,7 @@ public class MainGameScreen extends SceneCreator {
         this.mapWrapper = map;
         mapView = new MapView(mapWrapper);
         myViewEntities = entities;
-        music =new Media(new File(media.getString("lvl1")).toURI().toString());
+        music = new Media(new File(media.getString("lvl1")).toURI().toString());
         walk = new Media(new File(media.getString("walking")).toURI().toString());
         walkPlayer = new MediaPlayer(walk);
     }

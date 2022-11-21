@@ -1,11 +1,6 @@
 package ooga.model.attack;
 
-import ooga.model.state.DirectionState;
 import ooga.model.Entity;
-import ooga.model.hitBox.AttackHitBox;
-
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 public class LongRange extends Attack {

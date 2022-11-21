@@ -72,12 +72,19 @@ public abstract class Attack {
     private Integer createRandomID() {
         Random r = new Random();
         Integer randomID = r.nextInt(100);
-        while (Controller.getModelAttacks().containsKey(randomID)) { randomID = r.nextInt(100); }
+        while (Controller.getModelAttacks().containsKey(randomID)) {
+            randomID = r.nextInt(100);
+        }
         return randomID;
     }
 
     public void deactivateAttack() {
         Controller.getModelAttacks().remove(activeAttackID);
+        Controller.getViewAttacks().remove(activeAttackID);
+    }
+
+    public DirectionState getDirection() {
+        return myDirection;
     }
 
     /**
@@ -96,7 +103,11 @@ public abstract class Attack {
         return Arrays.asList(xPos, yPos);
     }
 
-    public Entity getMyEntity() { return myEntity; }
+    public Entity getMyEntity() {
+        return myEntity;
+    }
 
-    public int getDamage() { return damage; }
+    public int getDamage() {
+        return damage;
+    }
 }
