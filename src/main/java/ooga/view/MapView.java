@@ -47,7 +47,7 @@ public class MapView {
 
             }
         }
-        System.out.println(obstacleList);
+//        System.out.println(obstacleList);
         return grid;
     }
 

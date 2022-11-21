@@ -13,6 +13,7 @@ public class MapParser {
     private Map<String, String> mapInfo;
     private Map<String, String> mapCSVSelection;
     private Map<Integer, String> stateToImage;
+    private Map<String, ObstacleEnum> imageToState;
     private double mapSize_X;
     private double mapSize_Y;
     private double cellSize;
@@ -32,6 +33,7 @@ public class MapParser {
 
         properties = simParser.getSimData(String.format(MAP_DIRECTORY, mapSim));
 
+        setImageToState();
         populateCSVandInfoMaps();
         setupMapWrapperMap();
         generateMapProperties();
@@ -69,6 +71,12 @@ public class MapParser {
                 mapInfo.put(key, value);
             }
         });
+    }
+
+    private void setImageToState() {
+//        imageToState.put("", ObstacleEnum.BUSH);
+//        imageToState.put("", ObstacleEnum.NORMAL_GRASS);
+//        imageToState.put("", ObstacleEnum.STUMP);
     }
 
     /**
@@ -110,6 +118,10 @@ public class MapParser {
      */
     public Map<String, String> getMapInfo() {
         return mapInfo;
+    }
+
+    public Map<String, ObstacleEnum> getImageToState() {
+        return imageToState;
     }
 }
 
