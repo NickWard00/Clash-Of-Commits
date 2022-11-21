@@ -19,7 +19,7 @@ public class CollisionHandler {
     private Entity collisionEntity;
 
     public CollisionHandler() {
-        modelEntities = controller.getModelEntities();
+        //modelEntities = controller.getModelEntities();
     }
 
 
