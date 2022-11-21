@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.model.Entity;
 import ooga.model.Model;
+import ooga.model.attack.Attack;
 import ooga.model.hitBox.HitBox;
 import ooga.view.MapWrapper;
 import ooga.view.View;
@@ -19,19 +20,19 @@ public class Controller {
     private Timeline animation;
     private View view;
     private MapWrapper mapWrapper;
-
-    private List<HitBox> myHitBoxes;
     private String mapName;
     private static final double FRAMES_PER_SECOND = 60;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     private Model myModel;
     private Map<String, EntityView> myViewEntities;
     private Map<String, Entity> myModelEntities;
+    private static Map<Integer, Attack> myModelAttacks;
     private boolean playingGame;
     private boolean choosingGame; //some sort of variable to control what is active at any given moment
     public Controller(Stage stage, String mapName){
         this.mapName = mapName;
         myViewEntities = new HashMap<>();
+        myModelAttacks = new HashMap<>();
         initializeModel(mapName);
         view = new View(stage, this);
     }
@@ -108,4 +109,6 @@ public class Controller {
     public Map<String, Entity> getModelEntities() {
         return myModelEntities;
     }
+
+    public static Map<Integer, Attack> getModelAttacks() { return myModelAttacks; }
 }

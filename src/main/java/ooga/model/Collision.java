@@ -13,7 +13,7 @@ public class Collision {
     public Collision(Attack attack, Entity entity) {
         if (attack.getMyEntity() != entity) {
             entity.changeHp(attack.getDamage());
-            deactivateAttack(attack);
+            attack.deactivateAttack();
         }
     }
 
@@ -21,7 +21,7 @@ public class Collision {
         if (attack.getMyEntity().getClass() == MainHero.class && obstacle.getClass() == DestroyableWall.class) {
             ((DestroyableWall) obstacle).updateHP(attack.getDamage());
         }
-        deactivateAttack(attack);
+        attack.deactivateAttack();
     }
 
     public Collision(Entity entity, Obstacle obstacle) {
@@ -32,10 +32,6 @@ public class Collision {
         } else if (obstacle.getClass() == Wall.class) {
             entity.changeDirection(entity.getMyDirection().oppositeDirection());
         }
-    }
-
-    private void deactivateAttack(Attack attack) {
-        // remove the attack from list of attacks or something like that
     }
 
 }

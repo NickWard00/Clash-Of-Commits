@@ -27,6 +27,7 @@ public class View {
     private Controller myController;
     private Map<String, EntityView> myViewEntities;
     private Map<String, Entity> myModelEntities;
+    private Map<Integer, Attack> myModelAttacks;
 
     private double myHeroSpeed;
 
@@ -45,11 +46,13 @@ public class View {
     }
     public void step(double elapsedTime){
         myModelEntities.get("Hero1").move(elapsedTime);
+        myModelAttacks.values().iterator().forEachRemaining(attack -> attack.move(elapsedTime));
     }
 
     private void setupGame(Stage stage){
         myViewEntities = myController.getViewEntities();
         myModelEntities = myController.getModelEntities();
+        myModelAttacks = myController.getModelAttacks();
         myHeroSpeed = Double.parseDouble(myModelEntities.get("Hero1").getMyAttributes().get("Speed"));
         MainGameScreen mainGameScreen = new MainGameScreen();
         mainGameScreen.startGamePlay(myController.getMapWrapper(), myViewEntities);
@@ -144,7 +147,11 @@ public class View {
     }
 
     private void attack(){
-        myModelEntities.get("Hero1").getMyAttack().activateAttack();
+        if (myModelEntities.get("Hero1").getTimeUntilAttack() <= 0) {
+            // myModelEntities.get("Hero1").getMyAttack().activateAttack();
+            Attack newAttack = Attack.attack(myModelEntities.get("Hero1"));
+            newAttack.activateAttack();
+        }
     }
 
     private void attackStop() {}
