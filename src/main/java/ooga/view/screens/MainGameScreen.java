@@ -1,11 +1,18 @@
 package ooga.view.screens;
 
+import java.util.List;
+import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Shape;
+import ooga.controller.CollisionHandler;
+import ooga.model.Collision;
+import ooga.view.BlockView;
 import ooga.view.EntityView;
 import ooga.view.HUD;
 import ooga.view.MapView;
@@ -35,6 +42,7 @@ public class MainGameScreen extends SceneCreator {
     private Pane characters;
 
     private HUD hud;
+    private List<BlockView> obstacleList;
 
 
     public MainGameScreen(){
@@ -78,6 +86,10 @@ public class MainGameScreen extends SceneCreator {
         root.getChildren().remove(myViewEntities.get(entityName));
     }
 
+    public StackPane getMapPane() {
+        return this.centerPaneConsolidated;
+    }
+
     public boolean isPlaying(){
         return isPlaying;
     }
@@ -85,4 +97,27 @@ public class MainGameScreen extends SceneCreator {
         isPlaying = false;
     }
 
+    public void detectCollisions() {
+//        for (BlockView block: )
+        int counter = 0;
+        obstacleList = mapView.getObstacleList();
+        for (EntityView entity: myViewEntities.values()) {
+            for (BlockView obstacle: obstacleList) {
+//                counter++;
+//                if (counter == 1) {
+////                    System.out.println(obstacleList);
+//                }
+                if (myViewEntities.get("Hero1").localToScreen(myViewEntities.get("Hero1").getBoundsInLocal()).intersects(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()))) {
+//                    Bounds a = obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal());
+//                    System.out.println(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()));
+//                    System.out.println(obstacleList.get(0).getImageView().localToScreen(obstacleList.get(0).getImageView().getBoundsInLocal()));
+//                    System.out.println(a.equals(obstacleList.get(0).getImageView().localToScreen(obstacleList.get(0).getImageView().getBoundsInLocal())));
+//                    System.out.println("Hello");
+                    CollisionHandler handler = new CollisionHandler();
+                    handler.collision(entity, obstacle);
+                }
+            }
+        }
+
+    }
 }
