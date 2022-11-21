@@ -11,36 +11,35 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MapViewTest {
     private static final String MAP_BLOCKS_PROPERTIES = "ResourceBundles.MapBlocks";
-    private static ResourceBundle blockStates = ResourceBundle.getBundle(MAP_BLOCKS_PROPERTIES);
-
-
 
     @Test
     void createMapTest() {
         String mapName = "MainMap"; //for now!
         MapParser mapParser = new MapParser(mapName);
         MapWrapper mapWrapper = mapParser.getMapWrapper();
+        mapWrapper.setVisualProperties(mapParser.getMapProperties());
         mapWrapper.setStateToImageMap(mapParser.getStateToImageMap());
         MapView mapView = new MapView(mapWrapper);
         mapView.createMap();
         int state;
+
         String expected;
-        for(int i = 0; i<32; i++){
-            for(int j = 0; j<32; j++){
+        for(int i = 0; i<4; i++){
+            for(int j = 0; j<4; j++){
                 state = mapWrapper.getState(i,j);
-                expected = blockStates.getString("state"+Integer.toString(Math.abs(state %4)));
+
                 switch(state) {
                     case(0)-> {
-                        assertEquals("/blocks/grass.jpeg",expected);
+                        assertEquals("/blocks/grass.jpeg", mapWrapper.getImageFromState(state));
                         break;
                     } case(1)->{
-                        assertEquals("/blocks/bush.jpeg",expected);
+                        assertEquals("/blocks/bush.jpeg", mapWrapper.getImageFromState(state));
                         break;
                     } case(2)->{
-                        assertEquals("/blocks/water.jpeg",expected);
+                        assertEquals("/blocks/water.jpeg", mapWrapper.getImageFromState(state));
                         break;
                     } case(3)->{
-                        assertEquals("/blocks/winter_grass.jpeg",expected);
+                        assertEquals("/blocks/winter_grass.jpeg", mapWrapper.getImageFromState(state));
                         break;
                     } default->{
                         System.out.println("not one of the provided states");

@@ -25,7 +25,7 @@ class AttackParserTest {
     void getAttributeMapTest() {
         attackParser = new AttackParser(testHero);
         Map<String, Double> attributes = attackParser.getAttributeMap();
-        Double expectedSpeed = 0.0;
+        Double expectedSpeed = 20.0;
         Double expectedDamage = 2.0;
         Double expectedCoolDown = 0.2;
         assertEquals(expectedSpeed, attributes.get("Speed"));

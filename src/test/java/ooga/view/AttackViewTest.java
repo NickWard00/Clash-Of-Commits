@@ -26,11 +26,12 @@ class AttackViewTest extends DukeApplicationTest {
         size = 50;
         xPos = 100;
         yPos = 100;
-        attackType = "longRange";
+        attackType = "LongRange";
         spriteLocation = "/attacks/";
         direction = DirectionState.EAST;
-        attackView = new AttackView(spriteLocation, direction, attackType, xPos, yPos, size, size);
-
+        attackView = new AttackView(spriteLocation, attackType, size, size);
+        attackView.setX(xPos);
+        attackView.setY(yPos);
     }
 
     @Test
