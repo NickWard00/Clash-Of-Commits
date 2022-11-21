@@ -8,9 +8,12 @@ import ooga.model.obstacle.Obstacle;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import ooga.view.BlockView;
+import ooga.view.EntityView;
 
 public class CollisionHandler {
 
+    private EntityParser parser;
 
     public CollisionHandler() {}
 
@@ -30,11 +33,17 @@ public class CollisionHandler {
         }
     }
 
+//    public void collision(EntityView entityView, BlockView obstacleView) {
+//        Entity entity = new Entity()
+//        Collision collision = new Collision()
+//    }
+
     private static Class getCorrectClassForCollision(Object object) {
         Class myClass = object.getClass().getSuperclass();
         if (myClass != Attack.class) {
             myClass = myClass.getSuperclass();
         }
+        System.out.println(myClass);
         return myClass;
     }
 

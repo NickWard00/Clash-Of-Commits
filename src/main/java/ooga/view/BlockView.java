@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
-public class BlockView {
+public class BlockView{
     private ImageView imageView;
     private String imagePath;
 
@@ -19,5 +19,9 @@ public class BlockView {
 
     public String getImagePath(){
         return imagePath;
+    }
+
+    public ImageView getImageView() {
+        return this.imageView;
     }
 }

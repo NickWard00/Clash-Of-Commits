@@ -1,5 +1,6 @@
 package ooga.view;
 
+import java.util.List;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -23,19 +24,26 @@ public class View {
     private double myWidth;
     private double myHeight;
     private double blockSize;
-    private StackPane s;
+    private BorderPane bPane;
+    private StackPane stackPane;
     private EntityView myHeroView;
+    private MainGameScreen mainGameScreen;
+    private boolean isActive;
 
     private ResourceBundle labels;
     public View(Stage stage, Controller controller, ResourceBundle label){
+        this.isActive = false;
         this.stage = stage;
         this.myController = controller;
         setupGame(stage);
         labels = label;
     }
     public void step(double elapsedTime){
-        s.setTranslateX((myScene.getWidth() - blockSize) / 2 - myHeroView.getX());
-        s.setTranslateY((myScene.getHeight() - blockSize) / 2 - myHeroView.getY());
+        stackPane.setTranslateX((myScene.getWidth() - blockSize) / 2 - myHeroView.getX());
+        stackPane.setTranslateY((myScene.getHeight() - blockSize) / 2 - myHeroView.getY());
+        if (isActive == true) {
+            mainGameScreen.detectCollisions();
+        }
     }
 
     private void setupGame(Stage stage){
@@ -44,12 +52,13 @@ public class View {
 
         setupMap();
 
-        MainGameScreen mainGameScreen = new MainGameScreen();
+        mainGameScreen = new MainGameScreen();
         mainGameScreen.startGamePlay(myMapWrapper, myViewEntities);
         myScene = mainGameScreen.makeScene();
         handleKeyInputs();
         stage.setScene(myScene);
         createScrollableBackground();
+        isActive = true;
     }
 
     public void changeEntityState(String entityName, DirectionState direction) {
@@ -65,10 +74,10 @@ public class View {
     }
 
     private void createScrollableBackground() {
-        BorderPane b = (BorderPane) myScene.getRoot();
-        s = (StackPane) b.getChildren().get(0);
-        s.setMinHeight(myHeight);
-        s.setMinWidth(myWidth);
+        bPane = (BorderPane) myScene.getRoot();
+        stackPane = (StackPane) bPane.getChildren().get(0);
+        stackPane.setMinHeight(myHeight);
+        stackPane.setMinWidth(myWidth);
     }
 
     private void changeScene(String sceneName){
