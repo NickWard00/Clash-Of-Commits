@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Nick Ward
+ */
+
 public class MapWrapper {
   private int row = 0;
   private int column = 0;

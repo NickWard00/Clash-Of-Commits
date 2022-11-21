@@ -21,7 +21,7 @@ class StartScreenTest extends DukeApplicationTest {
     @Override
     public void start(Stage stage) {
         StartScreen ss = new StartScreen(stage);
-        ChooseGameScreen cgs = new ChooseGameScreen(stage);
+        //ChooseGameScreen cgs = new ChooseGameScreen(stage);
         stage.setScene(ss.makeScene());
         stage.show();
         startGame = lookup("#startGame").query();

@@ -9,6 +9,9 @@ import ooga.view.screens.SceneCreator;
 
 import java.util.ResourceBundle;
 
+/**
+ * @author Melanie Wang
+ */
 //this screen is for when the player wishes to load a previously saved game.
 public class OpenSaveScreen extends SceneCreator {
     private SaveSlot slot1;

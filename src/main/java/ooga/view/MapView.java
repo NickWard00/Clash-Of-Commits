@@ -2,6 +2,9 @@ package ooga.view;
 
 import javafx.scene.layout.GridPane;
 
+/**
+ * @author Nick Ward
+ */
 public class MapView {
     private int numRows;
     private int numColumns;

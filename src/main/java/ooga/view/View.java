@@ -1,159 +1,88 @@
 package ooga.view;
 
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
-import ooga.controller.EntityView;
-import ooga.model.Entity;
-import ooga.model.attack.Attack;
 import ooga.model.state.DirectionState;
-import ooga.model.state.MovementState;
 import ooga.view.screens.*;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+/**
+ * @author Melanie Wang, Nick Ward, Mayari Merchant
+ */
 public class View {
     private Scene myScene;
     private Stage stage;
     private Controller myController;
     private Map<String, EntityView> myViewEntities;
-    private Map<String, Entity> myModelEntities;
-    private Map<Integer, Attack> myModelAttacks;
+    private MapWrapper myMapWrapper;
+    private double myWidth;
+    private double myHeight;
+    private double blockSize;
+    private StackPane s;
+    private EntityView myHeroView;
 
-    private double myHeroSpeed;
-
-    private Map<KeyCode, String> actions = Map.of(
-            KeyCode.UP, "moveUp",
-            KeyCode.DOWN, "moveDown",
-            KeyCode.RIGHT, "moveRight",
-            KeyCode.LEFT, "moveLeft",
-            KeyCode.SPACE, "attack"
-    );
-
-    public View(Stage stage, Controller controller){
+    private ResourceBundle labels;
+    public View(Stage stage, Controller controller, ResourceBundle label){
         this.stage = stage;
         this.myController = controller;
         setupGame(stage);
+        labels = label;
     }
     public void step(double elapsedTime){
-        myModelEntities.get("Hero1").move(elapsedTime);
-        myModelAttacks.values().iterator().forEachRemaining(attack -> attack.move(elapsedTime));
+        s.setTranslateX((myScene.getWidth() - blockSize) / 2 - myHeroView.getX());
+        s.setTranslateY((myScene.getHeight() - blockSize) / 2 - myHeroView.getY());
     }
 
     private void setupGame(Stage stage){
         myViewEntities = myController.getViewEntities();
-        myModelEntities = myController.getModelEntities();
-        myModelAttacks = myController.getModelAttacks();
-        myHeroSpeed = Double.parseDouble(myModelEntities.get("Hero1").getMyAttributes().get("Speed"));
+        myHeroView = myViewEntities.get(myController.getMainHeroName());
+
+        setupMap();
+
         MainGameScreen mainGameScreen = new MainGameScreen();
-        mainGameScreen.startGamePlay(myController.getMapWrapper(), myViewEntities);
+        mainGameScreen.startGamePlay(myMapWrapper, myViewEntities);
         myScene = mainGameScreen.makeScene();
         handleKeyInputs();
         stage.setScene(myScene);
+        createScrollableBackground();
+    }
+
+    public void changeEntityState(String entityName, DirectionState direction) {
+        EntityView entity = myViewEntities.get(entityName);
+        entity.changeDirection(direction);
+    }
+
+    private void setupMap() {
+        myMapWrapper = myController.getMapWrapper();
+        myWidth = myMapWrapper.getVisualProperties().get(2);
+        myHeight = myMapWrapper.getVisualProperties().get(1);
+        blockSize = myMapWrapper.getVisualProperties().get(0);
+    }
+
+    private void createScrollableBackground() {
+        BorderPane b = (BorderPane) myScene.getRoot();
+        s = (StackPane) b.getChildren().get(0);
+        s.setMinHeight(myHeight);
+        s.setMinWidth(myWidth);
     }
 
     private void changeScene(String sceneName){
-        ScreenSelector screenSelector = new ScreenSelector(stage);
+        ScreenSelector screenSelector = new ScreenSelector(stage, labels);
         screenSelector.selectScreen(sceneName);
     }
 
-    private void handleKeyInputs(){
-        myScene.setOnKeyPressed(event ->{
-            try {
-                Method currentAction = this.getClass().getDeclaredMethod(
-                        actions.get(event.getCode()));
-                currentAction.invoke(this);
-
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                throw new RuntimeException(e);
-            }
+    private void handleKeyInputs() {
+        myScene.setOnKeyPressed(event -> {
+            myController.handleKeyPress(event.getCode());
         });
-        myScene.setOnKeyReleased(event ->{
-            try {
-                Method currentAction = this.getClass().getDeclaredMethod(
-                    actions.get(event.getCode())+"Stop");
-                currentAction.invoke(this);
-
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                throw new RuntimeException(e);
-            }
-           // myModelEntities.get("Hero1").changeDirection(DirectionState.NORTH_STATIONARY);
+        myScene.setOnKeyReleased(event -> {
+            myController.handleKeyRelease(event.getCode());
         });
     }
-    private void moveUpStop(){
-        myModelEntities.get("Hero1").changeDirection(DirectionState.NORTH_STATIONARY);
-        myViewEntities.get("Hero1").changeDirection(DirectionState.NORTH_STATIONARY);
-    }
-    private void moveDownStop(){
-        myModelEntities.get("Hero1").changeDirection(DirectionState.SOUTH_STATIONARY);
-        myViewEntities.get("Hero1").changeDirection(DirectionState.SOUTH_STATIONARY);
-    }
-    private void moveRightStop(){
-        myModelEntities.get("Hero1").changeDirection(DirectionState.EAST_STATIONARY);
-        myViewEntities.get("Hero1").changeDirection(DirectionState.EAST_STATIONARY);
-    }
-
-    private void moveLeftStop(){
-        myModelEntities.get("Hero1").changeDirection(DirectionState.WEST_STATIONARY);
-        myViewEntities.get("Hero1").changeDirection(DirectionState.WEST_STATIONARY);
-    }
-
-    private void moveUp() {
-        //myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
-        myModelEntities.get("Hero1").changeDirection(DirectionState.NORTH);
-        myViewEntities.get("Hero1").changeDirection(DirectionState.NORTH);
-        BorderPane b = (BorderPane) myScene.getRoot();
-        StackPane s = (StackPane) b.getCenter();
-        ScrollPane bg = (ScrollPane) s.getChildren().get(0);
-        bg.setVvalue(bg.getVvalue()-myHeroSpeed*2);
-    }
-
-    private void moveDown() {
-        //myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
-        myModelEntities.get("Hero1").changeDirection(DirectionState.SOUTH);
-        myViewEntities.get("Hero1").changeDirection(DirectionState.SOUTH);
-        BorderPane b = (BorderPane) myScene.getRoot();
-        StackPane s = (StackPane) b.getCenter();
-        ScrollPane bg = (ScrollPane) s.getChildren().get(0);
-        bg.setVvalue(bg.getVvalue() + myHeroSpeed*2);
-    }
-
-    private void moveLeft(){
-        //myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
-        myModelEntities.get("Hero1").changeDirection(DirectionState.WEST);
-        myViewEntities.get("Hero1").changeDirection(DirectionState.WEST);
-        BorderPane b = (BorderPane) myScene.getRoot();
-        StackPane s = (StackPane) b.getCenter();
-        ScrollPane bg = (ScrollPane) s.getChildren().get(0);
-        bg.setHvalue(bg.getHvalue() - myHeroSpeed);
-    }
-    private void moveRight(){
-        //myModelEntities.get("Hero1").changeMovement(MovementState.MOVING);
-        myModelEntities.get("Hero1").changeDirection(DirectionState.EAST);
-        myViewEntities.get("Hero1").changeDirection(DirectionState.EAST);
-        BorderPane b = (BorderPane) myScene.getRoot();
-        StackPane s = (StackPane) b.getCenter();
-        ScrollPane bg = (ScrollPane) s.getChildren().get(0);
-        bg.setHvalue(bg.getHvalue() + myHeroSpeed);
-    }
-
-    private void attack(){
-        if (myModelEntities.get("Hero1").getTimeUntilAttack() <= 0) {
-            // myModelEntities.get("Hero1").getMyAttack().activateAttack();
-            Attack newAttack = Attack.attack(myModelEntities.get("Hero1"));
-            newAttack.activateAttack();
-        }
-    }
-
-    private void attackStop() {}
-
 }
+

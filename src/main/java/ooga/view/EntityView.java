@@ -1,4 +1,4 @@
-package ooga.controller;
+package ooga.view;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -6,6 +6,9 @@ import ooga.model.state.DirectionState;
 
 import java.lang.reflect.InvocationTargetException;
 
+/**
+ * @author Nick Ward, Melanie Wang
+ */
 public class EntityView extends ImageView {
     private String entityName;
     private String imagePath;

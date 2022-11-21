@@ -6,7 +6,11 @@ import ooga.Main;
 import ooga.controller.Controller;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ResourceBundle;
 
+/**
+ * @author Nick Ward
+ */
 public class ScreenSelector {
     private StartScreen startScreen;
     private MainGameScreen mainGameScreen;
@@ -17,11 +21,11 @@ public class ScreenSelector {
     private LoseScreen loseScreen;
     private Stage myStage;
 
-    public ScreenSelector(Stage stage) {
+    public ScreenSelector(Stage stage, ResourceBundle labels) {
         myStage = stage;
         mainGameScreen = new MainGameScreen();
         openSaveScreen = new OpenSaveScreen();
-        openNewGameScreen = new OpenNewGameScreen(stage);
+        openNewGameScreen = new OpenNewGameScreen(stage, labels);
         winScreen = new WinScreen();
         loseScreen = new LoseScreen();
         startScreen = new StartScreen(stage);

@@ -4,19 +4,18 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import ooga.controller.EntityView;
-import ooga.controller.MapParser;
+import ooga.view.EntityView;
 import ooga.view.HUD;
 import ooga.view.MapView;
 import ooga.view.MapWrapper;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.List;
 import java.util.Map;
+
+/**
+ * @author Melanie Wang, Nick Ward, Mayari Merchant
+ */
 
 public class MainGameScreen extends SceneCreator {
     //TODO: refactor all "Screens" into subclasses of a screen superclass
@@ -70,6 +69,7 @@ public class MainGameScreen extends SceneCreator {
         gameScreenPane.setCenter(centerPaneConsolidated);
         gameScreenPane.setTop(hud.makeHUD());
         Scene s = new Scene(gameScreenPane, screenSize, screenSize);
+        s.getStylesheets().add(styles.getString("mainGameScreenCSS"));
         return s;
     }
 

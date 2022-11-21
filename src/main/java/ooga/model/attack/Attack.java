@@ -50,8 +50,7 @@ public abstract class Attack {
             AttackParser myAttackParser = new AttackParser(entity);
             Map<String, Double> attributes = myAttackParser.getAttributeMap();
             Object o = Class.forName(attackBundle.getString(entity.getAttackType())).getConstructor(Entity.class, Map.class).newInstance(entity, attributes);
-            Attack a = (Attack) o;
-            return a;
+            return (Attack) o;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -59,15 +58,14 @@ public abstract class Attack {
 
     public void activateAttack() {
         if (myEntity.getTimeUntilAttack() <= 0) {
-            myEntity.resetTimeUntilAttack();
             activeAttackID = createRandomID();
-            System.out.println("ACTIVATING " + activeAttackID);
             Controller.getModelAttacks().put(activeAttackID, this);
             this.myDirection = DirectionState.valueOf(myEntity.getStateStrings().get(0));
             // TODO: establish whether entity coordinates are centered or upper left aligned and adjust this accordingly
             this.xPos = myEntity.coordinates().get(0) + (myDirection.getVelocity().get(0) * Integer.parseInt(myEntity.getMyAttributes().get("Size")));
             this.yPos = myEntity.coordinates().get(1) + (myDirection.getVelocity().get(1) * Integer.parseInt(myEntity.getMyAttributes().get("Size")));
             this.timeSinceActivation = 0.0;
+            myEntity.resetTimeUntilAttack();
         }
     }
 
@@ -79,7 +77,6 @@ public abstract class Attack {
     }
 
     public void deactivateAttack() {
-        System.out.println("DEACTIVATING");
         Controller.getModelAttacks().remove(activeAttackID);
     }
 

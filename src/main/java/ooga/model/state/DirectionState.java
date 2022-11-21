@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Nicki Lee, Melanie Wang
+ */
 public enum DirectionState {
     NORTH_STATIONARY("NORTH_STATIONARY",0,0){
         @Override
