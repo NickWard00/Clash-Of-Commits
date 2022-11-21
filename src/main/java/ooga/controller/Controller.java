@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.model.Entity;
 import ooga.model.Model;
+import ooga.model.attack.Attack;
 import ooga.model.hitBox.HitBox;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
@@ -28,14 +29,14 @@ public class Controller {
     private Timeline animation;
     private View myView;
     private MapWrapper mapWrapper;
-
-    private List<HitBox> myHitBoxes;
     private String mapName;
     private static final double FRAMES_PER_SECOND = 60;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     private Model myModel;
     private Map<String, EntityView> myViewEntities;
     private Map<String, Entity> myModelEntities;
+    private static Map<Integer, Attack> myModelAttacks;
+
     private String myMainHeroName;
     private Map<KeyCode, String> actions = Map.of(
             KeyCode.UP, "moveUp",
@@ -44,11 +45,13 @@ public class Controller {
             KeyCode.LEFT, "moveLeft",
             KeyCode.SPACE, "attack"
     );
+
     private boolean playingGame;
     private boolean choosingGame; //some sort of variable to control what is active at any given moment
     public Controller(Stage stage, String mapName, ResourceBundle labels){
         this.mapName = mapName;
         myViewEntities = new HashMap<>();
+        myModelAttacks = new HashMap<>();
         initializeModel(mapName);
         myView = new View(stage, this, labels);
     }
@@ -68,6 +71,7 @@ public class Controller {
     private void step(double elapsedTime) {
         myView.step(elapsedTime);
         updateEntityPosition(elapsedTime);
+        updateAttackPosition(elapsedTime);
     }
 
     private void updateEntityPosition(double elapsedTime) {
@@ -78,6 +82,14 @@ public class Controller {
             viewEntity.setX(modelEntity.coordinates().get(0));
             viewEntity.setY(modelEntity.coordinates().get(1));
         }
+    }
+
+    private void updateAttackPosition(double elapsedTime) {
+        myModelAttacks.keySet().iterator().forEachRemaining(attackID -> {
+            List<Double> newCoordinates = myModelAttacks.get(attackID).move(elapsedTime);
+            // myViewAttacks.get(attackID).setX(newCoordinates.get(0));
+            // myViewAttacks.get(attackID).setY(newCoordinates.get(1));
+        });
     }
 
     private void parseData(String map) {
@@ -133,6 +145,8 @@ public class Controller {
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
+        } else if (keyCode == KeyCode.SPACE) {
+            myModel.attack();
         }
     }
 
@@ -186,6 +200,7 @@ public class Controller {
         myView.changeEntityState(myMainHeroName, DirectionState.EAST);
     }
 
+
     public String getMainHeroName() {
         if (myMainHeroName == null) {
             throw new IllegalStateException("Main Hero not found");
@@ -201,4 +216,6 @@ public class Controller {
     public Map<String, Entity> getModelEntities() {
         return myModelEntities;
     }
+
+    public static Map<Integer, Attack> getModelAttacks() { return myModelAttacks; }
 }

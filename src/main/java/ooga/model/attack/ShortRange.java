@@ -20,4 +20,5 @@ public class ShortRange extends Attack {
         coolDown = attributes.getOrDefault("CoolDown", 1.0);
     }
 
+    public static double getCoolDown() { return coolDown; }
 }

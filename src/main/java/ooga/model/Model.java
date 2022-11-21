@@ -2,6 +2,7 @@ package ooga.model;
 
 import javafx.stage.Stage;
 import ooga.controller.Controller;
+import ooga.model.attack.Attack;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
 
@@ -33,11 +34,7 @@ public class Model {
         entity.changeDirection(direction);
     }
 
-    private void attack(){
-        myHeroModel.getMyAttack().activateAttack();
-    }
-
-    private void attackStop() {
-
+    public void attack(){
+        Attack.attack(myHeroModel).activateAttack();
     }
 }

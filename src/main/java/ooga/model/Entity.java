@@ -1,25 +1,29 @@
 package ooga.model;
 
-import ooga.model.attack.Attack;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.*;
 
 public abstract class Entity {
     private double xPos;
     private double yPos;
     private int max_hp;
+    private int hp;
+
     private double speed;
     private int size;
     private DirectionState myDirection;
     private MovementState myMovement;
     private Map<String, String> myAttributes;
     private String attackType;
-    private Attack myAttack;
-    private int hp;
+    private double attackCoolDown;
     private double timeUntilAttack;
+
+    public static final ResourceBundle attackBundle = ResourceBundle.getBundle("ResourceBundles.Attack");
+
 
     public Entity(Map<String, String> attributes) {
         try {
@@ -33,10 +37,13 @@ public abstract class Entity {
             this.attackType = attributes.get("Attack");
             this.myDirection = DirectionState.valueOf(attributes.getOrDefault("Direction", "SOUTH"));
             this.myMovement = MovementState.valueOf(attributes.getOrDefault("Movement", "STATIONARY"));
-            this.myAttack = Attack.attack(this);
-            this.timeUntilAttack = Attack.getCoolDown(myAttack);
+            Class c = Class.forName(attackBundle.getString(attackType));
+            Method m = c.getDeclaredMethod("getCoolDown");
+            this.attackCoolDown = (double) m.invoke(this);
+            this.timeUntilAttack = attackCoolDown;
         }
-        catch (NullPointerException | ClassCastException | IllegalArgumentException e) {
+        catch (NullPointerException | ClassCastException | IllegalArgumentException | ClassNotFoundException |
+               NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
@@ -81,16 +88,14 @@ public abstract class Entity {
 
     protected int getHp() {
         return hp;
-    } // only using for testing purposes before I implement records next week
+    }
 
     public DirectionState getMyDirection() { return myDirection; }
 
     public double getTimeUntilAttack() { return timeUntilAttack; }
 
-    public Attack getMyAttack() { return myAttack; }
-
     public void resetTimeUntilAttack() {
-        timeUntilAttack = Attack.getCoolDown(myAttack);
+        timeUntilAttack = attackCoolDown;
     }
 
 }
