@@ -9,8 +9,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -33,14 +36,19 @@ public class StartScreen extends SceneCreator {
     private ResourceBundle labels;
     private ResourceBundle images;
     private ResourceBundle styles;
+
+    private ResourceBundle media;
     private int screenSize;
     private Map<String, String> languageMap;
+    private Media music;
+    private MediaPlayer m;
 
     public StartScreen(Stage stage) {
         this.currentStage = stage;
         this.labels = getLabels();
         this.images = getImages();
         this.styles = getStyles();
+        this.media = getMedia();
         this.screenSize = getScreenSize();
         this.languageMap = Map.of(
                 labels.getString("eng"), "setEnglish",
@@ -48,6 +56,7 @@ public class StartScreen extends SceneCreator {
                 labels.getString("germ"),"setGerman",
                 labels.getString("sim"), "setSimlish"
         );
+        music =new Media(new File(media.getString("start")).toURI().toString());
     }
 
     //makes the scene that is displayed on the screen
@@ -72,6 +81,8 @@ public class StartScreen extends SceneCreator {
         handleEvents();
         Scene s = new Scene(startGamePane, screenSize, screenSize);
         s.getStylesheets().add(styles.getString("startScreenCSS"));
+        m= new MediaPlayer(music);
+        m.setAutoPlay(true);
         return s;
     }
 
@@ -80,6 +91,7 @@ public class StartScreen extends SceneCreator {
         ChooseGameScreen c = new ChooseGameScreen(currentStage, labels);
         currentStage.setScene(c.makeScene());
         currentStage.show();
+        m.stop();
     }
 
     //sets the language to english
@@ -102,10 +114,6 @@ public class StartScreen extends SceneCreator {
         labels = ResourceBundle.getBundle(
                 "ResourceBundles.LabelsBundle_simlish");
     }
-
-    //is necessary in order to pass the language resourcebundle to other screens
-    //other resourcebundles are final and do not need to be passed this way
-
 
     //handles the changing of languages using the selector and the clicking of the start button
     public void handleEvents(){

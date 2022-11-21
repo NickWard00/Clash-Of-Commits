@@ -4,7 +4,9 @@ import java.util.List;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import ooga.controller.Controller;
 import ooga.model.state.DirectionState;
 import ooga.view.screens.*;
@@ -29,6 +31,7 @@ public class View {
     private EntityView myHeroView;
     private MainGameScreen mainGameScreen;
     private boolean isActive;
+    private MediaPlayer walking;
 
     private ResourceBundle labels;
     public View(Stage stage, Controller controller, ResourceBundle label){
@@ -55,6 +58,11 @@ public class View {
         mainGameScreen = new MainGameScreen();
         mainGameScreen.startGamePlay(myMapWrapper, myViewEntities);
         myScene = mainGameScreen.makeScene();
+        walking = mainGameScreen.getWalkPlayer();
+        walking.setOnEndOfMedia(new Runnable() {
+            public void run() {
+                walking.seek(Duration.ZERO);
+            }});
         handleKeyInputs();
         stage.setScene(myScene);
         createScrollableBackground();
@@ -88,9 +96,11 @@ public class View {
     private void handleKeyInputs() {
         myScene.setOnKeyPressed(event -> {
             myController.handleKeyPress(event.getCode());
+            walking.play();
         });
         myScene.setOnKeyReleased(event -> {
             myController.handleKeyRelease(event.getCode());
+            walking.pause();
         });
     }
 }
