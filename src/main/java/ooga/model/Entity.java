@@ -54,8 +54,8 @@ public abstract class Entity {
      * @param elapsedTime Time passed since the previous step
      * */
     public List<Double> move(double elapsedTime) {
-        xPos += myDirection.getVelocity().get(0) * myMovement.getSpeedConverter() * speed * elapsedTime;
-        yPos += myDirection.getVelocity().get(1) * myMovement.getSpeedConverter() * speed * elapsedTime;
+        this.xPos += myDirection.getVelocity().get(0) * myMovement.getSpeedConverter() * speed * elapsedTime;
+        this.yPos += myDirection.getVelocity().get(1) * myMovement.getSpeedConverter() * speed * elapsedTime;
         timeUntilAttack -= elapsedTime;
         return Arrays.asList(xPos, yPos);
     }

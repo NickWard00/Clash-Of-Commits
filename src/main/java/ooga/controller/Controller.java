@@ -78,9 +78,9 @@ public class Controller {
         for (String entityName : myModelEntities.keySet()) {
             Entity modelEntity = myModelEntities.get(entityName);
             EntityView viewEntity = myViewEntities.get(entityName);
-            modelEntity.move(elapsedTime);
-            viewEntity.setX(modelEntity.coordinates().get(0));
-            viewEntity.setY(modelEntity.coordinates().get(1));
+            List<Double> newPosition = modelEntity.move(elapsedTime);
+            viewEntity.setX(newPosition.get(0));
+            viewEntity.setY(newPosition.get(1));
         }
     }
 
