@@ -1,5 +1,6 @@
 package ooga.view.screens;
 
+import java.io.File;
 import java.util.List;
 import javafx.geometry.Bounds;
 import javafx.scene.Group;
@@ -9,6 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Shape;
 import ooga.controller.CollisionHandler;
 import ooga.model.Collision;
@@ -44,6 +47,11 @@ public class MainGameScreen extends SceneCreator {
     private HUD hud;
     private List<BlockView> obstacleList;
 
+    private Media music;
+    private Media walk;
+    private MediaPlayer musicPlayer;
+    private MediaPlayer walkPlayer;
+
 
     public MainGameScreen(){
         this.screenSize = getScreenSize();
@@ -54,6 +62,9 @@ public class MainGameScreen extends SceneCreator {
         this.mapWrapper = map;
         mapView = new MapView(mapWrapper);
         myViewEntities = entities;
+        music =new Media(new File(media.getString("lvl1")).toURI().toString());
+        walk = new Media(new File(media.getString("walking")).toURI().toString());
+        walkPlayer = new MediaPlayer(walk);
     }
 
     //make new scene
@@ -78,6 +89,8 @@ public class MainGameScreen extends SceneCreator {
         gameScreenPane.setTop(hud.makeHUD());
         Scene s = new Scene(gameScreenPane, screenSize, screenSize);
         s.getStylesheets().add(styles.getString("mainGameScreenCSS"));
+        musicPlayer= new MediaPlayer(music);
+        musicPlayer.setAutoPlay(true);
         return s;
     }
 
@@ -95,6 +108,10 @@ public class MainGameScreen extends SceneCreator {
     }
     public void stopPlaying(){
         isPlaying = false;
+    }
+
+    public MediaPlayer getWalkPlayer() {
+        return walkPlayer;
     }
 
     public void detectCollisions() {
