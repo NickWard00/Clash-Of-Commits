@@ -1,11 +1,21 @@
 package ooga.view.screens;
 
+import java.io.File;
+import java.util.List;
+import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.shape.Shape;
+import ooga.controller.CollisionHandler;
+import ooga.model.Collision;
+import ooga.view.BlockView;
 import ooga.view.EntityView;
 import ooga.view.HUD;
 import ooga.view.MapView;
@@ -35,6 +45,12 @@ public class MainGameScreen extends SceneCreator {
     private Pane characters;
 
     private HUD hud;
+    private List<BlockView> obstacleList;
+
+    private Media music;
+    private Media walk;
+    private MediaPlayer musicPlayer;
+    private MediaPlayer walkPlayer;
 
 
     public MainGameScreen(){
@@ -46,6 +62,9 @@ public class MainGameScreen extends SceneCreator {
         this.mapWrapper = map;
         mapView = new MapView(mapWrapper);
         myViewEntities = entities;
+        music =new Media(new File(media.getString("lvl1")).toURI().toString());
+        walk = new Media(new File(media.getString("walking")).toURI().toString());
+        walkPlayer = new MediaPlayer(walk);
     }
 
     //make new scene
@@ -70,12 +89,18 @@ public class MainGameScreen extends SceneCreator {
         gameScreenPane.setTop(hud.makeHUD());
         Scene s = new Scene(gameScreenPane, screenSize, screenSize);
         s.getStylesheets().add(styles.getString("mainGameScreenCSS"));
+        musicPlayer= new MediaPlayer(music);
+        musicPlayer.setAutoPlay(true);
         return s;
     }
 
 
     public void removeEntityFromScene(String entityName){
         root.getChildren().remove(myViewEntities.get(entityName));
+    }
+
+    public StackPane getMapPane() {
+        return this.centerPaneConsolidated;
     }
 
     public boolean isPlaying(){
@@ -85,4 +110,31 @@ public class MainGameScreen extends SceneCreator {
         isPlaying = false;
     }
 
+    public MediaPlayer getWalkPlayer() {
+        return walkPlayer;
+    }
+
+    public void detectCollisions() {
+//        for (BlockView block: )
+        int counter = 0;
+        obstacleList = mapView.getObstacleList();
+        for (EntityView entity: myViewEntities.values()) {
+            for (BlockView obstacle: obstacleList) {
+//                counter++;
+//                if (counter == 1) {
+////                    System.out.println(obstacleList);
+//                }
+                if (myViewEntities.get("Hero1").localToScreen(myViewEntities.get("Hero1").getBoundsInLocal()).intersects(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()))) {
+//                    Bounds a = obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal());
+//                    System.out.println(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()));
+//                    System.out.println(obstacleList.get(0).getImageView().localToScreen(obstacleList.get(0).getImageView().getBoundsInLocal()));
+//                    System.out.println(a.equals(obstacleList.get(0).getImageView().localToScreen(obstacleList.get(0).getImageView().getBoundsInLocal())));
+//                    System.out.println("Hello");
+                    CollisionHandler handler = new CollisionHandler();
+                    handler.collision(entity, obstacle);
+                }
+            }
+        }
+
+    }
 }
