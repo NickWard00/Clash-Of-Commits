@@ -1,5 +1,8 @@
 package ooga.model.obstacle;
 
+import ooga.controller.Controller;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -21,6 +24,7 @@ public abstract class Obstacle {
     this.blocker = blocker;
     this.canBeDestroyed = canBeDestroyed;
     this.onScreen = onScreen;
+    Controller.getModelObstacles().put(Arrays.asList(xPosition, yPosition), this);
   }
 
   public static Obstacle makeObstacle(Class<? extends Obstacle> obstacleClass, Map<String, String> attributes, Map<Integer, String> states) {

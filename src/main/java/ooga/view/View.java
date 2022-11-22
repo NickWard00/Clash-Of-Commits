@@ -45,7 +45,7 @@ public class View {
         stackPane.setTranslateX((myScene.getWidth() - blockSize) / 2 - myHeroView.getX());
         stackPane.setTranslateY((myScene.getHeight() - blockSize) / 2 - myHeroView.getY());
         if (isActive == true) {
-            mainGameScreen.detectCollisions();
+            mainGameScreen.detectCollisions(myController);
         }
     }
 

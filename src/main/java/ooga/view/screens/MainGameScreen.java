@@ -14,6 +14,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Shape;
 import ooga.controller.CollisionHandler;
+import ooga.controller.Controller;
 import ooga.model.Collision;
 import ooga.view.BlockView;
 import ooga.view.EntityView;
@@ -114,7 +115,7 @@ public class MainGameScreen extends SceneCreator {
         return walkPlayer;
     }
 
-    public void detectCollisions() {
+    public void detectCollisions(Controller controller) {
 //        for (BlockView block: )
         int counter = 0;
         obstacleList = mapView.getObstacleList();
@@ -130,8 +131,9 @@ public class MainGameScreen extends SceneCreator {
 //                    System.out.println(obstacleList.get(0).getImageView().localToScreen(obstacleList.get(0).getImageView().getBoundsInLocal()));
 //                    System.out.println(a.equals(obstacleList.get(0).getImageView().localToScreen(obstacleList.get(0).getImageView().getBoundsInLocal())));
 //                    System.out.println("Hello");
-                    CollisionHandler handler = new CollisionHandler();
-                    handler.collision(entity, obstacle);
+                    CollisionHandler handler = new CollisionHandler(controller);
+                    //handler.collision(entity, obstacle);
+                    handler.translateCollision(entity, obstacle);
                 }
             }
         }

@@ -17,9 +17,11 @@ public class CollisionHandler {
     private Map<String, Entity> modelEntities;
     private Map<String, EntityView> viewEntities;
     private Entity collisionEntity;
+    private Obstacle collisionObstacle;
 
-    public CollisionHandler() {
-        modelEntities = controller.getModelEntities();
+    public CollisionHandler(Controller controller) {
+        this.controller = controller;
+        this.modelEntities = controller.getModelEntities();
     }
 
 
@@ -49,6 +51,17 @@ public class CollisionHandler {
 //        ObstacleEnum.valueOf("")
 //        Obstacle obstacle = new Obstacle(obstacleX, obstacleY, )
 //        Collision collision = new Collision(collisionEntity, )
+    }
+
+    public void translateCollision(EntityView entityView, BlockView obstacleView) {
+        try {
+            collisionEntity = controller.getModelEntities().get(entityView.getEntityName());
+            collisionObstacle = Controller.getModelObstacles().get(Arrays.asList(obstacleView.getXPosition(), obstacleView.getYPosition()));
+            //Collision.class.getDeclaredConstructor(Entity.class, Obstacle.class).newInstance(collisionEntity, collisionObstacle);
+
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static Class getCorrectClassForCollision(Object object) {

@@ -9,6 +9,7 @@ import ooga.model.Entity;
 import ooga.model.Model;
 import ooga.model.attack.Attack;
 import ooga.model.hitBox.HitBox;
+import ooga.model.obstacle.Obstacle;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
 import ooga.view.EntityView;
@@ -36,6 +37,7 @@ public class Controller {
     private Map<String, EntityView> myViewEntities;
     private Map<String, Entity> myModelEntities;
     private static Map<Integer, Attack> myModelAttacks;
+    private static Map<List<Double>, Obstacle> myModelObstacles;
 
     private String myMainHeroName;
     private Map<KeyCode, String> actions = Map.of(
@@ -52,6 +54,7 @@ public class Controller {
         this.mapName = mapName;
         myViewEntities = new HashMap<>();
         myModelAttacks = new HashMap<>();
+        myModelObstacles = new HashMap<>();
         initializeModel(mapName);
         myView = new View(stage, this, labels);
     }
@@ -86,6 +89,7 @@ public class Controller {
 
     private void updateAttackPosition(double elapsedTime) {
         myModelAttacks.keySet().iterator().forEachRemaining(attackID -> {
+
             List<Double> newCoordinates = myModelAttacks.get(attackID).move(elapsedTime);
             // myViewAttacks.get(attackID).setX(newCoordinates.get(0));
             // myViewAttacks.get(attackID).setY(newCoordinates.get(1));
@@ -218,4 +222,5 @@ public class Controller {
     }
 
     public static Map<Integer, Attack> getModelAttacks() { return myModelAttacks; }
+    public static Map<List<Double>, Obstacle> getModelObstacles() { return myModelObstacles; }
 }

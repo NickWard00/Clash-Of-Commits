@@ -29,6 +29,10 @@ public class Collision {
             // TODO: this may introduce a bug where if the hero is directly next to a wall, they wont be able to move perpendicular to the wall
 //            entity.changeMovement(MovementState.STATIONARY);
             ((Wall) obstacle).block(entity);
+            int knockback = 5; // this is a magic value oops
+            entity.setX(myX + knockback * entity.getMyDirection().oppositeDirection().getVelocity().get(0));
+            entity.setY(myY + knockback * entity.getMyDirection().oppositeDirection().getVelocity().get(1));
+            System.out.println("COLLISION!");
         } else if (obstacle.getClass() == Wall.class) {
             entity.changeDirection(entity.getMyDirection().oppositeDirection());
         }
