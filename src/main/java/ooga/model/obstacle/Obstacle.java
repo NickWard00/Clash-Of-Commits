@@ -1,5 +1,8 @@
 package ooga.model.obstacle;
 
+import ooga.controller.Controller;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -23,9 +26,10 @@ public abstract class Obstacle {
     this.onScreen = onScreen;
   }
 
-  public static Obstacle makeObstacle(Class<? extends Obstacle> obstacleClass, Map<String, String> attributes, Map<Integer, String> states) {
+  public static Obstacle makeObstacle(Class<? extends Obstacle> obstacleClass, double xPosition, double yPosition) {
     try {
-      Obstacle newObstacle = obstacleClass.getDeclaredConstructor(Map.class, Map.class).newInstance(attributes, states);
+      Obstacle newObstacle = obstacleClass.getConstructor(Double.class, Double.class).newInstance(xPosition, yPosition);
+      Controller.getModelObstacles().put(Arrays.asList(xPosition, yPosition), newObstacle);
       return newObstacle;
     }
     catch (Exception e) {
@@ -33,10 +37,10 @@ public abstract class Obstacle {
     }
   }
 
-  public void makeRandomObstacle(List<Class<? extends Obstacle>> possibleObstacles, Map<String, String> attributes, Map<Integer, String> states) {
+  public void makeRandomObstacle(List<Class<? extends Obstacle>> possibleObstacles, double xPosition, double yPosition) {
     Random random = new Random();
     int randomObstacle = random.nextInt(possibleObstacles.size());
-    makeObstacle(possibleObstacles.get(randomObstacle), attributes, states);
+    makeObstacle(possibleObstacles.get(randomObstacle), xPosition, yPosition);
   }
 
   public double getPositionX() {

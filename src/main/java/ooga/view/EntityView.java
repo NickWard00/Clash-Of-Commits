@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 import ooga.model.state.DirectionState;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 /**
  * @author Nick Ward, Melanie Wang
@@ -118,5 +119,10 @@ public class EntityView extends ImageView {
      */
     public String getEntityName() {
         return entityName;
+    }
+
+    public void setCoordinate(List<Double> newCoordinates) {
+        this.setX(newCoordinates.get(0));
+        this.setY(newCoordinates.get(1));
     }
 }

@@ -6,4 +6,4 @@ Size=30
 HP=100
 Attack=ShortRange
 Direction=SOUTH
-Movement=STATIONARY
+Movement=MOVING

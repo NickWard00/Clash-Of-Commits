@@ -2,9 +2,12 @@ package ooga.model;
 
 import javafx.stage.Stage;
 import ooga.controller.Controller;
+import ooga.controller.ObstacleEnum;
 import ooga.model.attack.Attack;
+import ooga.model.obstacle.Obstacle;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
+import ooga.view.MapWrapper;
 
 import java.util.List;
 import java.util.Map;
@@ -37,4 +40,5 @@ public class Model {
     public void attack(){
         Attack.attack(myHeroModel).activateAttack();
     }
+
 }

@@ -11,11 +11,13 @@ public class BlockView{
     private String imagePath;
     private double xPos;
     private double yPos;
+    private int state;
 
-    public BlockView(int x, int y, int blockSize, String imagePath, GridPane root){
+    public BlockView(int x, int y, int blockSize, int state, String imagePath, GridPane root){
         this.imagePath = imagePath;
         this.xPos = x;
         this.yPos = y;
+        this.state = state;
         imageView = new ImageView(new Image(imagePath));
         imageView.setFitWidth(blockSize);
         imageView.setFitHeight(blockSize);

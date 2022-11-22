@@ -1,5 +1,5 @@
 # Key: Enemy name = Enemy Type, X position, Y position
 MagicVal1 = MagicValue, 90, 180
 MagicVal2 = MagicValue, 360, 90
-MagicVal3 = MagicValue, 30, 270
+MagicVal3 = MagicValue, 70, 270
 Hero1 = MainHero, 500, 500

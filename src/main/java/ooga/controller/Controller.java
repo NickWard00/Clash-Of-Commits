@@ -8,6 +8,10 @@ import javafx.util.Duration;
 import ooga.model.Entity;
 import ooga.model.Model;
 import ooga.model.attack.Attack;
+import ooga.model.obstacle.Obstacle;
+import ooga.model.state.DirectionState;
+import ooga.model.state.MovementState;
+import ooga.view.BlockView;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
 import ooga.view.AttackView;
@@ -17,10 +21,7 @@ import ooga.view.View;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * @author Nick Ward, Melanie Wang
@@ -33,9 +34,12 @@ public class Controller {
     private static final double FRAMES_PER_SECOND = 60;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     private Model myModel;
-    private Map<String, EntityView> myViewEntities;
-    private Map<String, Entity> myModelEntities;
+    private static Map<String, EntityView> myViewEntities;
+    private static Map<String, Entity> myModelEntities;
     private static Map<Integer, Attack> myModelAttacks;
+    private static Map<List<Double>, Obstacle> myModelObstacles;
+    private static Map<List<Double>, BlockView> myViewObstacles;
+
     private static Map<Integer, AttackView> myViewAttacks;
 
     private String myMainHeroName;
@@ -54,6 +58,8 @@ public class Controller {
         this.mapName = mapName;
         myViewEntities = new HashMap<>();
         myModelAttacks = new HashMap<>();
+        myModelObstacles = new HashMap<>();
+        myViewObstacles = new HashMap<>();
         myViewAttacks = new HashMap<>();
         initializeModel(mapName);
         myView = new View(stage, this, labels);
@@ -81,9 +87,9 @@ public class Controller {
         for (String entityName : myModelEntities.keySet()) {
             Entity modelEntity = myModelEntities.get(entityName);
             EntityView viewEntity = myViewEntities.get(entityName);
-            modelEntity.move(elapsedTime);
-            viewEntity.setX(modelEntity.coordinates().get(0));
-            viewEntity.setY(modelEntity.coordinates().get(1));
+            List<Double> newPosition = modelEntity.move(elapsedTime);
+            viewEntity.setX(newPosition.get(0));
+            viewEntity.setY(newPosition.get(1));
         }
     }
 
@@ -91,6 +97,8 @@ public class Controller {
         myModelAttacks.keySet().iterator().forEachRemaining(attackID -> {
             Attack attackModel = myModelAttacks.get(attackID);
             List<Double> newCoordinates = attackModel.move(elapsedTime);
+            // myViewAttacks.get(attackID).setX(newCoordinates.get(0));
+            // myViewAttacks.get(attackID).setY(newCoordinates.get(1));
             if (myViewAttacks.containsKey(attackID)) {
                 myViewAttacks.get(attackID).changeDirection(attackModel.getDirection());
                 myViewAttacks.get(attackID).setX(newCoordinates.get(0));
@@ -117,6 +125,23 @@ public class Controller {
             }
         }
         setupViewEntities();
+        setupModelObstacles(mapParser);
+    }
+
+    private void setupModelObstacles(MapParser parser) {
+        for (int r=0; r<mapWrapper.getRowSize(0); r++) {
+            for (int c=0; c<mapWrapper.getColumnSize(); c++) {
+                try {
+                    int thisState = mapWrapper.getState(c,r);
+                    ResourceBundle obstacleBundle = ResourceBundle.getBundle("ResourceBundles.Obstacle");
+                    String obstacleStateString = parser.getObstacleStateMap().get(thisState);
+                    Class obstacleClass = Class.forName(obstacleBundle.getString(obstacleStateString));
+                    Obstacle.makeObstacle(obstacleClass, r, c);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
     }
 
     private void setupViewEntities() {
@@ -140,10 +165,6 @@ public class Controller {
         // TODO: Nicki, this is where we will need to get the attack image from the attack object
         String attackType = attack.getClass().getSimpleName();
         return new AttackView("/attacks/", attackType, 20, 20);
-    }
-
-    public Map<String, EntityView> getViewEntities(){
-        return myViewEntities;
     }
 
     private void removeEntity(String entityName){
@@ -228,15 +249,26 @@ public class Controller {
         return mapWrapper;
     }
 
-    public Map<String, Entity> getModelEntities() {
+    public static Map<String, Entity> getModelEntities() {
         return myModelEntities;
     }
 
+    public static Map<List<Double>, Obstacle> getModelObstacles() {
+        return myModelObstacles;
+    }
+
+    public static Map<String, EntityView> getViewEntities() {
+        return myViewEntities;
+    }
     public static Map<Integer, Attack> getModelAttacks() {
         return myModelAttacks;
     }
 
     public static Map<Integer, AttackView> getViewAttacks() {
         return myViewAttacks;
+    }
+
+    public static Map<List<Double>, BlockView> getViewObstacles() {
+        return myViewObstacles;
     }
 }

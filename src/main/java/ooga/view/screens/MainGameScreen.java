@@ -15,6 +15,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import ooga.controller.CollisionHandler;
+import ooga.controller.Controller;
 import ooga.model.Collision;
 import ooga.view.BlockView;
 import ooga.view.EntityView;
@@ -112,24 +113,13 @@ public class MainGameScreen extends SceneCreator {
         return walkPlayer;
     }
 
-    public void detectCollisions() {
-//        for (BlockView block: )
+    public void detectCollisions(Controller controller) {
         int counter = 0;
-        obstacleList = mapView.getObstacleList();
         for (EntityView entity: myViewEntities.values()) {
-            for (BlockView obstacle: obstacleList) {
-//                counter++;
-//                if (counter == 1) {
-////                    System.out.println(obstacleList);
-//                }
-                if (myViewEntities.get("Hero1").localToScreen(myViewEntities.get("Hero1").getBoundsInLocal()).intersects(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()))) {
-//                    Bounds a = obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal());
-//                    System.out.println(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()));
-//                    System.out.println(obstacleList.get(0).getImageView().localToScreen(obstacleList.get(0).getImageView().getBoundsInLocal()));
-//                    System.out.println(a.equals(obstacleList.get(0).getImageView().localToScreen(obstacleList.get(0).getImageView().getBoundsInLocal())));
-//                    System.out.println("Hello");
+            for (BlockView obstacle: Controller.getViewObstacles().values()) {
+                if (entity.localToScreen(entity.getBoundsInLocal()).intersects(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()))) {
                     CollisionHandler handler = new CollisionHandler();
-                    handler.collision(entity, obstacle);
+                    handler.translateCollision(entity, obstacle);
                 }
             }
         }

@@ -124,4 +124,5 @@ public class MapWrapper {
   public String getImageFromState(int state) {
     return stateImageMap.get(state);
   }
+
 }
