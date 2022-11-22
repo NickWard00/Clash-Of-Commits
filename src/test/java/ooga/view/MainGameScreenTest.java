@@ -52,7 +52,7 @@ class MainGameScreenTest extends DukeApplicationTest {
     }
     @Test
     void startGamePlayErrorTest(){
-        MainGameScreen mainGameScreen = new MainGameScreen();
+        MainGameScreen mainGameScreen = new MainGameScreen(new Stage());
         MapParser mapParser = new MapParser("MainMap");
         MapWrapper map = mapParser.getMapWrapper();
         map.setStateToImageMap(mapParser.getStateToImageMap());

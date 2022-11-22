@@ -13,6 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Shape;
+import javafx.stage.Stage;
 import ooga.controller.CollisionHandler;
 import ooga.model.Collision;
 import ooga.view.BlockView;
@@ -46,10 +47,12 @@ public class MainGameScreen extends SceneCreator {
     private Media walk;
     private MediaPlayer musicPlayer;
     private MediaPlayer walkPlayer;
+    private Stage stage;
 
 
-    public MainGameScreen(){
+    public MainGameScreen(Stage s){
         this.screenSize = getScreenSize();
+        stage = s;
     }
 
     public void startGamePlay(MapWrapper map, Map<String, EntityView> entities) {
@@ -71,7 +74,7 @@ public class MainGameScreen extends SceneCreator {
         background.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         background.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         characters= new Pane();
-        hud = new HUD();
+        hud = new HUD(stage);
         root = new Group();
         //root.getChildren().add(mapView.createMap());
         for (EntityView entity : myViewEntities.values()) {
