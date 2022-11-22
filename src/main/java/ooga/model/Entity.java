@@ -98,4 +98,10 @@ public abstract class Entity {
         timeUntilAttack = attackCoolDown;
     }
 
+    public List<Double> knockBack() {
+        xPos += 2 * myDirection.oppositeDirection().getVelocity().get(0);
+        yPos += 2 * myDirection.oppositeDirection().getVelocity().get(1);
+        return Arrays.asList(xPos, yPos);
+    }
+
 }

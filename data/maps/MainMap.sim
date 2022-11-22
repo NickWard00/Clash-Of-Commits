@@ -8,9 +8,7 @@ Cell0=/blocks/grass.jpeg
 Cell1=/blocks/bush.jpeg
 Cell2=/blocks/water.jpeg
 Cell3=/blocks/winter_grass.jpeg
-Obstacle0=Feature.class
-Obstacle1=ImmovableWall.class
-Obstacle2=ImmovableWall.class
-Obstacle3=Feature.class
+Obstacle0=Feature
+Obstacle1=ImmovableWall
 
 Map=data/maps/MainMap.csv

@@ -12,6 +12,7 @@ import ooga.model.hitBox.HitBox;
 import ooga.model.obstacle.Obstacle;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
+import ooga.view.BlockView;
 import ooga.view.EntityView;
 import ooga.view.MapWrapper;
 import ooga.view.View;
@@ -31,11 +32,12 @@ public class Controller {
     private static final double FRAMES_PER_SECOND = 60;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     private Model myModel;
-    private Map<String, EntityView> myViewEntities;
-    private Map<String, Entity> myModelEntities;
+    private static Map<String, EntityView> myViewEntities;
+    private static Map<String, Entity> myModelEntities;
     private static Map<Integer, Attack> myModelAttacks;
-    //private static Map<List<Double>, Obstacle> myModelObstacles;
-    private static List<Obstacle> obstacleList;
+    private static Map<List<Double>, Obstacle> myModelObstacles;
+    private static Map<List<Double>, BlockView> myViewObstacles;
+    //private static List<Obstacle> obstacleList;
 
     private String myMainHeroName;
     private Map<KeyCode, String> actions = Map.of(
@@ -52,14 +54,18 @@ public class Controller {
         this.mapName = mapName;
         myViewEntities = new HashMap<>();
         myModelAttacks = new HashMap<>();
-        //myModelObstacles = new HashMap<>();
-        obstacleList = new ArrayList<>();
+        myModelObstacles = new HashMap<>();
+        myViewObstacles = new HashMap<>();
         initializeModel(mapName);
         myView = new View(stage, this, labels);
     }
 
-    public static List<Obstacle> getModelObstacles() {
-        return obstacleList;
+    public static Map<List<Double>, Obstacle> getModelObstacles() {
+        //return obstacleList;
+        return myModelObstacles;
+    }
+    public static Map<List<Double>, BlockView> getViewObstacles() {
+        return myViewObstacles;
     }
 
     private void initializeModel(String mapName) {
@@ -115,6 +121,23 @@ public class Controller {
             }
         }
         setupViewEntities();
+        setupModelObstacles(mapParser);
+    }
+
+    private void setupModelObstacles(MapParser parser) {
+        for (int r=0; r<mapWrapper.getRowSize(0); r++) {
+            for (int c=0; c<mapWrapper.getColumnSize(); c++) {
+                try {
+                    int thisState = mapWrapper.getState(c,r);
+                    ResourceBundle obstacleBundle = ResourceBundle.getBundle("ResourceBundles.Obstacle");
+                    String obstacleStateString = parser.getObstacleStateMap().get(thisState);
+                    Class obstacleClass = Class.forName(obstacleBundle.getString(obstacleStateString));
+                    Obstacle.makeObstacle(obstacleClass, r, c);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
     }
 
     private void setupViewEntities() {
@@ -134,9 +157,6 @@ public class Controller {
         return new EntityView(spriteLocation, startingDirection, imageName, xPos, yPos, size, size);
     }
 
-    public Map<String, EntityView> getViewEntities(){
-        return myViewEntities;
-    }
 
     private void removeEntity(String entityName){
         myModelEntities.remove(entityName);
@@ -220,10 +240,12 @@ public class Controller {
         return mapWrapper;
     }
 
-    public Map<String, Entity> getModelEntities() {
+    public static Map<String, Entity> getModelEntities() {
         return myModelEntities;
     }
 
     public static Map<Integer, Attack> getModelAttacks() { return myModelAttacks; }
     //public static Map<List<Double>, Obstacle> getModelObstacles() { return myModelObstacles; }
+
+    public static Map<String, EntityView> getViewEntities() { return myViewEntities; }
 }

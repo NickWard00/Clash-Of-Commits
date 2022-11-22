@@ -118,21 +118,20 @@ public class MainGameScreen extends SceneCreator {
     public void detectCollisions(Controller controller) {
 //        for (BlockView block: )
         int counter = 0;
-        obstacleList = mapView.getObstacleList();
+        //obstacleList = mapView.getObstacleList();
         for (EntityView entity: myViewEntities.values()) {
-            for (BlockView obstacle: obstacleList) {
+            for (BlockView obstacle: Controller.getViewObstacles().values()) {
 //                counter++;
 //                if (counter == 1) {
 ////                    System.out.println(obstacleList);
 //                }
+                /**
                 if (myViewEntities.get("Hero1").localToScreen(myViewEntities.get("Hero1").getBoundsInLocal()).intersects(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()))) {
-//                    Bounds a = obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal());
-//                    System.out.println(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()));
-//                    System.out.println(obstacleList.get(0).getImageView().localToScreen(obstacleList.get(0).getImageView().getBoundsInLocal()));
-//                    System.out.println(a.equals(obstacleList.get(0).getImageView().localToScreen(obstacleList.get(0).getImageView().getBoundsInLocal())));
-//                    System.out.println("Hello");
                     CollisionHandler handler = new CollisionHandler(controller);
-                    //handler.collision(entity, obstacle);
+                    handler.translateCollision(entity, obstacle);
+                } */
+                if (entity.localToScreen(entity.getBoundsInLocal()).intersects(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()))) {
+                    CollisionHandler handler = new CollisionHandler(controller);
                     handler.translateCollision(entity, obstacle);
                 }
             }

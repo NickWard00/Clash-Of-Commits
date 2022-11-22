@@ -14,7 +14,7 @@ public class MapParser {
     private Map<String, String> mapInfo;
     private Map<String, String> mapCSVSelection;
     private Map<Integer, String> stateToImage;
-    private Map<String, ObstacleEnum> obstacleMap;
+    private Map<Integer, String> obstacleStateMap;
     private double mapSize_X;
     private double mapSize_Y;
     private double cellSize;
@@ -31,7 +31,7 @@ public class MapParser {
         mapCSVSelection = new HashMap<>();
         allMaps = new HashMap<>();
         stateToImage = new HashMap<>();
-        obstacleMap = new HashMap<>();
+        obstacleStateMap = new HashMap<>();
         properties = simParser.getSimData(String.format(MAP_DIRECTORY, mapSim));
 
         setImageToState();
@@ -69,12 +69,8 @@ public class MapParser {
                 stateToImage.put(state, value);
             }
             else if(key.startsWith("Obstacle")){
-                int state = Integer.parseInt(key.replace("Obstacle", ""));
-                //Class obstacleClass =
-                //  public static Obstacle makeObstacle(Class<? extends Obstacle> obstacleClass, Map<String, String> attributes, Map<Integer, String> states) {
-                obstacleMap.put(key,ObstacleEnum.valueOf(key.toUpperCase()));
-                Obstacle obstacle = Obstacle.makeObstacle()
-                Controller.getModelObstacles().add(obstacle);
+                int stateVal = Integer.parseInt(key.replace("Obstacle", ""));
+                obstacleStateMap.put(stateVal, value);
             }
             else {
                 mapInfo.put(key, value);
@@ -121,6 +117,7 @@ public class MapParser {
         return stateToImage;
     }
 
+
     /**
      * Returns the map info
      * @return mapInfo
@@ -129,8 +126,8 @@ public class MapParser {
         return mapInfo;
     }
 
-    public Map<String, ObstacleEnum> getObstacleMap() {
-        return obstacleMap;
+    public Map<Integer, String> getObstacleStateMap() {
+        return obstacleStateMap;
     }
 }
 
