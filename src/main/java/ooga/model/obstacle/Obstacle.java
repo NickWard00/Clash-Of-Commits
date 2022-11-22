@@ -50,4 +50,12 @@ public abstract class Obstacle {
   public double getPositionY() {
     return this.yPosition;
   }
+
+  public boolean getBlocker() {
+    return this.blocker;
+  }
+
+  public boolean getDestroyable() {
+    return this.canBeDestroyed;
+  }
 }
