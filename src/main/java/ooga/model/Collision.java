@@ -1,12 +1,14 @@
 package ooga.model;
 
+import ooga.controller.Controller;
 import ooga.model.attack.Attack;
 import ooga.model.hero.Hero;
 import ooga.model.hero.MainHero;
-import ooga.model.obstacle.DestroyableWall;
-import ooga.model.obstacle.Obstacle;
-import ooga.model.obstacle.Wall;
+import ooga.model.obstacle.*;
 import ooga.model.state.MovementState;
+import ooga.view.EntityView;
+
+import java.util.List;
 
 public class Collision {
 
@@ -25,11 +27,21 @@ public class Collision {
     }
 
     public Collision(Entity entity, Obstacle obstacle) {
-        if (entity.getClass() == MainHero.class && obstacle.getClass() == Wall.class) {
-            // TODO: this may introduce a bug where if the hero is directly next to a wall, they wont be able to move perpendicular to the wall
-//            entity.changeMovement(MovementState.STATIONARY);
+        if (entity.getClass() == MainHero.class && (obstacle.getClass() == ImmovableWall.class || obstacle.getClass() == DestroyableWall.class)) {
             ((Wall) obstacle).block(entity);
-        } else if (obstacle.getClass() == Wall.class) {
+            List<Double> knockBackCoordinate = entity.knockBack();
+            Controller.getViewEntities().get("Hero1").setCoordinate(knockBackCoordinate);
+        } else if (obstacle.getClass() != Feature.class) {
+            String myName = "";
+            for (String name : Controller.getModelEntities().keySet()) {
+                if (Controller.getModelEntities().get(name) == entity) {
+                    myName = name;
+                }
+            }
+            EntityView myEntityView = Controller.getViewEntities().get(myName);
+            List<Double> knockBackCoordinate = entity.knockBack();
+            myEntityView.setCoordinate(knockBackCoordinate);
+            myEntityView.changeDirection(entity.getMyDirection().oppositeDirection());
             entity.changeDirection(entity.getMyDirection().oppositeDirection());
         }
     }

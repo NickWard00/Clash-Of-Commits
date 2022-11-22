@@ -1,8 +1,11 @@
 package ooga.view;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javafx.scene.layout.GridPane;
+import ooga.controller.Controller;
+import ooga.model.obstacle.Obstacle;
 
 /**
  * @author Nick Ward
@@ -30,24 +33,17 @@ public class MapView {
         blockSize = wrapper.getVisualProperties().get(0).intValue();
         mapSizeX = wrapper.getVisualProperties().get(1);
         mapSizeY = wrapper.getVisualProperties().get(2);
-//        int counter = 0;
         for (int row = 0; row < numRows; row++){
             for (int col = 0; col < numColumns; col++){
                 int state = wrapper.getState(row, col);
                 String imagePath = wrapper.getImageFromState(state);
-//                counter++;
-//                if (counter == 1) {
-//                    System.out.println(imagePath);
-//                }
-
-                BlockView blockView = new BlockView(col, row, blockSize, imagePath, grid);
+                BlockView blockView = new BlockView(col, row, blockSize, state, imagePath, grid);
                 if (state == 1) {
-                    obstacleList.add(blockView);
+                    Controller.getViewObstacles().put(Arrays.asList((double) row, (double) col), blockView);
                 }
 
             }
         }
-//        System.out.println(obstacleList);
         return grid;
     }
 

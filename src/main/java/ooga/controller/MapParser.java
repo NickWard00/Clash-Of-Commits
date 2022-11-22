@@ -1,5 +1,6 @@
 package ooga.controller;
 
+import ooga.model.obstacle.Obstacle;
 import ooga.view.MapWrapper;
 
 import java.util.HashMap;
@@ -13,7 +14,7 @@ public class MapParser {
     private Map<String, String> mapInfo;
     private Map<String, String> mapCSVSelection;
     private Map<Integer, String> stateToImage;
-    private Map<String, ObstacleEnum> imageToState;
+    private Map<Integer, String> obstacleStateMap;
     private double mapSize_X;
     private double mapSize_Y;
     private double cellSize;
@@ -30,7 +31,7 @@ public class MapParser {
         mapCSVSelection = new HashMap<>();
         allMaps = new HashMap<>();
         stateToImage = new HashMap<>();
-
+        obstacleStateMap = new HashMap<>();
         properties = simParser.getSimData(String.format(MAP_DIRECTORY, mapSim));
 
         setImageToState();
@@ -67,6 +68,10 @@ public class MapParser {
                 int state = Integer.parseInt(key.replace("Cell", ""));
                 stateToImage.put(state, value);
             }
+            else if(key.startsWith("Obstacle")){
+                int stateVal = Integer.parseInt(key.replace("Obstacle", ""));
+                obstacleStateMap.put(stateVal, value);
+            }
             else {
                 mapInfo.put(key, value);
             }
@@ -74,9 +79,9 @@ public class MapParser {
     }
 
     private void setImageToState() {
-//        imageToState.put("", ObstacleEnum.BUSH);
-//        imageToState.put("", ObstacleEnum.NORMAL_GRASS);
-//        imageToState.put("", ObstacleEnum.STUMP);
+//        obstacleMap.put("", ObstacleEnum.BUSH);
+//        obstacleMap.put("", ObstacleEnum.NORMAL_GRASS);
+//        obstacleMap.put("", ObstacleEnum.STUMP);
     }
 
     /**
@@ -112,6 +117,7 @@ public class MapParser {
         return stateToImage;
     }
 
+
     /**
      * Returns the map info
      * @return mapInfo
@@ -120,8 +126,8 @@ public class MapParser {
         return mapInfo;
     }
 
-    public Map<String, ObstacleEnum> getImageToState() {
-        return imageToState;
+    public Map<Integer, String> getObstacleStateMap() {
+        return obstacleStateMap;
     }
 }
 
