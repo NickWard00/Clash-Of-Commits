@@ -64,7 +64,6 @@ public abstract class Attack {
             activeAttackID = createRandomID();
             Controller.getModelAttacks().put(activeAttackID, this);
             this.myDirection = DirectionState.valueOf(myEntity.getStateStrings().get(0));
-            // TODO: establish whether entity coordinates are centered or upper left aligned and adjust this accordingly
             this.xPos = myEntity.coordinates().get(0) + (myDirection.getVelocity().get(0) * Integer.parseInt(myEntity.getMyAttributes().get("Size")));
             this.yPos = myEntity.coordinates().get(1) + (myDirection.getVelocity().get(1) * Integer.parseInt(myEntity.getMyAttributes().get("Size")));
             this.timeSinceActivation = 0.0;

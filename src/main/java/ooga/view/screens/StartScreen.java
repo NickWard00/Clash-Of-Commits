@@ -82,7 +82,7 @@ public class StartScreen extends SceneCreator {
         Scene s = new Scene(startGamePane, screenSize, screenSize);
         s.getStylesheets().add(styles.getString("startScreenCSS"));
         m= new MediaPlayer(music);
-        m.setAutoPlay(true);
+        //m.setAutoPlay(true);
         return s;
     }
 
