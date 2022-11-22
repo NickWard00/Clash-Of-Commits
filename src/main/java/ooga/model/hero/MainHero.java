@@ -13,12 +13,4 @@ public class MainHero extends Hero {
     public MainHero(Map<String, String> attributes) {
         super(attributes);
     }
-
-    @Override
-    public void attack() {
-        System.out.println("Hero attack");
-    }
-
-    @Override
-    public void move() {}
 }

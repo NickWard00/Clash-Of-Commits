@@ -69,7 +69,7 @@ class EntityTest {
     void moveTest_Moving() {
         testBug.changeMovement(MovementState.MOVING);
         Double[] actual = testBug.move(1.0).toArray(new Double[0]);
-        Double[] expected = new Double[] {0.0, -5.0};
+        Double[] expected = new Double[] {0.0, 50.0};
         assertArrayEquals(expected, actual);
     }
 

@@ -39,6 +39,9 @@ public abstract class Attack {
         this.coolDown = attributes.getOrDefault("CoolDown", 1.0);
         this.maxDuration = attributes.getOrDefault("MaxDuration", 0.0);
         this.myEntity = entity;
+        this.xPos = 0.0;
+        this.yPos = 0.0;
+        this.myDirection = DirectionState.SOUTH;
     }
 
     /**
