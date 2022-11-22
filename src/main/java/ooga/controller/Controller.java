@@ -158,7 +158,7 @@ public class Controller {
                         actions.get(keyCode));
                 currentAction.invoke(this);
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                throw new RuntimeException(e);
+                throw new IllegalStateException("noMethodFound", e);
             }
         } else if (keyCode == KeyCode.SPACE) {
             myModel.attack();
