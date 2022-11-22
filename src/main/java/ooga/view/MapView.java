@@ -3,6 +3,7 @@ package ooga.view;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.layout.GridPane;
+import ooga.controller.Controller;
 
 /**
  * @author Nick Ward
@@ -39,10 +40,11 @@ public class MapView {
 //                if (counter == 1) {
 //                    System.out.println(imagePath);
 //                }
-
-                BlockView blockView = new BlockView(col, row, blockSize, imagePath, grid);
+                BlockView blockView = new BlockView(col, row, blockSize, state, imagePath, grid);
+                //BlockView blockView = new BlockView(col, row, blockSize, imagePath, grid);
                 if (state == 1) {
                     obstacleList.add(blockView);
+                    //Controller.getModelObstacles().add()
                 }
 
             }

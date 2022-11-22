@@ -24,12 +24,12 @@ public abstract class Obstacle {
     this.blocker = blocker;
     this.canBeDestroyed = canBeDestroyed;
     this.onScreen = onScreen;
-    Controller.getModelObstacles().put(Arrays.asList(xPosition, yPosition), this);
   }
 
   public static Obstacle makeObstacle(Class<? extends Obstacle> obstacleClass, Map<String, String> attributes, Map<Integer, String> states) {
     try {
       Obstacle newObstacle = obstacleClass.getDeclaredConstructor(Map.class, Map.class).newInstance(attributes, states);
+      Controller.getModelObstacles().add(newObstacle);
       return newObstacle;
     }
     catch (Exception e) {
