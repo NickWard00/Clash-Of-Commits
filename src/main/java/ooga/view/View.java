@@ -32,8 +32,8 @@ public class View {
     private MainGameScreen mainGameScreen;
     private boolean isActive;
     private MediaPlayer walking;
-
     private ResourceBundle labels;
+
     public View(Stage stage, Controller controller, ResourceBundle label){
         this.isActive = false;
         this.stage = stage;
@@ -41,6 +41,7 @@ public class View {
         setupGame(stage);
         labels = label;
     }
+    
     public void step(double elapsedTime){
         stackPane.setTranslateX((myScene.getWidth() - blockSize) / 2 - myHeroView.getX());
         stackPane.setTranslateY((myScene.getHeight() - blockSize) / 2 - myHeroView.getY());
@@ -55,7 +56,7 @@ public class View {
 
         setupMap();
 
-        mainGameScreen = new MainGameScreen();
+        mainGameScreen = new MainGameScreen(stage);
         mainGameScreen.startGamePlay(myMapWrapper, myViewEntities);
         myScene = mainGameScreen.makeScene();
         walking = mainGameScreen.getWalkPlayer();

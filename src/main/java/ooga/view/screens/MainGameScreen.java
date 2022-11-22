@@ -13,6 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Shape;
+import javafx.stage.Stage;
 import ooga.controller.CollisionHandler;
 import ooga.controller.Controller;
 import ooga.model.Collision;
@@ -37,25 +38,22 @@ public class MainGameScreen extends SceneCreator {
     private int screenSize;
     private Map<String, EntityView> myViewEntities;
     private Group root;
-
     private BorderPane gameScreenPane;
     private ScrollPane background;
-
     private StackPane centerPaneConsolidated;
-
     private Pane characters;
-
     private HUD hud;
     private List<BlockView> obstacleList;
-
     private Media music;
     private Media walk;
     private MediaPlayer musicPlayer;
     private MediaPlayer walkPlayer;
+    private Stage stage;
 
 
-    public MainGameScreen(){
+    public MainGameScreen(Stage s){
         this.screenSize = getScreenSize();
+        stage = s;
     }
 
     public void startGamePlay(MapWrapper map, Map<String, EntityView> entities) {
@@ -63,7 +61,7 @@ public class MainGameScreen extends SceneCreator {
         this.mapWrapper = map;
         mapView = new MapView(mapWrapper);
         myViewEntities = entities;
-        music =new Media(new File(media.getString("lvl1")).toURI().toString());
+        music = new Media(new File(media.getString("lvl1")).toURI().toString());
         walk = new Media(new File(media.getString("walking")).toURI().toString());
         walkPlayer = new MediaPlayer(walk);
     }
@@ -77,7 +75,7 @@ public class MainGameScreen extends SceneCreator {
         background.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         background.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         characters= new Pane();
-        hud = new HUD();
+        hud = new HUD(stage);
         root = new Group();
         //root.getChildren().add(mapView.createMap());
         for (EntityView entity : myViewEntities.values()) {
@@ -116,22 +114,11 @@ public class MainGameScreen extends SceneCreator {
     }
 
     public void detectCollisions(Controller controller) {
-//        for (BlockView block: )
         int counter = 0;
-        //obstacleList = mapView.getObstacleList();
         for (EntityView entity: myViewEntities.values()) {
             for (BlockView obstacle: Controller.getViewObstacles().values()) {
-//                counter++;
-//                if (counter == 1) {
-////                    System.out.println(obstacleList);
-//                }
-                /**
-                if (myViewEntities.get("Hero1").localToScreen(myViewEntities.get("Hero1").getBoundsInLocal()).intersects(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()))) {
-                    CollisionHandler handler = new CollisionHandler(controller);
-                    handler.translateCollision(entity, obstacle);
-                } */
                 if (entity.localToScreen(entity.getBoundsInLocal()).intersects(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()))) {
-                    CollisionHandler handler = new CollisionHandler(controller);
+                    CollisionHandler handler = new CollisionHandler();
                     handler.translateCollision(entity, obstacle);
                 }
             }

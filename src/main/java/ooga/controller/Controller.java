@@ -8,11 +8,13 @@ import javafx.util.Duration;
 import ooga.model.Entity;
 import ooga.model.Model;
 import ooga.model.attack.Attack;
-import ooga.model.hitBox.HitBox;
 import ooga.model.obstacle.Obstacle;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
 import ooga.view.BlockView;
+import ooga.model.state.DirectionState;
+import ooga.model.state.MovementState;
+import ooga.view.AttackView;
 import ooga.view.EntityView;
 import ooga.view.MapWrapper;
 import ooga.view.View;
@@ -37,7 +39,8 @@ public class Controller {
     private static Map<Integer, Attack> myModelAttacks;
     private static Map<List<Double>, Obstacle> myModelObstacles;
     private static Map<List<Double>, BlockView> myViewObstacles;
-    //private static List<Obstacle> obstacleList;
+
+    private static Map<Integer, AttackView> myViewAttacks;
 
     private String myMainHeroName;
     private Map<KeyCode, String> actions = Map.of(
@@ -50,22 +53,16 @@ public class Controller {
 
     private boolean playingGame;
     private boolean choosingGame; //some sort of variable to control what is active at any given moment
+
     public Controller(Stage stage, String mapName, ResourceBundle labels){
         this.mapName = mapName;
         myViewEntities = new HashMap<>();
         myModelAttacks = new HashMap<>();
         myModelObstacles = new HashMap<>();
         myViewObstacles = new HashMap<>();
+        myViewAttacks = new HashMap<>();
         initializeModel(mapName);
         myView = new View(stage, this, labels);
-    }
-
-    public static Map<List<Double>, Obstacle> getModelObstacles() {
-        //return obstacleList;
-        return myModelObstacles;
-    }
-    public static Map<List<Double>, BlockView> getViewObstacles() {
-        return myViewObstacles;
     }
 
     private void initializeModel(String mapName) {
@@ -98,10 +95,17 @@ public class Controller {
 
     private void updateAttackPosition(double elapsedTime) {
         myModelAttacks.keySet().iterator().forEachRemaining(attackID -> {
-
-            List<Double> newCoordinates = myModelAttacks.get(attackID).move(elapsedTime);
+            Attack attackModel = myModelAttacks.get(attackID);
+            List<Double> newCoordinates = attackModel.move(elapsedTime);
             // myViewAttacks.get(attackID).setX(newCoordinates.get(0));
             // myViewAttacks.get(attackID).setY(newCoordinates.get(1));
+            if (myViewAttacks.containsKey(attackID)) {
+                myViewAttacks.get(attackID).changeDirection(attackModel.getDirection());
+                myViewAttacks.get(attackID).setX(newCoordinates.get(0));
+                myViewAttacks.get(attackID).setY(newCoordinates.get(1));
+            } else {
+                myViewAttacks.put(attackID, createViewAttack(attackModel));
+            }
         });
     }
 
@@ -157,6 +161,11 @@ public class Controller {
         return new EntityView(spriteLocation, startingDirection, imageName, xPos, yPos, size, size);
     }
 
+    private AttackView createViewAttack(Attack attack){
+        // TODO: Nicki, this is where we will need to get the attack image from the attack object
+        String attackType = attack.getClass().getSimpleName();
+        return new AttackView("/attacks/", attackType, 20, 20);
+    }
 
     private void removeEntity(String entityName){
         myModelEntities.remove(entityName);
@@ -170,7 +179,7 @@ public class Controller {
                         actions.get(keyCode));
                 currentAction.invoke(this);
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                throw new RuntimeException(e);
+                throw new IllegalStateException("noMethodFound", e);
             }
         } else if (keyCode == KeyCode.SPACE) {
             myModel.attack();
@@ -244,8 +253,22 @@ public class Controller {
         return myModelEntities;
     }
 
-    public static Map<Integer, Attack> getModelAttacks() { return myModelAttacks; }
-    //public static Map<List<Double>, Obstacle> getModelObstacles() { return myModelObstacles; }
+    public static Map<List<Double>, Obstacle> getModelObstacles() {
+        return myModelObstacles;
+    }
 
-    public static Map<String, EntityView> getViewEntities() { return myViewEntities; }
+    public static Map<String, EntityView> getViewEntities() {
+        return myViewEntities;
+    }
+    public static Map<Integer, Attack> getModelAttacks() {
+        return myModelAttacks;
+    }
+
+    public static Map<Integer, AttackView> getViewAttacks() {
+        return myViewAttacks;
+    }
+
+    public static Map<List<Double>, BlockView> getViewObstacles() {
+        return myViewObstacles;
+    }
 }

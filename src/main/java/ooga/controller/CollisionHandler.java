@@ -13,15 +13,14 @@ import ooga.view.EntityView;
 
 public class CollisionHandler {
 
-    private Controller controller;
     private Map<String, Entity> modelEntities;
     private Map<String, EntityView> viewEntities;
     private Obstacle collisionObstacle;
     private Entity collisionEntity;
 
-    public CollisionHandler(Controller controller) {
-        this.controller = controller;
-        this.modelEntities = controller.getModelEntities();
+    public CollisionHandler() {
+        this.modelEntities = Controller.getModelEntities();
+        this.viewEntities = Controller.getViewEntities();
     }
 
 
@@ -40,21 +39,8 @@ public class CollisionHandler {
         }
     }
 
-    public void collision(EntityView entityView, BlockView obstacleView) {
-//        for (Entity entity : modelEntities.values()) {
-//            if (entity.getMyAttributes().get("EntityType").equals(entityView.getEntityName())) {
-//                collisionEntity = entity;
-//            }
-//        }
-//        double obstacleX = obstacleView.getXPosition();
-//        double obstacleY = obstacleView.getYPosition();
-//        ObstacleEnum.valueOf("")
-//        Obstacle obstacle = new Obstacle(obstacleX, obstacleY, )
-//        Collision collision = new Collision(collisionEntity, )
-    }
-
     public void translateCollision(EntityView entityView, BlockView obstacleView) {
-        collisionEntity = controller.getModelEntities().get(entityView.getEntityName());
+        collisionEntity = modelEntities.get(entityView.getEntityName());
         List<Double> obstacleCoordinates = Arrays.asList(obstacleView.getXPosition(), obstacleView.getYPosition());
         collisionObstacle = Controller.getModelObstacles().get(obstacleCoordinates);
         collision(collisionEntity, collisionObstacle);
@@ -67,5 +53,4 @@ public class CollisionHandler {
         }
         return myClass;
     }
-
 }

@@ -34,9 +34,9 @@ class MapParserTest {
     @Test
     void testMapParserGetProperties() {
         MapParser mapParser = new MapParser("MainMap");
-        assertEquals(20, mapParser.getMapProperties().get(0));
-        assertEquals(640, mapParser.getMapProperties().get(1));
-        assertEquals(1000, mapParser.getMapProperties().get(2));
+        assertEquals(30, mapParser.getMapProperties().get(0));
+        assertEquals(960, mapParser.getMapProperties().get(1));
+        assertEquals(1500, mapParser.getMapProperties().get(2));
     }
 
     @Test
