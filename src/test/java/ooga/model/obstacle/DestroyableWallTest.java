@@ -1,4 +1,4 @@
-package ooga.model;
+package ooga.model.obstacle;
 
 import static ooga.model.obstacle.DestroyableWall.DEFAULT_HP;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.HashMap;
 import java.util.Map;
+import ooga.model.Entity;
 import ooga.model.hero.MainHero;
 import ooga.model.obstacle.DestroyableWall;
 import ooga.model.state.MovementState;
@@ -41,8 +42,8 @@ class DestroyableWallTest {
   @Test
   void testBlock() {
     attributes = new HashMap<>();
-    attributes.put("XPosition", "1.0");
-    attributes.put("YPosition", "1.0");
+    attributes.put("XPosition", Double.toString(TEST_DEFAULT_X_POSITION));
+    attributes.put("YPosition", Double.toString(TEST_DEFAULT_Y_POSITION));
     attributes.put("Type", "Hero");
     attributes.put("Speed", "100");
     attributes.put("Size", "30");
