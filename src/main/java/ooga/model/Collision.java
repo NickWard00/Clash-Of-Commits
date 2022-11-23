@@ -41,7 +41,7 @@ public class Collision {
             EntityView myEntityView = Controller.getViewEntities().get(myName);
             List<Double> knockBackCoordinate = entity.knockBack();
             myEntityView.setCoordinate(knockBackCoordinate);
-            myEntityView.changeDirection(entity.getMyDirection().oppositeDirection());
+            myEntityView.changeDirectionAndMovement(entity.getMyDirection().oppositeDirection(), entity.getMyMovement());
             entity.changeDirection(entity.getMyDirection().oppositeDirection());
         }
     }

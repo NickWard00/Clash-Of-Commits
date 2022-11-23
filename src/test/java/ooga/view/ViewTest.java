@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.controller.Controller;
 import ooga.model.state.DirectionState;
+import ooga.model.state.MovementState;
 import ooga.view.screens.MainGameScreen;
 import ooga.view.screens.ScreenSelector;
 import ooga.view.screens.StartScreen;
@@ -34,6 +35,7 @@ public class ViewTest extends DukeApplicationTest {
     void changeEntityStateTest() {
         String entityName = "Hero1";
         DirectionState direction = DirectionState.NORTH;
-        view.changeEntityState(entityName, direction);
+        MovementState movement = MovementState.MOVING;
+        view.changeEntityState(entityName, direction, movement);
     }
 }

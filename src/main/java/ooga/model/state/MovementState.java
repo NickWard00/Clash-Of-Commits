@@ -27,7 +27,7 @@ public enum MovementState {
 
     public int getSpeedConverter() { return speedConverter; }
 
-    public String getMovement() { return movement; }
+    public String getMovementString() { return movement; }
 
     public Map<String, MovementState> getMovementStateMap() { return movementStateMap; }
 

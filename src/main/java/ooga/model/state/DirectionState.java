@@ -63,7 +63,7 @@ public enum DirectionState {
 
     // TODO: implement a record to cover the public getters
 
-    public String getDirection() { return direction; }
+    public String getDirectionString() { return direction; }
 
     public List<Integer> getVelocity() { return Arrays.asList(xVelocity, yVelocity); }
 

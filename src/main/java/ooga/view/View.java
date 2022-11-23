@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.controller.Controller;
 import ooga.model.state.DirectionState;
+import ooga.model.state.MovementState;
 import ooga.view.screens.*;
 
 import java.util.Map;
@@ -70,9 +71,9 @@ public class View {
         isActive = true;
     }
 
-    public void changeEntityState(String entityName, DirectionState direction) {
+    public void changeEntityState(String entityName, DirectionState direction, MovementState movement) {
         EntityView entity = myViewEntities.get(entityName);
-        entity.changeDirection(direction);
+        entity.changeDirectionAndMovement(direction, movement);
     }
 
     private void setupMap() {
@@ -103,6 +104,10 @@ public class View {
             myController.handleKeyRelease(event.getCode());
             walking.pause();
         });
+    }
+
+    public MainGameScreen getGameScreen() {
+        return mainGameScreen;
     }
 }
 

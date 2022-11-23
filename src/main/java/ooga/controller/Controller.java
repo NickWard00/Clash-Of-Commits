@@ -97,14 +97,14 @@ public class Controller {
         myModelAttacks.keySet().iterator().forEachRemaining(attackID -> {
             Attack attackModel = myModelAttacks.get(attackID);
             List<Double> newCoordinates = attackModel.move(elapsedTime);
-            // myViewAttacks.get(attackID).setX(newCoordinates.get(0));
-            // myViewAttacks.get(attackID).setY(newCoordinates.get(1));
             if (myViewAttacks.containsKey(attackID)) {
-                myViewAttacks.get(attackID).changeDirection(attackModel.getDirection());
-                myViewAttacks.get(attackID).setX(newCoordinates.get(0));
-                myViewAttacks.get(attackID).setY(newCoordinates.get(1));
+                AttackView attackView = myViewAttacks.get(attackID);
+                attackView.setX(newCoordinates.get(0) - attackView.getFitWidth()/2);
+                attackView.setY(newCoordinates.get(1) - attackView.getFitHeight()/2);
             } else {
-                myViewAttacks.put(attackID, createViewAttack(attackModel));
+                AttackView newAttackView = createViewAttack(attackModel);
+                myViewAttacks.put(attackID, newAttackView);
+                myView.getGameScreen().addAttackToScene(newAttackView);
             }
         });
     }
@@ -162,14 +162,23 @@ public class Controller {
     }
 
     private AttackView createViewAttack(Attack attack){
-        // TODO: Nicki, this is where we will need to get the attack image from the attack object
+        String imagePath = new AttackParser(attack.getMyEntity()).getImagePath();
+        // imagePath = imagePath + attack.getDirection().getDirectionString() + ".png";
+        imagePath = String.format("%s%s.png", imagePath, attack.getDirection().getDirectionString());
         String attackType = attack.getClass().getSimpleName();
-        return new AttackView("/attacks/", attackType, 20, 20);
+        double size = Double.parseDouble("" + attack.getMyAttributes().get("Size"));
+        return new AttackView(imagePath, attackType, attack.getCoordinates().get(0), attack.getCoordinates().get(1), (int) size, (int) size);
     }
 
-    private void removeEntity(String entityName){
+    public void removeEntity(String entityName){
         myModelEntities.remove(entityName);
         myViewEntities.remove(entityName);
+    }
+
+    public void removeAttack(Integer attackID) {
+        myView.getGameScreen().removeAttackFromScene(myViewAttacks.get(attackID));
+        myViewAttacks.remove(attackID);
+        myModelAttacks.remove(attackID);
     }
 
     public void handleKeyPress(KeyCode keyCode){
@@ -200,40 +209,40 @@ public class Controller {
     }
 
     private void moveUpStop(){
-        myModel.changeEntityState(myMainHeroName, DirectionState.NORTH_STATIONARY);
-        myView.changeEntityState(myMainHeroName, DirectionState.NORTH_STATIONARY);
+        myModel.changeEntityState(myMainHeroName, DirectionState.NORTH, MovementState.STATIONARY);
+        myView.changeEntityState(myMainHeroName, DirectionState.NORTH, MovementState.STATIONARY);
     }
     private void moveDownStop(){
-        myModel.changeEntityState(myMainHeroName, DirectionState.SOUTH_STATIONARY);
-        myView.changeEntityState(myMainHeroName, DirectionState.SOUTH_STATIONARY);
+        myModel.changeEntityState(myMainHeroName, DirectionState.SOUTH, MovementState.STATIONARY);
+        myView.changeEntityState(myMainHeroName, DirectionState.SOUTH, MovementState.STATIONARY);
     }
     private void moveRightStop(){
-        myModel.changeEntityState(myMainHeroName, DirectionState.EAST_STATIONARY);
-        myView.changeEntityState(myMainHeroName, DirectionState.EAST_STATIONARY);
+        myModel.changeEntityState(myMainHeroName, DirectionState.EAST, MovementState.STATIONARY);
+        myView.changeEntityState(myMainHeroName, DirectionState.EAST, MovementState.STATIONARY);
     }
 
     private void moveLeftStop(){
-        myModel.changeEntityState(myMainHeroName, DirectionState.WEST_STATIONARY);
-        myView.changeEntityState(myMainHeroName, DirectionState.WEST_STATIONARY);
+        myModel.changeEntityState(myMainHeroName, DirectionState.WEST, MovementState.STATIONARY);
+        myView.changeEntityState(myMainHeroName, DirectionState.WEST, MovementState.STATIONARY);
     }
 
     private void moveUp() {
         myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.NORTH);
-        myView.changeEntityState(myMainHeroName, DirectionState.NORTH);
+        myView.changeEntityState(myMainHeroName, DirectionState.NORTH, MovementState.MOVING);
     }
 
     private void moveDown() {
         myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.SOUTH);
-        myView.changeEntityState(myMainHeroName, DirectionState.SOUTH);
+        myView.changeEntityState(myMainHeroName, DirectionState.SOUTH, MovementState.MOVING);
     }
 
     private void moveLeft(){
         myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.WEST);
-        myView.changeEntityState(myMainHeroName, DirectionState.WEST);
+        myView.changeEntityState(myMainHeroName, DirectionState.WEST, MovementState.MOVING);
     }
     private void moveRight(){
         myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.EAST);
-        myView.changeEntityState(myMainHeroName, DirectionState.EAST);
+        myView.changeEntityState(myMainHeroName, DirectionState.EAST, MovementState.MOVING);
     }
 
 
