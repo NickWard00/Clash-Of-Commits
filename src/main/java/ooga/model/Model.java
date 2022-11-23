@@ -32,13 +32,14 @@ public class Model {
         entity.changeDirection(direction);
     }
 
-    public void changeEntityState(String entityName, DirectionState direction) {
+    public void changeEntityState(String entityName, DirectionState direction, MovementState movement) {
         Entity entity = myModelEntities.get(entityName);
         entity.changeDirection(direction);
+        entity.changeMovement(movement);
     }
 
     public void attack(){
-        Attack.attack(myHeroModel).activateAttack();
+        Attack.attack(myHeroModel).activateAttack(myController);
     }
 
 }

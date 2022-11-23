@@ -23,13 +23,15 @@ public class AttackView extends ImageView {
      * @param xSize
      * @param ySize
      */
-    public AttackView(String imagePath, String attackType, int xSize, int ySize) {
-        super();
+    public AttackView(String imagePath, String attackType, double xPos, double yPos, int xSize, int ySize) {
+        super(new Image(imagePath));
         this.imagePath = imagePath;
         this.attackType = attackType;
-        setupSprites();
+        // setupSprites();
         this.setFitWidth(xSize);
         this.setFitHeight(ySize);
+        this.setX(xPos - xSize/2);
+        this.setY(yPos - ySize/2);
     }
 
     /**
@@ -37,7 +39,7 @@ public class AttackView extends ImageView {
      * @param newDirection the new direction of the sprite
      */
     public void changeDirection(DirectionState newDirection) {
-        String spriteDirection = newDirection.getDirection();
+        String spriteDirection = newDirection.getDirectionString();
         try {
             this.getClass().getDeclaredMethod(String.format("set%sSprite", spriteDirection)).invoke(this);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {

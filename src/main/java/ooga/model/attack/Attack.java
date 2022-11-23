@@ -16,8 +16,10 @@ import java.util.List;
 
 public abstract class Attack {
     public static final ResourceBundle attackBundle = ResourceBundle.getBundle("ResourceBundles.Attack");
+    private Controller controller;
     private int damage;
     private double speed;
+    private double size;
     private double coolDown;
     private double maxDuration;
     private Entity myEntity;
@@ -26,6 +28,7 @@ public abstract class Attack {
     private Double yPos;
     private DirectionState myDirection;
     private double timeSinceActivation;
+    private Map<String, Double> myAttributes;
 
 
     /**
@@ -36,8 +39,10 @@ public abstract class Attack {
     public Attack(Entity entity, Map<String, Double> attributes) {
         this.damage = attributes.getOrDefault("Damage", 0.0).intValue();
         this.speed = attributes.getOrDefault("Speed", 0.0);
+        this.size = attributes.getOrDefault("Size", 0.0);
         this.coolDown = attributes.getOrDefault("CoolDown", 1.0);
         this.maxDuration = attributes.getOrDefault("MaxDuration", 0.0);
+        this.myAttributes = attributes;
         this.myEntity = entity;
         this.xPos = 0.0;
         this.yPos = 0.0;
@@ -59,16 +64,24 @@ public abstract class Attack {
         }
     }
 
-    public void activateAttack() {
+    public void activateAttack(Controller controller) {
+        this.controller = controller;
         if (myEntity.getTimeUntilAttack() <= 0) {
             activeAttackID = createRandomID();
             Controller.getModelAttacks().put(activeAttackID, this);
             this.myDirection = DirectionState.valueOf(myEntity.getStateStrings().get(0));
-            this.xPos = myEntity.coordinates().get(0) + (myDirection.getVelocity().get(0) * Integer.parseInt(myEntity.getMyAttributes().get("Size")));
-            this.yPos = myEntity.coordinates().get(1) + (myDirection.getVelocity().get(1) * Integer.parseInt(myEntity.getMyAttributes().get("Size")));
             this.timeSinceActivation = 0.0;
             myEntity.resetTimeUntilAttack();
+            setInitialCoordinates();
         }
+    }
+
+    private void setInitialCoordinates() {
+        int halfSize = Integer.parseInt(myEntity.getMyAttributes().get("Size"))/2;
+        double centerX = myEntity.coordinates().get(0) + halfSize;
+        double centerY = myEntity.coordinates().get(1) + halfSize;
+        this.xPos = centerX + myDirection.getVelocity().get(0) * halfSize;
+        this.yPos = centerY + myDirection.getVelocity().get(1) * halfSize;
     }
 
     private Integer createRandomID() {
@@ -81,8 +94,7 @@ public abstract class Attack {
     }
 
     public void deactivateAttack() {
-        Controller.getModelAttacks().remove(activeAttackID);
-        Controller.getViewAttacks().remove(activeAttackID);
+        controller.removeAttack(activeAttackID);
     }
 
     public DirectionState getDirection() {
@@ -112,4 +124,10 @@ public abstract class Attack {
     public int getDamage() {
         return damage;
     }
+
+    public Map<String, Double> getMyAttributes() {
+        return myAttributes;
+    }
+
+    public List<Double> getCoordinates() { return Arrays.asList(xPos, yPos); }
 }

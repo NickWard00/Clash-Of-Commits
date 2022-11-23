@@ -17,11 +17,7 @@ import javafx.stage.Stage;
 import ooga.controller.CollisionHandler;
 import ooga.controller.Controller;
 import ooga.model.Collision;
-import ooga.view.BlockView;
-import ooga.view.EntityView;
-import ooga.view.HUD;
-import ooga.view.MapView;
-import ooga.view.MapWrapper;
+import ooga.view.*;
 
 import java.util.Map;
 
@@ -96,6 +92,13 @@ public class MainGameScreen extends SceneCreator {
 
     public void removeEntityFromScene(String entityName){
         root.getChildren().remove(myViewEntities.get(entityName));
+    }
+
+    public void addAttackToScene(AttackView attack) {
+        root.getChildren().add(attack);
+    }
+    public void removeAttackFromScene(AttackView attack) {
+        root.getChildren().remove(attack);
     }
 
     public StackPane getMapPane() {

@@ -12,6 +12,7 @@ public class AttackParser {
     private Properties attackProperties;
     private static final String ATTACK_DIRECTORY = "data/attack/%s.sim";
     private Map<String, Double> attributeMap;
+    private String imagePath;
 
 
     public AttackParser(Entity entity) {
@@ -19,7 +20,7 @@ public class AttackParser {
         attackType = entity.getAttackType();
         attackProperties = simParser.getSimData(String.format(ATTACK_DIRECTORY, attackType));
         attributeMap = new HashMap<>();
-        createAttributeMap();
+        createAttributeMapAndImagePath();
     }
 
     /**
@@ -33,12 +34,20 @@ public class AttackParser {
     /**
      * Creates the attribute map
      */
-    private void createAttributeMap() {
+    private void createAttributeMapAndImagePath() {
         attackProperties.entrySet().forEach(entry->{
             String key = (String) entry.getKey();
-            Double value = Double.parseDouble(((String) entry.getValue()).replaceAll("\\s+",""));
-            attributeMap.put(key, value);
+            if (!key.equals("Sprites")) {
+                Double value = Double.parseDouble(((String) entry.getValue()).replaceAll("\\s+",""));
+                attributeMap.put(key, value);
+            } else {
+                imagePath = ((String) entry.getValue()).replaceAll("\\s+","");
+            }
         });
+    }
+
+    public String getImagePath() {
+        return imagePath;
     }
 
 }

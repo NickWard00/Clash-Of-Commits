@@ -83,7 +83,7 @@ public abstract class Entity {
     }
 
     public List<String> getStateStrings() {
-        return Arrays.asList(myDirection.getDirection(), myMovement.getMovement());
+        return Arrays.asList(myDirection.getDirectionString(), myMovement.getMovementString());
     }
 
     protected int getHp() {
@@ -91,6 +91,7 @@ public abstract class Entity {
     }
 
     public DirectionState getMyDirection() { return myDirection; }
+    public MovementState getMyMovement() { return myMovement; }
 
     public double getTimeUntilAttack() { return timeUntilAttack; }
 
