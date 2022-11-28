@@ -21,11 +21,14 @@ class MainGameScreenTest extends DukeApplicationTest {
     private String spriteLocation;
     private String startingDirection;
     private EntityView entityView;
+    private Stage myStage;
 
     @Override
     public void start(Stage stage) {
-        StartScreen ss = new StartScreen(stage);
-        stage.setScene(ss.makeScene());
+        this.myStage = stage;
+        StartScreen ss = new StartScreen(myStage);
+        myStage.setScene(ss.makeScene());
+
 
         entityAttributes = Map.of("Name", "Hero1", "XPosition", "50", "YPosition", "103", "Size", "20", "Sprites", "/sprites/hero/", "Direction", "SOUTH");
         imageName = entityAttributes.get("Name");
@@ -44,7 +47,7 @@ class MainGameScreenTest extends DukeApplicationTest {
         map.setStateToImageMap(mapParser.getStateToImageMap());
         map.setVisualProperties(mapParser.getMapProperties());
 
-        MainGameScreen mainGameScreen = new MainGameScreen();
+        MainGameScreen mainGameScreen = new MainGameScreen(myStage);
         mainGameScreen.startGamePlay(map, Map.of("Joe Mama", entityView));
         mainGameScreen.makeScene();
         mainGameScreen.startGamePlay(map, Map.of("Joe Mama", entityView));
@@ -52,7 +55,7 @@ class MainGameScreenTest extends DukeApplicationTest {
     }
     @Test
     void startGamePlayErrorTest(){
-        MainGameScreen mainGameScreen = new MainGameScreen(new Stage());
+        MainGameScreen mainGameScreen = new MainGameScreen(myStage);
         MapParser mapParser = new MapParser("MainMap");
         MapWrapper map = mapParser.getMapWrapper();
         map.setStateToImageMap(mapParser.getStateToImageMap());

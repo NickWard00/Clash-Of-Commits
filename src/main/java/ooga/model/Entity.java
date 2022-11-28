@@ -12,7 +12,6 @@ public abstract class Entity {
     private double yPos;
     private int max_hp;
     private int hp;
-
     private double speed;
     private int size;
     private DirectionState myDirection;
@@ -21,10 +20,12 @@ public abstract class Entity {
     private String attackType;
     private double attackCoolDown;
     private double timeUntilAttack;
-
     public static final ResourceBundle attackBundle = ResourceBundle.getBundle("ResourceBundles.Attack");
 
-
+    /**
+     * Constructor for Entity
+     * @param attributes - map of attributes
+     */
     public Entity(Map<String, String> attributes) {
         try {
             this.myAttributes = attributes;
@@ -48,7 +49,6 @@ public abstract class Entity {
         }
     }
 
-
     /**
      * Method to update this entity's x and y positions based on the elapsed time since the previous step
      * @param elapsedTime Time passed since the previous step
@@ -60,32 +60,66 @@ public abstract class Entity {
         return Arrays.asList(xPos, yPos);
     }
 
+    /**
+     * Getter for the attributes of an entity
+     * @return myAttributes
+     */
     public Map<String, String> getMyAttributes() {
         return myAttributes;
     } // TODO: next week, make a record for entity
 
+    /**
+     * Change HP method
+     * @param diff
+     */
     protected void changeHp(int diff) {
         hp += diff;
     }
+
+    /**
+     * Returns the attack type of this entity
+     * @return
+     */
     public String getAttackType() {
         return attackType;
     }
 
+    /**
+     * Returns coordinates of the entity
+     * @return coordinates
+     */
     public List<Double> coordinates() {
         return Arrays.asList(xPos, yPos);
     }
 
+    /**
+     * Changes the direction of the entity
+     * @param newDirection
+     */
     public void changeDirection(DirectionState newDirection) {
         myDirection = newDirection;
     }
+
+    /**
+     * Changes the movement of the entity
+     * @param newMovement
+     */
     public void changeMovement(MovementState newMovement) {
         myMovement = newMovement;
     }
 
+    /**
+     * get the current direction and movement states of the entity
+     * @return
+     */
     public List<String> getStateStrings() {
         return Arrays.asList(myDirection.getDirectionString(), myMovement.getMovementString());
     }
 
+    /**
+     * Returns the current HP of the entity
+     * @return
+     */
     protected int getHp() {
         return hp;
     }
@@ -93,12 +127,25 @@ public abstract class Entity {
     public DirectionState getMyDirection() { return myDirection; }
     public MovementState getMyMovement() { return myMovement; }
 
-    public double getTimeUntilAttack() { return timeUntilAttack; }
+    /**
+     * Returns the time until an entity can attack again
+     * @return timeUntilAttack
+     */
+    public double getTimeUntilAttack() {
+        return timeUntilAttack;
+    }
 
+    /**
+     * Resets the time until an entity can attack again
+     */
     public void resetTimeUntilAttack() {
         timeUntilAttack = attackCoolDown;
     }
 
+    /**
+     * Method that knocks the entity back
+     * @return the distance the entity is knocked back
+     */
     public List<Double> knockBack() {
         xPos += 2 * myDirection.oppositeDirection().getVelocity().get(0);
         yPos += 2 * myDirection.oppositeDirection().getVelocity().get(1);
