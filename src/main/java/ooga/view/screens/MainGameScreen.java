@@ -6,6 +6,7 @@ import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -71,9 +72,7 @@ public class MainGameScreen extends SceneCreator {
         background.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         background.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         characters= new Pane();
-        hud = new HUD(stage);
         root = new Group();
-        //root.getChildren().add(mapView.createMap());
         for (EntityView entity : myViewEntities.values()) {
             root.getChildren().add(entity);
         }
@@ -81,12 +80,19 @@ public class MainGameScreen extends SceneCreator {
         background.setContent(mapView.createMap());
         centerPaneConsolidated.getChildren().addAll(background, characters);
         gameScreenPane.setCenter(centerPaneConsolidated);
-        gameScreenPane.setTop(hud.makeHUD());
+        createHUD();
         Scene s = new Scene(gameScreenPane, screenSize, screenSize);
         s.getStylesheets().add(styles.getString("mainGameScreenCSS"));
         musicPlayer= new MediaPlayer(music);
         musicPlayer.setAutoPlay(true);
         return s;
+    }
+
+    public void createHUD(){
+        hud = new HUD(stage);
+        ToolBar top =hud.makeHUD();
+        top.setId("HUD");
+        gameScreenPane.setTop(top);
     }
 
 
