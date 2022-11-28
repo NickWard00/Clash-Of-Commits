@@ -113,7 +113,7 @@ public abstract class Entity {
      * @return
      */
     public List<String> getStateStrings() {
-        return Arrays.asList(myDirection.getDirection(), myMovement.getMovement());
+        return Arrays.asList(myDirection.getDirectionString(), myMovement.getMovementString());
     }
 
     /**
@@ -124,13 +124,8 @@ public abstract class Entity {
         return hp;
     }
 
-    /**
-     * Returns the current direction of the entity
-     * @return myDirection
-     */
-    public DirectionState getMyDirection() {
-        return myDirection;
-    }
+    public DirectionState getMyDirection() { return myDirection; }
+    public MovementState getMyMovement() { return myMovement; }
 
     /**
      * Returns the time until an entity can attack again

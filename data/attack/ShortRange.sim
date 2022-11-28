@@ -1,5 +1,6 @@
 # This is where the ShortRange attack attributes are defined
 Speed=0.0
+Size=20
 Damage=-10.0
 CoolDown=0.2
 MaxDuration=0.4

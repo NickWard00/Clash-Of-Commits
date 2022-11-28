@@ -3,6 +3,7 @@ package ooga.view;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import ooga.model.state.DirectionState;
+import ooga.model.state.MovementState;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -55,8 +56,9 @@ public class EntityView extends ImageView {
         this.setFitHeight(ySize);
     }
 
+
     public void changeDirection(DirectionState newDirection) {
-        String spriteDirection = newDirection.getDirection();
+        String spriteDirection = newDirection.getDirectionString();
         try {
             this.getClass().getDeclaredMethod(String.format("set%sSprite", spriteDirection)).invoke(this);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
@@ -64,19 +66,30 @@ public class EntityView extends ImageView {
         }
     }
 
-    private void setNORTHSprite() {
+    public void changeDirectionAndMovement(DirectionState direction, MovementState movement) {
+        String spriteDirection = direction.getDirectionString();
+        String spriteMovement = movement.getMovementString();
+        try {
+            String path = String.format("set%s_%sSprite", spriteDirection, spriteMovement);
+            this.getClass().getDeclaredMethod(path).invoke(this);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new IllegalStateException("methodNotFound", e);
+        }
+    }
+
+    private void setNORTH_MOVINGSprite() {
         this.setImage(northSprite);
     }
 
-    private void setSOUTHSprite() {
+    private void setSOUTH_MOVINGSprite() {
         this.setImage(southSprite);
     }
 
-    private void setWESTSprite() {
+    private void setWEST_MOVINGSprite() {
         this.setImage(westSprite);
     }
 
-    private void setEASTSprite() {
+    private void setEAST_MOVINGSprite() {
         this.setImage(eastSprite);
     }
 
