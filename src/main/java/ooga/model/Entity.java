@@ -5,7 +5,10 @@ import ooga.model.state.MovementState;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 public abstract class Entity {
     private double xPos;
@@ -124,8 +127,21 @@ public abstract class Entity {
         return hp;
     }
 
-    public DirectionState getMyDirection() { return myDirection; }
-    public MovementState getMyMovement() { return myMovement; }
+    /**
+     * Returns the direction of an entity
+     * @return myDirection
+     */
+    public DirectionState getMyDirection() {
+        return myDirection;
+    }
+
+    /**
+     * Returns the movement of an entity
+     * @return myMovement
+     */
+    public MovementState getMyMovement() {
+        return myMovement;
+    }
 
     /**
      * Returns the time until an entity can attack again
