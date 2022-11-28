@@ -34,7 +34,6 @@ public class Controller {
     private MapWrapper mapWrapper;
     private static final double FRAMES_PER_SECOND = 60;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-
     private static Map<String, EntityView> myViewEntities;
     private static Map<String, Entity> myModelEntities;
     private static Map<Integer, Attack> myModelAttacks;
@@ -386,7 +385,7 @@ public class Controller {
 
     /**
      * Returns the model attacks
-     * @return
+     * @return myModelAttacks
      */
     public static Map<Integer, Attack> getModelAttacks() {
         return myModelAttacks;
@@ -394,7 +393,7 @@ public class Controller {
 
     /**
      * Returns the view attacks
-     * @return
+     * @return myViewAttacks
      */
     public static Map<Integer, AttackView> getViewAttacks() {
         return myViewAttacks;
