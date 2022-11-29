@@ -2,10 +2,9 @@ package ooga.model;
 
 import ooga.controller.Controller;
 import ooga.model.attack.Attack;
-import ooga.model.hero.Hero;
 import ooga.model.hero.MainHero;
 import ooga.model.obstacle.*;
-import ooga.model.state.MovementState;
+import ooga.model.powerUp.PowerUp;
 import ooga.view.EntityView;
 
 import java.util.List;

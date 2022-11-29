@@ -1,5 +1,6 @@
-package ooga.model;
+package ooga.model.powerUp;
 
+import ooga.model.Entity;
 import ooga.model.hero.MainHero;
 
 public class PowerUp {

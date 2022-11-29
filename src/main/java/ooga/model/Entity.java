@@ -75,7 +75,7 @@ public abstract class Entity {
      * Change HP method
      * @param diff
      */
-    protected void changeHp(int diff) {
+    public void changeHp(int diff) {
         hp += diff;
     }
 
