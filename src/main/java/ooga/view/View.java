@@ -3,10 +3,12 @@ package ooga.view;
 import java.util.List;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import ooga.controller.CollisionHandler;
 import ooga.controller.Controller;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
@@ -24,11 +26,14 @@ public class View {
     private Controller myController;
     private Map<String, EntityView> myViewEntities;
     private MapWrapper myMapWrapper;
+    private MapView myMapView;
+    private Map<List<Double>, BlockView> myViewObstacles;
     private double myWidth;
     private double myHeight;
     private double blockSize;
     private BorderPane bPane;
     private StackPane stackPane;
+    private GridPane mapPane;
     private EntityView myHeroView;
     private MainGameScreen mainGameScreen;
     private boolean isActive;
@@ -47,7 +52,7 @@ public class View {
         stackPane.setTranslateX((myScene.getWidth() - blockSize) / 2 - myHeroView.getX());
         stackPane.setTranslateY((myScene.getHeight() - blockSize) / 2 - myHeroView.getY());
         if (isActive == true) {
-            mainGameScreen.detectCollisions(myController);
+            detectCollisions();
         }
     }
 
@@ -57,8 +62,8 @@ public class View {
 
         setupMap();
 
-        mainGameScreen = new MainGameScreen(stage, myController);
-        mainGameScreen.startGamePlay(myMapWrapper, myViewEntities);
+        mainGameScreen = new MainGameScreen(stage);
+        mainGameScreen.startGamePlay(mapPane, myViewEntities);
         myScene = mainGameScreen.makeScene();
         walking = mainGameScreen.getWalkPlayer();
         walking.setOnEndOfMedia(new Runnable() {
@@ -81,6 +86,9 @@ public class View {
         myWidth = myMapWrapper.getVisualProperties().get(2);
         myHeight = myMapWrapper.getVisualProperties().get(1);
         blockSize = myMapWrapper.getVisualProperties().get(0);
+        myMapView = new MapView(myMapWrapper);
+        mapPane = myMapView.createMap();
+        myViewObstacles = myMapView.getViewObstacles();
     }
 
     private void createScrollableBackground() {
@@ -105,6 +113,17 @@ public class View {
             myController.handleKeyRelease(event.getCode());
             walking.pause();
         });
+    }
+
+    public void detectCollisions() {
+        for (EntityView entity : myViewEntities.values()) {
+            for (BlockView obstacle : myViewObstacles.values()) {
+                if (entity.localToScreen(entity.getBoundsInLocal()).intersects(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()))) {
+                    CollisionHandler handler = new CollisionHandler();
+                    handler.translateCollision(entity, obstacle, myController.getModelObstacles());
+                }
+            }
+        }
     }
 
     public MainGameScreen getGameScreen() {

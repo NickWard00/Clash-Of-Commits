@@ -1,5 +1,6 @@
 package ooga.view;
 
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.MapParser;
@@ -50,10 +51,13 @@ class MainGameScreenTest extends DukeApplicationTest {
         MapWrapper map = mapParser.getMapWrapper();
         map.setStateToImageMap(mapParser.getStateToImageMap());
         map.setVisualProperties(mapParser.getMapProperties());
-        MainGameScreen mainGameScreen = new MainGameScreen(myStage, controller);
-        mainGameScreen.startGamePlay(map, Map.of("Joe Mama", entityView));
+        MapView mapPane = new MapView(map);
+        GridPane mapGrid = mapPane.createMap();
+
+        MainGameScreen mainGameScreen = new MainGameScreen(myStage);
+        mainGameScreen.startGamePlay(mapGrid, Map.of("Joe Mama", entityView));
         mainGameScreen.makeScene();
-        mainGameScreen.startGamePlay(map, Map.of("Joe Mama", entityView));
+        mainGameScreen.startGamePlay(mapGrid, Map.of("Joe Mama", entityView));
         assertTrue(mainGameScreen.isPlaying());
     }
     @Test
@@ -62,10 +66,12 @@ class MainGameScreenTest extends DukeApplicationTest {
         MapParser mapParser = new MapParser("MainMap");
         MapWrapper map = mapParser.getMapWrapper();
         map.setStateToImageMap(mapParser.getStateToImageMap());
+        MapView mapPane = new MapView(map);
+        GridPane mapGrid = mapPane.createMap();
 
         try{
             mainGameScreen.makeScene();
-            mainGameScreen.startGamePlay(map, Map.of("Joe Mama", entityView));
+            mainGameScreen.startGamePlay(mapGrid, Map.of("Joe Mama", entityView));
         }catch(Exception e){
             //any other exception should be thrown by US
             assertEquals("Incorrect GamePlay", e.getMessage());

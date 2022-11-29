@@ -1,8 +1,7 @@
 package ooga.view;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+
 import javafx.scene.layout.GridPane;
 import ooga.controller.Controller;
 import ooga.model.obstacle.Obstacle;
@@ -18,11 +17,11 @@ public class MapView {
     private int blockSize;
     private double mapSizeX;
     private double mapSizeY;
-    private List<BlockView> obstacleList;
+    private Map<List<Double>, BlockView> myViewObstacles;
 
     public MapView(MapWrapper mapWrapper){
         this.wrapper = mapWrapper;
-        obstacleList = new ArrayList<>();
+        myViewObstacles = new HashMap<>();
     }
 
     public GridPane createMap(){
@@ -39,15 +38,14 @@ public class MapView {
                 String imagePath = wrapper.getImageFromState(state);
                 BlockView blockView = new BlockView(col, row, blockSize, state, imagePath, grid);
                 if (state == 1) {
-                    Controller.getViewObstacles().put(Arrays.asList((double) row, (double) col), blockView);
+                    myViewObstacles.put(Arrays.asList((double) row, (double) col), blockView);
                 }
-
             }
         }
         return grid;
     }
 
-    public List<BlockView> getObstacleList() {
-        return this.obstacleList;
+    public Map<List<Double>, BlockView> getViewObstacles() {
+        return this.myViewObstacles;
     }
 }
