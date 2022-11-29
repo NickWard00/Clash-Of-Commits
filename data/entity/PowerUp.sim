@@ -1,0 +1,9 @@
+#This is a power up that adds a life to the main hero when it passes by it. (currently image is a bug)
+Type=PowerUp
+Sprites=/sprites/bug/
+Speed=0
+Size=30
+HP=10000
+Attack=ShortRange
+Direction=SOUTH
+Movement=STATIONARY

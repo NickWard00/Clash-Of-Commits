@@ -23,20 +23,20 @@ public interface GameState {
   /**
    * This method determines and sets the high score.
    */
-  void setHighScore(HighScore addScore);
-
-  /**
-   * This method obtains the high score of the game.
-   */
-  HighScore getHighScore();
-
-  /**
-   * This method displays the new scene when the game is won.
-   */
-  WinScreen showWin();
-
-  /**
-   * This method displays the new scene when the game is lost.
-   */
-  LoseScreen showLost();
+//  void setHighScore(HighScore addScore);
+//
+//  /**
+//   * This method obtains the high score of the game.
+//   */
+//  HighScore getHighScore();
+//
+//  /**
+//   * This method displays the new scene when the game is won.
+//   */
+//  WinScreen showWin();
+//
+//  /**
+//   * This method displays the new scene when the game is lost.
+//   */
+//  LoseScreen showLost();
 }

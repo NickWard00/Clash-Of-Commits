@@ -49,7 +49,7 @@ class ImmovableWallTest {
     attributes.put("Movement", "MOVING");
     entity = new MainHero(attributes);
     wall.block(entity);
-    //assertEquals(MovementState.STATIONARY.getMovement(), entity.getStateStrings().get(1));
+    assertEquals(MovementState.STATIONARY.getMovementString(), entity.getStateStrings().get(1));
 
   }
 }

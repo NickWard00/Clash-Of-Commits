@@ -75,7 +75,7 @@ public abstract class Entity {
      * Change HP method
      * @param diff
      */
-    protected void changeHp(int diff) {
+    public void changeHp(int diff) {
         hp += diff;
     }
 
@@ -123,7 +123,7 @@ public abstract class Entity {
      * Returns the current HP of the entity
      * @return
      */
-    protected int getHp() {
+    public int getHp() {
         return hp;
     }
 

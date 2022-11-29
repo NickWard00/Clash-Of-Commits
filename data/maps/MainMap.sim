@@ -5,10 +5,11 @@ Description=A super cool side scroller game that will blow Professor Duvall's so
 Level=easy (easy, medium, or hard)
 BoxSize=30
 Cell0=/blocks/grass.jpeg
-Cell1=/blocks/bush.jpeg
-Cell2=/blocks/water.jpeg
+Cell1=/blocks/stump.jpeg
+Cell2=/blocks/bush.jpeg
 Cell3=/blocks/winter_grass.jpeg
 Obstacle0=Feature
 Obstacle1=ImmovableWall
+Obstacle2=DestroyableWall
 
 Map=data/maps/MainMap.csv

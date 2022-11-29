@@ -1,15 +1,18 @@
 package ooga.model.obstacle;
 
+import java.util.ResourceBundle;
+
 /**
  * This class represents all wall obstacles that have hitpoints and can be destroyed.
  *
  * @author James Qu
  */
 public class DestroyableWall extends Wall {
+  public static final ResourceBundle HP_VALUES = ResourceBundle.getBundle(
+      "ResourceBundles.DestroyableWall");
   private int hp;
-
-  //TODO: Use config file to load this value
-  public static final int DEFAULT_HP = 100;
+  public static final int DEFAULT_HP = Integer.parseInt(HP_VALUES.getString("defaultHP"));
+  public static final int REMOVE_HP = Integer.parseInt(HP_VALUES.getString("removeHP"));
 
   public DestroyableWall(Double x, Double y) {
     super(x, y, true, true);
@@ -35,9 +38,8 @@ public class DestroyableWall extends Wall {
     checkRemove();
   }
 
-  //TODO: Use config file to load this hard-coded value
   private void checkRemove() {
-    if (this.hp <= 0) {
+    if (this.hp <= REMOVE_HP) {
       this.onScreen = false;
     }
   }
