@@ -46,4 +46,8 @@ public class Collision {
         }
     }
 
+    public Collision(Entity entity, PowerUp powerUp) {
+        powerUp.upgradeHP(entity, 1);
+    }
+
 }

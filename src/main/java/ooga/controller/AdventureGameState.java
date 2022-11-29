@@ -1,17 +1,29 @@
-package ooga.controller;
+//package ooga.controller;
 
 //public class TopDownGameState implements GameState {
 //  private boolean winGame;
 //  private boolean loseGame;
-//  private HighScore score;
-
+//  private int score;
+//  private MainHero hero;
+//
+//  public TopDownGameState(MainHero hero, int score) {
+//    this.hero = hero;
+//    this.score = score;
+//  }
+//
 //  @Override
 //  public boolean determineWin() {
+//    if (score >= 100) {
+//      return true;
+//    }
 //    return false;
 //  }
 //
 //  @Override
 //  public boolean determineLost() {
+//    if (hero.getHp() == 0) {
+//      return true;
+//    }
 //    return false;
 //  }
 //
@@ -24,14 +36,14 @@ package ooga.controller;
 //  public HighScore getHighScore() {
 //    return null;
 //  }
-//
+
 //  @Override
-//  public WinScene showWin() {
-//    return null;
+//  public WinScene showWin(WinScene scene) {
+//    return scene;
 //  }
 //
 //  @Override
-//  public LoseScene showLost() {
-//    return null;
+//  public LoseScene showLost(LoseScene scene) {
+//    return scene;
 //  }
 //}

@@ -123,7 +123,7 @@ public abstract class Entity {
      * Returns the current HP of the entity
      * @return
      */
-    protected int getHp() {
+    public int getHp() {
         return hp;
     }
 
