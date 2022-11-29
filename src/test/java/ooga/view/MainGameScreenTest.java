@@ -2,14 +2,15 @@ package ooga.view;
 
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import ooga.controller.Controller;
 import ooga.controller.MapParser;
-import ooga.model.state.DirectionState;
 import ooga.view.screens.MainGameScreen;
 import ooga.view.screens.StartScreen;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,12 +24,15 @@ class MainGameScreenTest extends DukeApplicationTest {
     private String startingDirection;
     private EntityView entityView;
     private Stage myStage;
+    private Controller controller;
+    private ResourceBundle labels = ResourceBundle.getBundle("ResourceBundles.LabelsBundle");
 
     @Override
     public void start(Stage stage) {
         this.myStage = stage;
         StartScreen ss = new StartScreen(myStage);
         myStage.setScene(ss.makeScene());
+        controller = new Controller(stage,"mainMap",labels);
 
 
         entityAttributes = Map.of("Name", "Hero1", "XPosition", "50", "YPosition", "103", "Size", "20", "Sprites", "/sprites/hero/", "Direction", "SOUTH");
@@ -58,7 +62,7 @@ class MainGameScreenTest extends DukeApplicationTest {
     }
     @Test
     void startGamePlayErrorTest(){
-        MainGameScreen mainGameScreen = new MainGameScreen(myStage);
+        MainGameScreen mainGameScreen = new MainGameScreen(myStage, controller);
         MapParser mapParser = new MapParser("MainMap");
         MapWrapper map = mapParser.getMapWrapper();
         map.setStateToImageMap(mapParser.getStateToImageMap());
