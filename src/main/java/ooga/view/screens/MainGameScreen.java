@@ -29,6 +29,9 @@ import java.util.Map;
  * @author Melanie Wang, Nick Ward, Mayari Merchant
  */
 
+/**
+ * This class serves as the launching point for all three gametypes.
+ */
 public class MainGameScreen extends SceneCreator {
     //TODO: refactor all "Screens" into subclasses of a screen superclass
     //TODO: refactor stackpane
@@ -49,12 +52,8 @@ public class MainGameScreen extends SceneCreator {
     private MediaPlayer musicPlayer;
     private MediaPlayer walkPlayer;
     private Stage stage;
-
     private Scene s;
-
     private double overlaySize = Integer.parseInt(constants.getString("overlaySize"));
-
-
     private Pane overlay;
     private ImageView snowy = new ImageView(new Image(images.getString("snowyImage")));
     private ImageView dark = new ImageView(new Image(images.getString("darkImage")));
@@ -71,6 +70,11 @@ public class MainGameScreen extends SceneCreator {
         stage = s;
     }
 
+    /**
+     * Responsible for initializing gameplay, creating the map, starting sound effects
+     * @param map responsible for creating the view of the map
+     * @param entities refers to all existing entities in the map
+     */
     public void startGamePlay(MapWrapper map, Map<String, EntityView> entities) {
         isPlaying = true;
         this.mapWrapper = map;
@@ -81,7 +85,10 @@ public class MainGameScreen extends SceneCreator {
         walkPlayer = new MediaPlayer(walk);
     }
 
-    //make new scene
+    /**
+     * Method for generating the scene that the game is based off of.
+     * @return Scene object
+     */
     @Override
     public Scene makeScene(){
         gameScreenPane = new BorderPane();
@@ -91,11 +98,7 @@ public class MainGameScreen extends SceneCreator {
         makeCharacters();
         makeBackground();
         makeDefaultOverlay();
-        StackPane centerPaneMoving = new StackPane();
-        centerPaneMoving.getChildren().addAll(background, characters);
-        StackPane centerPaneStill = new StackPane(overlay);
-        centerPaneConsolidated=new StackPane();
-        centerPaneConsolidated.getChildren().addAll(centerPaneMoving, centerPaneStill);
+        makeCenterPane();
         gameScreenPane.setCenter(centerPaneConsolidated);
         createHUD();
         s = new Scene(gameScreenPane, screenSize, screenSize);
@@ -104,12 +107,31 @@ public class MainGameScreen extends SceneCreator {
         musicPlayer.setAutoPlay(true);
         return s;
     }
+
+    /**
+     * generates the background (grid of the map)
+     */
     public void makeBackground(){
         background.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         background.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         background.setContent(mapView.createMap());
     }
 
+    /**
+     * puts all the parts together- adds the moving parts (background, character) as the base
+     * and then stacks the overlay (special CSS effects) on top
+     */
+    public void makeCenterPane(){
+        StackPane centerPaneMoving = new StackPane();
+        centerPaneMoving.getChildren().addAll(background, characters);
+        StackPane centerPaneStill = new StackPane(overlay);
+        centerPaneConsolidated=new StackPane();
+        centerPaneConsolidated.getChildren().addAll(centerPaneMoving, centerPaneStill);
+    }
+
+    /**
+     * sets the default CSS style's overlay portion
+     */
     public void makeDefaultOverlay(){
         snowy.setFitWidth(overlaySize);
         snowy.setFitHeight(overlaySize);
@@ -119,15 +141,24 @@ public class MainGameScreen extends SceneCreator {
 
     }
 
+    /**
+     * sets the dark CSS style's overlay portion
+     */
     public void makeDarkOverlay(){
         overlay.getChildren().clear();
         overlay.getChildren().add(dark);
     }
+    /**
+     * sets the snowy CSS style's overlay portion
+     */
     public void makeSnowyOverlay(){
         overlay.getChildren().clear();
         overlay.getChildren().add(snowy);
     }
 
+    /**
+     * adds all entity's views to the characters pane
+     */
     public void makeCharacters(){
         root = new Group();
         for (EntityView entity : myViewEntities.values()) {
@@ -136,6 +167,9 @@ public class MainGameScreen extends SceneCreator {
         characters.getChildren().add(root);
     }
 
+    /**
+     * initializes the hud on the top of the screen
+     */
     public void createHUD(){
         hud = new HUD(stage, this);
         ToolBar top =hud.makeHUD();
@@ -143,6 +177,10 @@ public class MainGameScreen extends SceneCreator {
         gameScreenPane.setTop(top);
     }
 
+    /**
+     * changes the CSS style and calls the set methods for setting non-CSS sheet related effects
+     * @param style string that details which style to change to
+     */
     public void changeStyle(String style){
         s.getStylesheets().clear();
         s.getStylesheets().add(styles.getString(String.format("%sCSS",style)));
