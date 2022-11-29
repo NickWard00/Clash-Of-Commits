@@ -234,6 +234,7 @@ public class MainGameScreen extends SceneCreator {
 
     public void detectCollisions(Controller controller) {
         int counter = 0;
+        //TODO: Implement collisions for entity and entity
         for (EntityView entity: myViewEntities.values()) {
             for (BlockView obstacle: Controller.getViewObstacles().values()) {
                 if (entity.localToScreen(entity.getBoundsInLocal()).intersects(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()))) {

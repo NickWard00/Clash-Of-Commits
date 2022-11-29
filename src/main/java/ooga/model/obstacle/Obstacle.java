@@ -58,4 +58,8 @@ public abstract class Obstacle {
   public boolean getDestroyable() {
     return this.canBeDestroyed;
   }
+
+  public boolean getOnScreen() {
+    return this.onScreen;
+  }
 }
