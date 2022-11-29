@@ -24,7 +24,7 @@ public class CollisionHandler {
     }
 
 
-    public static void collision(Object object1, Object object2) {
+    public void collision(Object object1, Object object2) {
         Map<Class, Integer> indexMap = Map.of(Attack.class, 0, Entity.class, 1, Obstacle.class, 2);
         try {
             Class class1 = getCorrectClassForCollision(object1);
@@ -39,10 +39,10 @@ public class CollisionHandler {
         }
     }
 
-    public void translateCollision(EntityView entityView, BlockView obstacleView) {
+    public void translateCollision(EntityView entityView, BlockView obstacleView, Map<List<Double>, Obstacle> modelObstacles) {
         collisionEntity = modelEntities.get(entityView.getEntityName());
         List<Double> obstacleCoordinates = Arrays.asList(obstacleView.getXPosition(), obstacleView.getYPosition());
-        collisionObstacle = Controller.getModelObstacles().get(obstacleCoordinates);
+        collisionObstacle = modelObstacles.get(obstacleCoordinates);
         collision(collisionEntity, collisionObstacle);
     }
 
