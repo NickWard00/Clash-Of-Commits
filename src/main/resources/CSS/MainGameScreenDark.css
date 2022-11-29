@@ -5,10 +5,14 @@
     src: url("/fonts/retro_computer.ttf");
 }
 
+.tool-bar{
+    -fx-background-color: #000000;
+}
+
 .button{
     -fx-font-family: "Retro Computer";
 }
-
 .label{
     -fx-font-family: "Retro Computer";
+    -fx-text-fill: #FFFFFF;
 }

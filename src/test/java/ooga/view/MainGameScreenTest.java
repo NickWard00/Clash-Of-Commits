@@ -46,7 +46,6 @@ class MainGameScreenTest extends DukeApplicationTest {
         MapWrapper map = mapParser.getMapWrapper();
         map.setStateToImageMap(mapParser.getStateToImageMap());
         map.setVisualProperties(mapParser.getMapProperties());
-
         MainGameScreen mainGameScreen = new MainGameScreen(myStage);
         mainGameScreen.startGamePlay(map, Map.of("Joe Mama", entityView));
         mainGameScreen.makeScene();

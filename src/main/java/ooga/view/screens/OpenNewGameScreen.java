@@ -37,10 +37,14 @@ public class OpenNewGameScreen extends SceneCreator {
     public Scene makeScene(){
         background = new StackPane();
         slot1 = new GameSlot(labels.getString("game1"), labels);
+        slot1.setId("slot1");
         slot2 = new GameSlot(labels.getString("game2"), labels);
+        slot1.setId("slot2");
         slot3 = new GameSlot(labels.getString("game3"), labels);
+        slot1.setId("slot3");
         VBox slots = new VBox(slot1,slot2,slot3);
         slots.getStyleClass().add("vbox");
+        slots.setId("slotbox");
         slots.setAlignment(Pos.CENTER);
         background.setAlignment(Pos.CENTER);
         background.getChildren().add(slots);

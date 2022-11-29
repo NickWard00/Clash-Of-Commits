@@ -15,7 +15,9 @@ public class SettingsPopup extends VBox {
     private Button quitGame;
     private ComboBox cssSelector;
     private Stage stage;
-    public SettingsPopup(ResourceBundle l, Stage s){
+    private MainGameScreen main;
+    public SettingsPopup(ResourceBundle l, Stage s, MainGameScreen m){
+        main = m;
         labels = l;
         stage = s;
         cssSelector = new ComboBox<>();
@@ -44,7 +46,7 @@ public class SettingsPopup extends VBox {
             toClose.close();
         });
         cssSelector.setOnAction(event->{
-
+            main.changeStyle((String) cssSelector.getValue());
         });
     }
 
