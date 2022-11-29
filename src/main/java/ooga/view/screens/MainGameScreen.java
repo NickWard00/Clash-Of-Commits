@@ -4,7 +4,7 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
-import javafx.geometry.Bounds;
+
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
@@ -16,11 +16,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import ooga.controller.CollisionHandler;
 import ooga.controller.Controller;
-import ooga.model.Collision;
 import ooga.view.*;
 
 import java.util.Map;
@@ -49,6 +47,7 @@ public class MainGameScreen extends SceneCreator {
     private List<BlockView> obstacleList;
     private Media music;
     private Media walk;
+    private Controller controller;
     private MediaPlayer musicPlayer;
     private MediaPlayer walkPlayer;
     private Stage stage;
@@ -65,9 +64,10 @@ public class MainGameScreen extends SceneCreator {
     );
 
 
-    public MainGameScreen(Stage s){
+    public MainGameScreen(Stage s, Controller myController){
         this.screenSize = getScreenSize();
         stage = s;
+        controller = myController;
     }
 
     /**
@@ -171,7 +171,7 @@ public class MainGameScreen extends SceneCreator {
      * initializes the hud on the top of the screen
      */
     public void createHUD(){
-        hud = new HUD(stage, this);
+        hud = new HUD(stage, this, controller);
         ToolBar top =hud.makeHUD();
         top.setId("HUD");
         gameScreenPane.setTop(top);
