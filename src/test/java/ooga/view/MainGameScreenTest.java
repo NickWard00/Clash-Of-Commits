@@ -1,14 +1,16 @@
 package ooga.view;
 
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import ooga.controller.Controller;
 import ooga.controller.MapParser;
-import ooga.model.state.DirectionState;
 import ooga.view.screens.MainGameScreen;
 import ooga.view.screens.StartScreen;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,12 +24,15 @@ class MainGameScreenTest extends DukeApplicationTest {
     private String startingDirection;
     private EntityView entityView;
     private Stage myStage;
+    private Controller controller;
+    private ResourceBundle labels = ResourceBundle.getBundle("ResourceBundles.LabelsBundle");
 
     @Override
     public void start(Stage stage) {
         this.myStage = stage;
         StartScreen ss = new StartScreen(myStage);
         myStage.setScene(ss.makeScene());
+        controller = new Controller(stage,"mainMap",labels);
 
 
         entityAttributes = Map.of("Name", "Hero1", "XPosition", "50", "YPosition", "103", "Size", "20", "Sprites", "/sprites/hero/", "Direction", "SOUTH");
@@ -46,23 +51,28 @@ class MainGameScreenTest extends DukeApplicationTest {
         MapWrapper map = mapParser.getMapWrapper();
         map.setStateToImageMap(mapParser.getStateToImageMap());
         map.setVisualProperties(mapParser.getMapProperties());
-        MainGameScreen mainGameScreen = new MainGameScreen(myStage);
-        mainGameScreen.startGamePlay(map, Map.of("Joe Mama", entityView));
+        MapView mapPane = new MapView(map);
+        GridPane mapGrid = mapPane.createMap();
+
+        MainGameScreen mainGameScreen = new MainGameScreen(myStage, controller);
+        mainGameScreen.startGamePlay(mapGrid, Map.of("Joe Mama", entityView));
         mainGameScreen.makeScene();
-        mainGameScreen.startGamePlay(map, Map.of("Joe Mama", entityView));
+        mainGameScreen.startGamePlay(mapGrid, Map.of("Joe Mama", entityView));
         assertTrue(mainGameScreen.isPlaying());
     }
     @Test
     void startGamePlayErrorTest(){
-        MainGameScreen mainGameScreen = new MainGameScreen(myStage);
+        MainGameScreen mainGameScreen = new MainGameScreen(myStage, controller);
         MapParser mapParser = new MapParser("MainMap");
         MapWrapper map = mapParser.getMapWrapper();
         map.setStateToImageMap(mapParser.getStateToImageMap());
+        MapView mapPane = new MapView(map);
+        GridPane mapGrid = mapPane.createMap();
 
-        try{
+        try {
             mainGameScreen.makeScene();
-            mainGameScreen.startGamePlay(map, Map.of("Joe Mama", entityView));
-        }catch(Exception e){
+            mainGameScreen.startGamePlay(mapGrid, Map.of("Joe Mama", entityView));
+        } catch(Exception e){
             //any other exception should be thrown by US
             assertEquals("Incorrect GamePlay", e.getMessage());
         }

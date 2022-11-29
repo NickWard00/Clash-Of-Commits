@@ -4,7 +4,7 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
-import javafx.geometry.Bounds;
+
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
@@ -12,15 +12,14 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import ooga.controller.CollisionHandler;
 import ooga.controller.Controller;
-import ooga.model.Collision;
 import ooga.view.*;
 
 import java.util.Map;
@@ -35,10 +34,9 @@ import java.util.Map;
 public class MainGameScreen extends SceneCreator {
     //TODO: refactor all "Screens" into subclasses of a screen superclass
     //TODO: refactor stackpane
-    private MapWrapper mapWrapper;
-    private MapView mapView;
     private boolean isPlaying = false;
     private int screenSize;
+    private GridPane mapPane;
     private Map<String, EntityView> myViewEntities;
     private Group root;
     private BorderPane gameScreenPane;
@@ -46,9 +44,9 @@ public class MainGameScreen extends SceneCreator {
     private StackPane centerPaneConsolidated;
     private Pane characters;
     private HUD hud;
-    private List<BlockView> obstacleList;
     private Media music;
     private Media walk;
+    private Controller controller;
     private MediaPlayer musicPlayer;
     private MediaPlayer walkPlayer;
     private Stage stage;
@@ -65,9 +63,10 @@ public class MainGameScreen extends SceneCreator {
     );
 
 
-    public MainGameScreen(Stage s){
+    public MainGameScreen(Stage s, Controller myController){
         this.screenSize = getScreenSize();
         stage = s;
+        controller = myController;
     }
 
     /**
@@ -75,11 +74,11 @@ public class MainGameScreen extends SceneCreator {
      * @param map responsible for creating the view of the map
      * @param entities refers to all existing entities in the map
      */
-    public void startGamePlay(MapWrapper map, Map<String, EntityView> entities) {
+    public void startGamePlay(GridPane mapPane, Map<String, EntityView> entities) {
         isPlaying = true;
-        this.mapWrapper = map;
-        mapView = new MapView(mapWrapper);
         myViewEntities = entities;
+        this.mapPane = mapPane;
+
         music = new Media(new File(media.getString("lvl1")).toURI().toString());
         walk = new Media(new File(media.getString("walking")).toURI().toString());
         walkPlayer = new MediaPlayer(walk);
@@ -93,7 +92,7 @@ public class MainGameScreen extends SceneCreator {
     public Scene makeScene(){
         gameScreenPane = new BorderPane();
         background = new ScrollPane();
-        characters= new Pane();
+        characters = new Pane();
         overlay = new Pane();
         makeCharacters();
         makeBackground();
@@ -111,28 +110,28 @@ public class MainGameScreen extends SceneCreator {
     /**
      * generates the background (grid of the map)
      */
-    public void makeBackground(){
+    private void makeBackground(){
         background.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         background.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        background.setContent(mapView.createMap());
+        background.setContent(mapPane);
     }
 
     /**
      * puts all the parts together- adds the moving parts (background, character) as the base
      * and then stacks the overlay (special CSS effects) on top
      */
-    public void makeCenterPane(){
+    private void makeCenterPane(){
         StackPane centerPaneMoving = new StackPane();
         centerPaneMoving.getChildren().addAll(background, characters);
         StackPane centerPaneStill = new StackPane(overlay);
-        centerPaneConsolidated=new StackPane();
+        centerPaneConsolidated = new StackPane();
         centerPaneConsolidated.getChildren().addAll(centerPaneMoving, centerPaneStill);
     }
 
     /**
      * sets the default CSS style's overlay portion
      */
-    public void makeDefaultOverlay(){
+    private void makeDefaultOverlay(){
         snowy.setFitWidth(overlaySize);
         snowy.setFitHeight(overlaySize);
         dark.setFitWidth(overlaySize);
@@ -144,14 +143,14 @@ public class MainGameScreen extends SceneCreator {
     /**
      * sets the dark CSS style's overlay portion
      */
-    public void makeDarkOverlay(){
+    private void makeDarkOverlay(){
         overlay.getChildren().clear();
         overlay.getChildren().add(dark);
     }
     /**
      * sets the snowy CSS style's overlay portion
      */
-    public void makeSnowyOverlay(){
+    private void makeSnowyOverlay(){
         overlay.getChildren().clear();
         overlay.getChildren().add(snowy);
     }
@@ -159,7 +158,7 @@ public class MainGameScreen extends SceneCreator {
     /**
      * adds all entity's views to the characters pane
      */
-    public void makeCharacters(){
+    private void makeCharacters(){
         root = new Group();
         for (EntityView entity : myViewEntities.values()) {
             root.getChildren().add(entity);
@@ -171,7 +170,7 @@ public class MainGameScreen extends SceneCreator {
      * initializes the hud on the top of the screen
      */
     public void createHUD(){
-        hud = new HUD(stage, this);
+        hud = new HUD(stage, this, controller);
         ToolBar top =hud.makeHUD();
         top.setId("HUD");
         gameScreenPane.setTop(top);
@@ -205,7 +204,6 @@ public class MainGameScreen extends SceneCreator {
         makeDarkOverlay();
     }
 
-
     public void removeEntityFromScene(String entityName){
         root.getChildren().remove(myViewEntities.get(entityName));
     }
@@ -230,19 +228,5 @@ public class MainGameScreen extends SceneCreator {
 
     public MediaPlayer getWalkPlayer() {
         return walkPlayer;
-    }
-
-    public void detectCollisions(Controller controller) {
-        int counter = 0;
-        //TODO: Implement collisions for entity and entity
-        for (EntityView entity: myViewEntities.values()) {
-            for (BlockView obstacle: Controller.getViewObstacles().values()) {
-                if (entity.localToScreen(entity.getBoundsInLocal()).intersects(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()))) {
-                    CollisionHandler handler = new CollisionHandler();
-                    handler.translateCollision(entity, obstacle);
-                }
-            }
-        }
-
     }
 }

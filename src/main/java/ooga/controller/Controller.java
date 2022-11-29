@@ -19,10 +19,7 @@ import ooga.view.View;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * @author Nick Ward, Melanie Wang
@@ -37,8 +34,8 @@ public class Controller {
     private static Map<String, EntityView> myViewEntities;
     private static Map<String, Entity> myModelEntities;
     private static Map<Integer, Attack> myModelAttacks;
-    private static Map<List<Double>, Obstacle> myModelObstacles;
-    private static Map<List<Double>, BlockView> myViewObstacles;
+    private Map<List<Double>, Obstacle> myModelObstacles;
+    private Map<List<Double>, BlockView> myViewObstacles;
     private static Map<Integer, AttackView> myViewAttacks;
     private String myMainHeroName;
     private Map<KeyCode, String> actions = Map.of(
@@ -84,6 +81,14 @@ public class Controller {
         animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(new KeyFrame(Duration.seconds(SECOND_DELAY), e->step(SECOND_DELAY)));
+        animation.play();
+    }
+
+    public void pauseAnimation(){
+        animation.pause();
+    }
+
+    public void playAnimation(){
         animation.play();
     }
 
@@ -166,7 +171,7 @@ public class Controller {
                     ResourceBundle obstacleBundle = ResourceBundle.getBundle("ResourceBundles.Obstacle");
                     String obstacleStateString = parser.getObstacleStateMap().get(thisState);
                     Class obstacleClass = Class.forName(obstacleBundle.getString(obstacleStateString));
-                    Obstacle.makeObstacle(obstacleClass, r, c);
+                    makeObstacle(obstacleClass, r, c);
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
@@ -211,6 +216,17 @@ public class Controller {
         String attackType = attack.getClass().getSimpleName();
         double size = Double.parseDouble("" + attack.getMyAttributes().get("Size"));
         return new AttackView(imagePath, attackType, attack.getCoordinates().get(0), attack.getCoordinates().get(1), (int) size, (int) size);
+    }
+
+    private Obstacle makeObstacle(Class<? extends Obstacle> obstacleClass, double xPosition, double yPosition) {
+        try {
+            Obstacle newObstacle = obstacleClass.getConstructor(Double.class, Double.class).newInstance(xPosition, yPosition);
+            myModelObstacles.put(Arrays.asList(xPosition, yPosition), newObstacle);
+            return newObstacle;
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -371,7 +387,7 @@ public class Controller {
      * Returns the model obstacles
      * @return myModelObstacles
      */
-    public static Map<List<Double>, Obstacle> getModelObstacles() {
+    public Map<List<Double>, Obstacle> getModelObstacles() {
         return myModelObstacles;
     }
 
@@ -379,7 +395,7 @@ public class Controller {
      * Returns the view obstacles
      * @return myViewObstacles
      */
-    public static Map<List<Double>, BlockView> getViewObstacles() {
+    public Map<List<Double>, BlockView> getViewObstacles() {
         return myViewObstacles;
     }
 
