@@ -1,6 +1,8 @@
 package ooga.view.screens;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 import javafx.geometry.Bounds;
 import javafx.scene.Group;
@@ -8,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -47,6 +50,21 @@ public class MainGameScreen extends SceneCreator {
     private MediaPlayer walkPlayer;
     private Stage stage;
 
+    private Scene s;
+
+    private double overlaySize = Integer.parseInt(constants.getString("overlaySize"));
+
+
+    private Pane overlay;
+    private ImageView snowy = new ImageView(new Image(images.getString("snowyImage")));
+    private ImageView dark = new ImageView(new Image(images.getString("darkImage")));
+
+    private Map<String,String> styleMethods = Map.of(
+            labels.getString("css1"), "setDefault",
+            labels.getString("css2"),"setDark",
+            labels.getString("css3"),"setSnowy"
+    );
+
 
     public MainGameScreen(Stage s){
         this.screenSize = getScreenSize();
@@ -68,31 +86,85 @@ public class MainGameScreen extends SceneCreator {
     public Scene makeScene(){
         gameScreenPane = new BorderPane();
         background = new ScrollPane();
-        centerPaneConsolidated = new StackPane();
+        characters= new Pane();
+        overlay = new Pane();
+        makeCharacters();
+        makeBackground();
+        makeDefaultOverlay();
+        StackPane centerPaneMoving = new StackPane();
+        centerPaneMoving.getChildren().addAll(background, characters);
+        StackPane centerPaneStill = new StackPane(overlay);
+        centerPaneConsolidated=new StackPane();
+        centerPaneConsolidated.getChildren().addAll(centerPaneMoving, centerPaneStill);
+        gameScreenPane.setCenter(centerPaneConsolidated);
+        createHUD();
+        s = new Scene(gameScreenPane, screenSize, screenSize);
+        s.getStylesheets().add(styles.getString("DefaultCSS"));
+        musicPlayer= new MediaPlayer(music);
+        musicPlayer.setAutoPlay(true);
+        return s;
+    }
+    public void makeBackground(){
         background.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         background.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        characters= new Pane();
+        background.setContent(mapView.createMap());
+    }
+
+    public void makeDefaultOverlay(){
+        snowy.setFitWidth(overlaySize);
+        snowy.setFitHeight(overlaySize);
+        dark.setFitWidth(overlaySize);
+        dark.setFitHeight(overlaySize);
+        overlay.getChildren().clear();
+
+    }
+
+    public void makeDarkOverlay(){
+        overlay.getChildren().clear();
+        overlay.getChildren().add(dark);
+    }
+    public void makeSnowyOverlay(){
+        overlay.getChildren().clear();
+        overlay.getChildren().add(snowy);
+    }
+
+    public void makeCharacters(){
         root = new Group();
         for (EntityView entity : myViewEntities.values()) {
             root.getChildren().add(entity);
         }
         characters.getChildren().add(root);
-        background.setContent(mapView.createMap());
-        centerPaneConsolidated.getChildren().addAll(background, characters);
-        gameScreenPane.setCenter(centerPaneConsolidated);
-        createHUD();
-        Scene s = new Scene(gameScreenPane, screenSize, screenSize);
-        s.getStylesheets().add(styles.getString("mainGameScreenCSS"));
-        musicPlayer= new MediaPlayer(music);
-        musicPlayer.setAutoPlay(true);
-        return s;
     }
 
     public void createHUD(){
-        hud = new HUD(stage);
+        hud = new HUD(stage, this);
         ToolBar top =hud.makeHUD();
         top.setId("HUD");
         gameScreenPane.setTop(top);
+    }
+
+    public void changeStyle(String style){
+        s.getStylesheets().clear();
+        s.getStylesheets().add(styles.getString(String.format("%sCSS",style)));
+        try {
+            Method changeCSS = this.getClass().getDeclaredMethod(
+                    styleMethods.get(style));
+            changeCSS.invoke(this);
+
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void setDefault(){
+        makeDefaultOverlay();
+    }
+    public void setSnowy(){
+        makeSnowyOverlay();
+    }
+
+    public void setDark(){
+        makeDarkOverlay();
     }
 
 

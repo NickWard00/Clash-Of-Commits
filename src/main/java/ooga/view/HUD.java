@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ooga.view.screens.AboutGamePopup;
+import ooga.view.screens.MainGameScreen;
 import ooga.view.screens.SceneCreator;
 import ooga.view.screens.SettingsPopup;
 
@@ -28,7 +29,9 @@ public class HUD extends SceneCreator {
     private  Stage popup = new Stage();
     private Stage stage;
 
-    public HUD(Stage s){
+    private MainGameScreen main;
+
+    public HUD(Stage s, MainGameScreen mainGameScreen){
         playerScore = Integer.parseInt(getConstants().getString("defaultScore"));
         scoreText = new Label(getLabels().getString("score")+playerScore);
         settings= new Button("",new ImageView(new Image(images.getString("settingsImage"))));
@@ -38,6 +41,7 @@ public class HUD extends SceneCreator {
         stage = s;
         popup.initModality(Modality.APPLICATION_MODAL);
         popup.initOwner(stage);
+        main = mainGameScreen;
     }
     public ToolBar makeHUD(){
         HUDBar = new ToolBar();
@@ -51,7 +55,7 @@ public class HUD extends SceneCreator {
 
     public void handleEvents(){
         settings.setOnAction(event -> {
-            SettingsPopup settingsPopup = new SettingsPopup(labels, stage);
+            SettingsPopup settingsPopup = new SettingsPopup(labels, stage, main);
             Scene sps = new Scene(settingsPopup);
             popup.setScene(sps);
             popup.show();
