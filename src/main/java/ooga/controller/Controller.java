@@ -87,6 +87,14 @@ public class Controller {
         animation.play();
     }
 
+    public void pauseAnimation(){
+        animation.pause();
+    }
+
+    public void playAnimation(){
+        animation.play();
+    }
+
     /**
      * Steps the animation of the game
      * @param elapsedTime the time elapsed since the last step

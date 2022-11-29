@@ -2,7 +2,6 @@ package ooga.view.screens;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import ooga.Main;
 import ooga.controller.Controller;
 
 import java.lang.reflect.InvocationTargetException;
@@ -23,7 +22,7 @@ public class ScreenSelector {
 
     public ScreenSelector(Stage stage, ResourceBundle labels) {
         myStage = stage;
-        mainGameScreen = new MainGameScreen(stage);
+        //mainGameScreen = new MainGameScreen(stage, new Controller());
         openSaveScreen = new OpenSaveScreen();
         openNewGameScreen = new OpenNewGameScreen(stage, labels);
         winScreen = new WinScreen();

@@ -57,7 +57,7 @@ public class View {
 
         setupMap();
 
-        mainGameScreen = new MainGameScreen(stage);
+        mainGameScreen = new MainGameScreen(stage, myController);
         mainGameScreen.startGamePlay(myMapWrapper, myViewEntities);
         myScene = mainGameScreen.makeScene();
         walking = mainGameScreen.getWalkPlayer();
