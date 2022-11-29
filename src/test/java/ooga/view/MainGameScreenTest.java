@@ -54,7 +54,7 @@ class MainGameScreenTest extends DukeApplicationTest {
         MapView mapPane = new MapView(map);
         GridPane mapGrid = mapPane.createMap();
 
-        MainGameScreen mainGameScreen = new MainGameScreen(myStage);
+        MainGameScreen mainGameScreen = new MainGameScreen(myStage, controller);
         mainGameScreen.startGamePlay(mapGrid, Map.of("Joe Mama", entityView));
         mainGameScreen.makeScene();
         mainGameScreen.startGamePlay(mapGrid, Map.of("Joe Mama", entityView));
@@ -69,10 +69,10 @@ class MainGameScreenTest extends DukeApplicationTest {
         MapView mapPane = new MapView(map);
         GridPane mapGrid = mapPane.createMap();
 
-        try{
+        try {
             mainGameScreen.makeScene();
             mainGameScreen.startGamePlay(mapGrid, Map.of("Joe Mama", entityView));
-        }catch(Exception e){
+        } catch(Exception e){
             //any other exception should be thrown by US
             assertEquals("Incorrect GamePlay", e.getMessage());
         }

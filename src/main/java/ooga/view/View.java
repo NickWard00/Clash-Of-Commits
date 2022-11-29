@@ -62,7 +62,7 @@ public class View {
 
         setupMap();
 
-        mainGameScreen = new MainGameScreen(stage);
+        mainGameScreen = new MainGameScreen(stage, myController);
         mainGameScreen.startGamePlay(mapPane, myViewEntities);
         myScene = mainGameScreen.makeScene();
         walking = mainGameScreen.getWalkPlayer();
@@ -73,7 +73,7 @@ public class View {
         handleKeyInputs();
         stage.setScene(myScene);
         createScrollableBackground();
-        isActive = true;
+        this.isActive = true;
     }
 
     public void changeEntityState(String entityName, DirectionState direction, MovementState movement) {
@@ -115,7 +115,7 @@ public class View {
         });
     }
 
-    public void detectCollisions() {
+    private void detectCollisions() {
         for (EntityView entity : myViewEntities.values()) {
             for (BlockView obstacle : myViewObstacles.values()) {
                 if (entity.localToScreen(entity.getBoundsInLocal()).intersects(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()))) {
