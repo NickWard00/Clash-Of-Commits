@@ -56,7 +56,7 @@ public class HUD extends SceneCreator {
         play = true;
         playPause = new Button("", pauseButton);
         playerScore = Integer.parseInt(getConstants().getString("defaultScore"));
-        scoreText = new Label(getLabels().getString("score") + playerScore);
+        scoreText = new Label(String.format("%s %s",getLabels().getString("score"),playerScore));
         settings = new Button("", new ImageView(new Image(images.getString("settingsImage"))));
         about = new Button("", new ImageView(new Image(images.getString("aboutImage"))));
         about.setFocusTraversable(false);
@@ -79,7 +79,7 @@ public class HUD extends SceneCreator {
 
     public void handleEvents(){
         settings.setOnAction(event -> {
-            SettingsPopup settingsPopup = new SettingsPopup(labels, stage, main);
+            SettingsPopup settingsPopup = new SettingsPopup(labels, stage, main, controller);
             Scene sps = new Scene(settingsPopup);
             popup.setScene(sps);
             popup.show();
