@@ -37,7 +37,7 @@ public class MapView {
                 int state = wrapper.getState(row, col);
                 String imagePath = wrapper.getImageFromState(state);
                 BlockView blockView = new BlockView(col, row, blockSize, state, imagePath, grid);
-                if (state == 1) {
+                if (wrapper.getObstacleFromState(state).contains("Wall")) {
                     myViewObstacles.put(Arrays.asList((double) row, (double) col), blockView);
                 }
             }

@@ -34,7 +34,6 @@ public class MapParser {
         obstacleStateMap = new HashMap<>();
         properties = simParser.getSimData(String.format(MAP_DIRECTORY, mapSim));
 
-        setImageToState();
         populateCSVandInfoMaps();
         setupMapWrapperMap();
         generateMapProperties();
@@ -76,12 +75,6 @@ public class MapParser {
                 mapInfo.put(key, value);
             }
         });
-    }
-
-    private void setImageToState() {
-//        obstacleMap.put("", ObstacleEnum.BUSH);
-//        obstacleMap.put("", ObstacleEnum.NORMAL_GRASS);
-//        obstacleMap.put("", ObstacleEnum.STUMP);
     }
 
     /**
