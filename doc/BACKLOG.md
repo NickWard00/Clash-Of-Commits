@@ -21,46 +21,38 @@ end of the map.
 
 ## Game Specific Features
 1. Power-ups and/or rewards when the enemies are defeated 
-2. 
-3.
 
 ## Use Cases
-Mayari: 
-1. Allow user the option to upload a .PNG to change personalize their character's sprite 
-2. Make a MapParser class to extract information from .csv file to render original game setting 
-3. Implement a specific power-up for increasing hero's speed 
-4. Implement error handling in the controller by catching exceptions and displaying messages to the user 
-5. Implementing a "collision" method (likely in the GameMap class) to alert whenever two Entity's collide 
-6. Keep track of information about a hero's number lives, health points, number coins, etc. in Hero class 
+* Sprint 2 Todos:
 
-Melanie: 
-1. Start Screen Implementation (language select)
-2. Players can change CSS in the settings popup
-3. Implement settings popup (allows return to main menu, saving current game, etc.)
-4. Implement HUD that dynamically updates during play
-5. Implement moving screen (background objects, block objects, etc.)
-6. Implement game pausing
+* Types of Games:
 
-Nick:
-1. Parse in parameters from resource file based on heroes, enemies, and other entities
-2. Parse in Level Parser from CSV (make it so that levels are generated in code, but created from resource/csvs)
-3. Create Entity superclass which enemies hero classes can be made and determined using reflection
-4. Keep track of positions of each entity in a class that can be given to the view
-5. Make a EntityView Class that based on the entity state, displays the corresponding photo on screen and puts the entity at the corresponding place in space
-6. Class with all types of enemy behavior, but can be accessed from resource file using reflection
+Our normal game (adventure mode)
+Bullet Hell- One long thin map w just a list of enemies to see how far hero can get (requires tracking of distance)
+Use a distance tracker (track blocks moved)
+Tower defense (player only allowed to move up/down, enemies constantly come towards player)
 
-James: 
-1. Implement upgrades to attacker, defender, etc
-2. Determining and implementing how specifically to win or lose a particular game type
-3. Implement key binds for the game
-4. Implement logic to track status/interactions within the game
-5. Display information about a game
-6. Implement selection settings at the beginning of the program
+* Refactoring:
+Refactor controller to avoid static things (all of the entities, collisions, attacks)
+Put slots into resource files (so that maps can be easily chosen)
+Make collision translation more extendable
 
-Nicki:
-1. Create Enemy superclass (extends Entity) which can instantiate specific enemy type classes through reflection
-2. Enemy movement and logic implementation
-3. Create data files for default enemy attributes of all enemy types
-4. Create data files for levels/environments which can be parsed to generate maps and correct sprites
-5. Backend testing - focused on testing for enemies
-6. Create Ability superclass which can instantiate specific ability/power-up classes through reflection
+* New Features:
+Pause button
+Working attacks (player and enemy)
+Settings screen CSS etc.
+Saving/Loading Game
+Different movement for enemies (perhaps declared in entity map??)
+Connect HUD to score, health
+Change map to include bug enemy and some other blocks
+A Powerup/Upgrade (heart)
+Enable hero to use both types of attacks (short and long) instead of just one as it is now
+Enemy attacks? (at discrete/random intervals?) 
+Destroyable bushes? (replace map perimeter with tree stumps)
+Win Conditions (easily associated with different maps in resource files)
+
+* Error Handling: 
+ErrorHandler class in Controller, View, → errors get propagated up to the Controller, which initializes an ErrorView object, which displays errors
+ 
+* Testing:
+Keep implementing tests
