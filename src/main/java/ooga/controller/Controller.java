@@ -16,10 +16,14 @@ import ooga.view.AttackView;
 import ooga.view.EntityView;
 import ooga.view.MapWrapper;
 import ooga.view.View;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.List;
+import java.util.HashMap;
+import java.util.Arrays;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
 
 /**
  * @author Nick Ward, Melanie Wang
@@ -33,18 +37,12 @@ public class Controller {
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     private static Map<String, EntityView> myViewEntities;
     private static Map<String, Entity> myModelEntities;
-    private static Map<Integer, Attack> myModelAttacks;
     private Map<List<Double>, Obstacle> myModelObstacles;
     private Map<List<Double>, BlockView> myViewObstacles;
+    private static Map<Integer, Attack> myModelAttacks;
     private static Map<Integer, AttackView> myViewAttacks;
     private String myMainHeroName;
-    private Map<KeyCode, String> actions = Map.of(
-            KeyCode.UP, "moveUp",
-            KeyCode.DOWN, "moveDown",
-            KeyCode.RIGHT, "moveRight",
-            KeyCode.LEFT, "moveLeft",
-            KeyCode.SPACE, "attack"
-    );
+    private Map<KeyCode, String> actions;
 
     private boolean playingGame;
     private boolean choosingGame; //some sort of variable to control what is active at any given moment
@@ -61,6 +59,13 @@ public class Controller {
         myModelObstacles = new HashMap<>();
         myViewObstacles = new HashMap<>();
         myViewAttacks = new HashMap<>();
+        actions = Map.of(
+                KeyCode.UP, "moveUp",
+                KeyCode.DOWN, "moveDown",
+                KeyCode.RIGHT, "moveRight",
+                KeyCode.LEFT, "moveLeft",
+                KeyCode.SPACE, "attack"
+        );
         initializeModel(mapName);
         myView = new View(stage, this, labels);
     }
@@ -164,8 +169,8 @@ public class Controller {
      * Sets up the view entities based on the model entities
      */
     private void setupModelObstacles(MapParser parser) {
-        for (int r=0; r<mapWrapper.getRowSize(0); r++) {
-            for (int c=0; c<mapWrapper.getColumnSize(); c++) {
+        for (int r = 0; r < mapWrapper.getRowSize(0); r++) {
+            for (int c = 0; c < mapWrapper.getColumnSize(); c++) {
                 try {
                     int thisState = mapWrapper.getState(c,r);
                     ResourceBundle obstacleBundle = ResourceBundle.getBundle("ResourceBundles.Obstacle");
@@ -173,7 +178,7 @@ public class Controller {
                     Class obstacleClass = Class.forName(obstacleBundle.getString(obstacleStateString));
                     makeObstacle(obstacleClass, r, c);
                 } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                    throw new IllegalStateException("classNotFound", e);
                 }
             }
         }
@@ -218,14 +223,19 @@ public class Controller {
         return new AttackView(imagePath, attackType, attack.getCoordinates().get(0), attack.getCoordinates().get(1), (int) size, (int) size);
     }
 
+    /**
+     * Creates an obstacle based on a class and a location
+     * @param obstacleClass the class of the obstacle to be created
+     * @param xPosition the x position of the obstacle
+     * @param yPosition the y position of the obstacle
+     */
     private Obstacle makeObstacle(Class<? extends Obstacle> obstacleClass, double xPosition, double yPosition) {
         try {
             Obstacle newObstacle = obstacleClass.getConstructor(Double.class, Double.class).newInstance(xPosition, yPosition);
             myModelObstacles.put(Arrays.asList(xPosition, yPosition), newObstacle);
             return newObstacle;
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+            throw new IllegalStateException("classNotFound", e);
         }
     }
 
@@ -259,7 +269,7 @@ public class Controller {
                         actions.get(keyCode));
                 currentAction.invoke(this);
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                throw new IllegalStateException("noMethodFound", e);
+                throw new IllegalStateException("methodNotFound", e);
             }
         } else if (keyCode == KeyCode.SPACE) {
             myModel.attack();
@@ -273,12 +283,10 @@ public class Controller {
     public void handleKeyRelease(KeyCode keyCode) {
         if (keyCode.isArrowKey()) {
             try {
-                Method currentAction = this.getClass().getDeclaredMethod(
-                        actions.get(keyCode) + "Stop");
+                Method currentAction = this.getClass().getDeclaredMethod(actions.get(keyCode) + "Stop");
                 currentAction.invoke(this);
-
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                throw new RuntimeException(e);
+                throw new IllegalStateException("illegalKeyPress", e);
             }
         }
     }
@@ -353,7 +361,7 @@ public class Controller {
      */
     public String getMainHeroName() {
         if (myMainHeroName == null) {
-            throw new IllegalStateException("Main Hero not found");
+            throw new IllegalStateException("mainHeroNotFound");
         } else {
             return myMainHeroName;
         }

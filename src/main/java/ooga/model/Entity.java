@@ -41,14 +41,12 @@ public abstract class Entity {
             this.attackType = attributes.get("Attack");
             this.myDirection = DirectionState.valueOf(attributes.getOrDefault("Direction", "SOUTH"));
             this.myMovement = MovementState.valueOf(attributes.getOrDefault("Movement", "STATIONARY"));
-            Class c = Class.forName(attackBundle.getString(attackType));
-            Method m = c.getDeclaredMethod("getCoolDown");
-            this.attackCoolDown = (double) m.invoke(this);
+            Class clazz = Class.forName(attackBundle.getString(attackType));
+            Method method = clazz.getDeclaredMethod("getCoolDown");
+            this.attackCoolDown = (double) method.invoke(this);
             this.timeUntilAttack = attackCoolDown;
-        }
-        catch (NullPointerException | ClassCastException | IllegalArgumentException | ClassNotFoundException |
-               NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+        } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+            throw new IllegalStateException("invalidAttackType", e);
         }
     }
 
@@ -60,6 +58,8 @@ public abstract class Entity {
         this.xPos += myDirection.getVelocity().get(0) * myMovement.getSpeedConverter() * speed * elapsedTime;
         this.yPos += myDirection.getVelocity().get(1) * myMovement.getSpeedConverter() * speed * elapsedTime;
         timeUntilAttack -= elapsedTime;
+        myAttributes.put("XPosition", String.valueOf(xPos));
+        myAttributes.put("YPosition", String.valueOf(yPos));
         return Arrays.asList(xPos, yPos);
     }
 
