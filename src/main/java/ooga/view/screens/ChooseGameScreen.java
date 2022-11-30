@@ -48,7 +48,9 @@ public class ChooseGameScreen extends SceneCreator {
 
     private void handleEvents(){
         loadSave.setOnAction(event ->{
-
+            OpenSaveScreen oss = new OpenSaveScreen(labels);
+            stage.setScene(oss.makeScene());
+            stage.show();
         });
         newGame.setOnAction(event->{
             OpenNewGameScreen openNewGameScreen = new OpenNewGameScreen(stage, labels);

@@ -11,12 +11,12 @@ import java.util.ResourceBundle;
 //game slot and save slot extend off of this class.
 //slots are like manifestations of filechoosers in a more user-friendly format.
 public abstract class Slot extends VBox {
-    private Label rank;
+
     private SubLabel title;
     private SubLabel gameType;
     private ResourceBundle labels;
 
-    //rank,
+
     public Slot(ResourceBundle l) {
         labels = l;
     }

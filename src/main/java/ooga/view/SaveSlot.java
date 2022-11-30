@@ -14,24 +14,22 @@ public class SaveSlot extends Slot{
     private SubLabel time;
 
     private ResourceBundle labels;
-    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-    private LocalDateTime currentTime = LocalDateTime.now();
-
-    private Label rank;
     private SubLabel gameType;
 
-    //for the default save slot with no save inside
-    public SaveSlot(ResourceBundle l, String r){
+    private int slotNumber;
+
+
+    public SaveSlot(ResourceBundle l, int number){
         super(l);
         labels = l;
-        time = new SubLabel(labels.getString("defaultTime"));
-        rank = new Label(labels.getString("defaultRank")+" "+r);
-        gameType = new SubLabel(labels.getString("defaultGameType"));
-        this.getChildren().addAll(rank,gameType,time);
+        slotNumber = number;
+        time = new SubLabel(labels.getString("time"));
+        gameType = new SubLabel(labels.getString("gameType"));
+        this.getChildren().addAll(gameType,time);
+        this.getStyleClass().add("SaveSlot");
     }
 
     public void save(){
-        time.setText(labels.getString("time")+" "+dtf.format(currentTime));
         //eventually save game files from this method.
     }
 }

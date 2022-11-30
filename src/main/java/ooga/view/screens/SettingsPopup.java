@@ -4,9 +4,13 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import ooga.controller.Controller;
 
 import java.util.ResourceBundle;
+
+import static ooga.view.screens.SceneCreator.constants;
 
 public class SettingsPopup extends VBox {
     private ResourceBundle labels;
@@ -15,11 +19,17 @@ public class SettingsPopup extends VBox {
     private Button quitGame;
     private ComboBox cssSelector;
     private Stage stage;
+
+    private Stage saveStage;
+
+    private Controller controller;
+    //private int popupSize = Integer.parseInt(constants.getString("popupSize"));
     private MainGameScreen main;
-    public SettingsPopup(ResourceBundle l, Stage s, MainGameScreen m){
+    public SettingsPopup(ResourceBundle l, Stage s, MainGameScreen m, Controller c){
         main = m;
         labels = l;
         stage = s;
+        controller = c;
         cssSelector = new ComboBox<>();
         cssSelector.setId("cssSelector");
         cssSelector.getItems().addAll(
@@ -33,6 +43,12 @@ public class SettingsPopup extends VBox {
     }
     public void handleEvents(){
         saveGame.setOnAction(event->{
+            saveStage=new Stage();
+            saveStage.initModality(Modality.APPLICATION_MODAL);
+            saveStage.initOwner(stage);
+            CreateSavePopup csp = new CreateSavePopup(controller, labels);
+            saveStage.setScene(csp.makeScene());
+            saveStage.show();
 
         });
 

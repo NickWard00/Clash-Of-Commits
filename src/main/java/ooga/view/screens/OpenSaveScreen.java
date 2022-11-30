@@ -21,20 +21,20 @@ public class OpenSaveScreen extends SceneCreator {
     private ResourceBundle labels;
     private int screenSize;
 
-    public OpenSaveScreen(){
-        this.labels = getLabels();
+    public OpenSaveScreen(ResourceBundle l){
+        labels=l;
         this.screenSize = getScreenSize();
     }
 
     public Scene makeScene(){
         background = new Pane();
-        slot1 = new SaveSlot(labels, "1");
-        slot2 = new SaveSlot(labels, "2");
-        slot3 = new SaveSlot(labels,"3");
+        slot1 = new SaveSlot(labels, 1);
+        slot2 = new SaveSlot(labels, 2);
+        slot3 = new SaveSlot(labels,3);
         VBox slots = new VBox(slot1,slot2,slot3);
         background.getChildren().add(slots);
         Scene s = new Scene(background, screenSize, screenSize);
-        //s.getStyleSheets().add(StartScreen.styles.getString("openSaveScreen");
+        s.getStylesheets().add(styles.getString("saveCSS"));
         return s;
     }
 }
