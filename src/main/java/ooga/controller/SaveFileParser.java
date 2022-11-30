@@ -77,6 +77,15 @@ public class SaveFileParser {
         entityMapParser = new EntityMapParser(entityMap);
     }
 
+    public void deleteSaveFile(int saveFile){
+        File file = new File(String.format(SAVE_DIRECTORY, saveFile));
+        try {
+            file.delete();
+        } catch (Exception e) {
+            throw new IllegalStateException("saveFileCannotDelete", e);
+        }
+    }
+
     public String getMapName(){
         return mapName;
     }
