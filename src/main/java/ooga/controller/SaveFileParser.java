@@ -97,7 +97,7 @@ public class SaveFileParser {
         try {
             file.delete();
         } catch (Exception e) {
-            throw new IllegalStateException("saveFileCannotDelete", e);
+            throw new IllegalStateException("cannotDeleteSaveFile", e);
         }
     }
 
