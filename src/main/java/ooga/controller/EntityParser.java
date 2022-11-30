@@ -57,15 +57,4 @@ public class EntityParser {
             attributeMap.put(key, value);
         });
     }
-
-    private void getEntitySimData(String entityType) throws IllegalStateException {
-        File simFile = new File("data/" + entityType + ".sim");
-        entityProperties = new Properties();
-        try {
-            entityProperties.load(new FileReader(simFile));
-        }
-        catch (IOException e) {
-            throw new IllegalStateException("fileUploadError", e);
-        }
-    }
 }

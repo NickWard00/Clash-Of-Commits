@@ -13,15 +13,25 @@ public class EntityMapParser {
 
     /**
      * Constructor for EntityMapParser
-     * @param entityMap
+     * @param entityMapLocation - the name of the entity map
      */
-    public EntityMapParser(String entityMap) throws IllegalStateException {
+    public EntityMapParser(String entityMapLocation) throws IllegalStateException {
         entities = new HashMap<>();
         GeneralParser simParser = new GeneralParser();
-        properties = simParser.getSimData(String.format(ENTITY_MAP_DIRECTORY, entityMap));
+        properties = simParser.getSimData(String.format(ENTITY_MAP_DIRECTORY, entityMapLocation));
         properties.entrySet().forEach(entry->{
             String entityName = (String) entry.getKey();
             String[] entityDataArray = ((String) entry.getValue()).replaceAll("\\s+","").split(",");
+            EntityParser entityParser = new EntityParser(entityName, entityDataArray);
+            entities.put(entityName, createEntityInstance(entityParser.getAttributeMap()));
+        });
+    }
+
+    public EntityMapParser(Map<String, String> entityMapData) throws IllegalStateException {
+        entities = new HashMap<>();
+        entityMapData.entrySet().forEach(entry->{
+            String entityName = entry.getKey();
+            String[] entityDataArray = (entry.getValue()).replaceAll("\\s+","").split(",");
             EntityParser entityParser = new EntityParser(entityName, entityDataArray);
             entities.put(entityName, createEntityInstance(entityParser.getAttributeMap()));
         });

@@ -3,7 +3,6 @@ package ooga.view.screens;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -18,7 +17,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import ooga.controller.CollisionHandler;
 import ooga.controller.Controller;
 import ooga.view.*;
 
@@ -50,7 +48,7 @@ public class MainGameScreen extends SceneCreator {
     private MediaPlayer musicPlayer;
     private MediaPlayer walkPlayer;
     private Stage stage;
-    private Scene s;
+    private Scene myScene;
     private double overlaySize = Integer.parseInt(constants.getString("overlaySize"));
     private Pane overlay;
     private ImageView snowy = new ImageView(new Image(images.getString("snowyImage")));
@@ -63,9 +61,9 @@ public class MainGameScreen extends SceneCreator {
     );
 
 
-    public MainGameScreen(Stage s, Controller myController){
+    public MainGameScreen(Stage stage, Controller myController){
         this.screenSize = getScreenSize();
-        stage = s;
+        this.stage = stage;
         controller = myController;
     }
 
@@ -100,11 +98,11 @@ public class MainGameScreen extends SceneCreator {
         makeCenterPane();
         gameScreenPane.setCenter(centerPaneConsolidated);
         createHUD();
-        s = new Scene(gameScreenPane, screenSize, screenSize);
-        s.getStylesheets().add(styles.getString("DefaultCSS"));
+        myScene = new Scene(gameScreenPane, screenSize, screenSize);
+        myScene.getStylesheets().add(styles.getString("DefaultCSS"));
         musicPlayer= new MediaPlayer(music);
         musicPlayer.setAutoPlay(true);
-        return s;
+        return myScene;
     }
 
     /**
@@ -137,7 +135,6 @@ public class MainGameScreen extends SceneCreator {
         dark.setFitWidth(overlaySize);
         dark.setFitHeight(overlaySize);
         overlay.getChildren().clear();
-
     }
 
     /**
@@ -171,7 +168,7 @@ public class MainGameScreen extends SceneCreator {
      */
     public void createHUD(){
         hud = new HUD(stage, this, controller);
-        ToolBar top =hud.makeHUD();
+        ToolBar top = hud.makeHUD();
         top.setId("HUD");
         gameScreenPane.setTop(top);
     }
@@ -181,8 +178,8 @@ public class MainGameScreen extends SceneCreator {
      * @param style string that details which style to change to
      */
     public void changeStyle(String style){
-        s.getStylesheets().clear();
-        s.getStylesheets().add(styles.getString(String.format("%sCSS",style)));
+        myScene.getStylesheets().clear();
+        myScene.getStylesheets().add(styles.getString(String.format("%sCSS",style)));
         try {
             Method changeCSS = this.getClass().getDeclaredMethod(
                     styleMethods.get(style));
@@ -196,6 +193,7 @@ public class MainGameScreen extends SceneCreator {
     public void setDefault(){
         makeDefaultOverlay();
     }
+
     public void setSnowy(){
         makeSnowyOverlay();
     }
@@ -211,6 +209,7 @@ public class MainGameScreen extends SceneCreator {
     public void addAttackToScene(AttackView attack) {
         root.getChildren().add(attack);
     }
+
     public void removeAttackFromScene(AttackView attack) {
         root.getChildren().remove(attack);
     }
@@ -222,6 +221,7 @@ public class MainGameScreen extends SceneCreator {
     public boolean isPlaying(){
         return isPlaying;
     }
+
     public void stopPlaying(){
         isPlaying = false;
     }

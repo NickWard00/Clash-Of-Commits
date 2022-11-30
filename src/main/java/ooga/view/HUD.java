@@ -51,26 +51,26 @@ public class HUD extends SceneCreator {
             false,"setUpPlayButton"
     );
 
-    public HUD(Stage s, MainGameScreen mainGameScreen, Controller control){
+    public HUD(Stage stage, MainGameScreen mainGameScreen, Controller control){
         controller = control;
         play = true;
-        playPause = new Button("",pauseButton);
+        playPause = new Button("", pauseButton);
         playerScore = Integer.parseInt(getConstants().getString("defaultScore"));
-        scoreText = new Label(getLabels().getString("score")+playerScore);
-        settings= new Button("",new ImageView(new Image(images.getString("settingsImage"))));
-        about = new Button("",new ImageView(new Image(images.getString("aboutImage"))));
+        scoreText = new Label(getLabels().getString("score") + playerScore);
+        settings = new Button("", new ImageView(new Image(images.getString("settingsImage"))));
+        about = new Button("", new ImageView(new Image(images.getString("aboutImage"))));
         about.setFocusTraversable(false);
         settings.setFocusTraversable(false);
         playPause.setFocusTraversable(false);
-        stage = s;
+        this.stage = stage;
         popup.initModality(Modality.APPLICATION_MODAL);
         popup.initOwner(stage);
         main = mainGameScreen;
     }
+
     public ToolBar makeHUD(){
         HUDBar = new ToolBar();
-        playerHealth = new HealthStatus();
-
+        playerHealth = new HealthStatus();;
         HUDBar.getItems().addAll(playerHealth, scoreText, about, playPause, settings);
         HUDBar.getStylesheets().add(styles.getString("HUDCSS"));
         handleEvents();
@@ -110,7 +110,6 @@ public class HUD extends SceneCreator {
     public void setUpPauseButton(){
         playPause.setGraphic(pauseButton);
         controller.playAnimation();
-
     }
 
     public void setUpPlayButton(){

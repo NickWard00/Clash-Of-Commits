@@ -18,9 +18,9 @@ public class CollisionHandler {
     private Obstacle collisionObstacle;
     private Entity collisionEntity;
 
-    public CollisionHandler() {
-        this.modelEntities = Controller.getModelEntities();
-        this.viewEntities = Controller.getViewEntities();
+    public CollisionHandler(Map<String, Entity> modelEntities, Map<String, EntityView> viewEntities) {
+        this.modelEntities = modelEntities;
+        this.viewEntities = viewEntities;
     }
 
 
