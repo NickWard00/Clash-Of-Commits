@@ -21,11 +21,21 @@ public class SaveFileParser {
     private Map<String, String> entityMap;
     private EntityMapParser entityMapParser;
 
+    /**
+     * Constructor for SaveFileParser
+     */
     public SaveFileParser(){
         entityMap = new HashMap<>();
         properties = new Properties();
     }
 
+    /**
+     * Saves the game's current state
+     * @param saveFile the save file number
+     * @param modelEntities the entities in the game
+     * @param mapName the name of the map
+     * @param gameType the type of game
+     */
     public void saveGame(int saveFile, Map<String, Entity> modelEntities, String mapName, String gameType) {
         properties.setProperty("MapName", mapName);
         properties.setProperty("GameType", gameType);
@@ -34,7 +44,7 @@ public class SaveFileParser {
         modelEntities.entrySet().forEach(entry->{
             String entityName = entry.getKey();
             Entity entity = entry.getValue();
-            properties.setProperty(entityName, entity.getMyAttributes().get("EntityType") + ", " + entity.getMyAttributes().get("XPosition") + ", " + entity.getMyAttributes().get("YPosition"));
+            properties.setProperty(entityName, entity.getMyAttributes().get("EntityType") + ", " + entity.coordinates().get(0) + ", " + entity.coordinates().get(1));
         });
         try {
             properties.store(new FileWriter(String.format(SAVE_DIRECTORY, saveFile)), null);
@@ -43,6 +53,11 @@ public class SaveFileParser {
         }
     }
 
+    /**
+     * Loads the game's current state
+     * @param saveFile the number of the save file
+     * @return
+     */
     public void loadGame(int saveFile) throws IllegalStateException {
         GeneralParser simParser = new GeneralParser();
         try {
@@ -82,7 +97,7 @@ public class SaveFileParser {
         try {
             file.delete();
         } catch (Exception e) {
-            throw new IllegalStateException("saveFileCannotDelete", e);
+            throw new IllegalStateException("cannotDeleteSaveFile", e);
         }
     }
 
