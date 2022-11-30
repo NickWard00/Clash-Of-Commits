@@ -151,6 +151,7 @@ public class Controller {
         Map<Integer, String> stateToImageMap = mapParser.getStateToImageMap();
         mapWrapper.setStateToImageMap(stateToImageMap);
         mapWrapper.setVisualProperties(mapParser.getMapProperties());
+        mapWrapper.setObstacleStateMap(mapParser.getObstacleStateMap());
 
         EntityMapParser entityMapParser = new EntityMapParser("Entity_" + map);
         myModelEntities = entityMapParser.getEntities();

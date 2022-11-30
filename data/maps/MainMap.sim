@@ -11,5 +11,6 @@ Cell3=/blocks/winter_grass.jpeg
 Obstacle0=Feature
 Obstacle1=ImmovableWall
 Obstacle2=DestroyableWall
+Obstacle3=ImmovableWall
 
 Map=data/maps/MainMap.csv

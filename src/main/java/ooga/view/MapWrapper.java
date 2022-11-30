@@ -14,6 +14,7 @@ public class MapWrapper {
   private int column = 0;
   private List<List<Integer>> grid;
   private Map<Integer, String> stateImageMap;
+  private Map<Integer, String> obstacleStateMap;
   private List<Double> visualProperties;
 
   /**
@@ -123,6 +124,14 @@ public class MapWrapper {
 
   public String getImageFromState(int state) {
     return stateImageMap.get(state);
+  }
+
+  public void setObstacleStateMap(Map<Integer, String> obstacleStateMap) {
+    this.obstacleStateMap = obstacleStateMap;
+  }
+
+  public String getObstacleFromState(int state) {
+    return obstacleStateMap.get(state);
   }
 
 }
