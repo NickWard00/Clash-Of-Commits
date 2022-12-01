@@ -126,19 +126,21 @@ public class Controller {
      * @param elapsedTime the time elapsed since the last step
      */
     private void updateAttackPosition(double elapsedTime) {
-        myModelAttacks.keySet().iterator().forEachRemaining(attackID -> {
-            Attack attackModel = myModelAttacks.get(attackID);
-            List<Double> newCoordinates = attackModel.move(elapsedTime);
-            if (myViewAttacks.containsKey(attackID)) {
-                AttackView attackView = myViewAttacks.get(attackID);
-                attackView.setX(newCoordinates.get(0) - attackView.getFitWidth()/2);
-                attackView.setY(newCoordinates.get(1) - attackView.getFitHeight()/2);
-            } else {
-                AttackView newAttackView = createViewAttack(attackModel);
-                myViewAttacks.put(attackID, newAttackView);
-                myView.getGameScreen().addAttackToScene(newAttackView);
+        if (!myModelAttacks.isEmpty()) {
+            for (Integer attackID : myModelAttacks.keySet()) {
+                Attack modelAttack = myModelAttacks.get(attackID);
+                if (myViewAttacks.containsKey(attackID)) {
+                    AttackView viewAttack = myViewAttacks.get(attackID);
+                    List<Double> newPosition = modelAttack.move(elapsedTime);
+                    viewAttack.setX(newPosition.get(0) - viewAttack.getFitWidth() / 2);
+                    viewAttack.setY(newPosition.get(1) - viewAttack.getFitHeight() / 2);
+                } else {
+                    AttackView newAttackView = createViewAttack(modelAttack);
+                    myViewAttacks.put(attackID, newAttackView);
+                    myView.getGameScreen().addAttackToScene(newAttackView);
+                }
             }
-        });
+        }
     }
 
     /**
