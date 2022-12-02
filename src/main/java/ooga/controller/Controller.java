@@ -16,17 +16,13 @@ import ooga.view.AttackView;
 import ooga.view.EntityView;
 import ooga.view.MapWrapper;
 import ooga.view.View;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.List;
-import java.util.HashMap;
-import java.util.Arrays;
+import java.util.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * @author Nick Ward, Melanie Wang
+ * @author Nick Ward, Melanie Wang, Nicki Lee
  */
 public class Controller {
     private Timeline animation;
@@ -35,8 +31,8 @@ public class Controller {
     private MapWrapper mapWrapper;
     private static final double FRAMES_PER_SECOND = 60;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-    private static Map<String, EntityView> myViewEntities;
-    private static Map<String, Entity> myModelEntities;
+    private Map<String, EntityView> myViewEntities;
+    private Map<String, Entity> myModelEntities;
     private Map<List<Double>, Obstacle> myModelObstacles;
     private Map<List<Double>, BlockView> myViewObstacles;
     private static Map<Integer, Attack> myModelAttacks;
@@ -115,12 +111,20 @@ public class Controller {
      * @param elapsedTime the time elapsed since the last step
      */
     private void updateEntityPosition(double elapsedTime) {
+        List<EntityView> nowDead = new ArrayList<>();
         for (String entityName : myModelEntities.keySet()) {
             Entity modelEntity = myModelEntities.get(entityName);
             EntityView viewEntity = myViewEntities.get(entityName);
-            List<Double> newPosition = modelEntity.move(elapsedTime);
-            viewEntity.setX(newPosition.get(0));
-            viewEntity.setY(newPosition.get(1));
+            if (modelEntity.getHp() > 0) {
+                List<Double> newPosition = modelEntity.move(elapsedTime);
+                viewEntity.setX(newPosition.get(0));
+                viewEntity.setY(newPosition.get(1));
+            } else {
+                nowDead.add(viewEntity);
+            }
+        }
+        for (EntityView deadEntityView : nowDead) {
+            removeEntity(deadEntityView.getKey());
         }
     }
 
@@ -138,7 +142,7 @@ public class Controller {
                 viewAttack.setX(newPosition.get(0) - viewAttack.getFitWidth() / 2);
                 viewAttack.setY(newPosition.get(1) - viewAttack.getFitHeight() / 2);
             } else {
-                AttackView newAttackView = createViewAttack(modelAttack);
+                AttackView newAttackView = createViewAttack(modelAttack, attackID);
                 myViewAttacks.put(attackID, newAttackView);
                 myView.getGameScreen().addAttackToScene(newAttackView);
             }
@@ -226,13 +230,13 @@ public class Controller {
      * @param attack the model attack to be converted to a view attack
      * @return the view attack created
      */
-    private AttackView createViewAttack(Attack attack){
+    private AttackView createViewAttack(Attack attack, int attackID){
         String imagePath = new AttackParser(attack.getMyEntity()).getImagePath();
         // imagePath = imagePath + attack.getDirection().getDirectionString() + ".png";
         imagePath = String.format("%s%s.png", imagePath, attack.getDirection().getDirectionString());
         String attackType = attack.getClass().getSimpleName();
         double size = Double.parseDouble("" + attack.getMyAttributes().get("Size"));
-        return new AttackView(imagePath, attackType, attack.getCoordinates().get(0), attack.getCoordinates().get(1), (int) size, (int) size);
+        return new AttackView(imagePath, attackType, attack.getCoordinates().get(0), attack.getCoordinates().get(1), (int) size, (int) size, attackID);
     }
 
     /**
@@ -256,6 +260,7 @@ public class Controller {
      * @param entityName
      */
     public void removeEntity(String entityName){
+        myView.getGameScreen().removeEntityFromScene(entityName);
         myModelEntities.remove(entityName);
         myViewEntities.remove(entityName);
     }
@@ -269,6 +274,26 @@ public class Controller {
         myViewAttacks.remove(attackID);
         myModelAttacks.remove(attackID);
     }
+
+
+    public void passCollision(Object viewObj1, Object viewObj2) {
+        CollisionHandler handler = new CollisionHandler(getViewModelMaps());
+        Map<?,?> modelMap1 = getCorrectModelMap(viewObj1);
+        Map<?,?> modelMap2 = getCorrectModelMap(viewObj2);
+        handler.translateCollision(viewObj1, viewObj2, modelMap1, modelMap2);
+    }
+
+    private Map<?,?> getCorrectModelMap(Object obj) {
+        try {
+            ResourceBundle bundle = ResourceBundle.getBundle("ResourceBundles.ViewToModel");
+            String objType = bundle.getString(obj.getClass().getSimpleName());
+            Object mapObject = Controller.class.getDeclaredMethod(String.format("getModel%s", objType)).invoke(this);
+            return (Map<?,?>) mapObject;
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     /**
      * Handles the key input press from the user that is detected in the view
@@ -391,7 +416,7 @@ public class Controller {
      * Returns the model entities
      * @return myModelEntities
      */
-    public static Map<String, Entity> getModelEntities() {
+    public Map<String, Entity> getModelEntities() {
         return myModelEntities;
     }
 
@@ -399,7 +424,7 @@ public class Controller {
      * Returns the view entities
      * @return myViewEntities
      */
-    public static Map<String, EntityView> getViewEntities() {
+    public Map<String, EntityView> getViewEntities() {
         return myViewEntities;
     }
 
@@ -433,5 +458,11 @@ public class Controller {
      */
     public static Map<Integer, AttackView> getViewAttacks() {
         return myViewAttacks;
+    }
+
+    public Map<String, Map<?,?>> getViewModelMaps() {
+        return Map.of("modelEntities", myModelEntities, "viewEntities", myViewEntities,
+                "modelAttacks", myModelAttacks, "viewAttacks", myViewAttacks,
+                "modelObstacles", myModelObstacles, "viewObstacles", myViewObstacles);
     }
 }

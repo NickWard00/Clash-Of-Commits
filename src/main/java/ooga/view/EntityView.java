@@ -6,6 +6,7 @@ import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -130,7 +131,7 @@ public class EntityView extends ImageView {
      * Returns the entity name
      * @return
      */
-    public String getEntityName() {
+    public String getKey() {
         return entityName;
     }
 
