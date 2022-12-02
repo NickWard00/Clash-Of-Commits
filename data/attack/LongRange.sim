@@ -1,7 +1,7 @@
 # This is where the LongRange attack attributes are defined
-Speed=20.0
+Speed=120
 Size=10
 Damage=-5.0
 CoolDown=0.5
-MaxDuration=2.0
+MaxDuration=1.0
 Sprites=/attacks/LongRange_
