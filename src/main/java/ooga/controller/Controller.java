@@ -159,7 +159,7 @@ public class Controller {
         myModelEntities = entityMapParser.getEntities();
 
         for (Entity entity : myModelEntities.values()) {
-            if (entity.getMyAttributes().get("EntityType").equals("MainHero")) {
+            if (entity.getMyAttributes().get("EntityType").equals("MainHero") || entity.getMyAttributes().get("EntityType").equals("Link")) {
                 myMainHeroName = entity.getMyAttributes().get("Name");
             }
         }

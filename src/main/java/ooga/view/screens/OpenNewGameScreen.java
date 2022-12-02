@@ -61,7 +61,8 @@ public class OpenNewGameScreen extends SceneCreator {
             controller.startAnimation();
         });
         slot2.setOnMouseClicked(event -> {
-
+            Controller controller = new Controller(stage, "ZeldaMap", labels);
+            controller.startAnimation();
         });
         slot3.setOnMouseClicked(event -> {
 
