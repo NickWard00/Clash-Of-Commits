@@ -40,16 +40,18 @@ public class Controller {
     private String myMainHeroName;
     private Map<KeyCode, String> actions;
 
+    private String mapName;
+
     private boolean playingGame;
     private boolean choosingGame; //some sort of variable to control what is active at any given moment
 
     /**
      * Constructor for the controller, which initializes the model and view and sets up map based on map name
      * @param stage the stage to display the game on
-     * @param mapName the name of the map to be displayed
+     * @param m the name of the map to be displayed
      * @param labels the resource bundle containing the labels for the game
      */
-    public Controller(Stage stage, String mapName, ResourceBundle labels){
+    public Controller(Stage stage, String m, ResourceBundle labels){
         myViewEntities = new HashMap<>();
         myModelAttacks = new HashMap<>();
         myModelObstacles = new HashMap<>();
@@ -62,7 +64,8 @@ public class Controller {
                 KeyCode.LEFT, "moveLeft",
                 KeyCode.SPACE, "attack"
         );
-        initializeModel(mapName);
+        mapName = m;
+        initializeModel(m);
         myView = new View(stage, this, labels);
     }
 
@@ -122,19 +125,21 @@ public class Controller {
      * @param elapsedTime the time elapsed since the last step
      */
     private void updateAttackPosition(double elapsedTime) {
-        myModelAttacks.keySet().iterator().forEachRemaining(attackID -> {
-            Attack attackModel = myModelAttacks.get(attackID);
-            List<Double> newCoordinates = attackModel.move(elapsedTime);
+        List<Integer> attackIDs = myModelAttacks.keySet().stream().toList();
+        for (Integer attackID : attackIDs) {
+            Attack modelAttack = myModelAttacks.get(attackID);
             if (myViewAttacks.containsKey(attackID)) {
-                AttackView attackView = myViewAttacks.get(attackID);
-                attackView.setX(newCoordinates.get(0) - attackView.getFitWidth()/2);
-                attackView.setY(newCoordinates.get(1) - attackView.getFitHeight()/2);
+                AttackView viewAttack = myViewAttacks.get(attackID);
+                List<Double> newPosition = modelAttack.move(elapsedTime);
+                viewAttack.setX(newPosition.get(0) - viewAttack.getFitWidth() / 2);
+                viewAttack.setY(newPosition.get(1) - viewAttack.getFitHeight() / 2);
             } else {
-                AttackView newAttackView = createViewAttack(attackModel, attackID);
+                AttackView newAttackView = createViewAttack(modelAttack, attackID);
                 myViewAttacks.put(attackID, newAttackView);
                 myView.getGameScreen().addAttackToScene(newAttackView);
             }
-        });
+        }
+
     }
 
     /**
@@ -153,13 +158,19 @@ public class Controller {
         myModelEntities = entityMapParser.getEntities();
 
         for (Entity entity : myModelEntities.values()) {
-            if (entity.getMyAttributes().get("EntityType").equals("MainHero")) {
+            if (entity.getMyAttributes().get("EntityType").equals("MainHero") || entity.getMyAttributes().get("EntityType").equals("Link")) {
                 myMainHeroName = entity.getMyAttributes().get("Name");
             }
         }
 
         setupViewEntities();
         setupModelObstacles(mapParser);
+    }
+
+    public void saveGame(int num){
+        SaveFileParser saver = new SaveFileParser();
+        //TODO: replace temp gametype param with the actual gametype
+        saver.saveGame(num, myModelEntities, mapName, "The Beginning");
     }
 
     /**

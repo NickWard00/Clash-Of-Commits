@@ -2,6 +2,7 @@ package ooga.view;
 
 import java.util.List;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -70,6 +71,8 @@ public class View {
         handleKeyInputs();
 
         stage.setScene(myScene);
+        stage.setTitle("Adventure Mode");
+        stage.getIcons().add(new Image("sprites/hero/SOUTH_STATIONARY.GIF"));
 
         createScrollableBackground();
 
