@@ -17,6 +17,7 @@ import ooga.view.screens.*;
 
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 /**
  * @author Melanie Wang, Nick Ward, Mayari Merchant
@@ -137,9 +138,15 @@ public class View {
             }
             for (BlockView obstacle : myViewObstacles.values()) {
                 if (entity.localToScreen(entity.getBoundsInLocal()).intersects(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()))) {
-                    //CollisionHandler handler = new CollisionHandler(myController.getViewModelMaps());
-                    //handler.translateCollision(entity, obstacle, myController.getModelObstacles());
                     myController.passCollision(entity, obstacle);
+                }
+            }
+        }
+        for (AttackView attack : myViewAttacks.values()) {
+            for (BlockView obstacle : myViewObstacles.values()) {
+                if (attack.localToScreen(attack.getBoundsInLocal()).intersects(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()))) {
+                    myController.passCollision(attack, obstacle);
+                    break;
                 }
             }
         }
