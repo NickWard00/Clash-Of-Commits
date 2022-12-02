@@ -1,0 +1,9 @@
+# This is where the hero link's attributes are defined
+Type=Hero
+Sprites=/sprites/link/
+Speed=100
+Size=30
+HP=100
+Attack=LongRange
+Direction=SOUTH
+Movement=STATIONARY
