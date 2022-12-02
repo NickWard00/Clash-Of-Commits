@@ -42,6 +42,8 @@ public class Controller {
 
     private String mapName;
 
+    private DirectionState playerDirection;
+
     private boolean playingGame;
     private boolean choosingGame; //some sort of variable to control what is active at any given moment
 
@@ -300,16 +302,19 @@ public class Controller {
      * @param keyCode
      */
     public void handleKeyPress(KeyCode keyCode){
-        if (keyCode.isArrowKey()){
-            try {
-                Method currentAction = this.getClass().getDeclaredMethod(
-                        actions.get(keyCode));
-                currentAction.invoke(this);
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                throw new IllegalStateException("methodNotFound", e);
-            }
-        } else if (keyCode == KeyCode.SPACE) {
-            myModel.attack();
+        if (keyCode.isArrowKey() || keyCode ==KeyCode.SPACE){
+            reflectMethod(keyCode);
+        }
+
+    }
+
+    public void reflectMethod(KeyCode k){
+        try {
+            Method currentAction = this.getClass().getDeclaredMethod(
+                    actions.get(k));
+            currentAction.invoke(this);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            throw new IllegalStateException("methodNotFound", e);
         }
     }
 
@@ -318,7 +323,7 @@ public class Controller {
      * @param keyCode
      */
     public void handleKeyRelease(KeyCode keyCode) {
-        if (keyCode.isArrowKey()) {
+        if (keyCode.isArrowKey()|| keyCode == KeyCode.SPACE) {
             try {
                 Method currentAction = this.getClass().getDeclaredMethod(actions.get(keyCode) + "Stop");
                 currentAction.invoke(this);
@@ -328,12 +333,22 @@ public class Controller {
         }
     }
 
+    private void attack(){
+        myModel.attack();
+        myView.changeEntityState(myMainHeroName,  playerDirection, MovementState.ATTACK);
+    }
+
     /**
      * Reflection method that is called from handleKeyRelease to stop the hero from moving in the north direction
      */
     private void moveUpStop(){
         myModel.changeEntityState(myMainHeroName, DirectionState.NORTH, MovementState.STATIONARY);
         myView.changeEntityState(myMainHeroName, DirectionState.NORTH, MovementState.STATIONARY);
+    }
+
+    private void attackStop(){
+        myModel.changeEntityState(myMainHeroName, playerDirection, MovementState.STATIONARY);
+        myView.changeEntityState(myMainHeroName, playerDirection, MovementState.STATIONARY);
     }
 
     /**
@@ -364,6 +379,7 @@ public class Controller {
      * Reflection method that is called from handleKeyPress to move the hero in the north direction
      */
     private void moveUp() {
+        playerDirection=DirectionState.NORTH;
         myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.NORTH);
         myView.changeEntityState(myMainHeroName, DirectionState.NORTH, MovementState.MOVING);
     }
@@ -372,6 +388,7 @@ public class Controller {
      * Reflection method that is called from handleKeyPress to move the hero in the south direction
      */
     private void moveDown() {
+        playerDirection=DirectionState.SOUTH;
         myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.SOUTH);
         myView.changeEntityState(myMainHeroName, DirectionState.SOUTH, MovementState.MOVING);
     }
@@ -380,6 +397,7 @@ public class Controller {
      * Reflection method that is called from handleKeyPress to move the hero in the west direction
      */
     private void moveLeft(){
+        playerDirection=DirectionState.WEST;
         myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.WEST);
         myView.changeEntityState(myMainHeroName, DirectionState.WEST, MovementState.MOVING);
     }
@@ -388,6 +406,7 @@ public class Controller {
      * Reflection method that is called from handleKeyPress to move the hero in the east direction
      */
     private void moveRight(){
+        playerDirection=DirectionState.EAST;
         myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.EAST);
         myView.changeEntityState(myMainHeroName, DirectionState.EAST, MovementState.MOVING);
     }
