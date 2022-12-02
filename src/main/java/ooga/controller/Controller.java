@@ -22,7 +22,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * @author Nick Ward, Melanie Wang
+ * @author Nick Ward, Melanie Wang, Nicki Lee
  */
 public class Controller {
     private Timeline animation;

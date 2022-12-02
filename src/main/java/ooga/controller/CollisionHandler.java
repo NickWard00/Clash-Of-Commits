@@ -5,6 +5,7 @@ import ooga.model.Collision;
 import ooga.model.Entity;
 import ooga.model.attack.Attack;
 import ooga.model.enemy.Enemy;
+import ooga.model.hero.MainHero;
 import ooga.model.obstacle.DestroyableWall;
 import ooga.model.obstacle.Feature;
 import ooga.model.obstacle.ImmovableWall;
@@ -25,6 +26,7 @@ public class CollisionHandler {
     private Map<Integer, AttackView> viewAttacks;
     private Map<List<Double>, Obstacle> modelObstacles;
     private Map<List<Double>, BlockView> viewObstacles;
+    private Map<String, Map<?,?>> viewModelMap;
 
 
     public CollisionHandler(Map<String, Map<?,?>> viewModelMap) {
@@ -34,6 +36,7 @@ public class CollisionHandler {
         this.viewAttacks = (Map<Integer, AttackView>) viewModelMap.get("viewAttacks");
         this.modelObstacles = (Map<List<Double>, Obstacle>) viewModelMap.get("modelObstacles");
         this.viewObstacles = (Map<List<Double>, BlockView>) viewModelMap.get("viewObstacles");
+        this.viewModelMap = viewModelMap;
     }
 
 
@@ -46,7 +49,7 @@ public class CollisionHandler {
             List<Object> myObjects = Arrays.asList(object1, object2);
             myObjects.sort(Comparator.comparing((Object o) -> indexMap.get(myClassCategory.get(o))));
             Collision.class.getConstructor(
-                    myClassCategory.get(myObjects.get(0)), myClassCategory.get(myObjects.get(1))).newInstance(myObjects.get(0), myObjects.get(1));
+                    myClassCategory.get(myObjects.get(0)), myClassCategory.get(myObjects.get(1)), Map.class).newInstance(myObjects.get(0), myObjects.get(1), viewModelMap);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -58,16 +61,10 @@ public class CollisionHandler {
             Object key1 = viewObj1.getClass().getDeclaredMethod("getKey").invoke(viewObj1);
             Object key2 = viewObj2.getClass().getDeclaredMethod("getKey").invoke(viewObj2);
             collision(modelMap1.get(key1), modelMap2.get(key2));
-            if (viewObj1.getClass() == EntityView.class && viewObj2.getClass() == BlockView.class) {
-                checkKnockBack((EntityView) viewObj1, (BlockView) viewObj2);
-            } else if (viewObj2.getClass() == EntityView.class && viewObj1.getClass() == BlockView.class) {
-                checkKnockBack((EntityView) viewObj2, (BlockView) viewObj1);
-            }
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
-
 
     private static Class getCorrectClassForCollision(Object object) {
         Class myClass = object.getClass().getSuperclass();
@@ -75,23 +72,5 @@ public class CollisionHandler {
             myClass = myClass.getSuperclass();
         }
         return myClass;
-    }
-
-    private void checkKnockBack(EntityView entityView, BlockView obstacleView) {
-        Entity entity = modelEntities.get(entityView.getKey());
-        Obstacle obstacle = modelObstacles.get(obstacleView.getKey());
-        if (obstacle.getClass() != Feature.class) {
-            handleKnockBack(entityView.getKey(), 2);
-            if (entity.getClass().getSuperclass() == Enemy.class) {
-                entityView.changeDirectionAndMovement(entity.getMyDirection().oppositeDirection(), entity.getMyMovement());
-            }
-        }
-    }
-
-    private void handleKnockBack(String entityName, int force) {
-        Entity entity = modelEntities.get(entityName);
-        List<Double> knockBackCoordinates = entity.knockBack(force);
-        EntityView entityView = viewEntities.get(entityName);
-        entityView.setCoordinate(knockBackCoordinates);
     }
 }
