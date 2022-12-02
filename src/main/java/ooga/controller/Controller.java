@@ -111,12 +111,20 @@ public class Controller {
      * @param elapsedTime the time elapsed since the last step
      */
     private void updateEntityPosition(double elapsedTime) {
+        List<EntityView> nowDead = new ArrayList<>();
         for (String entityName : myModelEntities.keySet()) {
             Entity modelEntity = myModelEntities.get(entityName);
             EntityView viewEntity = myViewEntities.get(entityName);
-            List<Double> newPosition = modelEntity.move(elapsedTime);
-            viewEntity.setX(newPosition.get(0));
-            viewEntity.setY(newPosition.get(1));
+            if (modelEntity.getHp() > 0) {
+                List<Double> newPosition = modelEntity.move(elapsedTime);
+                viewEntity.setX(newPosition.get(0));
+                viewEntity.setY(newPosition.get(1));
+            } else {
+                nowDead.add(viewEntity);
+            }
+        }
+        for (EntityView deadEntityView : nowDead) {
+            removeEntity(deadEntityView.getKey());
         }
     }
 
@@ -252,6 +260,7 @@ public class Controller {
      * @param entityName
      */
     public void removeEntity(String entityName){
+        myView.getGameScreen().removeEntityFromScene(entityName);
         myModelEntities.remove(entityName);
         myViewEntities.remove(entityName);
     }

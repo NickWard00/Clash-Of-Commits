@@ -13,6 +13,7 @@ public class Collision {
 
     public Collision(Attack attack, Entity entity, Map<String, Map<?,?>> viewModelMap) {
         if (attack.getMyEntity() != entity) {
+            System.out.println("Attack and enemy collision!");
             entity.changeHp(attack.getDamage());
             attack.deactivateAttack();
         }

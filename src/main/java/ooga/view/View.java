@@ -29,6 +29,7 @@ public class View {
     private MapWrapper myMapWrapper;
     private MapView myMapView;
     private Map<List<Double>, BlockView> myViewObstacles;
+    private Map<Integer, AttackView> myViewAttacks;
     private double myWidth;
     private double myHeight;
     private double blockSize;
@@ -59,6 +60,7 @@ public class View {
 
     private void setupGame(Stage stage){
         myViewEntities = myController.getViewEntities();
+        myViewAttacks = myController.getViewAttacks();
         myHeroView = myViewEntities.get(myController.getMainHeroName());
 
         setupMap();
@@ -128,9 +130,14 @@ public class View {
 
     private void detectCollisions() {
         for (EntityView entity : myViewEntities.values()) {
+            for (AttackView attack : myViewAttacks.values()) {
+                if (entity.localToScreen(entity.getBoundsInLocal()).intersects(attack.localToScreen(attack.getBoundsInLocal()))) {
+                    myController.passCollision(entity, attack);
+                }
+            }
             for (BlockView obstacle : myViewObstacles.values()) {
                 if (entity.localToScreen(entity.getBoundsInLocal()).intersects(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()))) {
-                    CollisionHandler handler = new CollisionHandler(myController.getViewModelMaps());
+                    //CollisionHandler handler = new CollisionHandler(myController.getViewModelMaps());
                     //handler.translateCollision(entity, obstacle, myController.getModelObstacles());
                     myController.passCollision(entity, obstacle);
                 }
