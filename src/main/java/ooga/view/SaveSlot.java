@@ -29,6 +29,10 @@ public class SaveSlot extends Slot{
         this.getStyleClass().add("SaveSlot");
     }
 
+    public int getNumber(){
+        return slotNumber;
+    }
+
     public void save(){
         //eventually save game files from this method.
     }

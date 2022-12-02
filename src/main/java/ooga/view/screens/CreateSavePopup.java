@@ -43,16 +43,15 @@ public class CreateSavePopup extends SceneCreator {
         s.getStylesheets().add(styles.getString("saveCSS"));
         return s;
     }
-
     public void handleEvents(){
         slot1.setOnMouseClicked(event->{
-
+            controller.saveGame(slot1.getNumber());
         });
         slot2.setOnMouseClicked(event->{
-
+            controller.saveGame(slot2.getNumber());
         });
         slot3.setOnMouseClicked(event->{
-
+            controller.saveGame(slot3.getNumber());
         });
     }
 }
