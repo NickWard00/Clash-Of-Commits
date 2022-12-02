@@ -1,5 +1,6 @@
 package ooga.view;
 
+import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -130,20 +131,25 @@ public class View {
     }
 
     private void detectCollisions() {
-        for (EntityView entity : myViewEntities.values()) {
-            for (AttackView attack : myViewAttacks.values()) {
+        List<EntityView> myViewEntitiesList = new ArrayList<>(myViewEntities.values());
+        for (EntityView entity : myViewEntitiesList) {
+            List<AttackView> myViewAttackList = new ArrayList<>(myViewAttacks.values());
+            for (AttackView attack : myViewAttackList) {
                 if (entity.localToScreen(entity.getBoundsInLocal()).intersects(attack.localToScreen(attack.getBoundsInLocal()))) {
                     myController.passCollision(entity, attack);
                 }
             }
-            for (BlockView obstacle : myViewObstacles.values()) {
+            List<BlockView> myViewObstacleList = new ArrayList<>(myViewObstacles.values());
+            for (BlockView obstacle : myViewObstacleList) {
                 if (entity.localToScreen(entity.getBoundsInLocal()).intersects(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()))) {
                     myController.passCollision(entity, obstacle);
                 }
             }
         }
-        for (AttackView attack : myViewAttacks.values()) {
-            for (BlockView obstacle : myViewObstacles.values()) {
+        List<AttackView> myViewAttackList = new ArrayList<>(myViewAttacks.values());
+        for (AttackView attack : myViewAttackList) {
+            List<BlockView> myViewObstacleList = new ArrayList<>(myViewObstacles.values());
+            for (BlockView obstacle : myViewObstacleList) {
                 if (attack.localToScreen(attack.getBoundsInLocal()).intersects(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()))) {
                     myController.passCollision(attack, obstacle);
                     break;
