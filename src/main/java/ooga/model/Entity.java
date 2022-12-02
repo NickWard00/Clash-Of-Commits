@@ -143,6 +143,8 @@ public abstract class Entity {
         return myMovement;
     }
 
+    public int getSize() { return size; }
+
     /**
      * Returns the time until an entity can attack again
      * @return timeUntilAttack
@@ -162,9 +164,9 @@ public abstract class Entity {
      * Method that knocks the entity back
      * @return the distance the entity is knocked back
      */
-    public List<Double> knockBack() {
-        xPos += 2 * myDirection.oppositeDirection().getVelocity().get(0);
-        yPos += 2 * myDirection.oppositeDirection().getVelocity().get(1);
+    public List<Double> knockBack(int force) {
+        xPos += force * myDirection.oppositeDirection().getVelocity().get(0);
+        yPos += force * myDirection.oppositeDirection().getVelocity().get(1);
         return Arrays.asList(xPos, yPos);
     }
 

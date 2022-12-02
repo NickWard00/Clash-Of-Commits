@@ -29,7 +29,7 @@ class AttackViewTest extends DukeApplicationTest {
         attackType = "LongRange";
         spriteLocation = "/attacks/";
         direction = DirectionState.EAST;
-        attackView = new AttackView(spriteLocation, attackType, xPos, yPos, size, size);
+        attackView = new AttackView(spriteLocation, attackType, xPos, yPos, size, size, 0);
     }
 
     @Test
@@ -39,12 +39,12 @@ class AttackViewTest extends DukeApplicationTest {
 
     @Test
     void testEntityViewPosX() {
-        assertEquals(xPos, attackView.getX());
+        assertEquals(xPos - size/2, attackView.getX());
     }
 
     @Test
     void testEntityViewPosY() {
-        assertEquals(yPos, attackView.getY());
+        assertEquals(yPos - size/2, attackView.getY());
     }
 
     @Test

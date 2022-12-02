@@ -127,8 +127,9 @@ public class View {
         for (EntityView entity : myViewEntities.values()) {
             for (BlockView obstacle : myViewObstacles.values()) {
                 if (entity.localToScreen(entity.getBoundsInLocal()).intersects(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()))) {
-                    CollisionHandler handler = new CollisionHandler(myController.getModelEntities(), myController.getViewEntities());
-                    handler.translateCollision(entity, obstacle, myController.getModelObstacles());
+                    CollisionHandler handler = new CollisionHandler(myController.getViewModelMaps());
+                    //handler.translateCollision(entity, obstacle, myController.getModelObstacles());
+                    myController.passCollision(entity, obstacle);
                 }
             }
         }

@@ -11,6 +11,7 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class AttackView extends ImageView {
     private String attackType;
+    private int attackID;
     private String imagePath;
     private Image northSprite;
     private Image southSprite;
@@ -23,10 +24,11 @@ public class AttackView extends ImageView {
      * @param xSize
      * @param ySize
      */
-    public AttackView(String imagePath, String attackType, double xPos, double yPos, int xSize, int ySize) {
+    public AttackView(String imagePath, String attackType, double xPos, double yPos, int xSize, int ySize, int attackID) {
         super(new Image(imagePath));
         this.imagePath = imagePath;
         this.attackType = attackType;
+        this.attackID = attackID;
         // setupSprites();
         this.setFitWidth(xSize);
         this.setFitHeight(ySize);
@@ -96,4 +98,6 @@ public class AttackView extends ImageView {
     public String getAttackType() {
         return attackType;
     }
+
+    public int getKey() { return attackID; }
 }
