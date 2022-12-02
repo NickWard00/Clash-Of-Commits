@@ -44,16 +44,18 @@ public class Controller {
     private String myMainHeroName;
     private Map<KeyCode, String> actions;
 
+    private String mapName;
+
     private boolean playingGame;
     private boolean choosingGame; //some sort of variable to control what is active at any given moment
 
     /**
      * Constructor for the controller, which initializes the model and view and sets up map based on map name
      * @param stage the stage to display the game on
-     * @param mapName the name of the map to be displayed
+     * @param m the name of the map to be displayed
      * @param labels the resource bundle containing the labels for the game
      */
-    public Controller(Stage stage, String mapName, ResourceBundle labels){
+    public Controller(Stage stage, String m, ResourceBundle labels){
         myViewEntities = new HashMap<>();
         myModelAttacks = new HashMap<>();
         myModelObstacles = new HashMap<>();
@@ -66,7 +68,8 @@ public class Controller {
                 KeyCode.LEFT, "moveLeft",
                 KeyCode.SPACE, "attack"
         );
-        initializeModel(mapName);
+        mapName = m;
+        initializeModel(m);
         myView = new View(stage, this, labels);
     }
 
@@ -166,6 +169,12 @@ public class Controller {
 
         setupViewEntities();
         setupModelObstacles(mapParser);
+    }
+
+    public void saveGame(int num){
+        SaveFileParser saver = new SaveFileParser();
+        //TODO: replace temp gametype param with the actual gametype
+        saver.saveGame(num, myModelEntities, mapName, "The Beginning");
     }
 
     /**

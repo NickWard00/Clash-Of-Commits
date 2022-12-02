@@ -23,7 +23,7 @@ public class ScreenSelector {
     public ScreenSelector(Stage stage, ResourceBundle labels) {
         myStage = stage;
         //mainGameScreen = new MainGameScreen(stage, new Controller());
-        openSaveScreen = new OpenSaveScreen(labels);
+        openSaveScreen = new OpenSaveScreen(stage, labels);
         openNewGameScreen = new OpenNewGameScreen(stage, labels);
         winScreen = new WinScreen();
         loseScreen = new LoseScreen();
