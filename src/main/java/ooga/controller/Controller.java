@@ -67,7 +67,13 @@ public class Controller {
                 KeyCode.SPACE, "attack"
         );
         mapName = m;
-        initializeModel(m);
+        if(mapName.startsWith("Save")) {
+            loadGame(Integer.parseInt(String.valueOf(mapName.charAt(mapName.length()-1)))
+            );
+        }
+        else{
+            initializeModel(m);
+        }
         myView = new View(stage, this, labels);
     }
 
@@ -181,6 +187,11 @@ public class Controller {
         SaveFileParser saver = new SaveFileParser();
         //TODO: replace temp gametype param with the actual gametype
         saver.saveGame(num, myModelEntities, mapName, "The Beginning");
+    }
+
+    public void loadGame(int i){
+        SaveFileParser saver = new SaveFileParser();
+        saver.loadGame(i);
     }
 
     /**
