@@ -8,6 +8,7 @@ import javafx.util.Duration;
 import ooga.model.Entity;
 import ooga.model.Model;
 import ooga.model.attack.Attack;
+import ooga.model.obstacle.DestroyableWall;
 import ooga.model.obstacle.Obstacle;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
@@ -67,6 +68,7 @@ public class Controller {
         mapName = m;
         initializeModel(m);
         myView = new View(stage, this, labels);
+        //myViewObstacles = myView.getViewObstacles();
     }
 
     /**
@@ -147,7 +149,17 @@ public class Controller {
                 myView.getGameScreen().addAttackToScene(newAttackView);
             }
         }
+    }
 
+    private void updateObstacles() {
+        for (List<Double> coordinate : myViewObstacles.keySet()) {
+            if (myModelObstacles.get(coordinate).getClass() == DestroyableWall.class) {
+                if (!((DestroyableWall) myModelObstacles.get(coordinate)).determineOnScreen()) {
+                    System.out.println("I should remove the obstacle now");
+                    removeObstacle(coordinate);
+                }
+            }
+        }
     }
 
     /**
@@ -170,7 +182,6 @@ public class Controller {
                 myMainHeroName = entity.getMyAttributes().get("Name");
             }
         }
-
         setupViewEntities();
         setupModelObstacles(mapParser);
     }
@@ -275,8 +286,15 @@ public class Controller {
         myModelAttacks.remove(attackID);
     }
 
+    public void removeObstacle(List<Double> coordinate) {
+        myView.getGameScreen().removeObstacleFromScene(myViewObstacles.get(coordinate));
+        myViewObstacles.remove(coordinate);
+        myModelObstacles.remove(coordinate);
+    }
+
 
     public void passCollision(Object viewObj1, Object viewObj2) {
+        //updateObstacles();
         CollisionHandler handler = new CollisionHandler(getViewModelMaps());
         Map<?,?> modelMap1 = getCorrectModelMap(viewObj1);
         Map<?,?> modelMap2 = getCorrectModelMap(viewObj2);

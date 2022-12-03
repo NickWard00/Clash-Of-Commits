@@ -2,6 +2,6 @@
 Speed=120
 Size=10
 Damage=-50
-CoolDown=0.5
+CoolDown=2
 MaxDuration=1.0
 Sprites=/attacks/LongRange_
