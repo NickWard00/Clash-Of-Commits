@@ -45,17 +45,14 @@ public class OpenSaveScreen extends SceneCreator {
     public void handleEvents(){
         slot1.setOnMouseClicked(event->{
             Controller controller = new Controller(stage, "Save_1", labels);
-            controller.loadGame(1);
             controller.startAnimation();
         });
         slot2.setOnMouseClicked(event->{
             Controller controller = new Controller(stage, "Save_2", labels);
-            controller.loadGame(2);
             controller.startAnimation();
         });
         slot3.setOnMouseClicked(event->{
             Controller controller = new Controller(stage, "Save_3", labels);
-            controller.loadGame(3);
             controller.startAnimation();
         });
     }

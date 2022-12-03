@@ -37,7 +37,7 @@ public class SaveFileParser {
      * @param gameType the type of game
      */
     public void saveGame(int saveFile, Map<String, Entity> modelEntities, String mapName, String gameType) {
-        properties.setProperty("MapName", mapName);
+        properties.setProperty("Map", mapName);
         properties.setProperty("GameType", gameType);
         DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm_ss");
         properties.setProperty("TimeDate", LocalDateTime.now().format(myFormat));
