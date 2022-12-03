@@ -18,6 +18,7 @@ public class CSVParser {
    * @return
    */
   public MapWrapper parseData(String csvPath) throws IllegalStateException {
+    System.out.println(csvPath);
     try {
       myFileReader = new FileReader(csvPath);
       MapWrapper mapWrapper = new MapWrapper();

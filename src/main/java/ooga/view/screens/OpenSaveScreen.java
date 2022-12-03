@@ -6,7 +6,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.view.SaveSlot;
-import ooga.view.screens.SceneCreator;
 
 import java.util.ResourceBundle;
 
@@ -39,21 +38,24 @@ public class OpenSaveScreen extends SceneCreator {
         background.getChildren().add(slots);
         Scene s = new Scene(background, screenSize, screenSize);
         s.getStylesheets().add(styles.getString("saveCSS"));
-        //handleEvents();
+        handleEvents();
         return s;
     }
     //TODO: what the heck goes in as a map name when opening a save? (uncomment ^handleEvents() above to test)
     public void handleEvents(){
         slot1.setOnMouseClicked(event->{
             Controller controller = new Controller(stage, "Save_1", labels);
+            controller.loadGame(1);
             controller.startAnimation();
         });
         slot2.setOnMouseClicked(event->{
             Controller controller = new Controller(stage, "Save_2", labels);
+            controller.loadGame(2);
             controller.startAnimation();
         });
         slot3.setOnMouseClicked(event->{
             Controller controller = new Controller(stage, "Save_3", labels);
+            controller.loadGame(3);
             controller.startAnimation();
         });
     }

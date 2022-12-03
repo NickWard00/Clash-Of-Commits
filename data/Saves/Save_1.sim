@@ -1,9 +1,8 @@
-#Fri Dec 02 02:48:37 EST 2022
-Bug1=Bug, 1300.0, 388.0
+#Fri Dec 02 19:00:08 EST 2022
+Bug1=Bug, 1300.0, 340.83333333333445
 GameType=The Beginning
-Hero1=MainHero, 1770.66666666669, 1198.9999999999977
-MagicVal1=MagicValue, 1000.0, 344.0
-MagicVal2=MagicValue, 1550.0, 506.0
+Hero1=MainHero, 853.3333333333269, 369.99999999999966
+MagicVal2=MagicValue, 1550.0, 488.5
 MapName=MainMap
 PowerUp1=PowerUp, 600.0, 700.0
-TimeDate=02_12_2022_02_48_37
+TimeDate=02_12_2022_19_00_08
