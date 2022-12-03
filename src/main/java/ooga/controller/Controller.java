@@ -50,10 +50,10 @@ public class Controller {
     /**
      * Constructor for the controller, which initializes the model and view and sets up map based on map name
      * @param stage the stage to display the game on
-     * @param m the name of the map to be displayed
+     * @param map the name of the map to be displayed
      * @param labels the resource bundle containing the labels for the game
      */
-    public Controller(Stage stage, String m, ResourceBundle labels){
+    public Controller(Stage stage, String map, ResourceBundle labels){
         myViewEntities = new HashMap<>();
         myModelAttacks = new HashMap<>();
         myModelObstacles = new HashMap<>();
@@ -66,23 +66,23 @@ public class Controller {
                 KeyCode.LEFT, "moveLeft",
                 KeyCode.SPACE, "attack"
         );
-        mapName = m;
-        if(mapName.startsWith("Save")) {
-            loadGame(Integer.parseInt(String.valueOf(mapName.charAt(mapName.length()-1)))
-            );
-        }
-        else{
-            initializeModel(m);
-        }
+        mapName = map;
+
+        initializeModel();
+
         myView = new View(stage, this, labels);
     }
 
     /**
      * Initializes the model and parses all the data based on the map name given
-     * @param mapName the name of the map to be displayed
      */
-    private void initializeModel(String mapName) {
-        parseData(mapName);
+    private void initializeModel() {
+        boolean loadSave = false;
+        if (mapName.startsWith("Save")) {
+            loadGame(Integer.parseInt(String.valueOf(mapName.charAt(mapName.length()-1))));
+            loadSave = true;
+        }
+        parseData(mapName, loadSave);
         myModel = new Model(this);
     }
 
@@ -162,7 +162,7 @@ public class Controller {
      * Parses all the data in the data files based on a certain map name
      * @param map the name of the map to be parsed
      */
-    private void parseData(String map) {
+    private void parseData(String map, boolean loadSave) {
         MapParser mapParser = new MapParser(map);
         mapWrapper = mapParser.getMapWrapper();
         Map<Integer, String> stateToImageMap = mapParser.getStateToImageMap();
@@ -170,8 +170,10 @@ public class Controller {
         mapWrapper.setVisualProperties(mapParser.getMapProperties());
         mapWrapper.setObstacleStateMap(mapParser.getObstacleStateMap());
 
-        EntityMapParser entityMapParser = new EntityMapParser("Entity_" + map);
-        myModelEntities = entityMapParser.getEntities();
+        if (!loadSave) {
+            EntityMapParser entityMapParser = new EntityMapParser("Entity_" + map);
+            myModelEntities = entityMapParser.getEntities();
+        }
 
         for (Entity entity : myModelEntities.values()) {
             if (entity.getMyAttributes().get("EntityType").equals("MainHero") || entity.getMyAttributes().get("EntityType").equals("Link")) {
@@ -192,6 +194,9 @@ public class Controller {
     public void loadGame(int i){
         SaveFileParser saver = new SaveFileParser();
         saver.loadGame(i);
+        myModelEntities = saver.getEntities();
+        System.out.println(myModelEntities.get("Hero1").getMyAttributes());
+        mapName = saver.getMapName();
     }
 
     /**
@@ -245,7 +250,6 @@ public class Controller {
      */
     private AttackView createViewAttack(Attack attack, int attackID){
         String imagePath = new AttackParser(attack.getMyEntity()).getImagePath();
-        // imagePath = imagePath + attack.getDirection().getDirectionString() + ".png";
         imagePath = String.format("%s%s.png", imagePath, attack.getDirection().getDirectionString());
         String attackType = attack.getClass().getSimpleName();
         double size = Double.parseDouble("" + attack.getMyAttributes().get("Size"));
