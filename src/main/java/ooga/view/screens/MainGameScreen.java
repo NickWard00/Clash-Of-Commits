@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.view.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -213,6 +214,8 @@ public class MainGameScreen extends SceneCreator {
     public void removeAttackFromScene(AttackView attack) {
         root.getChildren().remove(attack);
     }
+
+    public void removeObstacleFromScene(BlockView obstacle) { root.getChildren().remove(obstacle); }
 
     public StackPane getMapPane() {
         return this.centerPaneConsolidated;
