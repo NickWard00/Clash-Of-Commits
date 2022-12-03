@@ -1,5 +1,6 @@
 package ooga.model;
 
+import javafx.scene.control.skin.TextInputControlSkin;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
 
@@ -164,9 +165,9 @@ public abstract class Entity {
      * Method that knocks the entity back
      * @return the distance the entity is knocked back
      */
-    public List<Double> knockBack(int force) {
-        xPos += force * myDirection.oppositeDirection().getVelocity().get(0);
-        yPos += force * myDirection.oppositeDirection().getVelocity().get(1);
+    public List<Double> knockBack(int force, DirectionState direction) {
+        xPos += force * direction.getVelocity().get(0);
+        yPos += force * direction.getVelocity().get(1);
         return Arrays.asList(xPos, yPos);
     }
 
