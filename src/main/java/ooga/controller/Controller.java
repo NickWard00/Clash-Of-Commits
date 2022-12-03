@@ -54,11 +54,12 @@ public class Controller {
      * @param labels the resource bundle containing the labels for the game
      */
     public Controller(Stage stage, String map, ResourceBundle labels){
+        myModelEntities = new HashMap<>();
         myViewEntities = new HashMap<>();
         myModelAttacks = new HashMap<>();
+        myViewAttacks = new HashMap<>();
         myModelObstacles = new HashMap<>();
         myViewObstacles = new HashMap<>();
-        myViewAttacks = new HashMap<>();
         actions = Map.of(
                 KeyCode.UP, "moveUp",
                 KeyCode.DOWN, "moveDown",
@@ -195,7 +196,6 @@ public class Controller {
         SaveFileParser saver = new SaveFileParser();
         saver.loadGame(i);
         myModelEntities = saver.getEntities();
-        System.out.println(myModelEntities.get("Hero1").getMyAttributes());
         mapName = saver.getMapName();
     }
 
