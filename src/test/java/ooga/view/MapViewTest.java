@@ -2,15 +2,23 @@ package ooga.view;
 
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import ooga.controller.MapParser;
+import ooga.view.screens.StartScreen;
 import org.junit.jupiter.api.Test;
+import util.DukeApplicationTest;
 
 import java.util.ResourceBundle;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MapViewTest {
+class MapViewTest extends DukeApplicationTest {
     private static final String MAP_BLOCKS_PROPERTIES = "ResourceBundles.MapBlocks";
+    @Override
+    public void start(Stage stage) {
+        StartScreen ss = new StartScreen(stage);
+        stage.setScene(ss.makeScene());
+    }
 
     @Test
     void createMapTest() {
@@ -19,11 +27,11 @@ class MapViewTest {
         MapWrapper mapWrapper = mapParser.getMapWrapper();
         mapWrapper.setVisualProperties(mapParser.getMapProperties());
         mapWrapper.setStateToImageMap(mapParser.getStateToImageMap());
+        mapWrapper.setObstacleStateMap(mapParser.getObstacleStateMap());
         MapView mapView = new MapView(mapWrapper);
         mapView.createMap();
         int state;
 
-        String expected;
         for(int i = 0; i<4; i++){
             for(int j = 0; j<4; j++){
                 state = mapWrapper.getState(i,j);
