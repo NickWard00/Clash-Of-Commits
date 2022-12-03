@@ -36,7 +36,6 @@ public class StartScreen extends SceneCreator {
     private ResourceBundle labels;
     private ResourceBundle images;
     private ResourceBundle styles;
-
     private ResourceBundle media;
     private int screenSize;
     private Map<String, String> languageMap;
@@ -56,7 +55,7 @@ public class StartScreen extends SceneCreator {
                 labels.getString("germ"),"setGerman",
                 labels.getString("sim"), "setSimlish"
         );
-        music =new Media(new File(media.getString("start")).toURI().toString());
+        music = new Media(new File(media.getString("start")).toURI().toString());
     }
 
     //makes the scene that is displayed on the screen
@@ -81,7 +80,7 @@ public class StartScreen extends SceneCreator {
         handleEvents();
         Scene s = new Scene(startGamePane, screenSize, screenSize);
         s.getStylesheets().add(styles.getString("startScreenCSS"));
-        m= new MediaPlayer(music);
+        m = new MediaPlayer(music);
         //m.setAutoPlay(true);
         return s;
     }

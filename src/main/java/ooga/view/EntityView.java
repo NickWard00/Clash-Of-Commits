@@ -24,6 +24,11 @@ public class EntityView extends ImageView {
     private Image westStationarySprite;
     private Image southStationarySprite;
 
+    private Image northAttackSprite;
+    private Image eastAttackSprite;
+    private Image westAttackSprite;
+    private Image southAttackSprite;
+
 
     /**
      * Creates an EntityView with the given image path and entity name
@@ -108,6 +113,19 @@ public class EntityView extends ImageView {
         this.setImage(westStationarySprite);
     }
 
+    private void setNORTH_ATTACKSprite(){
+        this.setImage(northAttackSprite);
+    }
+    private void setEAST_ATTACKSprite(){
+        this.setImage(eastAttackSprite);
+    }
+    private void setWEST_ATTACKSprite(){
+        this.setImage(westAttackSprite);
+    }
+    private void setSOUTH_ATTACKSprite(){
+        this.setImage(southAttackSprite);
+    }
+
     private void setupSprites(String spritePath) {
         String imagePathNorth = String.format("%s%s.gif", spritePath, "NORTH");
         String imagePathSouth = String.format("%s%s.gif", spritePath, "SOUTH");
@@ -117,6 +135,11 @@ public class EntityView extends ImageView {
         String imagePathEastStationary = String.format("%s%s.gif", spritePath, "EAST_STATIONARY");
         String imagePathSouthStationary = String.format("%s%s.gif", spritePath, "SOUTH_STATIONARY");
         String imagePathWestStationary = String.format("%s%s.gif", spritePath, "WEST_STATIONARY");
+        String imagePathNorthAttack = String.format("%s%s.gif", spritePath, "NORTH_ATTACK");
+        String imagePathEastAttack = String.format("%s%s.gif", spritePath, "EAST_ATTACK");
+        String imagePathSouthAttack = String.format("%s%s.gif", spritePath, "SOUTH_ATTACK");
+        String imagePathWestAttack = String.format("%s%s.gif", spritePath, "WEST_ATTACK");
+
         northSprite = new Image(imagePathNorth);
         southSprite = new Image(imagePathSouth);
         westSprite = new Image(imagePathWest);
@@ -125,6 +148,10 @@ public class EntityView extends ImageView {
         southStationarySprite = new Image(imagePathSouthStationary);
         westStationarySprite = new Image(imagePathWestStationary);
         eastStationarySprite = new Image(imagePathEastStationary);
+        northAttackSprite = new Image(imagePathNorthAttack);
+        eastAttackSprite = new Image(imagePathEastAttack);
+        westAttackSprite = new Image(imagePathWestAttack);
+        southAttackSprite = new Image(imagePathSouthAttack);
     }
 
     /**

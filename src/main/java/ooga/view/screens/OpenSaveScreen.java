@@ -6,7 +6,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.view.SaveSlot;
-import ooga.view.screens.SceneCreator;
 
 import java.util.ResourceBundle;
 
@@ -39,7 +38,7 @@ public class OpenSaveScreen extends SceneCreator {
         background.getChildren().add(slots);
         Scene s = new Scene(background, screenSize, screenSize);
         s.getStylesheets().add(styles.getString("saveCSS"));
-        //handleEvents();
+        handleEvents();
         return s;
     }
     //TODO: what the heck goes in as a map name when opening a save? (uncomment ^handleEvents() above to test)

@@ -6,7 +6,8 @@ import java.util.Map;
 public enum MovementState {
 
     STATIONARY("STATIONARY", 0),
-    MOVING("MOVING", 1);
+    MOVING("MOVING", 1),
+    ATTACK("ATTACK",0);
 
     private String movement;
     private int speedConverter;

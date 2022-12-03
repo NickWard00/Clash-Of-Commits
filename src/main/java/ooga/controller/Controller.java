@@ -43,21 +43,24 @@ public class Controller {
 
     private String mapName;
 
+    private DirectionState playerDirection;
+
     private boolean playingGame;
     private boolean choosingGame; //some sort of variable to control what is active at any given moment
 
     /**
      * Constructor for the controller, which initializes the model and view and sets up map based on map name
      * @param stage the stage to display the game on
-     * @param m the name of the map to be displayed
+     * @param map the name of the map to be displayed
      * @param labels the resource bundle containing the labels for the game
      */
-    public Controller(Stage stage, String m, ResourceBundle labels){
+    public Controller(Stage stage, String map, ResourceBundle labels){
+        myModelEntities = new HashMap<>();
         myViewEntities = new HashMap<>();
         myModelAttacks = new HashMap<>();
+        myViewAttacks = new HashMap<>();
         myModelObstacles = new HashMap<>();
         myViewObstacles = new HashMap<>();
-        myViewAttacks = new HashMap<>();
         actions = Map.of(
                 KeyCode.UP, "moveUp",
                 KeyCode.DOWN, "moveDown",
@@ -65,18 +68,24 @@ public class Controller {
                 KeyCode.LEFT, "moveLeft",
                 KeyCode.SPACE, "attack"
         );
-        mapName = m;
-        initializeModel(m);
+        mapName = map;
+
+        initializeModel();
+
         myView = new View(stage, this, labels);
         //myViewObstacles = myView.getViewObstacles();
     }
 
     /**
      * Initializes the model and parses all the data based on the map name given
-     * @param mapName the name of the map to be displayed
      */
-    private void initializeModel(String mapName) {
-        parseData(mapName);
+    private void initializeModel() {
+        boolean loadSave = false;
+        if (mapName.startsWith("Save")) {
+            loadGame(Integer.parseInt(String.valueOf(mapName.charAt(mapName.length()-1))));
+            loadSave = true;
+        }
+        parseData(mapName, loadSave);
         myModel = new Model(this);
     }
 
@@ -166,7 +175,7 @@ public class Controller {
      * Parses all the data in the data files based on a certain map name
      * @param map the name of the map to be parsed
      */
-    private void parseData(String map) {
+    private void parseData(String map, boolean loadSave) {
         MapParser mapParser = new MapParser(map);
         mapWrapper = mapParser.getMapWrapper();
         Map<Integer, String> stateToImageMap = mapParser.getStateToImageMap();
@@ -174,8 +183,10 @@ public class Controller {
         mapWrapper.setVisualProperties(mapParser.getMapProperties());
         mapWrapper.setObstacleStateMap(mapParser.getObstacleStateMap());
 
-        EntityMapParser entityMapParser = new EntityMapParser("Entity_" + map);
-        myModelEntities = entityMapParser.getEntities();
+        if (!loadSave) {
+            EntityMapParser entityMapParser = new EntityMapParser("Entity_" + map);
+            myModelEntities = entityMapParser.getEntities();
+        }
 
         for (Entity entity : myModelEntities.values()) {
             if (entity.getMyAttributes().get("EntityType").equals("MainHero") || entity.getMyAttributes().get("EntityType").equals("Link")) {
@@ -190,6 +201,13 @@ public class Controller {
         SaveFileParser saver = new SaveFileParser();
         //TODO: replace temp gametype param with the actual gametype
         saver.saveGame(num, myModelEntities, mapName, "The Beginning");
+    }
+
+    public void loadGame(int i){
+        SaveFileParser saver = new SaveFileParser();
+        saver.loadGame(i);
+        myModelEntities = saver.getEntities();
+        mapName = saver.getMapName();
     }
 
     /**
@@ -243,7 +261,6 @@ public class Controller {
      */
     private AttackView createViewAttack(Attack attack, int attackID){
         String imagePath = new AttackParser(attack.getMyEntity()).getImagePath();
-        // imagePath = imagePath + attack.getDirection().getDirectionString() + ".png";
         imagePath = String.format("%s%s.png", imagePath, attack.getDirection().getDirectionString());
         String attackType = attack.getClass().getSimpleName();
         double size = Double.parseDouble("" + attack.getMyAttributes().get("Size"));
@@ -318,16 +335,19 @@ public class Controller {
      * @param keyCode
      */
     public void handleKeyPress(KeyCode keyCode){
-        if (keyCode.isArrowKey()){
-            try {
-                Method currentAction = this.getClass().getDeclaredMethod(
-                        actions.get(keyCode));
-                currentAction.invoke(this);
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                throw new IllegalStateException("methodNotFound", e);
-            }
-        } else if (keyCode == KeyCode.SPACE) {
-            myModel.attack();
+        if (keyCode.isArrowKey() || keyCode ==KeyCode.SPACE){
+            reflectMethod(keyCode);
+        }
+
+    }
+
+    public void reflectMethod(KeyCode k){
+        try {
+            Method currentAction = this.getClass().getDeclaredMethod(
+                    actions.get(k));
+            currentAction.invoke(this);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            throw new IllegalStateException("methodNotFound", e);
         }
     }
 
@@ -336,7 +356,7 @@ public class Controller {
      * @param keyCode
      */
     public void handleKeyRelease(KeyCode keyCode) {
-        if (keyCode.isArrowKey()) {
+        if (keyCode.isArrowKey()|| keyCode == KeyCode.SPACE) {
             try {
                 Method currentAction = this.getClass().getDeclaredMethod(actions.get(keyCode) + "Stop");
                 currentAction.invoke(this);
@@ -346,12 +366,22 @@ public class Controller {
         }
     }
 
+    private void attack(){
+        myModel.attack();
+        myView.changeEntityState(myMainHeroName,  playerDirection, MovementState.ATTACK);
+    }
+
     /**
      * Reflection method that is called from handleKeyRelease to stop the hero from moving in the north direction
      */
     private void moveUpStop(){
         myModel.changeEntityState(myMainHeroName, DirectionState.NORTH, MovementState.STATIONARY);
         myView.changeEntityState(myMainHeroName, DirectionState.NORTH, MovementState.STATIONARY);
+    }
+
+    private void attackStop(){
+        myModel.changeEntityState(myMainHeroName, playerDirection, MovementState.STATIONARY);
+        myView.changeEntityState(myMainHeroName, playerDirection, MovementState.STATIONARY);
     }
 
     /**
@@ -382,6 +412,7 @@ public class Controller {
      * Reflection method that is called from handleKeyPress to move the hero in the north direction
      */
     private void moveUp() {
+        playerDirection=DirectionState.NORTH;
         myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.NORTH);
         myView.changeEntityState(myMainHeroName, DirectionState.NORTH, MovementState.MOVING);
     }
@@ -390,6 +421,7 @@ public class Controller {
      * Reflection method that is called from handleKeyPress to move the hero in the south direction
      */
     private void moveDown() {
+        playerDirection=DirectionState.SOUTH;
         myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.SOUTH);
         myView.changeEntityState(myMainHeroName, DirectionState.SOUTH, MovementState.MOVING);
     }
@@ -398,6 +430,7 @@ public class Controller {
      * Reflection method that is called from handleKeyPress to move the hero in the west direction
      */
     private void moveLeft(){
+        playerDirection=DirectionState.WEST;
         myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.WEST);
         myView.changeEntityState(myMainHeroName, DirectionState.WEST, MovementState.MOVING);
     }
@@ -406,6 +439,7 @@ public class Controller {
      * Reflection method that is called from handleKeyPress to move the hero in the east direction
      */
     private void moveRight(){
+        playerDirection=DirectionState.EAST;
         myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.EAST);
         myView.changeEntityState(myMainHeroName, DirectionState.EAST, MovementState.MOVING);
     }
