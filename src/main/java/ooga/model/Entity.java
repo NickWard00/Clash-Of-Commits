@@ -1,6 +1,8 @@
 package ooga.model;
 
 import javafx.scene.control.skin.TextInputControlSkin;
+import ooga.model.attack.Attack;
+import ooga.model.attack.LongRange;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
 
@@ -31,24 +33,19 @@ public abstract class Entity {
      * @param attributes - map of attributes
      */
     public Entity(Map<String, String> attributes) {
-        try {
-            this.myAttributes = attributes;
-            this.xPos = Double.parseDouble(attributes.get("XPosition"));
-            this.yPos = Double.parseDouble(attributes.get("YPosition"));
-            this.max_hp = Integer.parseInt(attributes.get("HP"));
-            this.hp = max_hp;
-            this.speed = Double.parseDouble(attributes.get("Speed"));
-            this.size = Integer.parseInt(attributes.get("Size"));
-            this.attackType = attributes.get("Attack");
-            this.myDirection = DirectionState.valueOf(attributes.getOrDefault("Direction", "SOUTH"));
-            this.myMovement = MovementState.valueOf(attributes.getOrDefault("Movement", "STATIONARY"));
-            Class clazz = Class.forName(attackBundle.getString(attackType));
-            Method method = clazz.getDeclaredMethod("getCoolDown");
-            this.attackCoolDown = (double) method.invoke(this);
-            this.timeUntilAttack = attackCoolDown;
-        } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
-            throw new IllegalStateException("invalidAttackType", e);
-        }
+        this.myAttributes = attributes;
+        this.myDirection = DirectionState.valueOf(attributes.getOrDefault("Direction", "SOUTH"));
+        this.myMovement = MovementState.valueOf(attributes.getOrDefault("Movement", "STATIONARY"));
+        this.xPos = Double.parseDouble(attributes.get("XPosition"));
+        this.yPos = Double.parseDouble(attributes.get("YPosition"));
+        this.max_hp = Integer.parseInt(attributes.get("HP"));
+        this.hp = max_hp;
+        this.speed = Double.parseDouble(attributes.get("Speed"));
+        this.size = Integer.parseInt(attributes.get("Size"));
+        this.attackType = attributes.get("Attack");
+        Attack a = Attack.attack(this);
+        this.attackCoolDown = a.getCoolDown();
+        this.timeUntilAttack = attackCoolDown;
     }
 
     /**

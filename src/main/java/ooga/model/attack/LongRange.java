@@ -4,7 +4,7 @@ import ooga.model.Entity;
 import java.util.Map;
 
 public class LongRange extends Attack {
-    private static double coolDown;
+    private double coolDown;
 
     /**
      * Constructor for the LongRange attack
@@ -16,6 +16,6 @@ public class LongRange extends Attack {
         coolDown = attributes.getOrDefault("CoolDown", 1.0);
     }
 
-    public static double getCoolDown() { return coolDown; }
+    public double getCoolDown() { return coolDown; }
 
 }
