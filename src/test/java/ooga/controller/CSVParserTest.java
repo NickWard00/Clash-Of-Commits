@@ -9,9 +9,9 @@ class CSVParserTest {
     @Test
     void testMapParserMapBoundsTest() {
         CSVParser parser = new CSVParser();
-        MapWrapper map = parser.parseData("data/maps/MainMap.csv");
-        assertEquals(70, map.getColumnSize());
-        assertEquals(119, map.getRowSize(0));
+        MapWrapper map = parser.parseData("data/maps/oldMainMap.csv");
+        assertEquals(32, map.getColumnSize());
+        assertEquals(50, map.getRowSize(0));
     }
 
     @Test

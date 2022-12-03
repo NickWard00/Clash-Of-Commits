@@ -18,7 +18,7 @@ class BlockViewTest {
         expectedValues = new HashMap<>();
         expectedValues.put(0, "grass.jpeg");
         expectedValues.put(1, "bush.jpeg");
-        expectedValues.put(2, "water.jpeg");
+        expectedValues.put(2, "ice.jpeg");
         expectedValues.put(3, "winter_grass.jpeg");
 
     }

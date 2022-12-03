@@ -67,11 +67,11 @@ public abstract class Attack {
     public void activateAttack(Controller controller) {
         this.controller = controller;
         if (myEntity.getTimeUntilAttack() <= 0) {
+            myEntity.resetTimeUntilAttack();
             activeAttackID = createRandomID();
             Controller.getModelAttacks().put(activeAttackID, this);
             this.myDirection = DirectionState.valueOf(myEntity.getStateStrings().get(0));
             this.timeSinceActivation = 0.0;
-            myEntity.resetTimeUntilAttack();
             setInitialCoordinates();
         }
     }
@@ -130,4 +130,6 @@ public abstract class Attack {
     }
 
     public List<Double> getCoordinates() { return Arrays.asList(xPos, yPos); }
+
+    public abstract double getCoolDown();
 }

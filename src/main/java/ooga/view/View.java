@@ -161,5 +161,10 @@ public class View {
     public MainGameScreen getGameScreen() {
         return mainGameScreen;
     }
+
+    public Map<List<Double>, BlockView> getViewObstacles() {
+        return myViewObstacles;
+    }
+
 }
 
