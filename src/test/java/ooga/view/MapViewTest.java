@@ -36,7 +36,7 @@ class MapViewTest {
                         assertEquals("/blocks/bush.jpeg", mapWrapper.getImageFromState(state));
                         break;
                     } case(2)->{
-                        assertEquals("/blocks/water.jpeg", mapWrapper.getImageFromState(state));
+                        assertEquals("/blocks/water.gif", mapWrapper.getImageFromState(state));
                         break;
                     } case(3)->{
                         assertEquals("/blocks/winter_grass.jpeg", mapWrapper.getImageFromState(state));
