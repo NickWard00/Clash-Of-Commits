@@ -36,7 +36,7 @@ class EntityViewTest extends DukeApplicationTest {
 
     @Test
     void testEntityViewNames() {
-        assertEquals(imageName, entityView.getEntityName());
+        assertEquals(imageName, entityView.getKey());
     }
 
     @Test

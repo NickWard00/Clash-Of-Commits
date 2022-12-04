@@ -66,14 +66,17 @@ public class Controller {
                 KeyCode.DOWN, "moveDown",
                 KeyCode.RIGHT, "moveRight",
                 KeyCode.LEFT, "moveLeft",
-                KeyCode.SPACE, "attack"
+                KeyCode.SPACE, "attack",
+                KeyCode.W, "moveUp",
+                KeyCode.S, "moveDown",
+                KeyCode.D, "moveRight",
+                KeyCode.A, "moveLeft"
         );
         mapName = map;
 
         initializeModel();
 
         myView = new View(stage, this, labels);
-        //myViewObstacles = myView.getViewObstacles();
     }
 
     /**
@@ -336,7 +339,7 @@ public class Controller {
      * @param keyCode
      */
     public void handleKeyPress(KeyCode keyCode){
-        if (keyCode.isArrowKey() || keyCode ==KeyCode.SPACE){
+        if (actions.containsKey(keyCode)) {
             reflectMethod(keyCode);
         }
 
@@ -357,7 +360,7 @@ public class Controller {
      * @param keyCode
      */
     public void handleKeyRelease(KeyCode keyCode) {
-        if (keyCode.isArrowKey()|| keyCode == KeyCode.SPACE) {
+        if (actions.containsKey(keyCode)) {
             try {
                 Method currentAction = this.getClass().getDeclaredMethod(actions.get(keyCode) + "Stop");
                 currentAction.invoke(this);

@@ -11,8 +11,8 @@ class MapParserTest {
     void testMapParser() {
         MapParser mapParser = new MapParser("MainMap");
         MapWrapper map = mapParser.getMapWrapper();
-        assertEquals(32, map.getColumnSize());
-        assertEquals(50, map.getRowSize(0));
+        assertEquals(70, map.getColumnSize());
+        assertEquals(119, map.getRowSize(0));
     }
 
     @Test
@@ -35,8 +35,8 @@ class MapParserTest {
     void testMapParserGetProperties() {
         MapParser mapParser = new MapParser("MainMap");
         assertEquals(30, mapParser.getMapProperties().get(0));
-        assertEquals(960, mapParser.getMapProperties().get(1));
-        assertEquals(1500, mapParser.getMapProperties().get(2));
+        assertEquals(2100, mapParser.getMapProperties().get(1));
+        assertEquals(3570, mapParser.getMapProperties().get(2));
     }
 
     @Test
