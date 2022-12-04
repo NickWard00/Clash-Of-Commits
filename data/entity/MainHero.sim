@@ -4,6 +4,6 @@ Sprites=/sprites/hero/
 Speed=100
 Size=30
 HP=5
-Attack=LongRange
+Attack=ShortRange
 Direction=SOUTH
 Movement=STATIONARY
