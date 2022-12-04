@@ -1,6 +1,5 @@
 package ooga.controller;
 
-import ooga.model.obstacle.Obstacle;
 import ooga.view.MapWrapper;
 
 import java.util.HashMap;

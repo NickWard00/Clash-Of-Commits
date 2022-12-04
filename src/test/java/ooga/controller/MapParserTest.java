@@ -12,7 +12,7 @@ class MapParserTest {
         MapParser mapParser = new MapParser("MainMap");
         MapWrapper map = mapParser.getMapWrapper();
         assertEquals(70, map.getColumnSize());
-        assertEquals(119, map.getRowSize(0));
+        assertEquals(117, map.getRowSize(0));
     }
 
     @Test
@@ -36,7 +36,7 @@ class MapParserTest {
         MapParser mapParser = new MapParser("MainMap");
         assertEquals(30, mapParser.getMapProperties().get(0));
         assertEquals(2100, mapParser.getMapProperties().get(1));
-        assertEquals(3570, mapParser.getMapProperties().get(2));
+        assertEquals(3510, mapParser.getMapProperties().get(2));
     }
 
     @Test
