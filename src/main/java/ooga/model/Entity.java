@@ -1,5 +1,6 @@
 package ooga.model;
 
+import ooga.controller.AttackParser;
 import ooga.model.attack.Attack;
 import ooga.model.enemy.Enemy;
 import ooga.model.state.DirectionState;
@@ -47,26 +48,42 @@ public abstract class Entity {
      * Method to update this entity's x and y positions based on the elapsed time since the previous step
      * @param elapsedTime Time passed since the previous step
      * */
-    public List<Double> move(double elapsedTime, List<Double> heroCoordinates) {
+    public List<Double> move(double elapsedTime) {
         this.xPos += myDirection.getVelocity().get(0) * myMovement.getSpeedConverter() * speed * elapsedTime;
         this.yPos += myDirection.getVelocity().get(1) * myMovement.getSpeedConverter() * speed * elapsedTime;
         timeUntilAttack -= elapsedTime;
         myAttributes.put("XPosition", String.valueOf(xPos));
         myAttributes.put("YPosition", String.valueOf(yPos));
-        if (this.getClass().getSuperclass() == Enemy.class && canInitiateAttack(heroCoordinates)) {
-            Attack.attack(this).activateAttack();
-        }
         return Arrays.asList(xPos, yPos);
     }
 
     /**
-     * Method which returns whether this entity is within attacking range of the hero and has let enough time
-     * pass since its last attack
+     * Method which takes an entity and returns a new instance of that entity's set attack type
+     * */
+    public Attack attack() {
+        try {
+            AttackParser myAttackParser = new AttackParser(this);
+            Map<String, Double> attributes = myAttackParser.getAttributeMap();
+            Object o = Class.forName(attackBundle.getString(this.getAttackType())).getConstructor(Entity.class, Map.class).newInstance(this, attributes);
+            return (Attack) o;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void checkAttack(List<Double> heroCoordinates) {
+        if (this.getClass().getSuperclass() == Enemy.class && timeUntilAttack <= 0 && withinAttackRange(heroCoordinates)) {
+            attack().activateAttack();
+        }
+    }
+
+    /**
+     * Method which returns whether this entity is within attacking range of the hero
      * @return boolean of whether this entity should attack
      * */
-    public boolean canInitiateAttack(List<Double> heroCoordinates) {
+    public boolean withinAttackRange(List<Double> heroCoordinates) {
         double distance = StrictMath.hypot(Math.abs(heroCoordinates.get(0) - xPos), Math.abs(heroCoordinates.get(1) - yPos));
-        return (timeUntilAttack <= 0 && distance <= Double.parseDouble(myAttributes.get("AttackRange")));
+        return (distance <= Double.parseDouble(myAttributes.get("AttackRange")));
     }
 
     /**

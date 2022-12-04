@@ -39,7 +39,8 @@ public class Model {
     }
 
     public void attack(){
-        Attack.attack(myHeroModel).activateAttack();
+        //Attack.attack(myHeroModel).activateAttack();
+        myHeroModel.attack().activateAttack();
     }
 
 }
