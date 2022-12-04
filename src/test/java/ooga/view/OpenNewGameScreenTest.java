@@ -32,6 +32,6 @@ public class OpenNewGameScreenTest extends DukeApplicationTest {
         clickOn(first);
         ToolBar hud = lookup("#HUD").query();
         Label score = (Label) hud.getItems().get(1);
-        assertEquals(score.getText(), "Score:0");
+        assertEquals("Score:0", score.getText());
     }
 }
