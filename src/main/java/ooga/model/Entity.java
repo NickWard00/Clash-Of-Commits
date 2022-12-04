@@ -40,8 +40,6 @@ public abstract class Entity {
         this.size = Integer.parseInt(attributes.get("Size"));
         this.attackType = attributes.get("Attack");
         this.attackCoolDown = Double.parseDouble(attributes.get("CoolDown"));
-        //Attack a = Attack.attack(this);
-        //this.attackCoolDown = a.getCoolDown();
         this.timeUntilAttack = attackCoolDown;
     }
 
@@ -61,6 +59,11 @@ public abstract class Entity {
         return Arrays.asList(xPos, yPos);
     }
 
+    /**
+     * Method which returns whether this entity is within attacking range of the hero and has let enough time
+     * pass since its last attack
+     * @return boolean of whether this entity should attack
+     * */
     public boolean canInitiateAttack(List<Double> heroCoordinates) {
         double distance = StrictMath.hypot(Math.abs(heroCoordinates.get(0) - xPos), Math.abs(heroCoordinates.get(1) - yPos));
         return (timeUntilAttack <= 0 && distance <= Double.parseDouble(myAttributes.get("AttackRange")));
