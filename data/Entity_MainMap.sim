@@ -3,4 +3,3 @@ MagicVal1 = MagicValue, 600, 390
 #MagicVal2 = MagicValue, 1550, 470
 #Bug1 = Bug, 1300, 390
 Hero1 = MainHero, 400, 400
-#PowerUp1 = PowerUp, 600, 700

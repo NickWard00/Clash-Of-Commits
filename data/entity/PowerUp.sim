@@ -1,6 +1,6 @@
-#This is a power up that adds a life to the main hero when it passes by it. (currently image is a bug)
+#This is a power up that adds a life to the main hero when it passes by it.
 Type=PowerUp
-Sprites=/sprites/bug/
+Sprites=/sprites/powerup/
 Speed=0
 Size=30
 HP=10000
