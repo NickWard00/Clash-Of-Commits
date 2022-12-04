@@ -115,6 +115,7 @@ public class Controller {
         myView.step(elapsedTime);
         updateEntityPosition(elapsedTime);
         updateAttackPosition(elapsedTime);
+        checkForNewAttacks();
     }
 
     /**
@@ -127,7 +128,7 @@ public class Controller {
             Entity modelEntity = myModelEntities.get(entityName);
             EntityView viewEntity = myViewEntities.get(entityName);
             if (modelEntity.getHp() > 0) {
-                List<Double> newPosition = modelEntity.move(elapsedTime, myModelEntities.get("Hero1").coordinates());
+                List<Double> newPosition = modelEntity.move(elapsedTime);
                 viewEntity.setX(newPosition.get(0));
                 viewEntity.setY(newPosition.get(1));
             } else {
@@ -168,6 +169,12 @@ public class Controller {
                     removeObstacle(coordinate);
                 }
             }
+        }
+    }
+
+    private void checkForNewAttacks() {
+        for (Entity entity : myModelEntities.values()) {
+            entity.checkAttack(myModelEntities.get("Hero1").coordinates());
         }
     }
 

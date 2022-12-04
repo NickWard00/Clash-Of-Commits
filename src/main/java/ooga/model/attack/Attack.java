@@ -39,28 +39,12 @@ public abstract class Attack {
         this.damage = attributes.getOrDefault("Damage", 0.0).intValue();
         this.speed = attributes.getOrDefault("Speed", 0.0);
         this.size = attributes.getOrDefault("Size", 0.0);
-        //this.coolDown = attributes.getOrDefault("CoolDown", 1.0);
         this.maxDuration = attributes.getOrDefault("MaxDuration", 0.0);
         this.myAttributes = attributes;
         this.myEntity = entity;
         this.xPos = 0.0;
         this.yPos = 0.0;
         this.myDirection = DirectionState.SOUTH;
-    }
-
-    /**
-     * Method which takes an entity and returns a new instance of that entity's set attack type
-     * @param entity the entity to initiate an attack
-     * */
-    public static Attack attack(Entity entity) {
-        try {
-            AttackParser myAttackParser = new AttackParser(entity);
-            Map<String, Double> attributes = myAttackParser.getAttributeMap();
-            Object o = Class.forName(attackBundle.getString(entity.getAttackType())).getConstructor(Entity.class, Map.class).newInstance(entity, attributes);
-            return (Attack) o;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
 

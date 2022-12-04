@@ -48,7 +48,6 @@ public class CollisionHandler {
             Class class2 = getCorrectClassForCollision(object2);
             Map<Object, Class> myClassCategory = Map.of(object1, class1, object2, class2);
             List<Object> myObjects = Arrays.asList(object1, object2);
-//            System.out.println(object2);
             myObjects.sort(Comparator.comparing((Object o) -> indexMap.get(myClassCategory.get(o))));
             Collision.class.getConstructor(
                     myClassCategory.get(myObjects.get(0)), myClassCategory.get(myObjects.get(1)), Map.class).newInstance(myObjects.get(0), myObjects.get(1), viewModelMap);
