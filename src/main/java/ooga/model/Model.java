@@ -39,7 +39,7 @@ public class Model {
     }
 
     public void attack(){
-        Attack.attack(myHeroModel).activateAttack(myController);
+        Attack.attack(myHeroModel).activateAttack();
     }
 
 }

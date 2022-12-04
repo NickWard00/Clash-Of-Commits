@@ -1,13 +1,9 @@
 package ooga.model;
 
-import javafx.scene.control.skin.TextInputControlSkin;
 import ooga.model.attack.Attack;
-import ooga.model.attack.LongRange;
+import ooga.model.enemy.Enemy;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -43,8 +39,9 @@ public abstract class Entity {
         this.speed = Double.parseDouble(attributes.get("Speed"));
         this.size = Integer.parseInt(attributes.get("Size"));
         this.attackType = attributes.get("Attack");
-        Attack a = Attack.attack(this);
-        this.attackCoolDown = a.getCoolDown();
+        this.attackCoolDown = Double.parseDouble(attributes.get("CoolDown"));
+        //Attack a = Attack.attack(this);
+        //this.attackCoolDown = a.getCoolDown();
         this.timeUntilAttack = attackCoolDown;
     }
 
@@ -52,13 +49,21 @@ public abstract class Entity {
      * Method to update this entity's x and y positions based on the elapsed time since the previous step
      * @param elapsedTime Time passed since the previous step
      * */
-    public List<Double> move(double elapsedTime) {
+    public List<Double> move(double elapsedTime, List<Double> heroCoordinates) {
         this.xPos += myDirection.getVelocity().get(0) * myMovement.getSpeedConverter() * speed * elapsedTime;
         this.yPos += myDirection.getVelocity().get(1) * myMovement.getSpeedConverter() * speed * elapsedTime;
         timeUntilAttack -= elapsedTime;
         myAttributes.put("XPosition", String.valueOf(xPos));
         myAttributes.put("YPosition", String.valueOf(yPos));
+        if (this.getClass().getSuperclass() == Enemy.class && canInitiateAttack(heroCoordinates)) {
+            Attack.attack(this).activateAttack();
+        }
         return Arrays.asList(xPos, yPos);
+    }
+
+    public boolean canInitiateAttack(List<Double> heroCoordinates) {
+        double distance = StrictMath.hypot(Math.abs(heroCoordinates.get(0) - xPos), Math.abs(heroCoordinates.get(1) - yPos));
+        return (timeUntilAttack <= 0 && distance <= Double.parseDouble(myAttributes.get("AttackRange")));
     }
 
     /**
@@ -67,7 +72,7 @@ public abstract class Entity {
      */
     public Map<String, String> getMyAttributes() {
         return myAttributes;
-    } // TODO: next week, make a record for entity
+    }
 
     /**
      * Change HP method

@@ -16,7 +16,7 @@ import java.util.List;
 
 public abstract class Attack {
     public static final ResourceBundle attackBundle = ResourceBundle.getBundle("ResourceBundles.Attack");
-    private Controller controller;
+    private static Controller myController;
     private int damage;
     private double speed;
     private double size;
@@ -40,7 +40,7 @@ public abstract class Attack {
         this.damage = attributes.getOrDefault("Damage", 0.0).intValue();
         this.speed = attributes.getOrDefault("Speed", 0.0);
         this.size = attributes.getOrDefault("Size", 0.0);
-        this.coolDown = attributes.getOrDefault("CoolDown", 1.0);
+        //this.coolDown = attributes.getOrDefault("CoolDown", 1.0);
         this.maxDuration = attributes.getOrDefault("MaxDuration", 0.0);
         this.myAttributes = attributes;
         this.myEntity = entity;
@@ -64,12 +64,11 @@ public abstract class Attack {
         }
     }
 
-    public void activateAttack(Controller controller) {
-        this.controller = controller;
+    public void activateAttack() {
         if (myEntity.getTimeUntilAttack() <= 0) {
             myEntity.resetTimeUntilAttack();
             activeAttackID = createRandomID();
-            Controller.getModelAttacks().put(activeAttackID, this);
+            myController.getModelAttacks().put(activeAttackID, this);
             this.myDirection = DirectionState.valueOf(myEntity.getStateStrings().get(0));
             this.timeSinceActivation = 0.0;
             setInitialCoordinates();
@@ -87,14 +86,14 @@ public abstract class Attack {
     private Integer createRandomID() {
         Random r = new Random();
         Integer randomID = r.nextInt(100);
-        while (Controller.getModelAttacks().containsKey(randomID)) {
+        while (myController.getModelAttacks().containsKey(randomID)) {
             randomID = r.nextInt(100);
         }
         return randomID;
     }
 
     public void deactivateAttack() {
-        controller.removeAttack(activeAttackID);
+        myController.removeAttack(activeAttackID);
     }
 
     public DirectionState getDirection() {
@@ -131,5 +130,9 @@ public abstract class Attack {
 
     public List<Double> getCoordinates() { return Arrays.asList(xPos, yPos); }
 
-    public abstract double getCoolDown();
+    //public abstract double getCoolDown();
+
+    public static void setMyController(Controller controller) {
+        myController = controller;
+    }
 }
