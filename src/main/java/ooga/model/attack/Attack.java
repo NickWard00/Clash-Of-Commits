@@ -20,7 +20,6 @@ public abstract class Attack {
     private int damage;
     private double speed;
     private double size;
-    private double coolDown;
     private double maxDuration;
     private Entity myEntity;
     private Integer activeAttackID;
@@ -50,7 +49,7 @@ public abstract class Attack {
     }
 
     /**
-     * Method which takes an entity and invokes that entity's set attack
+     * Method which takes an entity and returns a new instance of that entity's set attack type
      * @param entity the entity to initiate an attack
      * */
     public static Attack attack(Entity entity) {
@@ -64,6 +63,10 @@ public abstract class Attack {
         }
     }
 
+
+    /**
+     * Method to initiate this attack and reset its entity's attack timer
+     * */
     public void activateAttack() {
         if (myEntity.getTimeUntilAttack() <= 0) {
             myEntity.resetTimeUntilAttack();
@@ -75,6 +78,9 @@ public abstract class Attack {
         }
     }
 
+    /**
+     * Method to set the initial coordinates of this attack, centered on its parent entity
+     * */
     private void setInitialCoordinates() {
         int halfSize = Integer.parseInt(myEntity.getMyAttributes().get("Size"))/2;
         double centerX = myEntity.coordinates().get(0) + halfSize;
@@ -83,6 +89,9 @@ public abstract class Attack {
         this.yPos = centerY + myDirection.getVelocity().get(1) * halfSize;
     }
 
+    /**
+     * Method to generate a random attackID which is unique to the other active attacks' IDs
+     * */
     private Integer createRandomID() {
         Random r = new Random();
         Integer randomID = r.nextInt(100);
@@ -92,6 +101,9 @@ public abstract class Attack {
         return randomID;
     }
 
+    /**
+     * Deactivates this attack, calls the removeAttack method in the controller
+     * */
     public void deactivateAttack() {
         myController.removeAttack(activeAttackID);
     }
@@ -130,8 +142,9 @@ public abstract class Attack {
 
     public List<Double> getCoordinates() { return Arrays.asList(xPos, yPos); }
 
-    //public abstract double getCoolDown();
-
+    /**
+     * Should only be called once during setup of the game to set all attacks' controller
+     * */
     public static void setMyController(Controller controller) {
         myController = controller;
     }
