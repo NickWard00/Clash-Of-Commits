@@ -1,4 +1,4 @@
-package ooga.model.powerup;
+package ooga.model.obstacle.powerup;
 
 import ooga.model.Entity;
 import ooga.model.hero.MainHero;

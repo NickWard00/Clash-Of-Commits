@@ -37,7 +37,7 @@ public class MapView {
                 int state = wrapper.getState(row, col);
                 String imagePath = wrapper.getImageFromState(state);
                 BlockView blockView = new BlockView(col, row, blockSize, state, imagePath, grid);
-                if (wrapper.getObstacleFromState(state).contains("Wall")) {
+                if (wrapper.getObstacleFromState(state).contains("Wall") || wrapper.getObstacleFromState(state).contains("PowerUp")) {
                     myViewObstacles.put(Arrays.asList((double) row, (double) col), blockView);
                 }
             }

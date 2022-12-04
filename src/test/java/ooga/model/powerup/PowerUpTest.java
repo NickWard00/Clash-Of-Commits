@@ -2,9 +2,9 @@ package ooga.model.powerup;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.HashMap;
 import ooga.controller.EntityParser;
 import ooga.model.hero.MainHero;
+import ooga.model.obstacle.powerup.PowerUp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
