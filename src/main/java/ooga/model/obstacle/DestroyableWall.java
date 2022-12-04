@@ -8,11 +8,11 @@ import java.util.ResourceBundle;
  * @author James Qu
  */
 public class DestroyableWall extends Wall {
-  public static final ResourceBundle HP_VALUES = ResourceBundle.getBundle(
+  private static final ResourceBundle HP_VALUES = ResourceBundle.getBundle(
       "ResourceBundles.DestroyableWall");
   private int hp;
-  public static final int DEFAULT_HP = Integer.parseInt(HP_VALUES.getString("defaultHP"));
-  public static final int REMOVE_HP = Integer.parseInt(HP_VALUES.getString("removeHP"));
+  private static final int DEFAULT_HP = Integer.parseInt(HP_VALUES.getString("defaultHP"));
+  private static final int REMOVE_HP = Integer.parseInt(HP_VALUES.getString("removeHP"));
 
   public DestroyableWall(Double x, Double y) {
     super(x, y, true, true);

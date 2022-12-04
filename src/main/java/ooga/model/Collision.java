@@ -27,7 +27,7 @@ public class Collision {
     }
 
     public Collision(Attack attack, Obstacle obstacle, Map<String, Map<?,?>> viewModelMap) {
-        if (attack.getMyEntity().getClass() == MainHero.class && obstacle.getClass() == DestroyableWall.class) {
+        if (attack.getMyEntity().getClass() == MainHero.class && obstacle.getDestroyable()) {
             ((DestroyableWall) obstacle).updateHP(attack.getDamage());
         }
         attack.deactivateAttack();

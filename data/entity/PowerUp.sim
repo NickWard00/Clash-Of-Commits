@@ -1,4 +1,5 @@
 #This is a power up that adds a life to the main hero when it passes by it.
+#Sim file is not being used anymore since PowerUp is not an Entity
 Type=PowerUp
 Sprites=/sprites/powerup/
 Speed=0

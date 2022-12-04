@@ -1,6 +1,5 @@
 package ooga.model.obstacle;
 
-import static ooga.model.obstacle.DestroyableWall.DEFAULT_HP;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -16,6 +15,7 @@ import org.junit.jupiter.api.Test;
 class DestroyableWallTest {
   private static final double TEST_DEFAULT_X_POSITION = 1.0;
   private static final double TEST_DEFAULT_Y_POSITION = 1.0;
+  private static final int DEFAULT_HP = 5;
   private DestroyableWall defaultWall;
   private DestroyableWall wall;
   private Entity entity;
