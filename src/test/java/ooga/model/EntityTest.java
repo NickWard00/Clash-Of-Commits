@@ -10,6 +10,8 @@ import ooga.model.state.MovementState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class EntityTest {
@@ -68,14 +70,14 @@ class EntityTest {
     @Test
     void moveTest_Moving() {
         testBug.changeMovement(MovementState.MOVING);
-        Double[] actual = testBug.move(1.0).toArray(new Double[0]);
+        Double[] actual = testBug.move(1.0, Arrays.asList(0.0,0.0)).toArray(new Double[0]);
         Double[] expected = new Double[] {0.0, 50.0};
         assertArrayEquals(expected, actual);
     }
 
     @Test
     void moveTest_Stationary() {
-        Double[] actual = testBug.move(1.0).toArray(new Double[0]);
+        Double[] actual = testBug.move(1.0, Arrays.asList(0.0,0.0)).toArray(new Double[0]);
         Double[] expected = new Double[] {0.0, 0.0};
         assertArrayEquals(expected, actual);
     }

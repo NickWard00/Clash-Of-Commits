@@ -17,6 +17,11 @@ public abstract class Enemy extends Entity {
         super(attributes);
     }
 
+    /**
+     * Method to make a new enemy of a specified subclass through reflection
+     * @param enemyClass the specific subclass of enemy to be created (Bug, MagicValue, etc.)
+     * @param attributes a map of the attributes (size, attack type, etc.) of the enemy to be created
+     * */
     public static Enemy makeEnemy(Class<? extends Enemy> enemyClass, Map<String, String> attributes) {
         try {
             Enemy newEnemy = enemyClass.getDeclaredConstructor(Map.class).newInstance(attributes);
@@ -33,5 +38,7 @@ public abstract class Enemy extends Entity {
         Enemy randomEnemy = makeEnemy(possibleEnemies.get(randomIndex), attributes);
         return randomEnemy;
     }
+
+
 
 }

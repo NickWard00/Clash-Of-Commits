@@ -5,5 +5,7 @@ Speed=30
 Size=30
 HP=3
 Attack=LongRange
+AttackRange=180
+CoolDown=1.0
 Direction=SOUTH
 Movement=MOVING

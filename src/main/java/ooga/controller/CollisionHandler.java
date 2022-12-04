@@ -14,6 +14,7 @@ import ooga.model.obstacle.Obstacle;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+import ooga.model.obstacle.Wall;
 import ooga.view.AttackView;
 import ooga.view.BlockView;
 import ooga.view.EntityView;
@@ -47,6 +48,7 @@ public class CollisionHandler {
             Class class2 = getCorrectClassForCollision(object2);
             Map<Object, Class> myClassCategory = Map.of(object1, class1, object2, class2);
             List<Object> myObjects = Arrays.asList(object1, object2);
+//            System.out.println(object2);
             myObjects.sort(Comparator.comparing((Object o) -> indexMap.get(myClassCategory.get(o))));
             Collision.class.getConstructor(
                     myClassCategory.get(myObjects.get(0)), myClassCategory.get(myObjects.get(1)), Map.class).newInstance(myObjects.get(0), myObjects.get(1), viewModelMap);
@@ -68,7 +70,7 @@ public class CollisionHandler {
 
     private static Class getCorrectClassForCollision(Object object) {
         Class myClass = object.getClass().getSuperclass();
-        if (myClass != Attack.class) {
+        if (myClass != Attack.class && myClass != Obstacle.class) {
             myClass = myClass.getSuperclass();
         }
         return myClass;

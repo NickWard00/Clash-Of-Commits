@@ -36,8 +36,8 @@ public class Controller {
     private Map<String, Entity> myModelEntities;
     private Map<List<Double>, Obstacle> myModelObstacles;
     private Map<List<Double>, BlockView> myViewObstacles;
-    private static Map<Integer, Attack> myModelAttacks;
-    private static Map<Integer, AttackView> myViewAttacks;
+    private Map<Integer, Attack> myModelAttacks;
+    private Map<Integer, AttackView> myViewAttacks;
     private String myMainHeroName;
     private Map<KeyCode, String> actions;
 
@@ -130,7 +130,7 @@ public class Controller {
             Entity modelEntity = myModelEntities.get(entityName);
             EntityView viewEntity = myViewEntities.get(entityName);
             if (modelEntity.getHp() > 0) {
-                List<Double> newPosition = modelEntity.move(elapsedTime);
+                List<Double> newPosition = modelEntity.move(elapsedTime, myModelEntities.get("Hero1").coordinates());
                 viewEntity.setX(newPosition.get(0));
                 viewEntity.setY(newPosition.get(1));
             } else {
@@ -198,6 +198,7 @@ public class Controller {
         }
         setupViewEntities();
         setupModelObstacles(mapParser);
+        Attack.setMyController(this);
     }
 
     public void saveGame(int num){
@@ -503,7 +504,7 @@ public class Controller {
      * Returns the model attacks
      * @return myModelAttacks
      */
-    public static Map<Integer, Attack> getModelAttacks() {
+    public Map<Integer, Attack> getModelAttacks() {
         return myModelAttacks;
     }
 
@@ -511,7 +512,7 @@ public class Controller {
      * Returns the view attacks
      * @return myViewAttacks
      */
-    public static Map<Integer, AttackView> getViewAttacks() {
+    public Map<Integer, AttackView> getViewAttacks() {
         return myViewAttacks;
     }
 
