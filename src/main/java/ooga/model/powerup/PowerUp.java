@@ -1,18 +1,21 @@
 package ooga.model.powerup;
 
-import java.util.Map;
 import ooga.model.Entity;
 import ooga.model.hero.MainHero;
+import ooga.model.obstacle.Obstacle;
 
-public class PowerUp extends Entity {
+public class PowerUp extends Obstacle {
 
-  public PowerUp(Map<String, String> attributes) {
-    super(attributes);
+  public PowerUp(Double x, Double y) {
+    super(x, y, false, true, true);
   }
-  //TODO: Figure out how to remove the PowerUp when walked on
+
   public void upgradeHP(Entity entity, int hp) {
     if (entity.getClass() == MainHero.class) {
       entity.changeHp(hp);
     }
+  }
+  public void remove() {
+    this.onScreen = false;
   }
 }
