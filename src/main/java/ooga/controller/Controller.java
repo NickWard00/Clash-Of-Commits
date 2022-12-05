@@ -70,7 +70,8 @@ public class Controller {
                 KeyCode.W, "moveUp",
                 KeyCode.S, "moveDown",
                 KeyCode.D, "moveRight",
-                KeyCode.A, "moveLeft"
+                KeyCode.A, "moveLeft",
+                KeyCode.SHIFT, "sprint"
         );
         this.mapName = map;
         this.myGameType = gameType;
@@ -455,6 +456,15 @@ public class Controller {
         myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.EAST);
         myView.changeEntityState(myMainHeroName, DirectionState.EAST, MovementState.MOVING);
     }
+
+    private void sprint(){
+        myModel.changeEntityState(myMainHeroName, MovementState.SPRINTING);
+    }
+
+    private void sprintStop(){
+        myModel.changeEntityState(myMainHeroName, MovementState.MOVING);
+    }
+
 
     /**
      * Method that returns the name of the main hero, if it exists
