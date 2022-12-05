@@ -38,6 +38,11 @@ public class Model {
         entity.changeMovement(movement);
     }
 
+    public void changeEntityState(String entityName, MovementState movement){
+        Entity entity = myModelEntities.get(entityName);
+        entity.changeMovement(movement);
+    }
+
     public void attack(){
         //Attack.attack(myHeroModel).activateAttack();
         myHeroModel.attack().activateAttack();
