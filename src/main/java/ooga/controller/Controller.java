@@ -177,7 +177,7 @@ public class Controller {
 
     private void checkForNewAttacks() {
         for (Entity entity : myModelEntities.values()) {
-            entity.checkAttack(myModelEntities.get("Hero1").coordinates());
+            entity.checkAttack(myModelEntities.get(getMainHeroName()).coordinates());
         }
     }
 
