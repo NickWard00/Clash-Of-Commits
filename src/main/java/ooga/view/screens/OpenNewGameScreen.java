@@ -48,20 +48,20 @@ public class OpenNewGameScreen extends SceneCreator {
         slots.setAlignment(Pos.CENTER);
         background.setAlignment(Pos.CENTER);
         background.getChildren().add(slots);
-        Scene s = new Scene(background, screenSize, screenSize);
+        Scene scene = new Scene(background, screenSize, screenSize);
         handleEvents();
-        s.getStylesheets().add(styles.getString("openNewGameCSS"));
-        return s;
+        scene.getStylesheets().add(styles.getString("openNewGameCSS"));
+        return scene;
     }
 
     //parsing of files should occur here
     private void handleEvents(){
         slot1.setOnMouseClicked(event -> {
-            Controller controller = new Controller(stage, "MainMap", labels);
+            Controller controller = new Controller(stage, "MainMap", labels.getString("game1"), labels);
             controller.startAnimation();
         });
         slot2.setOnMouseClicked(event -> {
-            Controller controller = new Controller(stage, "ZeldaMap", labels);
+            Controller controller = new Controller(stage, "ZeldaMap", labels.getString("game2"), labels);
             controller.startAnimation();
         });
         slot3.setOnMouseClicked(event -> {

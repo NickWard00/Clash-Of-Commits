@@ -40,7 +40,7 @@ public class Controller {
     private Map<Integer, AttackView> myViewAttacks;
     private String myMainHeroName;
     private Map<KeyCode, String> actions;
-
+    private String myGameType;
     private String mapName;
 
     private DirectionState playerDirection;
@@ -54,14 +54,14 @@ public class Controller {
      * @param map the name of the map to be displayed
      * @param labels the resource bundle containing the labels for the game
      */
-    public Controller(Stage stage, String map, ResourceBundle labels){
-        myModelEntities = new HashMap<>();
-        myViewEntities = new HashMap<>();
-        myModelAttacks = new HashMap<>();
-        myViewAttacks = new HashMap<>();
-        myModelObstacles = new HashMap<>();
-        myViewObstacles = new HashMap<>();
-        actions = Map.of(
+    public Controller(Stage stage, String map, String gameType, ResourceBundle labels){
+        this.myModelEntities = new HashMap<>();
+        this.myViewEntities = new HashMap<>();
+        this.myModelAttacks = new HashMap<>();
+        this.myViewAttacks = new HashMap<>();
+        this.myModelObstacles = new HashMap<>();
+        this.myViewObstacles = new HashMap<>();
+        this.actions = Map.of(
                 KeyCode.UP, "moveUp",
                 KeyCode.DOWN, "moveDown",
                 KeyCode.RIGHT, "moveRight",
@@ -72,7 +72,8 @@ public class Controller {
                 KeyCode.D, "moveRight",
                 KeyCode.A, "moveLeft"
         );
-        mapName = map;
+        this.mapName = map;
+        this.myGameType = gameType;
 
         initializeModel();
 
@@ -211,12 +212,13 @@ public class Controller {
     public void saveGame(int num){
         SaveFileParser saver = new SaveFileParser();
         //TODO: replace temp gametype param with the actual gametype
-        saver.saveGame(num, myModelEntities, mapName, "The Beginning");
+        saver.saveGame(num, myModelEntities, mapName, myGameType);
     }
 
-    public void loadGame(int i){
+    public void loadGame(int num){
         SaveFileParser saver = new SaveFileParser();
-        saver.loadGame(i);
+        saver.loadGame(num);
+        this.myGameType = saver.getGameType();
         myModelEntities = saver.getEntities();
         mapName = saver.getMapName();
     }
@@ -349,7 +351,6 @@ public class Controller {
         if (actions.containsKey(keyCode)) {
             reflectMethod(keyCode);
         }
-
     }
 
     public void reflectMethod(KeyCode k){
@@ -423,7 +424,7 @@ public class Controller {
      * Reflection method that is called from handleKeyPress to move the hero in the north direction
      */
     private void moveUp() {
-        playerDirection=DirectionState.NORTH;
+        playerDirection = DirectionState.NORTH;
         myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.NORTH);
         myView.changeEntityState(myMainHeroName, DirectionState.NORTH, MovementState.MOVING);
     }
@@ -432,7 +433,7 @@ public class Controller {
      * Reflection method that is called from handleKeyPress to move the hero in the south direction
      */
     private void moveDown() {
-        playerDirection=DirectionState.SOUTH;
+        playerDirection = DirectionState.SOUTH;
         myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.SOUTH);
         myView.changeEntityState(myMainHeroName, DirectionState.SOUTH, MovementState.MOVING);
     }
@@ -441,7 +442,7 @@ public class Controller {
      * Reflection method that is called from handleKeyPress to move the hero in the west direction
      */
     private void moveLeft(){
-        playerDirection=DirectionState.WEST;
+        playerDirection = DirectionState.WEST;
         myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.WEST);
         myView.changeEntityState(myMainHeroName, DirectionState.WEST, MovementState.MOVING);
     }
@@ -450,7 +451,7 @@ public class Controller {
      * Reflection method that is called from handleKeyPress to move the hero in the east direction
      */
     private void moveRight(){
-        playerDirection=DirectionState.EAST;
+        playerDirection = DirectionState.EAST;
         myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.EAST);
         myView.changeEntityState(myMainHeroName, DirectionState.EAST, MovementState.MOVING);
     }

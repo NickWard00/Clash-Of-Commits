@@ -55,7 +55,7 @@ public class View {
     public void step(double elapsedTime){
         stackPane.setTranslateX((myScene.getWidth() - blockSize) / 2 - myHeroView.getX());
         stackPane.setTranslateY((myScene.getHeight() - blockSize) / 2 - myHeroView.getY());
-        if (isActive == true) {
+        if (isActive) {
             detectCollisions();
         }
     }
@@ -137,12 +137,14 @@ public class View {
             for (AttackView attack : myViewAttackList) {
                 if (entity.localToScreen(entity.getBoundsInLocal()).intersects(attack.localToScreen(attack.getBoundsInLocal()))) {
                     myController.passCollision(entity, attack);
+                    break;
                 }
             }
             List<BlockView> myViewObstacleList = new ArrayList<>(myViewObstacles.values());
             for (BlockView obstacle : myViewObstacleList) {
-                if (entity.localToScreen(entity.getBoundsInLocal()).intersects(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()))) {
+                if (entity.localToScreen(entity.getBoundsInLocal()).intersects(obstacle.localToScreen(obstacle.getBoundsInLocal()))) {
                     myController.passCollision(entity, obstacle);
+                    break;
                 }
             }
         }
@@ -150,7 +152,7 @@ public class View {
         for (AttackView attack : myViewAttackList) {
             List<BlockView> myViewObstacleList = new ArrayList<>(myViewObstacles.values());
             for (BlockView obstacle : myViewObstacleList) {
-                if (attack.localToScreen(attack.getBoundsInLocal()).intersects(obstacle.getImageView().localToScreen(obstacle.getImageView().getBoundsInLocal()))) {
+                if (attack.localToScreen(attack.getBoundsInLocal()).intersects(obstacle.localToScreen(obstacle.getBoundsInLocal()))) {
                     myController.passCollision(attack, obstacle);
                     break;
                 }
