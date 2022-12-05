@@ -3,8 +3,6 @@ package ooga.view;
 import java.util.*;
 
 import javafx.scene.layout.GridPane;
-import ooga.controller.Controller;
-import ooga.model.obstacle.Obstacle;
 
 /**
  * @author Nick Ward
@@ -32,11 +30,13 @@ public class MapView {
         blockSize = wrapper.getVisualProperties().get(0).intValue();
         mapSizeX = wrapper.getVisualProperties().get(1);
         mapSizeY = wrapper.getVisualProperties().get(2);
+
         for (int row = 0; row < numRows; row++){
             for (int col = 0; col < numColumns; col++){
                 int state = wrapper.getState(row, col);
                 String imagePath = wrapper.getImageFromState(state);
-                BlockView blockView = new BlockView(col, row, blockSize, state, imagePath, grid);
+                BlockView blockView = new BlockView(col, row, blockSize, state, imagePath);
+                grid.add(blockView, col, row);
                 if (wrapper.getObstacleFromState(state).contains("Wall") || wrapper.getObstacleFromState(state).contains("PowerUp")) {
                     myViewObstacles.put(Arrays.asList((double) row, (double) col), blockView);
                 }
