@@ -88,6 +88,7 @@ public class HUD extends SceneCreator {
     private void handleEvents(){
         settings.setOnAction(event -> {
             SettingsPopup settingsPopup = new SettingsPopup(labels, stage, mainGameScreen, controller);
+            settingsPopup.getStyleClass().add("vbox");
             Scene sps = new Scene(settingsPopup);
             popup.setScene(sps);
             popup.show();

@@ -1,7 +1,0 @@
-TimeDate = 05_4_2022_10_00_00
-GameType = 1
-Map = MainMap
-MagicVal1 = MagicValue, 90, 180
-MagicVal2 = MagicValue, 360, 90
-MagicVal3 = MagicValue, 70, 270
-Hero1 = MainHero, 500, 500

@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -12,6 +13,7 @@ import ooga.controller.Controller;
 import java.util.ResourceBundle;
 
 import static ooga.view.screens.SceneCreator.constants;
+import static ooga.view.screens.SceneCreator.styles;
 
 /**
  * @author Melanie Wang
@@ -55,10 +57,12 @@ public class SettingsPopup extends VBox {
                 labels.getString("css3"));
         saveGame = new Button(labels.getString("saveGameButton"));
         quitGame = new Button(labels.getString("quitGameButton"));
-        this.getChildren().addAll(cssSelector, saveGame, quitGame);
+        Label cssLabel = new Label(labels.getString("cssLabel"));
+        this.getChildren().addAll(cssLabel, cssSelector, saveGame, quitGame);
         this.setPrefWidth(popupSize);
         this.setPrefHeight(popupSize);
         this.setAlignment(Pos.CENTER);
+        this.getStylesheets().add(styles.getString("settingsPopupCSS"));
         handleEvents();
 
     }
