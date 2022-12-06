@@ -148,7 +148,7 @@ public abstract class Entity {
 
     /**
      * Returns the current HP of the entity
-     * @return
+     * @return hp
      */
     public int getHp() {
         return hp;

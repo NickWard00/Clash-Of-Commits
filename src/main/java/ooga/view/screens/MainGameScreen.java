@@ -275,4 +275,12 @@ public class MainGameScreen extends SceneCreator {
     public MediaPlayer getWalkPlayer() {
         return walkPlayer;
     }
+
+    /**
+     * required in order to update the statistics displayed in the hud
+     * @return HUD
+     */
+    public HUD getHud() {
+        return hud;
+    }
 }

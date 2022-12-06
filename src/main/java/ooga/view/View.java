@@ -209,5 +209,8 @@ public class View {
         return myViewObstacles;
     }
 
+    public void updateHealth(int num){
+        mainGameScreen.getHud().updateHealth(num);
+    }
 }
 
