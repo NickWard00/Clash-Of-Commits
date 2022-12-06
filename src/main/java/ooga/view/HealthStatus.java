@@ -5,6 +5,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import ooga.view.screens.SceneCreator;
 
+/**
+ * @author Melanie Wang
+ */
+
+/**
+ * The HealthStatus is the health bar displayed in the HUD.
+ */
 public class HealthStatus extends HBox {
     int health;
 

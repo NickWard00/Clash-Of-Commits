@@ -61,7 +61,11 @@ public class MainGameScreen extends SceneCreator {
             labels.getString("css3"),"setSnowy"
     );
 
-
+    /**
+     * Constructor for maingamescreen
+     * @param stage the stage that the screen is set on
+     * @param myController the controller of the game
+     */
     public MainGameScreen(Stage stage, Controller myController){
         this.screenSize = getScreenSize();
         this.stage = stage;
@@ -70,7 +74,7 @@ public class MainGameScreen extends SceneCreator {
 
     /**
      * Responsible for initializing gameplay, creating the map, starting sound effects
-     * @param map responsible for creating the view of the map
+     * @param mapPane responsible for creating the view of the map
      * @param entities refers to all existing entities in the map
      */
     public void startGamePlay(GridPane mapPane, Map<String, EntityView> entities) {
@@ -191,44 +195,83 @@ public class MainGameScreen extends SceneCreator {
         }
     }
 
+    /**
+     * sets the default CSS style
+     */
     public void setDefault(){
         makeDefaultOverlay();
     }
-
+    /**
+     * sets the snowy CSS style
+     */
     public void setSnowy(){
         makeSnowyOverlay();
     }
 
+    /**
+     * sets the dark CSS style
+     */
     public void setDark(){
         makeDarkOverlay();
     }
 
+    /**
+     * removes an entity from the scene
+     * @param entityName the name of the entity to be removed
+     */
     public void removeEntityFromScene(String entityName){
         root.getChildren().remove(myViewEntities.get(entityName));
     }
 
+    /**
+     * adds an attack to the scene
+     * @param attack the attack to be added
+     */
     public void addAttackToScene(AttackView attack) {
         root.getChildren().add(attack);
     }
 
+    /**
+     * removes an attack from the scene
+     * @param attack the attack to be removed
+     */
     public void removeAttackFromScene(AttackView attack) {
         root.getChildren().remove(attack);
     }
 
+    /**
+     * removes an obstacle from the scene
+     * @param obstacle the obstacle to be removed
+     */
     public void removeObstacleFromScene(BlockView obstacle) { root.getChildren().remove(obstacle); }
 
+    /**
+     * returns the stackpane that the map is located on
+     * @return stackpane
+     */
     public StackPane getMapPane() {
         return this.centerPaneConsolidated;
     }
 
+    /**
+     * checks if the game is currently playing
+     * @return boolean
+     */
     public boolean isPlaying(){
         return isPlaying;
     }
 
+    /**
+     * stops the playing of the game
+     */
     public void stopPlaying(){
         isPlaying = false;
     }
 
+    /**
+     * getter for the media player used to play sound effects
+     * @return MediaPlayer
+     */
     public MediaPlayer getWalkPlayer() {
         return walkPlayer;
     }

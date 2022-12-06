@@ -26,6 +26,11 @@ public class OpenNewGameScreen extends SceneCreator {
     private Stage stage;
     private int screenSize;
 
+    /**
+     * Constructor for OpenNewGameScreen
+     * @param stage the stage the screen is set on
+     * @param label the labels used in the screen (for language specificity)
+     */
     public OpenNewGameScreen(Stage stage, ResourceBundle label){
         this.stage = stage;
         labels = label;
@@ -33,6 +38,9 @@ public class OpenNewGameScreen extends SceneCreator {
         screenSize = getScreenSize();
     }
 
+    /*
+    makes the scene
+     */
     @Override
     public Scene makeScene(){
         background = new StackPane();
@@ -54,7 +62,7 @@ public class OpenNewGameScreen extends SceneCreator {
         return scene;
     }
 
-    //parsing of files should occur here
+    //handles clicking on the slots
     private void handleEvents(){
         slot1.setOnMouseClicked(event -> {
             Controller controller = new Controller(stage, "MainMap", labels.getString("game1"), labels);
@@ -65,7 +73,7 @@ public class OpenNewGameScreen extends SceneCreator {
             controller.startAnimation();
         });
         slot3.setOnMouseClicked(event -> {
-
+            //TODO: add new game type
         });
     }
 }

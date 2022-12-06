@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+/**
+ * @author Nick Ward, Melanie Wang
+ */
 public class SaveFileParser {
     private Properties properties;
     private static final String SAVE_DIRECTORY = "data/Saves/Save_%s.sim";
@@ -104,9 +107,35 @@ public class SaveFileParser {
     }
 
     /**
+     * Loads the information of a save file if given the save file number
+     * @param num the number of the save file
+     */
+    public void loadSaveInformation(int num){
+        GeneralParser simParser = new GeneralParser();
+        try {
+            properties = simParser.getSimData(String.format(SAVE_DIRECTORY, num));
+        } catch (IllegalStateException e) {
+            throw new IllegalStateException("saveFileNotFound", e);
+        }
+        properties.entrySet().forEach(entry->{
+            String key = (String) entry.getKey();
+            if (key.equals("Map")){
+                mapName = (String) entry.getValue();
+            }
+            else if (key.equals("GameType")){
+                gameType = (String) entry.getValue();
+            }
+            else if (key.equals("TimeDate")){
+                timeDate = (String) entry.getValue();
+            }
+    });
+    }
+
+    /**
      * Returns the map name associated with the save file
      * @return the map name
      */
+
     public String getMapName(){
         return mapName;
     }

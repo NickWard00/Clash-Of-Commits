@@ -48,6 +48,8 @@ public class HUD extends SceneCreator {
         this.popup = new Stage();
         this.controller = controller;
         play = true;
+        playButton = new ImageView(new Image(images.getString("playImage")));
+        pauseButton = new ImageView(new Image(images.getString("pauseImage")));
         playPauseMethods = Map.of(
                 true, "setUpPauseButton",
                 false,"setUpPlayButton"
@@ -57,8 +59,6 @@ public class HUD extends SceneCreator {
         scoreText = new Label(String.format("%s %s",getLabels().getString("score"), playerScore));
         settings = new Button("", new ImageView(new Image(images.getString("settingsImage"))));
         about = new Button("", new ImageView(new Image(images.getString("aboutImage"))));
-        playButton = new ImageView(new Image(images.getString("playImage")));
-        pauseButton = new ImageView(new Image(images.getString("pauseImage")));
         about.setFocusTraversable(false);
         settings.setFocusTraversable(false);
         playPause.setFocusTraversable(false);

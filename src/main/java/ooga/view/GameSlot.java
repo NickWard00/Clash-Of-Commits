@@ -7,6 +7,10 @@ import java.util.ResourceBundle;
 /**
  * @author Melanie Wang
  */
+
+/**
+ * The GameSlot class is used in the GUI for the user to select which type of game they would like to play.
+ */
 public class GameSlot extends Slot {
     private Label gameType;
 

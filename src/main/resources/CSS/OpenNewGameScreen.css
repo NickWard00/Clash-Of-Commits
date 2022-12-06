@@ -15,6 +15,12 @@
     -fx-border-width: 3;
     -fx-font-family: "Retro Computer";
 }
+.GameSlot:hover{
+    -fx-background-color: #8AA190;
+}
+.GameSlot:pressed{
+    -fx-background-color: #55705C;
+}
 
 .vbox{
     -fx-padding: 15 15 15 15;
