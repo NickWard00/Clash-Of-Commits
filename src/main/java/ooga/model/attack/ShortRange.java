@@ -1,8 +1,6 @@
 package ooga.model.attack;
 
-import ooga.model.hitBox.AttackHitBox;
-import ooga.model.state.DirectionState;
-import ooga.model.Entity;
+import ooga.model.entities.Entity;
 
 import java.util.Map;
 

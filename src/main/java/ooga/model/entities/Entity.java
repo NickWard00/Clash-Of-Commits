@@ -1,4 +1,4 @@
-package ooga.model;
+package ooga.model.entities;
 
 import ooga.controller.AttackParser;
 import ooga.model.attack.Attack;

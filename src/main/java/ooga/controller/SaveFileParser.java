@@ -1,6 +1,6 @@
 package ooga.controller;
 
-import ooga.model.Entity;
+import ooga.model.entities.Entity;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -92,27 +92,45 @@ public class SaveFileParser {
         entityMapParser = new EntityMapParser(entityMap);
     }
 
-    public void deleteSaveFile(int saveFile){
+    /**
+     * Deletes the save file based on the save file number
+     * @param saveFile the save file number
+     */
+    public void deleteSaveFile(int saveFile) {
         File file = new File(String.format(SAVE_DIRECTORY, saveFile));
-        try {
-            file.delete();
-        } catch (Exception e) {
-            throw new IllegalStateException("cannotDeleteSaveFile", e);
+        if (!file.delete()){
+            throw new IllegalStateException("cannotDeleteSaveFile");
         }
     }
 
+    /**
+     * Returns the map name associated with the save file
+     * @return the map name
+     */
     public String getMapName(){
         return mapName;
     }
 
+    /**
+     * Returns the game type associated with the save file
+     * @return the game type
+     */
     public String getGameType(){
         return gameType;
     }
 
+    /**
+     * Returns the time and date associated with the save file
+     * @return the time and date
+     */
     public String getTimeDate(){
         return timeDate;
     }
 
+    /**
+     * Returns the entity map associated with the save file
+     * @return the entity map
+     */
     public Map<String, Entity> getEntities(){
         return entityMapParser.getEntities();
     }

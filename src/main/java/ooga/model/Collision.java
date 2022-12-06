@@ -2,6 +2,7 @@ package ooga.model;
 
 import java.util.ResourceBundle;
 import ooga.model.attack.Attack;
+import ooga.model.entities.Entity;
 import ooga.model.hero.MainHero;
 import ooga.model.obstacle.*;
 import ooga.model.obstacle.powerup.PowerUp;

@@ -1,14 +1,12 @@
 package ooga.model.hitBox;
 
-import ooga.model.Entity;
+import ooga.model.entities.Entity;
 
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public abstract class HitBox extends Rectangle2D.Double {
-
     private Entity myEntity;
     private double xPos;
     private double yPos;
@@ -28,11 +26,17 @@ public abstract class HitBox extends Rectangle2D.Double {
         this.yPos = startY;
     }
 
+    /**
+     * Moves the hitbox to the new position
+     */
     public void move(double newX, double newY) {
         xPos = newX;
         yPos = newY;
     }
 
+    /**
+     * Returns the entity associated with the hitbox
+     */
     public List<java.lang.Double> coordinates() {
         List<java.lang.Double> res = Arrays.asList(xPos, yPos);
         return res;

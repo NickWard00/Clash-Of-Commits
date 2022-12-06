@@ -2,7 +2,7 @@ package ooga.model.attack;
 
 import ooga.controller.Controller;
 import ooga.model.state.DirectionState;
-import ooga.model.Entity;
+import ooga.model.entities.Entity;
 
 import java.util.*;
 import java.util.List;

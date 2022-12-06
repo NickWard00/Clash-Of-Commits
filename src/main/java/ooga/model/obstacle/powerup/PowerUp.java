@@ -1,6 +1,6 @@
 package ooga.model.obstacle.powerup;
 
-import ooga.model.Entity;
+import ooga.model.entities.Entity;
 import ooga.model.hero.MainHero;
 import ooga.model.obstacle.Obstacle;
 

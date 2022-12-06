@@ -1,7 +1,6 @@
 package ooga.model.obstacle;
 
-import ooga.model.Entity;
-import ooga.model.obstacle.Obstacle;
+import ooga.model.entities.Entity;
 import ooga.model.state.MovementState;
 
 /**

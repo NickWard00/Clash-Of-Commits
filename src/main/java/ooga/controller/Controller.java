@@ -5,7 +5,7 @@ import javafx.animation.Timeline;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import ooga.model.Entity;
+import ooga.model.entities.Entity;
 import ooga.model.Model;
 import ooga.model.attack.Attack;
 import ooga.model.obstacle.DestroyableWall;
