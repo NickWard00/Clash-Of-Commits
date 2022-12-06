@@ -11,6 +11,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.controller.Controller;
+import ooga.model.Entity;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
 import ooga.view.screens.MainGameScreen;
@@ -115,6 +116,10 @@ public class View {
     public void changeEntityState(String entityName, DirectionState direction, MovementState movement) {
         EntityView entity = myViewEntities.get(entityName);
         entity.changeDirectionAndMovement(direction, movement);
+    }
+    public void changeEntityState(String entityName, MovementState movement){
+        EntityView entity = myViewEntities.get(entityName);
+        entity.changeMovement(movement);
     }
 
     /**
