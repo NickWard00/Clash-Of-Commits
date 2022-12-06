@@ -48,6 +48,7 @@ public class ChooseGameScreen extends SceneCreator {
         loadSave = new Button(labels.getString("loadSaveButton"));
         newGame = new Button(labels.getString("startNewGameButton"));
         newGame.setId("newGame");
+        loadSave.setId("loadSave");
         background = new StackPane();
         VBox buttonCol = new VBox(loadSave, newGame);
         buttonCol.setId("buttonCol");

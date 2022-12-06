@@ -40,7 +40,8 @@ public class ChooseGameScreenTest extends DukeApplicationTest{
     void testLoadSaveButton() {
         Button loadSave = lookup("#loadSave").query();
         clickOn(loadSave);
+        VBox slots = lookup("#slots").query();
 
-        assertEquals(gameType.getText(), "The Beginning");
+        assertEquals(slots.getChildren().size(), 3);
     }
 }
