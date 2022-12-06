@@ -30,30 +30,5 @@ class MapViewTest extends DukeApplicationTest {
         mapWrapper.setObstacleStateMap(mapParser.getObstacleStateMap());
         MapView mapView = new MapView(mapWrapper);
         mapView.createMap();
-        int state;
-
-        for(int i = 0; i<4; i++){
-            for(int j = 0; j<4; j++){
-                state = mapWrapper.getState(i,j);
-
-                switch(state) {
-                    case(0)-> {
-                        assertEquals("/blocks/grass.jpeg", mapWrapper.getImageFromState(state));
-                        break;
-                    } case(1)->{
-                        assertEquals("/blocks/bush.jpeg", mapWrapper.getImageFromState(state));
-                        break;
-                    } case(2)->{
-                        assertEquals("/blocks/water.gif", mapWrapper.getImageFromState(state));
-                        break;
-                    } case(3)->{
-                        assertEquals("/blocks/winter_grass.jpeg", mapWrapper.getImageFromState(state));
-                        break;
-                    } default->{
-                        System.out.println("not one of the provided states");
-                    }
-                }
-            }
-        }
     }
 }

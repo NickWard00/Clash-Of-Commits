@@ -1,6 +1,5 @@
 package ooga.controller;
 
-
 import ooga.model.Collision;
 import ooga.model.entities.Entity;
 import ooga.model.attack.Attack;
@@ -14,7 +13,6 @@ import ooga.view.BlockView;
 import ooga.view.EntityView;
 
 public class CollisionHandler {
-
     private Map<String, Entity> modelEntities;
     private Map<String, EntityView> viewEntities;
     private Map<Integer, Attack> modelAttacks;
@@ -23,7 +21,10 @@ public class CollisionHandler {
     private Map<List<Double>, BlockView> viewObstacles;
     private Map<String, Map<?,?>> viewModelMap;
 
-
+    /**
+     * Constructor for the CollisionHandler class
+     * @param viewModelMap
+     */
     public CollisionHandler(Map<String, Map<?,?>> viewModelMap) {
         this.modelEntities = (Map<String, Entity>) viewModelMap.get("modelEntities");
         this.viewEntities = (Map<String, EntityView>) viewModelMap.get("viewEntities");
@@ -34,7 +35,9 @@ public class CollisionHandler {
         this.viewModelMap = viewModelMap;
     }
 
-
+    /**
+     * Method to handle collisions between entities and attacks
+     */
     public void collision(Object object1, Object object2) {
         Map<Class, Integer> indexMap = Map.of(Attack.class, 0, Entity.class, 1, Obstacle.class, 2);
         try {
@@ -46,22 +49,33 @@ public class CollisionHandler {
             Collision.class.getConstructor(
                     myClassCategory.get(myObjects.get(0)), myClassCategory.get(myObjects.get(1)), Map.class).newInstance(myObjects.get(0), myObjects.get(1), viewModelMap);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException("noMethodFound", e);
         }
     }
 
-
+    /**
+     * Translates the collisions into the correct class
+     * @param viewObj1
+     * @param viewObj2
+     * @param modelMap1
+     * @param modelMap2
+     */
     public void translateCollision(Object viewObj1, Object viewObj2, Map<?,?> modelMap1, Map<?,?> modelMap2) {
         try {
             Object key1 = viewObj1.getClass().getDeclaredMethod("getKey").invoke(viewObj1);
             Object key2 = viewObj2.getClass().getDeclaredMethod("getKey").invoke(viewObj2);
             collision(modelMap1.get(key1), modelMap2.get(key2));
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException("noMethodFound", e);
         }
     }
 
-    private static Class getCorrectClassForCollision(Object object) {
+    /**
+     * Method to get the correct class for collision
+     * @param object
+     * @return
+     */
+    private Class getCorrectClassForCollision(Object object) {
         Class myClass = object.getClass().getSuperclass();
         if (myClass != Attack.class && myClass != Obstacle.class) {
             myClass = myClass.getSuperclass();
