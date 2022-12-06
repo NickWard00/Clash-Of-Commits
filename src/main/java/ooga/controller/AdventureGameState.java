@@ -28,24 +28,4 @@ public class AdventureGameState implements GameState {
     }
     return false;
   }
-//
-//  @Override
-//  public void setHighScore(HighScore addScore) {
-//
-//  }
-//
-//  @Override
-//  public HighScore getHighScore() {
-//    return null;
-//  }
-
-//  @Override
-//  public WinScene showWin(WinScene scene) {
-//    return scene;
-//  }
-//
-//  @Override
-//  public LoseScene showLost(LoseScene scene) {
-//    return scene;
-//  }
 }

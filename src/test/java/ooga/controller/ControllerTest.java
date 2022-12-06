@@ -29,8 +29,8 @@ public class ControllerTest extends DukeApplicationTest {
     @Test
     void getMapWrapperTest() {
         MapWrapper mapWrapper = controller.getMapWrapper();
-        assertEquals(32, mapWrapper.getColumnSize());
-        assertEquals(50, mapWrapper.getRowSize(0));
+        assertEquals(70, mapWrapper.getColumnSize());
+        assertEquals(117, mapWrapper.getRowSize(0));
     }
 
     @Test
