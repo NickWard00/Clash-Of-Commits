@@ -40,7 +40,6 @@ public abstract class Attack {
         this.myDirection = DirectionState.SOUTH;
     }
 
-
     /**
      * Method to initiate this attack and reset its entity's attack timer
      * */

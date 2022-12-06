@@ -116,10 +116,6 @@ public class View {
         EntityView entity = myViewEntities.get(entityName);
         entity.changeDirectionAndMovement(direction, movement);
     }
-    public void changeEntityState(String entityName, MovementState movement){
-        EntityView entity = myViewEntities.get(entityName);
-        entity.changeMovement(movement);
-    }
 
     /**
      * Sets up the map for the view
@@ -194,7 +190,7 @@ public class View {
 
     /**
      * Gets the main game screen
-     * @return
+     * @return the main game screen
      */
     public MainGameScreen getGameScreen() {
         return mainGameScreen;

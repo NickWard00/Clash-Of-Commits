@@ -62,16 +62,11 @@ public class EntityView extends ImageView {
         this.setFitHeight(ySize);
     }
 
-
-    public void changeDirection(DirectionState newDirection) {
-        String spriteDirection = newDirection.getDirectionString();
-        try {
-            this.getClass().getDeclaredMethod(String.format("set%sSprite", spriteDirection)).invoke(this);
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new IllegalStateException("methodNotFound", e);
-        }
-    }
-
+    /**
+     * Changes the sprite of the EntityView to the given direction and movement state
+     * @param direction
+     * @param movement
+     */
     public void changeDirectionAndMovement(DirectionState direction, MovementState movement) {
         String spriteDirection = direction.getDirectionString();
         String spriteMovement = movement.getMovementString();
@@ -82,53 +77,95 @@ public class EntityView extends ImageView {
             throw new IllegalStateException("methodNotFound", e);
         }
     }
-    public void changeMovement(MovementState movement){
 
-    }
-
+    /**
+     * Sets the image of the EntityView to the north moving sprite
+     */
     private void setNORTH_MOVINGSprite() {
         this.setImage(northSprite);
     }
 
-    private void setSOUTH_MOVINGSprite() {
-        this.setImage(southSprite);
-    }
-
+    /**
+     * Sets the image of the EntityView to the west moving sprite
+     */
     private void setWEST_MOVINGSprite() {
         this.setImage(westSprite);
     }
 
+    /**
+     * Sets the image of the EntityView to the east moving sprite
+     */
     private void setEAST_MOVINGSprite() {
         this.setImage(eastSprite);
     }
 
+    /**
+     * Sets the image of the EntityView to the south moving sprite
+     */
+    private void setSOUTH_MOVINGSprite() {
+        this.setImage(southSprite);
+    }
+
+    /**
+     * Sets the image of the EntityView to the north stationary sprite
+     */
     private void setNORTH_STATIONARYSprite(){
         this.setImage(northStationarySprite);
     }
-    private void setEAST_STATIONARYSprite(){
-        this.setImage(eastStationarySprite);
-    }
-    private void setSOUTH_STATIONARYSprite(){
-        this.setImage(southStationarySprite);
-    }
 
+    /**
+     * Sets the image of the EntityView to the west stationary sprite
+     */
     private void setWEST_STATIONARYSprite(){
         this.setImage(westStationarySprite);
     }
 
+    /**
+     * Sets the image of the EntityView to the east stationary sprite
+     */
+    private void setEAST_STATIONARYSprite(){
+        this.setImage(eastStationarySprite);
+    }
+
+    /**
+     * Sets the image of the EntityView to the south stationary sprite
+     */
+    private void setSOUTH_STATIONARYSprite(){
+        this.setImage(southStationarySprite);
+    }
+
+    /**
+     * Sets the image of the EntityView to the north attack sprite
+     */
     private void setNORTH_ATTACKSprite(){
         this.setImage(northAttackSprite);
     }
-    private void setEAST_ATTACKSprite(){
-        this.setImage(eastAttackSprite);
-    }
+
+    /**
+     * Sets the image of the EntityView to the west attack sprite
+     */
     private void setWEST_ATTACKSprite(){
         this.setImage(westAttackSprite);
     }
+
+    /**
+     * Sets the image of the EntityView to the east attack sprite
+     */
+    private void setEAST_ATTACKSprite(){
+        this.setImage(eastAttackSprite);
+    }
+
+    /**
+     * Sets the image of the EntityView to the south attack sprite
+     */
     private void setSOUTH_ATTACKSprite(){
         this.setImage(southAttackSprite);
     }
 
+    /**
+     * Sets the sprite for each direction
+     * @param spritePath
+     */
     private void setupSprites(String spritePath) {
         String imagePathNorth = String.format("%s%s.gif", spritePath, "NORTH");
         String imagePathSouth = String.format("%s%s.gif", spritePath, "SOUTH");
@@ -159,14 +196,9 @@ public class EntityView extends ImageView {
 
     /**
      * Returns the entity name
-     * @return
+     * @return entityName
      */
     public String getKey() {
         return entityName;
-    }
-
-    public void setCoordinate(List<Double> newCoordinates) {
-        this.setX(newCoordinates.get(0));
-        this.setY(newCoordinates.get(1));
     }
 }
