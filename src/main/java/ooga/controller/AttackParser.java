@@ -1,6 +1,6 @@
 package ooga.controller;
 
-import ooga.model.Entity;
+import ooga.model.entities.Entity;
 
 import java.util.HashMap;
 import java.util.Map;

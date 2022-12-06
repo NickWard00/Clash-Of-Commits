@@ -1,9 +1,5 @@
 package ooga.controller;
 
-import ooga.model.HighScore;
-import ooga.view.screens.LoseScreen;
-import ooga.view.screens.WinScreen;
-
 /**
  * This interface shows what happens when the game determines whether the user has won or lost the game.
  *

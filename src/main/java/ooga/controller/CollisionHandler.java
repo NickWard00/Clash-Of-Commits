@@ -2,19 +2,13 @@ package ooga.controller;
 
 
 import ooga.model.Collision;
-import ooga.model.Entity;
+import ooga.model.entities.Entity;
 import ooga.model.attack.Attack;
-import ooga.model.enemy.Enemy;
-import ooga.model.hero.MainHero;
-import ooga.model.obstacle.DestroyableWall;
-import ooga.model.obstacle.Feature;
-import ooga.model.obstacle.ImmovableWall;
 import ooga.model.obstacle.Obstacle;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-import ooga.model.obstacle.Wall;
 import ooga.view.AttackView;
 import ooga.view.BlockView;
 import ooga.view.EntityView;

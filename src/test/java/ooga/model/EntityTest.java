@@ -3,6 +3,7 @@ package ooga.model;
 import ooga.controller.EntityParser;
 import ooga.model.enemy.Bug;
 import ooga.model.enemy.MagicValue;
+import ooga.model.entities.Entity;
 import ooga.model.hero.MainHero;
 import ooga.model.state.MovementState;
 import org.junit.jupiter.api.BeforeEach;

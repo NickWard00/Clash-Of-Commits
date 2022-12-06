@@ -2,14 +2,13 @@ package ooga.controller;
 
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-import ooga.model.Entity;
+import ooga.model.entities.Entity;
 import ooga.view.EntityView;
 import ooga.view.MapWrapper;
 import ooga.view.screens.StartScreen;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,6 +1,6 @@
 package ooga.controller;
 
-import ooga.model.Entity;
+import ooga.model.entities.Entity;
 import ooga.model.hero.MainHero;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

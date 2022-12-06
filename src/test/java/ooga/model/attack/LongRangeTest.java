@@ -1,7 +1,7 @@
 package ooga.model.attack;
 
 import ooga.controller.EntityParser;
-import ooga.model.Entity;
+import ooga.model.entities.Entity;
 import ooga.model.enemy.MagicValue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

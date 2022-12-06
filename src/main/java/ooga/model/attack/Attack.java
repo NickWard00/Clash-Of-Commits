@@ -1,16 +1,9 @@
 package ooga.model.attack;
 
-import ooga.controller.AttackParser;
 import ooga.controller.Controller;
-import ooga.controller.GeneralParser;
-import ooga.model.enemy.Enemy;
 import ooga.model.state.DirectionState;
-import ooga.model.Entity;
-import ooga.model.state.MovementState;
+import ooga.model.entities.Entity;
 
-import java.awt.*;
-import java.io.File;
-import java.lang.reflect.Method;
 import java.util.*;
 import java.util.List;
 
@@ -92,15 +85,19 @@ public abstract class Attack {
         myController.removeAttack(activeAttackID);
     }
 
+    /**
+     * Method that gets the current direction of the attack
+     * @return the current direction of the attack
+     */
     public DirectionState getDirection() {
         return myDirection;
     }
 
     /**
-     * @param elapsedTime indicates how much time has passed since the last step
      * deactivates attack if it has been active for longer than its maxDuration
      * otherwise, updates the X and Y positions of the attack
-     * */
+     * @param elapsedTime indicates how much time has passed since the last step
+     */
     public List<Double> move(double elapsedTime) {
         timeSinceActivation += elapsedTime;
         if (timeSinceActivation >= maxDuration) {
@@ -112,23 +109,41 @@ public abstract class Attack {
         return Arrays.asList(xPos, yPos);
     }
 
+    /**
+     * Gets the entity associated with the attack
+     * @return the entity associated with the attack
+     */
     public Entity getMyEntity() {
         return myEntity;
     }
 
+    /**
+     * Gets the damage of the attack
+     * @return the damage of the attack
+     */
     public int getDamage() {
         return damage;
     }
 
+    /**
+     * Gets the attributes associated with the attack
+     * @return attribute map of the attack
+     */
     public Map<String, Double> getMyAttributes() {
         return myAttributes;
     }
 
-    public List<Double> getCoordinates() { return Arrays.asList(xPos, yPos); }
+    /**
+     * Returns the coordinates of the attack (x, y)
+     * @return a list of the coordinates of an attack
+     */
+    public List<Double> coordinates() {
+        return Arrays.asList(xPos, yPos);
+    }
 
     /**
      * Should only be called once during setup of the game to set all attacks' controller
-     * */
+     */
     public static void setMyController(Controller controller) {
         myController = controller;
     }

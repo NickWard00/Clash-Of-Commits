@@ -1,6 +1,6 @@
 package ooga.model.attack;
 
-import ooga.model.Entity;
+import ooga.model.entities.Entity;
 import java.util.Map;
 
 public class LongRange extends Attack {
