@@ -42,6 +42,16 @@ public class Model {
     }
 
     /**
+     * Method to change the entity movement state
+     * @param entityName
+     * @param movement
+     */
+    public void changeEntityState(String entityName, MovementState movement) {
+        Entity entity = myModelEntities.get(entityName);
+        entity.changeMovement(movement);
+    }
+
+    /**
      * Actives the attack of the hero
      */
     public void attack() {

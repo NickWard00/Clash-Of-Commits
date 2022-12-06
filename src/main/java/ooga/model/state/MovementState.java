@@ -6,7 +6,9 @@ import java.util.Map;
 public enum MovementState {
     STATIONARY("STATIONARY", 0),
     MOVING("MOVING", 1),
-    ATTACK("ATTACK",0);
+    ATTACK("ATTACK",0),
+    SPRINTING("SPRINTING", 2);
+
     private String movement;
     private int speedConverter;
     private static Map<String, MovementState> movementStateMap = new HashMap<>();

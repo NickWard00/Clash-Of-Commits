@@ -82,6 +82,9 @@ public class EntityView extends ImageView {
             throw new IllegalStateException("methodNotFound", e);
         }
     }
+    public void changeMovement(MovementState movement){
+
+    }
 
     private void setNORTH_MOVINGSprite() {
         this.setImage(northSprite);
