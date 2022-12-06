@@ -277,7 +277,7 @@ public class Controller {
         imagePath = String.format("%s%s.png", imagePath, attack.getDirection().getDirectionString());
         String attackType = attack.getClass().getSimpleName();
         double size = Double.parseDouble("" + attack.getMyAttributes().get("Size"));
-        return new AttackView(imagePath, attackType, attack.getCoordinates().get(0), attack.getCoordinates().get(1), (int) size, (int) size, attackID);
+        return new AttackView(imagePath, attackType, attack.coordinates().get(0), attack.coordinates().get(1), (int) size, (int) size, attackID);
     }
 
     /**
