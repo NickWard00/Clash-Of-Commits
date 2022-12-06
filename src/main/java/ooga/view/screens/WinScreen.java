@@ -25,9 +25,12 @@ public class WinScreen extends SceneCreator {
   private Stage currentStage;
   private ResourceBundle resources;
   private Button playAgainButton;
+  private ResourceBundle constants;
+  private double centerX;
 
   public WinScreen(Stage stage) {
     this.resources = getLabels();
+    this.constants = getConstants();
     this.currentStage = stage;
     this.styles = getStyles();
     this.screenSize = getScreenSize();
@@ -40,7 +43,11 @@ public class WinScreen extends SceneCreator {
     pane.setId("WinningScreen");
     playAgainButton = new Button(resources.getString("playAgainButtonWin"));
     playAgainButton.setId("playAgainButton");
-    text = new Text(screenSize/2, 20, "Congratulations");
+    playAgainButton.setLayoutX(Double.parseDouble(constants.getString("winScreenCenterX")));
+    playAgainButton.setLayoutY(Double.parseDouble(constants.getString("winScreenButtonY")));
+    double textX = Double.parseDouble(constants.getString("winScreenCenterX"));
+    double textY = Double.parseDouble(constants.getString("winScreenTextY"));
+    text = new Text(textX, textY, "Congratulations!!!");
     text.setId("congratsMessage");
     pane.getChildren().addAll(text, playAgainButton);
     winGameScene = new Scene(pane, screenSize, screenSize);
