@@ -19,7 +19,7 @@ class WinScreenTest extends DukeApplicationTest {
 
   @Test
   void testCreateScreen() {
-    scene = screen.createScene();
+    scene = screen.makeScene();
     String expectedId = "WinningScreen";
     String id = scene.getRoot().getId();
     assertEquals(expectedId, id);

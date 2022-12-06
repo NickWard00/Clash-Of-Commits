@@ -285,17 +285,17 @@ public class MainGameScreen extends SceneCreator {
 
     private Scene nextScene() {
         if (adventureGameState.determineWin(101)) {
-            WinScreen winScreen = new WinScreen();
+            WinScreen winScreen = new WinScreen(stage);
             myScene = winScreen.makeScene();
             stage.setScene(myScene);
             stage.show();
         }
-        else if (adventureGameState.determineLost()) {
-            LoseScreen loseScreen = new LoseScreen();
-            myScene = loseScreen.makeScene();
-            stage.setScene(myScene);
-            stage.show();
-        }
+//        else if (adventureGameState.determineLost()) {
+//            LoseScreen loseScreen = new LoseScreen();
+//            myScene = loseScreen.makeScene();
+//            stage.setScene(myScene);
+//            stage.show();
+//        }
         return myScene;
     }
 }

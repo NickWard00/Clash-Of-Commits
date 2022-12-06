@@ -1,10 +1,13 @@
 package ooga.view.screens;
 
-import javafx.scene.Group;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import ooga.view.screens.SceneCreator;
 
 import java.util.ResourceBundle;
 
@@ -15,27 +18,45 @@ import java.util.ResourceBundle;
  */
 public class WinScreen extends SceneCreator {
   private Scene winGameScene;
-  private Group root;
+  private Pane pane;
   private Text text;
   private ResourceBundle styles;
   private int screenSize;
   private Stage currentStage;
+  private ResourceBundle resources;
+  private Button playAgainButton;
 
   public WinScreen(Stage stage) {
+    this.resources = getLabels();
     this.currentStage = stage;
-    root = new Group();
     this.styles = getStyles();
     this.screenSize = getScreenSize();
-    root.setId("WinningScreen");
   }
 
-  //Currently implementing just a "Congratulations" screen, will change later
+  //TODO: Refactor the constants out
   @Override
   public Scene makeScene() {
-    text = new Text("Congratulations");
-    root.getChildren().add(text);
-    winGameScene = new Scene(root, screenSize, screenSize);
+    this.pane = new Pane();
+    pane.setId("WinningScreen");
+    playAgainButton = new Button(resources.getString("playAgainButtonWin"));
+    playAgainButton.setId("playAgainButton");
+    text = new Text(screenSize/2, 20, "Congratulations");
+    text.setId("congratsMessage");
+    pane.getChildren().addAll(text, playAgainButton);
+    winGameScene = new Scene(pane, screenSize, screenSize);
     winGameScene.getStylesheets().add(styles.getString("winScreenCSS"));
+    handleEvents();
     return winGameScene;
+  }
+
+  private void returnToBeginning() {
+    StartScreen screen = new StartScreen(currentStage);
+    currentStage.setScene(screen.makeScene());
+    currentStage.show();
+  }
+  private void handleEvents() {
+    playAgainButton.setOnAction(event -> {
+      returnToBeginning();
+    });
   }
 }
