@@ -19,22 +19,4 @@ class EnemyTest {
         bugParser = new EntityParser("TestBug", new String[]{"Bug", "0", "0"});
         magicValueParser = new EntityParser("TestMagicValue", new String[]{"MagicValue", "0", "0"});
     }
-
-    @Test
-    void makeEnemyTest_Bug() {
-        Enemy myEnemyBug = Enemy.makeEnemy(Bug.class, bugParser.getAttributeMap());
-        assertInstanceOf(Bug.class, myEnemyBug);
-    }
-
-    @Test
-    void makeEnemyTest_MagicValue() {
-        Enemy myEnemyMagicValue = Enemy.makeEnemy(MagicValue.class, magicValueParser.getAttributeMap());
-        assertInstanceOf(MagicValue.class, myEnemyMagicValue);
-    }
-
-    @Test
-    void makeRandomEnemyTest() {
-        Enemy myRandomEnemy = Enemy.makeRandomEnemy(Arrays.asList(Bug.class, MagicValue.class), bugParser.getAttributeMap());
-        assertInstanceOf(Enemy.class, myRandomEnemy);
-    }
 }

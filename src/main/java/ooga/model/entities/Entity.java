@@ -1,4 +1,4 @@
-package ooga.model;
+package ooga.model.entities;
 
 import ooga.controller.AttackParser;
 import ooga.model.attack.Attack;
@@ -40,7 +40,7 @@ public abstract class Entity {
         this.speed = Double.parseDouble(attributes.get("Speed"));
         this.size = Integer.parseInt(attributes.get("Size"));
         this.attackType = attributes.get("Attack");
-        this.attackCoolDown = Double.parseDouble(attributes.get("CoolDown"));
+        this.attackCoolDown = Double.parseDouble(attributes.getOrDefault("CoolDown", "0.5"));
         this.timeUntilAttack = attackCoolDown;
     }
 
@@ -71,6 +71,10 @@ public abstract class Entity {
         }
     }
 
+    /**
+     * Method which returns the type of attack this entity has
+     * @param heroCoordinates
+     */
     public void checkAttack(List<Double> heroCoordinates) {
         if (this.getClass().getSuperclass() == Enemy.class && timeUntilAttack <= 0 && withinAttackRange(heroCoordinates)) {
             attack().activateAttack();
@@ -191,6 +195,14 @@ public abstract class Entity {
         xPos += force * direction.getVelocity().get(0);
         yPos += force * direction.getVelocity().get(1);
         return Arrays.asList(xPos, yPos);
+    }
+
+    /**
+     *
+     * @return true if the entity's MovementState is MOVING 
+     */
+    public boolean isMoving(){
+        return myMovement.equals(MovementState.MOVING);
     }
 
 }

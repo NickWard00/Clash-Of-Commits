@@ -24,7 +24,7 @@ class AttackViewTest extends DukeApplicationTest {
     public void start(Stage stage) {
         StartScreen ss = new StartScreen(stage);
         stage.setScene(ss.makeScene());
-        Controller controller = new Controller(stage, "MainMap", null);
+        Controller controller = new Controller(stage, "MainMap", "", null);
         size = 50;
         xPos = 100;
         yPos = 100;

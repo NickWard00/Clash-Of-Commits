@@ -1,6 +1,6 @@
 package ooga.model.hitBox;
 
-import ooga.model.Entity;
+import ooga.model.entities.Entity;
 
 public class EntityHitBox extends HitBox {
 

@@ -32,8 +32,7 @@ class MainGameScreenTest extends DukeApplicationTest {
         this.myStage = stage;
         StartScreen ss = new StartScreen(myStage);
         myStage.setScene(ss.makeScene());
-        controller = new Controller(stage,"mainMap",labels);
-
+        controller = new Controller(stage,"MainMap", "", labels);
 
         entityAttributes = Map.of("Name", "Hero1", "XPosition", "50", "YPosition", "103", "Size", "20", "Sprites", "/sprites/hero/", "Direction", "SOUTH");
         imageName = entityAttributes.get("Name");

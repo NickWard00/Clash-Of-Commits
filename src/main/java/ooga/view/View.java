@@ -10,16 +10,13 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import ooga.controller.CollisionHandler;
 import ooga.controller.Controller;
-import ooga.model.Entity;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
-import ooga.view.screens.*;
+import ooga.view.screens.MainGameScreen;
 
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 
 /**
  * @author Melanie Wang, Nick Ward, Mayari Merchant
@@ -45,6 +42,12 @@ public class View {
     private MediaPlayer walking;
     private ResourceBundle labels;
 
+    /**
+     * Constructor for the View class
+     * @param stage the stage to be displayed
+     * @param controller the controller that this view is associated with
+     * @param label the resource bundle for the labels
+     */
     public View(Stage stage, Controller controller, ResourceBundle label){
         this.isActive = false;
         this.stage = stage;
@@ -52,7 +55,11 @@ public class View {
         setupGame(stage);
         labels = label;
     }
-    
+
+    /**
+     * The step function for the view that moves the stackpane and checks for collisions
+     * @param elapsedTime the time elapsed
+     */
     public void step(double elapsedTime){
         stackPane.setTranslateX((myScene.getWidth() - blockSize) / 2 - myHeroView.getX());
         stackPane.setTranslateY((myScene.getHeight() - blockSize) / 2 - myHeroView.getY());
@@ -61,6 +68,10 @@ public class View {
         }
     }
 
+    /**
+     * Method to set up the view for a new game
+     * @param stage
+     */
     private void setupGame(Stage stage){
         myViewEntities = myController.getViewEntities();
         myViewAttacks = myController.getViewAttacks();
@@ -84,6 +95,9 @@ public class View {
         this.isActive = true;
     }
 
+    /**
+     * Sets up the walking music for a player
+     */
     private void setupWalkingMusic() {
         walking = mainGameScreen.getWalkPlayer();
         walking.setOnEndOfMedia(new Runnable() {
@@ -92,15 +106,25 @@ public class View {
             }});
     }
 
+    /**
+     * Changes the entity state for a view entity
+     * @param entityName the name of the entity whose state is being changed
+     * @param direction the new direction state
+     * @param movement the new movement state
+     */
     public void changeEntityState(String entityName, DirectionState direction, MovementState movement) {
         EntityView entity = myViewEntities.get(entityName);
         entity.changeDirectionAndMovement(direction, movement);
     }
+    //TODO: What is this method and is it used anywhere? Rename or delete?
     public void changeEntityState(String entityName, MovementState movement){
         EntityView entity = myViewEntities.get(entityName);
         entity.changeMovement(movement);
     }
 
+    /**
+     * Sets up the map for the view
+     */
     private void setupMap() {
         myMapWrapper = myController.getMapWrapper();
         myWidth = myMapWrapper.getVisualProperties().get(2);
@@ -111,6 +135,9 @@ public class View {
         myViewObstacles = myMapView.getViewObstacles();
     }
 
+    /**
+     * Creates a scrollable background for the view
+     */
     private void createScrollableBackground() {
         bPane = (BorderPane) myScene.getRoot();
         StackPane centerConsolidated = (StackPane) bPane.getChildren().get(0);
@@ -119,11 +146,9 @@ public class View {
         stackPane.setMinWidth(myWidth);
     }
 
-    private void changeScene(String sceneName){
-        ScreenSelector screenSelector = new ScreenSelector(stage, labels);
-        screenSelector.selectScreen(sceneName);
-    }
-
+    /**
+     * Handles the key inputs for the view and sends to the controller
+     */
     private void handleKeyInputs() {
         myScene.setOnKeyPressed(event -> {
             myController.handleKeyPress(event.getCode());
@@ -135,6 +160,9 @@ public class View {
         });
     }
 
+    /**
+     * Detects collisions for the view
+     */
     private void detectCollisions() {
         List<EntityView> myViewEntitiesList = new ArrayList<>(myViewEntities.values());
         for (EntityView entity : myViewEntitiesList) {
@@ -165,10 +193,18 @@ public class View {
         }
     }
 
+    /**
+     * Gets the main game screen
+     * @return the main game screen
+     */
     public MainGameScreen getGameScreen() {
         return mainGameScreen;
     }
 
+    /**
+     * Gets the view obstacles
+     * @return the view obstacles
+     */
     public Map<List<Double>, BlockView> getViewObstacles() {
         return myViewObstacles;
     }

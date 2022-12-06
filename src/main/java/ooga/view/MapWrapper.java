@@ -10,8 +10,8 @@ import java.util.Map;
  */
 
 public class MapWrapper {
-  private int row = 0;
-  private int column = 0;
+  private int row;
+  private int column;
   private List<List<Integer>> grid;
   private Map<Integer, String> stateImageMap;
   private Map<Integer, String> obstacleStateMap;
@@ -42,6 +42,8 @@ public class MapWrapper {
    * Constructor for MapWrapper
    */
   public MapWrapper() {
+    this.row = 0;
+    this.column = 0;
     this.stateImageMap = new HashMap<>();
     this.visualProperties = new ArrayList<>();
     grid = new ArrayList<>();
@@ -55,11 +57,11 @@ public class MapWrapper {
    */
   public int getState(int row, int column) {
     int ret = 0;
-    try{
+    try {
       ret = grid.get(row).get(column);
     }
     catch(IllegalStateException e) {
-      throw new IllegalStateException("Invalid row or column");
+      throw new IllegalStateException("invalidRowColumn");
     }
     return ret;
   }
@@ -110,26 +112,52 @@ public class MapWrapper {
     return grid.get(row).size();
   }
 
+  /**
+   * Sets the visual properties of the map
+   * @param visualProperties
+   */
   public void setVisualProperties(List<Double> visualProperties) {
     this.visualProperties = visualProperties;
   }
 
+  /**
+   * Returns the visual properties of the map
+   * @return visualProperties of the map (width, height, block size)
+   */
   public List<Double> getVisualProperties() {
     return visualProperties;
   }
 
+  /**
+   * Sets the state image map
+   * @param map State Image Map
+   */
   public void setStateToImageMap(Map<Integer, String> map) {
     this.stateImageMap = map;
   }
 
+  /**
+   * Gets the image associated with the state
+   * @param state
+   * @return
+   */
   public String getImageFromState(int state) {
     return stateImageMap.get(state);
   }
 
+  /**
+   * Sets the obstacle state map
+   * @param obstacleStateMap
+   */
   public void setObstacleStateMap(Map<Integer, String> obstacleStateMap) {
     this.obstacleStateMap = obstacleStateMap;
   }
 
+  /**
+   * Gets the obstacle from the state
+   * @param state state of the obstacle
+   * @return the obstacle associated with the state
+   */
   public String getObstacleFromState(int state) {
     return obstacleStateMap.get(state);
   }

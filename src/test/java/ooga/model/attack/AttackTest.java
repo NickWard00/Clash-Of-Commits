@@ -1,11 +1,10 @@
 package ooga.model.attack;
 
 import ooga.controller.EntityParser;
-import ooga.model.Entity;
+import ooga.model.entities.Entity;
 import ooga.model.enemy.Bug;
 import ooga.model.enemy.MagicValue;
 import ooga.model.hero.MainHero;
-import org.assertj.core.util.VisibleForTesting;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,24 +31,24 @@ class AttackTest {
 
     @Test
     void getMyEntityTest_Enemy() {
-        Attack testAttack = Attack.attack(testBug);
+        Attack testAttack = testBug.attack();
         assertEquals(testBug, testAttack.getMyEntity());
     }
 
     @Test
     void getMyEntityTest_Hero() {
-        Attack testAttack = Attack.attack(testHero);
+        Attack testAttack = testHero.attack();
         assertEquals(testHero, testAttack.getMyEntity());
     }
 
     @Test
     void attackTest_LongRange() {
-        Attack testLongRange = Attack.attack(testMagicValue);
+        Attack testLongRange = testMagicValue.attack();
         assertInstanceOf(LongRange.class, testLongRange);
     }
 
     @Test
     void attackTest_ShortRange() {
-        Attack testShortRange = Attack.attack(testBug);
+        Attack testShortRange = testBug.attack();
         assertInstanceOf(ShortRange.class, testShortRange);
     }}
