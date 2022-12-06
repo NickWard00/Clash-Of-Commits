@@ -1,8 +1,5 @@
 package ooga.view;
 
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import ooga.view.screens.ScreenSelector;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
