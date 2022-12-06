@@ -1,8 +1,7 @@
 package ooga.model.obstacle;
 
 import static ooga.model.obstacle.DestroyableWall.DEFAULT_HP;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,29 +39,37 @@ class DestroyableWallTest {
   @Test
   void testBlock() {
     attributes = new HashMap<>();
-    attributes.put("XPosition", Double.toString(TEST_DEFAULT_X_POSITION));
-    attributes.put("YPosition", Double.toString(TEST_DEFAULT_Y_POSITION));
     attributes.put("Type", "Hero");
+    attributes.put("XPosition", "1");
+    attributes.put("YPosition", "1");
+    attributes.put("Sprites", "/sprites/hero/");
     attributes.put("Speed", "100");
     attributes.put("Size", "30");
-    attributes.put("HP", "100");
+    attributes.put("HP", "5");
     attributes.put("Attack", "LongRange");
+    attributes.put("CoolDown", "0.5");
     attributes.put("Direction", "SOUTH");
-    attributes.put("Movement", "MOVING");
+    attributes.put("Movement", "STATIONARY");
     entity = new MainHero(attributes);
     defaultWall.block(entity);
-    //assertEquals(MovementState.STATIONARY.getMovement(), entity.getStateStrings().get(1));
+    assertEquals("STATIONARY", entity.getStateStrings().get(1));
   }
 
   @Test
   void changeHP() {
     defaultWall.updateHP(-10);
-    assertEquals(90, defaultWall.determineHP());
+    assertEquals(-5, defaultWall.determineHP());
   }
 
   @Test
   void testRemoveWallWhenNoHitpointsLeft() {
-    defaultWall.updateHP(-100);
+    defaultWall.updateHP(-10000);
     assertFalse(defaultWall.determineOnScreen());
+  }
+
+  @Test
+  void testRemoveWallWhenHitpointsLeft() {
+      defaultWall.updateHP(-1);
+      assertTrue(defaultWall.determineOnScreen());
   }
 }
