@@ -3,7 +3,9 @@ package ooga.model;
 import java.util.ResourceBundle;
 import ooga.model.attack.Attack;
 import ooga.model.hero.MainHero;
-import ooga.model.obstacle.*;
+import ooga.model.obstacle.DestroyableWall;
+import ooga.model.obstacle.Obstacle;
+import ooga.model.obstacle.Wall;
 import ooga.model.obstacle.powerup.PowerUp;
 import ooga.view.EntityView;
 
@@ -15,6 +17,7 @@ public class Collision {
         "ResourceBundles.Collision");
     public static final int POWERUP_HP_ADDER = Integer.parseInt(COLLISION_VALUES.getString("powerUpHpAdder"));
 
+    //TODO: Make more subclasses of collsions
     public Collision(Attack attack, Entity entity, Map<String, Map<?,?>> viewModelMap) {
         if (attack.getMyEntity() != entity) {
             entity.changeHp(attack.getDamage());

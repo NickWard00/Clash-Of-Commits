@@ -17,7 +17,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import ooga.controller.AdventureGameState;
 import ooga.controller.Controller;
+import ooga.model.hero.MainHero;
 import ooga.view.*;
 
 import java.util.List;
@@ -61,6 +63,8 @@ public class MainGameScreen extends SceneCreator {
             labels.getString("css3"),"setSnowy"
     );
 
+    private AdventureGameState adventureGameState;
+
 
     public MainGameScreen(Stage stage, Controller myController){
         this.screenSize = getScreenSize();
@@ -81,6 +85,7 @@ public class MainGameScreen extends SceneCreator {
         music = new Media(new File(media.getString("lvl1")).toURI().toString());
         walk = new Media(new File(media.getString("walking")).toURI().toString());
         walkPlayer = new MediaPlayer(walk);
+        adventureGameState = new AdventureGameState(myViewEntities);
     }
 
     /**
@@ -103,6 +108,7 @@ public class MainGameScreen extends SceneCreator {
         myScene.getStylesheets().add(styles.getString("DefaultCSS"));
         musicPlayer= new MediaPlayer(music);
         musicPlayer.setAutoPlay(true);
+        myScene = nextScene();
         return myScene;
     }
 
@@ -112,6 +118,8 @@ public class MainGameScreen extends SceneCreator {
     private void makeBackground(){
         background.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         background.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        //TODO: Set a completely grass background here?
+//        background.setContent()
         background.setContent(mapPane);
     }
 
@@ -231,5 +239,21 @@ public class MainGameScreen extends SceneCreator {
 
     public MediaPlayer getWalkPlayer() {
         return walkPlayer;
+    }
+
+    private Scene nextScene() {
+        if (adventureGameState.determineWin(101)) {
+            WinScreen winScreen = new WinScreen();
+            myScene = winScreen.makeScene();
+            stage.setScene(myScene);
+            stage.show();
+        }
+        else if (adventureGameState.determineLost()) {
+            LoseScreen loseScreen = new LoseScreen();
+            myScene = loseScreen.makeScene();
+            stage.setScene(myScene);
+            stage.show();
+        }
+        return myScene;
     }
 }
