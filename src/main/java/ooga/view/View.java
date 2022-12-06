@@ -116,6 +116,10 @@ public class View {
         EntityView entity = myViewEntities.get(entityName);
         entity.changeDirectionAndMovement(direction, movement);
     }
+    public void changeEntityState(String entityName, MovementState movement){
+        EntityView entity = myViewEntities.get(entityName);
+        entity.changeMovement(movement);
+    }
 
     /**
      * Sets up the map for the view

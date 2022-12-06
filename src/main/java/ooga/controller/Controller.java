@@ -482,7 +482,8 @@ public class Controller {
     }
 
     private void sprint(){
-        myModel.changeEntityState(myMainHeroName, MovementState.SPRINTING);
+        //if(myModel.entityIsMoving(myMainHeroName))
+            myModel.changeEntityState(myMainHeroName, MovementState.SPRINTING);
     }
 
     private void sprintStop(){

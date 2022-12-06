@@ -75,6 +75,9 @@ public class EntityView extends ImageView {
             throw new IllegalStateException("methodNotFound", e);
         }
     }
+    public void changeMovement(MovementState movement){
+
+    }
 
     /**
      * Sets the image of the EntityView to the north moving sprite
