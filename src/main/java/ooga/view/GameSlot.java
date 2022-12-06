@@ -14,6 +14,5 @@ public class GameSlot extends Slot {
         gameType = new Label(g);
         this.getChildren().add(gameType);
         this.getStyleClass().add("GameSlot");
-        //this.getStylesheets().add(StartScreen.styles.getString("openNewGameCSS"));
     }
 }

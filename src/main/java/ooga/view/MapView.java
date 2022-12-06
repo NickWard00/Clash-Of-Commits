@@ -1,8 +1,11 @@
 package ooga.view;
 
-import java.util.*;
-
 import javafx.scene.layout.GridPane;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Nick Ward
@@ -17,11 +20,19 @@ public class MapView {
     private double mapSizeY;
     private Map<List<Double>, BlockView> myViewObstacles;
 
+    /**
+     * Constructor for MapView
+     * @param mapWrapper the map wrapper that holds the map information
+     */
     public MapView(MapWrapper mapWrapper){
         this.wrapper = mapWrapper;
         myViewObstacles = new HashMap<>();
     }
 
+    /**
+     * Creates the visual map based on the mapWrapper
+     * @return
+     */
     public GridPane createMap(){
         numRows = wrapper.getColumnSize();
         numColumns = wrapper.getRowSize(0);
@@ -45,6 +56,10 @@ public class MapView {
         return grid;
     }
 
+    /**
+     * Gets the block views that are wall types
+     * @return map of block views that are walls
+     */
     public Map<List<Double>, BlockView> getViewObstacles() {
         return this.myViewObstacles;
     }

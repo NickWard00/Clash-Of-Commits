@@ -8,20 +8,21 @@ import java.util.ResourceBundle;
 /**
  * @author Melanie Wang
  */
-//the save slot is the physical "slot" that loads and saves games. there will always be three slots.
+
 public class SaveSlot extends Slot{
-
     private SubLabel time;
-
     private ResourceBundle labels;
     private SubLabel gameType;
-
     private int slotNumber;
 
-
-    public SaveSlot(ResourceBundle l, int number){
-        super(l);
-        labels = l;
+    /**
+     * The save slot is the physical "slot" that loads and saves games. There will always be three slots.
+     * @param label the resource bundle for the labels
+     * @param number the number of the slot
+     */
+    public SaveSlot(ResourceBundle label, int number){
+        super(label);
+        labels = label;
         slotNumber = number;
         time = new SubLabel(labels.getString("time"));
         gameType = new SubLabel(labels.getString("gameType"));
@@ -29,11 +30,11 @@ public class SaveSlot extends Slot{
         this.getStyleClass().add("SaveSlot");
     }
 
-    public int getNumber(){
+    /**
+     * Gets the save slot number
+     * @return the save slot number
+     */
+    public int getNumber() {
         return slotNumber;
-    }
-
-    public void save(){
-        //eventually save game files from this method.
     }
 }

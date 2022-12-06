@@ -20,9 +20,9 @@ public class Collision {
 
     /**
      * Collsion between attack and entity
-     * @param attack
-     * @param entity
-     * @param viewModelMap
+     * @param attack the attack
+     * @param entity the entity
+     * @param viewModelMap the map of view/models objects
      */
     public Collision(Attack attack, Entity entity, Map<String, Map<?,?>> viewModelMap) {
         if (attack.getMyEntity() != entity) {
