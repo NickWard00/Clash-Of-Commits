@@ -1,19 +1,13 @@
 package ooga.view;
 
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import ooga.controller.Controller;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
-import ooga.view.screens.MainGameScreen;
-import ooga.view.screens.ScreenSelector;
 import ooga.view.screens.StartScreen;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
-import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ViewTest extends DukeApplicationTest {
