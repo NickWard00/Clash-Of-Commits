@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+/**
+ * @author Nick Ward, Melanie Wang
+ */
 public class SaveFileParser {
     private Properties properties;
     private static final String SAVE_DIRECTORY = "data/Saves/Save_%s.sim";
@@ -103,6 +106,10 @@ public class SaveFileParser {
         }
     }
 
+    /**
+     * Loads the information of a save file if given the save file number
+     * @param num the number of the save file
+     */
     public void loadSaveInformation(int num){
         GeneralParser simParser = new GeneralParser();
         try {
