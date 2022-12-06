@@ -23,12 +23,10 @@ public class EntityView extends ImageView {
     private Image eastStationarySprite;
     private Image westStationarySprite;
     private Image southStationarySprite;
-
     private Image northAttackSprite;
     private Image eastAttackSprite;
     private Image westAttackSprite;
     private Image southAttackSprite;
-
 
     /**
      * Creates an EntityView with the given image path and entity name

@@ -38,6 +38,12 @@ public class HUD extends SceneCreator {
     private MainGameScreen mainGameScreen;
     private Map <Boolean, String> playPauseMethods;
 
+    /**
+     * Constructor for the HUD class
+     * @param stage
+     * @param mainGameScreen
+     * @param controller
+     */
     public HUD(Stage stage, MainGameScreen mainGameScreen, Controller controller){
         this.popup = new Stage();
         this.controller = controller;
@@ -62,6 +68,10 @@ public class HUD extends SceneCreator {
         this.mainGameScreen = mainGameScreen;
     }
 
+    /**
+     * Creates the HUD
+     * @return the HUD as a toolbar
+     */
     public ToolBar makeHUD(){
         HUDBar = new ToolBar();
         playerHealth = new HealthStatus();;
@@ -71,6 +81,9 @@ public class HUD extends SceneCreator {
         return HUDBar;
     }
 
+    /**
+     * Handles the events for the HUD
+     */
     private void handleEvents(){
         settings.setOnAction(event -> {
             SettingsPopup settingsPopup = new SettingsPopup(labels, stage, mainGameScreen, controller);
@@ -88,6 +101,9 @@ public class HUD extends SceneCreator {
         handlePlayPause();
     }
 
+    /**
+     * Handles the play/pause button
+     */
     private void handlePlayPause(){
         playPause.setOnAction(event ->{
             play = !play;
@@ -97,25 +113,39 @@ public class HUD extends SceneCreator {
                 tryButton.invoke(this);
 
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                throw new RuntimeException(e);
+                throw new IllegalStateException("noMethodFound", e);
             }
         });
     }
 
+    /**
+     * Sets up the pause button
+     */
     private void setUpPauseButton(){
         playPause.setGraphic(pauseButton);
         controller.playAnimation();
     }
 
+    /**
+     * Sets up the play button
+     */
     private void setUpPlayButton(){
         playPause.setGraphic(playButton);
         controller.pauseAnimation();
     }
 
+    /**
+     * Updates the score
+     * @param newScore the new score
+     */
     public void updateScore(int newScore){
         playerScore = newScore;
     }
 
+    /**
+     * Updates the health
+     * @param newHealth the new health
+     */
     public void updateHealth(int newHealth){
         playerHealth.updateHealth(newHealth);
     }

@@ -21,7 +21,7 @@ public class ViewTest extends DukeApplicationTest {
 
     void setupView(Stage stage) {
         ResourceBundle label = ResourceBundle.getBundle("ResourceBundles.LabelsBundle");
-        Controller controller = new Controller(stage, "MainMap", label);
+        Controller controller = new Controller(stage, "MainMap","", label);
         view = new View(stage, controller, label);
     }
 
