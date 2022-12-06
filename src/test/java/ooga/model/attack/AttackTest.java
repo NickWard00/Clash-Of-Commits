@@ -31,24 +31,24 @@ class AttackTest {
 
     @Test
     void getMyEntityTest_Enemy() {
-        Attack testAttack = Attack.attack(testBug);
+        Attack testAttack = testBug.attack();
         assertEquals(testBug, testAttack.getMyEntity());
     }
 
     @Test
     void getMyEntityTest_Hero() {
-        Attack testAttack = Attack.attack(testHero);
+        Attack testAttack = testHero.attack();
         assertEquals(testHero, testAttack.getMyEntity());
     }
 
     @Test
     void attackTest_LongRange() {
-        Attack testLongRange = Attack.attack(testMagicValue);
+        Attack testLongRange = testMagicValue.attack();
         assertInstanceOf(LongRange.class, testLongRange);
     }
 
     @Test
     void attackTest_ShortRange() {
-        Attack testShortRange = Attack.attack(testBug);
+        Attack testShortRange = testBug.attack();
         assertInstanceOf(ShortRange.class, testShortRange);
     }}

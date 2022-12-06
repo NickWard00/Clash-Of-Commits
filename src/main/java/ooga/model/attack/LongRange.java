@@ -16,6 +16,12 @@ public class LongRange extends Attack {
         coolDown = attributes.getOrDefault("CoolDown", 1.0);
     }
 
-    public double getCoolDown() { return coolDown; }
+    /**
+     * Gets the cool down time of this attack
+     * @return the cool down time of this attack
+     */
+    public double getCoolDown() {
+        return coolDown;
+    }
 
 }

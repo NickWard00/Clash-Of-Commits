@@ -10,17 +10,15 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LongRangeTest {
-
     EntityParser magicValueParser;
     Entity testMagicValue;
     LongRange testLongRange;
-
 
     @BeforeEach
     void setUp() {
         magicValueParser = new EntityParser("TestMagicValue", new String[]{"MagicValue", "0", "0"});
         testMagicValue = new MagicValue(magicValueParser.getAttributeMap());
-        testLongRange = (LongRange) Attack.attack(testMagicValue);
+        testLongRange = (LongRange) testMagicValue.attack();
     }
 
     @Test

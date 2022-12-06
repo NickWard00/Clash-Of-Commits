@@ -23,7 +23,7 @@ public class ControllerTest extends DukeApplicationTest {
     }
 
     void setupController(Stage stage) {
-        controller = new Controller(stage, "MainMap", null);
+        controller = new Controller(stage, "MainMap","", null);
     }
 
     @Test

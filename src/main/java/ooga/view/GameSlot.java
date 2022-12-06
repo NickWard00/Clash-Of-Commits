@@ -9,11 +9,16 @@ import java.util.ResourceBundle;
  */
 public class GameSlot extends Slot {
     private Label gameType;
-    public GameSlot(String g, ResourceBundle labels) {
+
+    /**
+     * The game slot is a slot for each game. There will always be three slots.
+     * @param gameTypeString
+     * @param labels
+     */
+    public GameSlot(String gameTypeString, ResourceBundle labels) {
         super(labels);
-        gameType = new Label(g);
+        this.gameType = new Label(gameTypeString);
         this.getChildren().add(gameType);
         this.getStyleClass().add("GameSlot");
-        //this.getStylesheets().add(StartScreen.styles.getString("openNewGameCSS"));
     }
 }
