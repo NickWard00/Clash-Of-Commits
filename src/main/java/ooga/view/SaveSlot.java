@@ -1,6 +1,8 @@
 package ooga.view;
 
 import javafx.scene.control.Label;
+import ooga.controller.SaveFileParser;
+
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
@@ -16,16 +18,21 @@ public class SaveSlot extends Slot{
     private ResourceBundle labels;
     private SubLabel gameType;
 
+    private SubLabel mapName;
+
     private int slotNumber;
+    private SaveFileParser saveFileParser= new SaveFileParser();
 
 
-    public SaveSlot(ResourceBundle l, int number){
+    public SaveSlot(ResourceBundle l, int num){
         super(l);
         labels = l;
-        slotNumber = number;
-        time = new SubLabel(labels.getString("time"));
-        gameType = new SubLabel(labels.getString("gameType"));
-        this.getChildren().addAll(gameType,time);
+        slotNumber =num;
+        saveFileParser.loadSaveInformation(num);
+        time = new SubLabel(String.format("%s %s",labels.getString("time"),saveFileParser.getTimeDate()));
+        gameType = new SubLabel(String.format("%s %s", labels.getString("gameType"), saveFileParser.getGameType()));
+        mapName = new SubLabel(String.format("%s %s", labels.getString("mapName"), saveFileParser.getMapName()));
+        this.getChildren().addAll(gameType,mapName,time);
         this.getStyleClass().add("SaveSlot");
     }
 

@@ -4,7 +4,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import ooga.controller.Controller;
+import ooga.controller.SaveFileParser;
 import ooga.view.SaveSlot;
 
 import java.util.ResourceBundle;
@@ -21,6 +23,8 @@ public class CreateSavePopup extends SceneCreator {
     private SaveSlot slot3;
 
     private ResourceBundle labels;
+
+    private SaveFileParser saveMaker = new SaveFileParser();
 
     private int popupSize = Integer.parseInt(constants.getString("popupSize"));
 

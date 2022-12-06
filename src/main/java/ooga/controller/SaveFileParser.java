@@ -100,7 +100,26 @@ public class SaveFileParser {
             throw new IllegalStateException("cannotDeleteSaveFile", e);
         }
     }
-
+    public void loadSaveInformation(int num){
+        GeneralParser simParser = new GeneralParser();
+        try {
+            properties = simParser.getSimData(String.format(SAVE_DIRECTORY, num));
+        } catch (IllegalStateException e) {
+            throw new IllegalStateException("saveFileNotFound", e);
+        }
+        properties.entrySet().forEach(entry->{
+            String key = (String) entry.getKey();
+            if (key.equals("Map")){
+                mapName = (String) entry.getValue();
+            }
+            else if (key.equals("GameType")){
+                gameType = (String) entry.getValue();
+            }
+            else if (key.equals("TimeDate")){
+                timeDate = (String) entry.getValue();
+            }
+    });
+    }
     public String getMapName(){
         return mapName;
     }
