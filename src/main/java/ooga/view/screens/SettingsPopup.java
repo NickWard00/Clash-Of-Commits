@@ -1,5 +1,6 @@
 package ooga.view.screens;
 
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -12,6 +13,14 @@ import java.util.ResourceBundle;
 
 import static ooga.view.screens.SceneCreator.constants;
 
+/**
+ * @author Melanie Wang
+ */
+
+/**
+ * Popup screen used for pulling up settings. Contains CSV selection, quitting the game, and
+ * save game functions.
+ */
 public class SettingsPopup extends VBox {
     private ResourceBundle labels;
 
@@ -23,8 +32,17 @@ public class SettingsPopup extends VBox {
     private Stage saveStage;
 
     private Controller controller;
-    //private int popupSize = Integer.parseInt(constants.getString("popupSize"));
+
     private MainGameScreen main;
+    private int popupSize = Integer.parseInt(constants.getString("popupSize"));
+
+    /**
+     * Constructor for the settings popup
+     * @param l: the labels resourcebundle that allows for language flexibility
+     * @param s: the stage the settings screen should be rooted to
+     * @param m: the mainGameScreen which the screen opens next to
+     * @param c: the controller used to save the game
+     */
     public SettingsPopup(ResourceBundle l, Stage s, MainGameScreen m, Controller c){
         main = m;
         labels = l;
@@ -38,15 +56,22 @@ public class SettingsPopup extends VBox {
         saveGame = new Button(labels.getString("saveGameButton"));
         quitGame = new Button(labels.getString("quitGameButton"));
         this.getChildren().addAll(cssSelector, saveGame, quitGame);
+        this.setPrefWidth(popupSize);
+        this.setPrefHeight(popupSize);
+        this.setAlignment(Pos.CENTER);
         handleEvents();
 
     }
+
+    /**
+     * monitors the events for the buttons added (saving the game, quitting the game, changing CSS)
+     */
     public void handleEvents(){
         saveGame.setOnAction(event->{
             saveStage=new Stage();
             saveStage.initModality(Modality.APPLICATION_MODAL);
             saveStage.initOwner(stage);
-            CreateSavePopup csp = new CreateSavePopup(controller, labels);
+            CreateSavePopup csp = new CreateSavePopup(controller, labels, saveStage);
             saveStage.setScene(csp.makeScene());
             saveStage.show();
 

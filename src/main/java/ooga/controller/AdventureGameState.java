@@ -1,7 +1,6 @@
 package ooga.controller;
 
 import java.util.Map;
-import javafx.stage.Stage;
 import ooga.model.hero.MainHero;
 import ooga.view.EntityView;
 
@@ -33,24 +32,4 @@ public class AdventureGameState implements GameState {
     }
     return false;
   }
-//
-//  @Override
-//  public void setHighScore(HighScore addScore) {
-//
-//  }
-//
-//  @Override
-//  public HighScore getHighScore() {
-//    return null;
-//  }
-
-//  @Override
-//  public WinScreen showWin() {
-//
-//  }
-//
-//  @Override
-//  public LoseScene showLost(LoseScene scene) {
-//    return scene;
-//  }
 }

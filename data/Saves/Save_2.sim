@@ -1,6 +1,6 @@
-#Sat Dec 03 10:56:46 EST 2022
+#Tue Dec 06 01:58:07 EST 2022
 GameType=The Beginning
-Hero1=MainHero, 1650.0000000000182, 470.0000000000008
-MapName=MainMap
-PowerUp1=PowerUp, 600.0, 700.0
-TimeDate=03_12_2022_10_56_46
+Hero1=MainHero, 265.9999999999984, 209.99999999999864
+MagicVal1=MagicValue, 600.0, 312.5
+Map=MainMap
+TimeDate=06_12_2022_01_58_07

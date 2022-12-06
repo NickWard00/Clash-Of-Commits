@@ -1,26 +1,18 @@
 package ooga.model.attack;
 
-import ooga.controller.AttackParser;
 import ooga.controller.Controller;
-import ooga.controller.GeneralParser;
-import ooga.model.enemy.Enemy;
 import ooga.model.state.DirectionState;
-import ooga.model.Entity;
-import ooga.model.state.MovementState;
+import ooga.model.entities.Entity;
 
-import java.awt.*;
-import java.io.File;
-import java.lang.reflect.Method;
 import java.util.*;
 import java.util.List;
 
 public abstract class Attack {
     public static final ResourceBundle attackBundle = ResourceBundle.getBundle("ResourceBundles.Attack");
-    private Controller controller;
+    private static Controller myController;
     private int damage;
     private double speed;
     private double size;
-    private double coolDown;
     private double maxDuration;
     private Entity myEntity;
     private Integer activeAttackID;
@@ -40,7 +32,6 @@ public abstract class Attack {
         this.damage = attributes.getOrDefault("Damage", 0.0).intValue();
         this.speed = attributes.getOrDefault("Speed", 0.0);
         this.size = attributes.getOrDefault("Size", 0.0);
-        this.coolDown = attributes.getOrDefault("CoolDown", 1.0);
         this.maxDuration = attributes.getOrDefault("MaxDuration", 0.0);
         this.myAttributes = attributes;
         this.myEntity = entity;
@@ -50,32 +41,22 @@ public abstract class Attack {
     }
 
     /**
-     * Method which takes an entity and invokes that entity's set attack
-     * @param entity the entity to initiate an attack
+     * Method to initiate this attack and reset its entity's attack timer
      * */
-    public static Attack attack(Entity entity) {
-        try {
-            AttackParser myAttackParser = new AttackParser(entity);
-            Map<String, Double> attributes = myAttackParser.getAttributeMap();
-            Object o = Class.forName(attackBundle.getString(entity.getAttackType())).getConstructor(Entity.class, Map.class).newInstance(entity, attributes);
-            return (Attack) o;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void activateAttack(Controller controller) {
-        this.controller = controller;
+    public void activateAttack() {
         if (myEntity.getTimeUntilAttack() <= 0) {
             myEntity.resetTimeUntilAttack();
             activeAttackID = createRandomID();
-            Controller.getModelAttacks().put(activeAttackID, this);
+            myController.getModelAttacks().put(activeAttackID, this);
             this.myDirection = DirectionState.valueOf(myEntity.getStateStrings().get(0));
             this.timeSinceActivation = 0.0;
             setInitialCoordinates();
         }
     }
 
+    /**
+     * Method to set the initial coordinates of this attack, centered on its parent entity
+     * */
     private void setInitialCoordinates() {
         int halfSize = Integer.parseInt(myEntity.getMyAttributes().get("Size"))/2;
         double centerX = myEntity.coordinates().get(0) + halfSize;
@@ -84,28 +65,38 @@ public abstract class Attack {
         this.yPos = centerY + myDirection.getVelocity().get(1) * halfSize;
     }
 
+    /**
+     * Method to generate a random attackID which is unique to the other active attacks' IDs
+     * */
     private Integer createRandomID() {
         Random r = new Random();
         Integer randomID = r.nextInt(100);
-        while (Controller.getModelAttacks().containsKey(randomID)) {
+        while (myController.getModelAttacks().containsKey(randomID)) {
             randomID = r.nextInt(100);
         }
         return randomID;
     }
 
+    /**
+     * Deactivates this attack, calls the removeAttack method in the controller
+     * */
     public void deactivateAttack() {
-        controller.removeAttack(activeAttackID);
+        myController.removeAttack(activeAttackID);
     }
 
+    /**
+     * Method that gets the current direction of the attack
+     * @return the current direction of the attack
+     */
     public DirectionState getDirection() {
         return myDirection;
     }
 
     /**
-     * @param elapsedTime indicates how much time has passed since the last step
      * deactivates attack if it has been active for longer than its maxDuration
      * otherwise, updates the X and Y positions of the attack
-     * */
+     * @param elapsedTime indicates how much time has passed since the last step
+     */
     public List<Double> move(double elapsedTime) {
         timeSinceActivation += elapsedTime;
         if (timeSinceActivation >= maxDuration) {
@@ -117,19 +108,42 @@ public abstract class Attack {
         return Arrays.asList(xPos, yPos);
     }
 
+    /**
+     * Gets the entity associated with the attack
+     * @return the entity associated with the attack
+     */
     public Entity getMyEntity() {
         return myEntity;
     }
 
+    /**
+     * Gets the damage of the attack
+     * @return the damage of the attack
+     */
     public int getDamage() {
         return damage;
     }
 
+    /**
+     * Gets the attributes associated with the attack
+     * @return attribute map of the attack
+     */
     public Map<String, Double> getMyAttributes() {
         return myAttributes;
     }
 
-    public List<Double> getCoordinates() { return Arrays.asList(xPos, yPos); }
+    /**
+     * Returns the coordinates of the attack (x, y)
+     * @return a list of the coordinates of an attack
+     */
+    public List<Double> coordinates() {
+        return Arrays.asList(xPos, yPos);
+    }
 
-    public abstract double getCoolDown();
+    /**
+     * Should only be called once during setup of the game to set all attacks' controller
+     */
+    public static void setMyController(Controller controller) {
+        myController = controller;
+    }
 }

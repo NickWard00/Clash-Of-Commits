@@ -1,6 +1,6 @@
 package ooga.controller;
 
-import ooga.model.Entity;
+import ooga.model.entities.Entity;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;

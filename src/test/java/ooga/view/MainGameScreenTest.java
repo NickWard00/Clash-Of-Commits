@@ -32,8 +32,7 @@ class MainGameScreenTest extends DukeApplicationTest {
         this.myStage = stage;
         StartScreen ss = new StartScreen(myStage);
         myStage.setScene(ss.makeScene());
-        controller = new Controller(stage,"mainMap",labels);
-
+        controller = new Controller(stage,"MainMap", "", labels);
 
         entityAttributes = Map.of("Name", "Hero1", "XPosition", "50", "YPosition", "103", "Size", "20", "Sprites", "/sprites/hero/", "Direction", "SOUTH");
         imageName = entityAttributes.get("Name");
@@ -50,13 +49,12 @@ class MainGameScreenTest extends DukeApplicationTest {
         MapParser mapParser = new MapParser("MainMap");
         MapWrapper map = mapParser.getMapWrapper();
         map.setStateToImageMap(mapParser.getStateToImageMap());
+        map.setObstacleStateMap(mapParser.getObstacleStateMap());
         map.setVisualProperties(mapParser.getMapProperties());
         MapView mapPane = new MapView(map);
         GridPane mapGrid = mapPane.createMap();
 
         MainGameScreen mainGameScreen = new MainGameScreen(myStage, controller);
-        mainGameScreen.startGamePlay(mapGrid, Map.of("Joe Mama", entityView));
-        mainGameScreen.makeScene();
         mainGameScreen.startGamePlay(mapGrid, Map.of("Joe Mama", entityView));
         assertTrue(mainGameScreen.isPlaying());
     }
@@ -66,6 +64,8 @@ class MainGameScreenTest extends DukeApplicationTest {
         MapParser mapParser = new MapParser("MainMap");
         MapWrapper map = mapParser.getMapWrapper();
         map.setStateToImageMap(mapParser.getStateToImageMap());
+        map.setObstacleStateMap(mapParser.getObstacleStateMap());
+        map.setVisualProperties(mapParser.getMapProperties());
         MapView mapPane = new MapView(map);
         GridPane mapGrid = mapPane.createMap();
 

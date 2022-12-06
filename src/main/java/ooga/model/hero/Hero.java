@@ -1,11 +1,14 @@
 package ooga.model.hero;
 
-import ooga.model.Entity;
+import ooga.model.entities.Entity;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
+
 public abstract class Hero extends Entity {
+    /**
+     * Constructor for the Hero superclass
+     * @param attributes
+     */
     public Hero(Map<String, String> attributes) {
         super(attributes);
     }

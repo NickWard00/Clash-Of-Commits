@@ -1,6 +1,6 @@
 package ooga.controller;
 
-import ooga.model.Entity;
+import ooga.model.entities.Entity;
 import ooga.model.hero.MainHero;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,8 +25,8 @@ class AttackParserTest {
     void getAttributeMapTest() {
         attackParser = new AttackParser(testHero);
         Map<String, Double> attributes = attackParser.getAttributeMap();
-        Double expectedSpeed = 20.0;
-        Double expectedDamage = 2.0;
+        Double expectedSpeed = 120.0;
+        Double expectedDamage = -1.0;
         Double expectedCoolDown = 0.2;
         assertEquals(expectedSpeed, attributes.get("Speed"));
         assertEquals(expectedDamage, attributes.get("Damage"));

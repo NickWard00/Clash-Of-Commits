@@ -1,6 +1,7 @@
 package ooga.view;
 
 import javafx.stage.Stage;
+import ooga.controller.Controller;
 import ooga.model.state.DirectionState;
 import ooga.view.screens.StartScreen;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,7 @@ class AttackViewTest extends DukeApplicationTest {
     public void start(Stage stage) {
         StartScreen ss = new StartScreen(stage);
         stage.setScene(ss.makeScene());
+        Controller controller = new Controller(stage, "MainMap", "", null);
         size = 50;
         xPos = 100;
         yPos = 100;

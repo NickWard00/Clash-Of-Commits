@@ -1,15 +1,13 @@
 package ooga.model;
 
 import ooga.controller.EntityParser;
-import ooga.model.attack.Attack;
-import ooga.model.attack.LongRange;
 import ooga.model.enemy.Bug;
 import ooga.model.enemy.MagicValue;
+import ooga.model.entities.Entity;
 import ooga.model.hero.MainHero;
 import ooga.model.state.MovementState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class EntityTest {
@@ -35,10 +33,10 @@ class EntityTest {
 
     @Test
     void changeHpTest() {
-        testHero.changeHp(10);
-        assertEquals(110, testHero.getHp());
-        testHero.changeHp(-50);
-        assertEquals(60, testHero.getHp());
+        testHero.changeHp(1);
+        assertEquals(6, testHero.getHp());
+        testHero.changeHp(-2);
+        assertEquals(4, testHero.getHp());
     }
 
     @Test
@@ -53,7 +51,7 @@ class EntityTest {
         String actualHeroAttack = testHero.getAttackType();
         String actualBugAttack = testBug.getAttackType();
         String actualMagicValueAttack = testMagicValue.getAttackType();
-        assertEquals("ShortRange", actualHeroAttack);
+        assertEquals("LongRange", actualHeroAttack);
         assertEquals("ShortRange", actualBugAttack);
         assertEquals("LongRange", actualMagicValueAttack);
     }
@@ -67,7 +65,6 @@ class EntityTest {
 
     @Test
     void moveTest_Moving() {
-        testBug.changeMovement(MovementState.MOVING);
         Double[] actual = testBug.move(1.0).toArray(new Double[0]);
         Double[] expected = new Double[] {0.0, 50.0};
         assertArrayEquals(expected, actual);
@@ -75,8 +72,23 @@ class EntityTest {
 
     @Test
     void moveTest_Stationary() {
+        testBug.changeMovement(MovementState.STATIONARY);
         Double[] actual = testBug.move(1.0).toArray(new Double[0]);
         Double[] expected = new Double[] {0.0, 0.0};
         assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    void withinAttackRangeTest_True() {
+        assertTrue(testBug.withinAttackRange(testHero.coordinates()));
+        assertTrue(testMagicValue.withinAttackRange(testHero.coordinates()));
+    }
+
+    @Test
+    void withinAttackRangeTest_False() {
+        testBug.move(10);
+        testMagicValue.move(10);
+        assertFalse(testBug.withinAttackRange(testHero.coordinates()));
+        assertFalse(testMagicValue.withinAttackRange(testHero.coordinates()));
     }
 }
