@@ -1,7 +1,9 @@
 .HealthStatus{
     -fx-spacing: 5;
     -fx-padding: 10 10 10 10;
+    -fx-min-width: 370;
+    -fx-max-width: 370;
 }
 .HUD{
-    -fx-spacing: 20;
+    -fx-spacing: 10;
 }

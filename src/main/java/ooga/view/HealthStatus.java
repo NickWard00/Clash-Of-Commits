@@ -18,24 +18,28 @@ public class HealthStatus extends HBox {
     /**
      * Constructor for the HealthStatus class
      */
-    public HealthStatus(){
+    public HealthStatus() {
         health = Integer.parseInt(SceneCreator.constants.getString("defaultHealth"));
         new ImageView(new Image(SceneCreator.images.getString("healthImage")));
         for (int i = 0; i < health; i++) {
             this.getChildren().add(new ImageView(new Image(SceneCreator.images.getString("healthImage"))));
         }
-        this.setSpacing(5);
+        this.getStyleClass().add("HealthStatus");
+        //this.setSpacing(5);
+        //this.setMinWidth(300);
     }
 
     /**
      * Updates the health status of the player
+     *
      * @param health
      */
-    public void updateHealth(int health){
-        this.getChildren().clear();
-        for (int i = 0; i < health; i++) {
-            this.getChildren().add(new ImageView(new Image(SceneCreator.images.getString("healthImage"))));
+    public void updateHealth(int health) {
+        if (this.getChildren().size() != health) {
+            this.getChildren().clear();
+            for (int i = 0; i < health; i++) {
+                this.getChildren().add(new ImageView(new Image(SceneCreator.images.getString("healthImage"))));
+            }
         }
-        this.setSpacing(5);
     }
 }
