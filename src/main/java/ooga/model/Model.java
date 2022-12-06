@@ -43,12 +43,14 @@ public class Model {
 
     /**
      * Method to change the entity movement state
-     * @param entityName
-     * @param movement
+     * @param entityName - entity's unique name String
+     * @param movement - MovementState to change the entity to
      */
     public void changeEntityState(String entityName, MovementState movement) {
         Entity entity = myModelEntities.get(entityName);
-        entity.changeMovement(movement);
+        if(entity.isMoving()){
+            entity.changeMovement(movement);
+        }
     }
 
     /**

@@ -11,7 +11,6 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.controller.Controller;
-import ooga.model.Entity;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
 import ooga.view.screens.MainGameScreen;

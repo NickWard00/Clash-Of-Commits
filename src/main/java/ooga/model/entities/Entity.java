@@ -197,4 +197,12 @@ public abstract class Entity {
         return Arrays.asList(xPos, yPos);
     }
 
+    /**
+     *
+     * @return true if the entity's MovementState is MOVING 
+     */
+    public boolean isMoving(){
+        return myMovement.equals(MovementState.MOVING);
+    }
+
 }
