@@ -79,6 +79,7 @@ public class HUD extends SceneCreator {
         HUDBar.getItems().addAll(playerHealth, scoreText, about, playPause, settings);
         HUDBar.getStylesheets().add(styles.getString("HUDCSS"));
         handleEvents();
+        about.setId("about");
         return HUDBar;
     }
 
@@ -96,6 +97,7 @@ public class HUD extends SceneCreator {
         });
         about.setOnAction(event ->{
             AboutGamePopup aboutPopup = new AboutGamePopup(labels);
+            aboutPopup.setId("aboutPopup");
             Scene ap = new Scene(aboutPopup);
             popup.setScene(ap);
             popup.show();

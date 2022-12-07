@@ -49,6 +49,7 @@ public class OpenSaveScreen extends SceneCreator {
         slot2 = new SaveSlot(labels, 2);
         slot3 = new SaveSlot(labels,3);
         VBox slots = new VBox(slot1, slot2, slot3);
+        slots.setId("slots");
         background.setAlignment(Pos.CENTER);
         background.getChildren().add(slots);
         Scene scene = new Scene(background, screenSize, screenSize);
