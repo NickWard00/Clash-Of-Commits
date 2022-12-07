@@ -7,4 +7,5 @@
 
 .button{
   -fx-font-family: "Retro Computer";
+  -fx-alignment: bottom-center;
 }

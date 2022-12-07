@@ -19,10 +19,8 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import ooga.controller.AdventureGameState;
 import ooga.controller.Controller;
-import ooga.model.hero.MainHero;
 import ooga.view.*;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -285,7 +283,7 @@ public class MainGameScreen extends SceneCreator {
 
     private Scene nextScene() {
         if (adventureGameState.determineWin(101)) {
-            WinScreen winScreen = new WinScreen(stage);
+            EndGameScreen winScreen = new EndGameScreen(stage);
             myScene = winScreen.makeScene();
             stage.setScene(myScene);
             stage.show();

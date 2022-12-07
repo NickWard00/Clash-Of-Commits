@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -16,8 +17,8 @@ import java.util.ResourceBundle;
  *
  * @author James Qu
  */
-public class WinScreen extends SceneCreator {
-  private Scene winGameScene;
+public class EndGameScreen extends SceneCreator {
+  private Scene endGameScene;
   private Pane pane;
   private Text text;
   private ResourceBundle styles;
@@ -26,9 +27,9 @@ public class WinScreen extends SceneCreator {
   private ResourceBundle resources;
   private Button playAgainButton;
   private ResourceBundle constants;
-  private double centerX;
+  private VBox buttons;
 
-  public WinScreen(Stage stage) {
+  public EndGameScreen(Stage stage) {
     this.resources = getLabels();
     this.constants = getConstants();
     this.currentStage = stage;
@@ -39,21 +40,22 @@ public class WinScreen extends SceneCreator {
   //TODO: Refactor the constants out
   @Override
   public Scene makeScene() {
-    this.pane = new Pane();
-    pane.setId("WinningScreen");
+    this.pane = new StackPane();
+    pane.setId("EndGameScreen");
     playAgainButton = new Button(resources.getString("playAgainButtonWin"));
     playAgainButton.setId("playAgainButton");
-    playAgainButton.setLayoutX(Double.parseDouble(constants.getString("winScreenCenterX")));
-    playAgainButton.setLayoutY(Double.parseDouble(constants.getString("winScreenButtonY")));
-    double textX = Double.parseDouble(constants.getString("winScreenCenterX"));
-    double textY = Double.parseDouble(constants.getString("winScreenTextY"));
-    text = new Text(textX, textY, "Congratulations!!!");
-    text.setId("congratsMessage");
-    pane.getChildren().addAll(text, playAgainButton);
-    winGameScene = new Scene(pane, screenSize, screenSize);
-    winGameScene.getStylesheets().add(styles.getString("winScreenCSS"));
+    text = new Text("Congratulations!!!");
+//    text = new Text("You have lost");
+    text.setId("message");
+    buttons = new VBox();
+    buttons.getChildren().addAll(text, playAgainButton);
+    buttons.setAlignment(Pos.CENTER);
+    pane.getChildren().add(buttons);
+    endGameScene = new Scene(pane, screenSize, screenSize);
+    endGameScene.getStylesheets().add(styles.getString("winScreenCSS"));
+//    endGameScene.getStylesheets().add(styles.getString("loseScreenCSS"));
     handleEvents();
-    return winGameScene;
+    return endGameScene;
   }
 
   private void returnToBeginning() {

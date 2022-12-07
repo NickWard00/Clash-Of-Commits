@@ -16,6 +16,8 @@ public class PowerUp extends Obstacle {
 
   /**
    * Applies the power up to the main hero (HP increase)
+   * @param entity entity that the power up wants to upgrade
+   * @param hp the amount of hp that the power up gives
    */
   public void upgradeHP(Entity entity, int hp) {
     if (entity.getClass() == MainHero.class) {
