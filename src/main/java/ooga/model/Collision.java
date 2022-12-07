@@ -18,6 +18,7 @@ public class Collision {
         "ResourceBundles.Collision");
     private static final int POWERUP_HP_ADDER = Integer.parseInt(COLLISION_VALUES.getString("powerUpHpAdder"));
 
+    //TODO: Make more subclasses of collsions
     /**
      * Collsion between attack and entity
      * @param attack the attack
@@ -43,7 +44,7 @@ public class Collision {
      * @param viewModelMap
      */
     public Collision(Attack attack, Obstacle obstacle, Map<String, Map<?,?>> viewModelMap) {
-        if (attack.getMyEntity().getClass() == MainHero.class && obstacle.getClass() == DestroyableWall.class) {
+        if (attack.getMyEntity().getClass() == MainHero.class && obstacle.getDestroyable()) {
             ((DestroyableWall) obstacle).updateHP(attack.getDamage());
         }
         attack.deactivateAttack();

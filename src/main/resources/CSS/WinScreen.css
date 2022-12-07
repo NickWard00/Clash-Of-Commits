@@ -4,3 +4,8 @@
   -fx-background-color: rgb(50, 250, 10);
   -fx-background-size: 600;
 }
+
+.button{
+  -fx-font-family: "Retro Computer";
+  -fx-alignment: bottom-center;
+}

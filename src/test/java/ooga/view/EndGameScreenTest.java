@@ -3,23 +3,23 @@ package ooga.view;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import javafx.scene.Scene;
-import ooga.view.screens.WinScreen;
+import ooga.view.screens.EndGameScreen;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
-class WinScreenTest extends DukeApplicationTest {
-  private WinScreen screen;
+class EndGameScreenTest extends DukeApplicationTest {
+  private EndGameScreen screen;
   private Scene scene;
 
   @BeforeEach
   void setup() {
-    screen = new WinScreen();
+    screen = new EndGameScreen();
   }
 
   @Test
   void testCreateScreen() {
-    scene = screen.createScene();
+    scene = screen.makeScene();
     String expectedId = "WinningScreen";
     String id = scene.getRoot().getId();
     assertEquals(expectedId, id);
