@@ -53,8 +53,11 @@ public class CreateSavePopup extends SceneCreator {
     public Scene makeScene(){
         StackPane savePane = new StackPane();
         slot1 = new SaveSlot(labels, 1);
+        slot1.setId("slot1");
         slot2 = new SaveSlot(labels, 2);
+        slot2.setId("slot2");
         slot3 = new SaveSlot(labels, 3);
+        slot3.setId("slot3");
         VBox slotHolder = new VBox(saveGameText, slot1,slot2,slot3);
         savePane.getChildren().add(slotHolder);
         handleEvents();
@@ -63,10 +66,7 @@ public class CreateSavePopup extends SceneCreator {
         return scene;
     }
 
-
-    /**
-     * maps each slot to its specific save file, and saves game on click.
-     */
+     //maps each slot to its specific save file, and saves game on click.
     private void handleEvents(){
         slot1.setOnMouseClicked(event->{
             myController.saveGame(slot1.getNumber());
@@ -82,9 +82,7 @@ public class CreateSavePopup extends SceneCreator {
         });
     }
 
-    /**
-     * Opens a small popup that lets the user know the game's been saved.
-     */
+     // Opens a small popup that lets the user know the game's been saved.
     private void confirmSave(){
         Stage confirmation = new Stage();
         confirmation.initModality(Modality.APPLICATION_MODAL);

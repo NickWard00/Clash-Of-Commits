@@ -80,6 +80,7 @@ public class HUD extends SceneCreator {
         HUDBar.getStylesheets().add(styles.getString("HUDCSS"));
         handleEvents();
         about.setId("about");
+        settings.setId("settings");
         return HUDBar;
     }
 
@@ -90,6 +91,7 @@ public class HUD extends SceneCreator {
         settings.setOnAction(event -> {
             SettingsPopup settingsPopup = new SettingsPopup(labels, stage, mainGameScreen, controller);
             settingsPopup.getStyleClass().add("vbox");
+            settingsPopup.setId("settingsPopup");
             Scene sps = new Scene(settingsPopup);
             popup.setScene(sps);
             popup.show();
