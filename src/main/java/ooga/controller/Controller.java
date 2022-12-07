@@ -566,7 +566,7 @@ public class Controller {
     /**
      * updates the player's health bar on the HUD
      */
-    public void updatePlayerHealth(){
+    private void updatePlayerHealth(){
         myView.updateHealth(myModelEntities.get(myMainHeroName).getHp());
     }
 }
