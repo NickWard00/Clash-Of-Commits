@@ -50,7 +50,7 @@ public class View {
         this.stage = stage;
         this.myController = controller;
         setupGame(stage);
-        myViewObstacles = new HashMap<>();
+        //myViewObstacles = new HashMap<>();
         labels = label;
     }
 
