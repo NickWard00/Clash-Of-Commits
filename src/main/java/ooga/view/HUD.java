@@ -56,7 +56,7 @@ public class HUD extends SceneCreator {
         );
         playPause = new Button("", pauseButton);
         playerScore = Integer.parseInt(getConstants().getString("defaultScore"));
-        scoreText = new Label(String.format("%s %s",getLabels().getString("score"), playerScore));
+        scoreText = new Label(String.format("%s  %s",getLabels().getString("score"), playerScore));
         settings = new Button("", new ImageView(new Image(images.getString("settingsImage"))));
         about = new Button("", new ImageView(new Image(images.getString("aboutImage"))));
         about.setFocusTraversable(false);
@@ -74,10 +74,13 @@ public class HUD extends SceneCreator {
      */
     public ToolBar makeHUD(){
         HUDBar = new ToolBar();
-        playerHealth = new HealthStatus();;
+        HUDBar.getStyleClass().add("HUD");
+        playerHealth = new HealthStatus();
         HUDBar.getItems().addAll(playerHealth, scoreText, about, playPause, settings);
         HUDBar.getStylesheets().add(styles.getString("HUDCSS"));
         handleEvents();
+        about.setId("about");
+        settings.setId("settings");
         return HUDBar;
     }
 
@@ -87,6 +90,8 @@ public class HUD extends SceneCreator {
     private void handleEvents(){
         settings.setOnAction(event -> {
             SettingsPopup settingsPopup = new SettingsPopup(labels, stage, mainGameScreen, controller);
+            settingsPopup.getStyleClass().add("vbox");
+            settingsPopup.setId("settingsPopup");
             Scene sps = new Scene(settingsPopup);
             popup.setScene(sps);
             popup.show();
@@ -94,6 +99,7 @@ public class HUD extends SceneCreator {
         });
         about.setOnAction(event ->{
             AboutGamePopup aboutPopup = new AboutGamePopup(labels);
+            aboutPopup.setId("aboutPopup");
             Scene ap = new Scene(aboutPopup);
             popup.setScene(ap);
             popup.show();

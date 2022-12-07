@@ -281,13 +281,21 @@ public class MainGameScreen extends SceneCreator {
         return walkPlayer;
     }
 
+    /**
+     * required in order to update the statistics displayed in the hud
+     * @return HUD
+     */
+    public HUD getHud() {
+        return hud;
+    }
+
     private Scene nextScene() {
-        if (adventureGameState.determineWin(101)) {
-            EndGameScreen winScreen = new EndGameScreen(stage);
-            myScene = winScreen.makeScene();
-            stage.setScene(myScene);
-            stage.show();
-        }
+//        if (adventureGameState.determineWin(101)) {
+//            EndGameScreen winScreen = new EndGameScreen(stage);
+//            myScene = winScreen.makeScene();
+//            stage.setScene(myScene);
+//            stage.show();
+//        }
 //        else if (adventureGameState.determineLost()) {
 //            LoseScreen loseScreen = new LoseScreen();
 //            myScene = loseScreen.makeScene();

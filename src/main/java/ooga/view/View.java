@@ -1,7 +1,7 @@
 package ooga.view;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
@@ -14,9 +14,6 @@ import ooga.controller.Controller;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
 import ooga.view.screens.MainGameScreen;
-
-import java.util.Map;
-import java.util.ResourceBundle;
 
 /**
  * @author Melanie Wang, Nick Ward, Mayari Merchant
@@ -53,6 +50,7 @@ public class View {
         this.stage = stage;
         this.myController = controller;
         setupGame(stage);
+        //myViewObstacles = new HashMap<>();
         labels = label;
     }
 
@@ -209,5 +207,8 @@ public class View {
         return myViewObstacles;
     }
 
+    public void updateHealth(int num){
+        mainGameScreen.getHud().updateHealth(num);
+    }
 }
 

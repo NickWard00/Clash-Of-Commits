@@ -123,6 +123,8 @@ public class Controller {
         updateEntityPosition(elapsedTime);
         updateAttackPosition(elapsedTime);
         checkForNewAttacks();
+        updatePlayerHealth();
+        //updatePlayerScore();
     }
 
     /**
@@ -559,5 +561,12 @@ public class Controller {
         return Map.of("modelEntities", myModelEntities, "viewEntities", myViewEntities,
                 "modelAttacks", myModelAttacks, "viewAttacks", myViewAttacks,
                 "modelObstacles", myModelObstacles, "viewObstacles", myViewObstacles);
+    }
+
+    /**
+     * updates the player's health bar on the HUD
+     */
+    public void updatePlayerHealth(){
+        myView.updateHealth(myModelEntities.get(myMainHeroName).getHp());
     }
 }
