@@ -418,6 +418,9 @@ public class Controller {
         myView.changeEntityState(myMainHeroName, DirectionState.NORTH, MovementState.STATIONARY);
     }
 
+    /**
+     * Reflection method that is called from handleKeyRelease to stop the hero from attacking
+     */
     private void attackStop(){
         myModel.changeEntityState(myMainHeroName, playerDirection, MovementState.STATIONARY);
         myView.changeEntityState(myMainHeroName, playerDirection, MovementState.STATIONARY);
@@ -483,11 +486,16 @@ public class Controller {
         myView.changeEntityState(myMainHeroName, DirectionState.EAST, MovementState.MOVING);
     }
 
+    /**
+     * Reflection method that is called from handleKeyPress to move allow the player to sprint
+     */
     private void sprint(){
-        //if(myModel.entityIsMoving(myMainHeroName))
-            myModel.changeEntityState(myMainHeroName, MovementState.SPRINTING);
+        myModel.changeEntityState(myMainHeroName, MovementState.SPRINTING);
     }
 
+    /**
+     * Reflection method that is called from handleKeyRelease to stop the hero from sprinting
+     */
     private void sprintStop(){
         myModel.changeEntityState(myMainHeroName, MovementState.MOVING);
     }
