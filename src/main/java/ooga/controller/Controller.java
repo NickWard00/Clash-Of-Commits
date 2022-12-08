@@ -28,6 +28,8 @@ import java.lang.reflect.Method;
  * @author Nick Ward, Melanie Wang, Nicki Lee
  */
 public class Controller {
+    private static final ResourceBundle scores = ResourceBundle.getBundle(
+        "ResourceBundles.Score");
     private Timeline animation;
     private View myView;
     private Model myModel;
@@ -45,6 +47,7 @@ public class Controller {
     private String myGameType;
     private String mapName;
     private DirectionState playerDirection;
+    private int score;
 
     private SaveFileParser saver;
 
@@ -74,7 +77,7 @@ public class Controller {
         );
         this.mapName = map;
         this.myGameType = gameType;
-        saver = new SaveFileParser();
+        this.score = Integer.parseInt(scores.getString("initialScore"));
 
         initializeModel();
 
@@ -120,6 +123,13 @@ public class Controller {
     }
 
     /**
+     * Stops the animation of the game
+     */
+    public void stopAnimation() {
+        animation.stop();
+    }
+
+    /**
      * Steps the animation of the game
      * @param elapsedTime the time elapsed since the last step
      */
@@ -129,7 +139,7 @@ public class Controller {
         updateAttackPosition(elapsedTime);
         myModel.checkForNewAttacks();
         updatePlayerHealth();
-        //updatePlayerScore();
+        updatePlayerScore();
     }
 
     /**
@@ -147,6 +157,7 @@ public class Controller {
                 viewEntity.setY(newPosition.get(1));
             } else {
                 nowDead.add(viewEntity);
+                score += Integer.parseInt(scores.getString("enemy"));
             }
         }
         for (EntityView deadEntityView : nowDead) {
@@ -320,9 +331,15 @@ public class Controller {
      * @param entityName
      */
     public void removeEntity(String entityName){
-        myView.getGameScreen().removeEntityFromScene(entityName);
-        myModelEntities.remove(entityName);
-        myViewEntities.remove(entityName);
+        if (entityName != myMainHeroName) {
+            myView.getGameScreen().removeEntityFromScene(entityName);
+            myModelEntities.remove(entityName);
+            myViewEntities.remove(entityName);
+        }
+        else {
+            myView.getGameScreen().nextScene();
+            stopAnimation();
+        }
     }
 
     /**
@@ -575,7 +592,14 @@ public class Controller {
     /**
      * updates the player's health bar on the HUD
      */
-    private void updatePlayerHealth(){
+    private void updatePlayerHealth() {
         myView.updateHealth(myModelEntities.get(myMainHeroName).getHp());
+    }
+
+    /**
+     * Updates the player's score on the HUD
+     */
+    public void updatePlayerScore() {
+        myView.updateScore(this.score);
     }
 }
