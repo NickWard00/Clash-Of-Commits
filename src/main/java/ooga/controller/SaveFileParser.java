@@ -2,10 +2,7 @@ package ooga.controller;
 
 import ooga.model.entities.Entity;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -36,7 +33,6 @@ public class SaveFileParser {
     public SaveFileParser(){
         entityMap = new HashMap<>();
         jsonProperties = new JSONObject();
-        fireBase = new FireBase();
     }
 
     /**
@@ -71,9 +67,15 @@ public class SaveFileParser {
 
     }
 
-    public void saveGameToWeb(int saveFile, Map<String, Entity> modelEntities, String mapName, String gameType){
+    public void saveGameToWeb(int saveFile, Map<String, Entity> modelEntities, String mapName, String gameType) throws FileNotFoundException {
+        fireBase = new FireBase();
         saveGame(saveFile, modelEntities, mapName, gameType);
-        fireBase.update(new File(String.format(SAVE_DIRECTORY, saveFile)), "Save_4");
+        try{
+        JSONObject file= (JSONObject) new JSONParser().parse(new FileReader(String.format(SAVE_DIRECTORY, saveFile)));
+        fireBase.update(file, "Save_4");
+        }catch (IOException | ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

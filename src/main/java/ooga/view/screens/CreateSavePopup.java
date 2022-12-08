@@ -14,6 +14,7 @@ import ooga.controller.Controller;
 import ooga.controller.SaveFileParser;
 import ooga.view.SaveSlot;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 /**
@@ -29,6 +30,7 @@ public class CreateSavePopup extends SceneCreator {
     private SaveSlot slot1;
     private SaveSlot slot2;
     private SaveSlot slot3;
+    private SaveSlot slot4;
     private ResourceBundle labels;
     private Stage stage;
 
@@ -60,10 +62,11 @@ public class CreateSavePopup extends SceneCreator {
         slot2.setId("slot2");
         slot3 = new SaveSlot(labels, 3);
         slot3.setId("slot3");
+        slot4 = new SaveSlot(labels,4);
         slotList.add(slot1);
         slotList.add(slot2);
         slotList.add(slot3);
-        VBox slotHolder = new VBox(saveGameText, slot1,slot2,slot3);
+        VBox slotHolder = new VBox(saveGameText, slot1,slot2,slot3, slot4);
         savePane.getChildren().add(slotHolder);
         handleEvents();
         Scene scene = new Scene(savePane,popupSize, popupSize);
@@ -79,6 +82,13 @@ public class CreateSavePopup extends SceneCreator {
                 confirmSave();
             });
         }
+        slot4.setOnMouseClicked(event ->{
+            try {
+                myController.saveGametoWeb(4);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
      // Opens a small popup that lets the user know the game's been saved.

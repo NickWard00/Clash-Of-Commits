@@ -17,6 +17,8 @@ import ooga.view.AttackView;
 import ooga.view.EntityView;
 import ooga.view.MapWrapper;
 import ooga.view.View;
+
+import java.io.FileNotFoundException;
 import java.util.*;
 
 import java.lang.reflect.InvocationTargetException;
@@ -44,6 +46,8 @@ public class Controller {
     private String mapName;
     private DirectionState playerDirection;
 
+    private SaveFileParser saver;
+
     /**
      * Constructor for the controller, which initializes the model and view and sets up map based on map name
      * @param stage the stage to display the game on
@@ -70,6 +74,7 @@ public class Controller {
         );
         this.mapName = map;
         this.myGameType = gameType;
+        saver = new SaveFileParser();
 
         initializeModel();
 
@@ -215,8 +220,15 @@ public class Controller {
      * @param num
      */
     public void saveGame(int num){
-        SaveFileParser saver = new SaveFileParser();
         saver.saveGame(num, myModelEntities, mapName, myGameType);
+    }
+
+    /**
+     * saves game to online database (slot 4)
+     * @param num the number of the slot
+     */
+    public void saveGametoWeb(int num) throws FileNotFoundException {
+        saver.saveGameToWeb(num, myModelEntities, mapName, myGameType);
     }
 
     /**
@@ -224,7 +236,6 @@ public class Controller {
      * @param num
      */
     public void loadGame(int num){
-        SaveFileParser saver = new SaveFileParser();
         saver.loadGame(num);
         this.myGameType = saver.getGameType();
         myModelEntities = saver.getEntities();
