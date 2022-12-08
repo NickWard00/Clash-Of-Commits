@@ -8,6 +8,7 @@ import java.util.Properties;
 
 public class AttackParser {
 
+    private Entity myEntity;
     private String attackType;
     private Properties attackProperties;
     private static final String ATTACK_DIRECTORY = "data/attack/%s.sim";
@@ -17,7 +18,8 @@ public class AttackParser {
 
     public AttackParser(Entity entity) {
         GeneralParser simParser = new GeneralParser();
-        attackType = entity.getAttackType();
+        myEntity = entity;
+        attackType = myEntity.getAttackType();
         attackProperties = simParser.getSimData(String.format(ATTACK_DIRECTORY, attackType));
         attributeMap = new HashMap<>();
         createAttributeMapAndImagePath();
@@ -42,6 +44,7 @@ public class AttackParser {
                 attributeMap.put(key, value);
             } else {
                 imagePath = ((String) entry.getValue()).replaceAll("\\s+","");
+                imagePath = String.format("%s%s_", imagePath, myEntity.getClass().getSuperclass().getSimpleName());
             }
         });
     }
