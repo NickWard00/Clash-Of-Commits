@@ -25,6 +25,12 @@
             <version>5.9.0</version>
             <scope>test</scope>
         </dependency>
+        <!-- The firebase used to save and load to the web -->
+        <dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>9.1.1</version>
+        </dependency>
         <!-- allow parameterized tests to more concisely check several values -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
