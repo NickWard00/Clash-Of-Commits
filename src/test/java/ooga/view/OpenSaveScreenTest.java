@@ -11,7 +11,6 @@ import ooga.view.screens.CreateSavePopup;
 import ooga.view.screens.OpenNewGameScreen;
 import ooga.view.screens.OpenSaveScreen;
 import ooga.view.screens.SettingsPopup;
-import org.junit.After;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
@@ -76,15 +75,15 @@ public class OpenSaveScreenTest extends DukeApplicationTest {
         Platform.runLater((new Runnable() {
             @Override
                     public void run() {
+                newStage= new Stage();
                 OpenSaveScreen oss = new OpenSaveScreen(newStage, labels);
                 s.close();
-                newStage= new Stage();
                 newStage.setScene(oss.makeScene());
                 newStage.show();
                 VBox slots = lookup("#slots").query();
                 SaveSlot firstSave = (SaveSlot) slots.getChildren().get(0);
                 clickOn(firstSave);
-                //ToolBar hud = lookup("#HUD").query();
+                ToolBar hud = lookup("#HUD").query();
                 Label score = (Label) hud.getItems().get(1);
                 assertEquals("Score:  0", score.getText());
             }
