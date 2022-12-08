@@ -33,7 +33,7 @@ public class OpenNewGameScreen extends SceneCreator {
      */
     public OpenNewGameScreen(Stage stage, ResourceBundle label){
         this.stage = stage;
-        labels = label;
+        this.labels = label;
         styles = getStyles();
         screenSize = getScreenSize();
     }
@@ -65,11 +65,11 @@ public class OpenNewGameScreen extends SceneCreator {
     //handles clicking on the slots
     private void handleEvents(){
         slot1.setOnMouseClicked(event -> {
-            Controller controller = new Controller(stage, "MainMap", labels.getString("game1"), labels);
+            Controller controller = new Controller(stage, labels.getString("game1Map"), labels.getString("game1"), labels);
             controller.startAnimation();
         });
         slot2.setOnMouseClicked(event -> {
-            Controller controller = new Controller(stage, "ZeldaMap", labels.getString("game2"), labels);
+            Controller controller = new Controller(stage, labels.getString("game2Map"), labels.getString("game2"), labels);
             controller.startAnimation();
         });
         slot3.setOnMouseClicked(event -> {

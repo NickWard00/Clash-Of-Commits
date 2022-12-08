@@ -59,4 +59,13 @@ public class Model {
     public void attack() {
         myHeroModel.attack().activateAttack();
     }
+
+    /**
+     * Checks if any new attacks have been created and adds them to the game
+     */
+    public void checkForNewAttacks() {
+        for (Entity entity : myModelEntities.values()) {
+            entity.checkAttack(myHeroModel.coordinates());
+        }
+    }
 }

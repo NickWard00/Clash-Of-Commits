@@ -73,7 +73,7 @@ public class Controller {
 
         initializeModel();
 
-        myView = new View(stage, this, labels);
+        myView = new View(stage, this, myGameType, labels);
         myViewObstacles = myView.getViewObstacles();
     }
 
@@ -122,7 +122,7 @@ public class Controller {
         myView.step(elapsedTime);
         updateEntityPosition(elapsedTime);
         updateAttackPosition(elapsedTime);
-        checkForNewAttacks();
+        myModel.checkForNewAttacks();
         updatePlayerHealth();
         //updatePlayerScore();
     }
@@ -180,15 +180,6 @@ public class Controller {
                     removeObstacle(coordinate);
                 }
             }
-        }
-    }
-
-    /**
-     * Checks if any new attacks have been created and adds them to the game
-     */
-    private void checkForNewAttacks() {
-        for (Entity entity : myModelEntities.values()) {
-            entity.checkAttack(myModelEntities.get(getMainHeroName()).coordinates());
         }
     }
 
@@ -418,6 +409,9 @@ public class Controller {
         myView.changeEntityState(myMainHeroName, DirectionState.NORTH, MovementState.STATIONARY);
     }
 
+    /**
+     * Reflection method that is called from handleKeyRelease to stop the hero from attacking
+     */
     private void attackStop(){
         myModel.changeEntityState(myMainHeroName, playerDirection, MovementState.STATIONARY);
         myView.changeEntityState(myMainHeroName, playerDirection, MovementState.STATIONARY);
@@ -483,15 +477,19 @@ public class Controller {
         myView.changeEntityState(myMainHeroName, DirectionState.EAST, MovementState.MOVING);
     }
 
+    /**
+     * Reflection method that is called from handleKeyPress to move allow the player to sprint
+     */
     private void sprint(){
-        //if(myModel.entityIsMoving(myMainHeroName))
-            myModel.changeEntityState(myMainHeroName, MovementState.SPRINTING);
+        myModel.changeEntityState(myMainHeroName, MovementState.SPRINTING);
     }
 
+    /**
+     * Reflection method that is called from handleKeyRelease to stop the hero from sprinting
+     */
     private void sprintStop(){
         myModel.changeEntityState(myMainHeroName, MovementState.MOVING);
     }
-
 
     /**
      * Method that returns the name of the main hero, if it exists
