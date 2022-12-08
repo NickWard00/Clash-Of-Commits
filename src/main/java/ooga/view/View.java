@@ -114,11 +114,6 @@ public class View {
         EntityView entity = myViewEntities.get(entityName);
         entity.changeDirectionAndMovement(direction, movement);
     }
-    //TODO: What is this method and is it used anywhere? Rename or delete?
-    public void changeEntityState(String entityName, MovementState movement){
-        EntityView entity = myViewEntities.get(entityName);
-        entity.changeMovement(movement);
-    }
 
     /**
      * Sets up the map for the view
