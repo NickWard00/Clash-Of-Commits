@@ -228,7 +228,7 @@ public class Controller {
      */
     public void saveGame(int num){
         SaveFileParser saver = new SaveFileParser();
-        saver.saveGame(num, myModelEntities, mapName, myGameType);
+        saver.saveGame(num, myModelEntities, mapName, myGameType, String.valueOf(myModelEntities.get(myMainHeroName).getHp()), String.valueOf(score));
     }
 
     /**
@@ -239,7 +239,15 @@ public class Controller {
         SaveFileParser saver = new SaveFileParser();
         saver.loadGame(num);
         this.myGameType = saver.getGameType();
+
         myModelEntities = saver.getEntities();
+        for (Entity entity : myModelEntities.values()) {
+            if (entity.getMyAttributes().get("EntityType").equals("MainHero") || entity.getMyAttributes().get("EntityType").equals("Link")) {
+                myMainHeroName = entity.getMyAttributes().get("Name");
+            }
+        }
+        myModelEntities.get(myMainHeroName).setHP(Integer.parseInt(saver.getHeroHP()));
+        score = Integer.parseInt(saver.getSaveScore());
         mapName = saver.getMapName();
     }
 
