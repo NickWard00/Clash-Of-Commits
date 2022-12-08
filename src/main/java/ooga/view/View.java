@@ -206,5 +206,9 @@ public class View {
     public void updateHealth(int num){
         mainGameScreen.getHud().updateHealth(num);
     }
+
+    public void updateScore(int score) {
+        mainGameScreen.getHud().updateScore(score);
+    }
 }
 

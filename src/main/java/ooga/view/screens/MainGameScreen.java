@@ -17,8 +17,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import ooga.controller.AdventureGameState;
+import ooga.controller.gameState.AdventureGameState;
 import ooga.controller.Controller;
+import ooga.controller.gameState.MapGameState;
 import ooga.view.*;
 
 import java.util.Map;
@@ -60,7 +61,7 @@ public class MainGameScreen extends SceneCreator {
             labels.getString("css2"),"setDark",
             labels.getString("css3"),"setSnowy"
     );
-    private AdventureGameState adventureGameState;
+    private MapGameState mapGameState;
 
     /**
      * Constructor for maingamescreen
@@ -86,7 +87,9 @@ public class MainGameScreen extends SceneCreator {
         music = new Media(new File(media.getString("lvl1")).toURI().toString());
         walk = new Media(new File(media.getString("walking")).toURI().toString());
         walkPlayer = new MediaPlayer(walk);
-        adventureGameState = new AdventureGameState(myViewEntities);
+
+        //TODO: Figure out how to decide what game state to use
+        mapGameState = new AdventureGameState(myViewEntities, controller);
     }
 
     /**
@@ -109,7 +112,7 @@ public class MainGameScreen extends SceneCreator {
         myScene.getStylesheets().add(styles.getString("DefaultCSS"));
         musicPlayer= new MediaPlayer(music);
         musicPlayer.setAutoPlay(true);
-        myScene = nextScene();
+        nextScene();
         return myScene;
     }
 
@@ -289,19 +292,18 @@ public class MainGameScreen extends SceneCreator {
         return hud;
     }
 
-    private Scene nextScene() {
-//        if (adventureGameState.determineWin(101)) {
-//            EndGameScreen winScreen = new EndGameScreen(stage);
-//            myScene = winScreen.makeScene();
-//            stage.setScene(myScene);
-//            stage.show();
-//        }
-//        else if (adventureGameState.determineLost()) {
-//            LoseScreen loseScreen = new LoseScreen();
-//            myScene = loseScreen.makeScene();
-//            stage.setScene(myScene);
-//            stage.show();
-//        }
-        return myScene;
+    public void nextScene() {
+        if (mapGameState.determineWin(1)) {
+            EndGameScreen winScreen = new EndGameScreen(stage, true);
+            myScene = winScreen.makeScene();
+            stage.setScene(myScene);
+            stage.show();
+        }
+        else if (mapGameState.determineLost()) {
+            EndGameScreen loseScreen = new EndGameScreen(stage, false);
+            myScene = loseScreen.makeScene();
+            stage.setScene(myScene);
+            stage.show();
+        }
     }
 }
