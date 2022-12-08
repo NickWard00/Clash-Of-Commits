@@ -87,6 +87,7 @@ public class MainGameScreen extends SceneCreator {
         music = new Media(new File(media.getString("lvl1")).toURI().toString());
         walk = new Media(new File(media.getString("walking")).toURI().toString());
         walkPlayer = new MediaPlayer(walk);
+        mapGameState = new AdventureGameState(myViewEntities, controller);
     }
 
     /**
@@ -109,7 +110,7 @@ public class MainGameScreen extends SceneCreator {
         myScene.getStylesheets().add(styles.getString("DefaultCSS"));
         musicPlayer= new MediaPlayer(music);
         musicPlayer.setAutoPlay(true);
-        myScene = nextScene();
+        nextScene();
         return myScene;
     }
 
@@ -289,7 +290,7 @@ public class MainGameScreen extends SceneCreator {
         return hud;
     }
 
-    private Scene nextScene() {
+    public void nextScene() {
         if (mapGameState.determineWin(1)) {
             EndGameScreen winScreen = new EndGameScreen(stage, true);
             myScene = winScreen.makeScene();
@@ -302,6 +303,5 @@ public class MainGameScreen extends SceneCreator {
             stage.setScene(myScene);
             stage.show();
         }
-        return myScene;
     }
 }

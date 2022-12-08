@@ -115,6 +115,13 @@ public class Controller {
     }
 
     /**
+     * Stops the animation of the game
+     */
+    public void stopAnimation() {
+        animation.stop();
+    }
+
+    /**
      * Steps the animation of the game
      * @param elapsedTime the time elapsed since the last step
      */
@@ -309,9 +316,15 @@ public class Controller {
      * @param entityName
      */
     public void removeEntity(String entityName){
-        myView.getGameScreen().removeEntityFromScene(entityName);
-        myModelEntities.remove(entityName);
-        myViewEntities.remove(entityName);
+        if (entityName != myMainHeroName) {
+            myView.getGameScreen().removeEntityFromScene(entityName);
+            myModelEntities.remove(entityName);
+            myViewEntities.remove(entityName);
+        }
+        else {
+            myView.getGameScreen().nextScene();
+            stopAnimation();
+        }
     }
 
     /**
