@@ -87,6 +87,8 @@ public class MainGameScreen extends SceneCreator {
         music = new Media(new File(media.getString("lvl1")).toURI().toString());
         walk = new Media(new File(media.getString("walking")).toURI().toString());
         walkPlayer = new MediaPlayer(walk);
+
+        //TODO: Figure out how to decide what game state to use
         mapGameState = new AdventureGameState(myViewEntities, controller);
     }
 
