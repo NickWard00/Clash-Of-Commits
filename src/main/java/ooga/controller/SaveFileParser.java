@@ -75,20 +75,19 @@ public class SaveFileParser {
         } catch (IOException | ParseException e) {
             throw new IllegalStateException("saveFileNotFound", e);
         }
-        Map<String, String> stringProperties = jsonProperties;
-        stringProperties.entrySet().forEach(entry->{
-            String key = entry.getValue();
-            if (key.equals("Map")){
-                mapName = entry.getValue();
+        jsonProperties.keySet().forEach(key->{
+            String keyStr = key.toString();
+            if (keyStr.equals("Map")){
+                mapName = jsonProperties.get(key).toString();
             }
-            else if (key.equals("GameType")){
-                gameType = entry.getValue();
+            else if (keyStr.equals("GameType")){
+                gameType = jsonProperties.get(key).toString();
             }
-            else if (key.equals("TimeDate")){
-                timeDate = entry.getValue();
+            else if (keyStr.equals("TimeDate")){
+                timeDate = jsonProperties.get(key).toString();
             }
             else {
-                String[] entityDataArray = (entry.getValue()).replaceAll("\\s+","").split(",");
+                String[] entityDataArray = (jsonProperties.get(key).toString()).replaceAll("\\s+","").split(",");
                 if (entityDataArray.length < 1){
                     throw new IllegalStateException("saveFileCorrupted");
                 }
@@ -97,7 +96,7 @@ public class SaveFileParser {
                 if (!Arrays.asList(fileNames).contains(String.format("%s.sim", entityDataArray[0]))){
                     throw new IllegalStateException("saveFileCorrupted");
                 }
-                entityMap.put(key, entry.getValue());
+                entityMap.put(keyStr, jsonProperties.get(key).toString());
             }
         });
         entityMapParser = new EntityMapParser(entityMap);
