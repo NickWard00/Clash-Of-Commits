@@ -293,7 +293,7 @@ public class MainGameScreen extends SceneCreator {
     }
 
     public void nextScene() {
-        if (mapGameState.determineWin(1)) {
+        if (mapGameState.determineWin(hud.getScore())) {
             EndGameScreen winScreen = new EndGameScreen(stage, true);
             myScene = winScreen.makeScene();
             stage.setScene(myScene);

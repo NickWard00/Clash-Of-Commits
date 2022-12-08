@@ -1,9 +1,11 @@
 package ooga.controller.gameState;
 
 import java.util.Map;
+import java.util.ResourceBundle;
 import ooga.controller.Controller;
 import ooga.model.entities.Entity;
 import ooga.view.EntityView;
+import ooga.view.screens.SceneCreator;
 
 /**
  * This abstract superclass helps determine what the win and lose conditions are for our games and
@@ -13,7 +15,8 @@ import ooga.view.EntityView;
  */
 
 public abstract class MapGameState {
-  private int score;
+  private static final ResourceBundle viewConstants = ResourceBundle.getBundle(
+      "ResourceBundles.ViewConstants");
   private Map<String, EntityView> viewEntities;
   private Map<String, Entity> modelEntities;
   private String hero;
@@ -30,7 +33,7 @@ public abstract class MapGameState {
   public boolean determineLost() {
     this.modelEntities = controller.getModelEntities();
     this.hero = controller.getMainHeroName();
-    if (modelEntities.get(hero).getHp() == 0) {
+    if (modelEntities.get(hero).getHp() == Integer.parseInt(viewConstants.getString("loseHealth"))) {
       return true;
     }
     return false;
