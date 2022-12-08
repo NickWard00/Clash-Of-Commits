@@ -28,12 +28,15 @@ public class SaveFileParser {
     private Map<String, String> entityMap;
     private EntityMapParser entityMapParser;
 
+    private FireBase fireBase;
+
     /**
      * Constructor for SaveFileParser
      */
     public SaveFileParser(){
         entityMap = new HashMap<>();
         jsonProperties = new JSONObject();
+        fireBase = new FireBase();
     }
 
     /**
@@ -62,6 +65,15 @@ public class SaveFileParser {
         } catch (IOException e) {
             throw new IllegalStateException("saveFileCannotSave", e);
         }
+    }
+
+    public void loadGameFromWeb(){
+
+    }
+
+    public void saveGameToWeb(int saveFile, Map<String, Entity> modelEntities, String mapName, String gameType){
+        saveGame(saveFile, modelEntities, mapName, gameType);
+        fireBase.update(new File(String.format(SAVE_DIRECTORY, saveFile)), "Save_4");
     }
 
     /**

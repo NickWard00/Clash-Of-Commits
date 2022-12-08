@@ -12,17 +12,23 @@ import java.util.concurrent.CountDownLatch;
 
 public class FireBase {
     private final String DATABASE_URL = "firebase/ooga-team-6-firebase-adminsdk-s9ddn-49ef12d240.json";
-    FileInputStream serviceAccount =
-            new FileInputStream("firebase/ooga-team-6-firebase-adminsdk-s9ddn-49ef12d240.json");
-    private FirebaseDatabase firebaseDatabase;
-    public FireBase() throws IOException {
-        FirebaseOptions options = new FirebaseOptions.Builder()
-                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                .setDatabaseUrl("https://ooga-team-6-default-rtdb.firebaseio.com")
-                .build();
 
-        FirebaseApp.initializeApp(options);
-        firebaseDatabase= FirebaseDatabase.getInstance(DATABASE_URL);
+    private FirebaseDatabase firebaseDatabase;
+    public FireBase() {
+        try {
+            FileInputStream serviceAccount =
+                    new FileInputStream("firebase/ooga-team-6-firebase-adminsdk-s9ddn-49ef12d240.json");
+            FirebaseOptions options = new FirebaseOptions.Builder()
+                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                    .setDatabaseUrl("https://ooga-team-6-default-rtdb.firebaseio.com")
+                    .build();
+
+            FirebaseApp.initializeApp(options);
+            firebaseDatabase = FirebaseDatabase.getInstance(DATABASE_URL);
+        } catch (IOException io){
+            //error handling here
+        }
+
     }
         public void update(Object value, String key) {
             try {

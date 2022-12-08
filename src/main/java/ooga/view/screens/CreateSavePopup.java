@@ -14,7 +14,7 @@ import ooga.controller.Controller;
 import ooga.controller.SaveFileParser;
 import ooga.view.SaveSlot;
 
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * @author Melanie Wang
@@ -31,6 +31,8 @@ public class CreateSavePopup extends SceneCreator {
     private SaveSlot slot3;
     private ResourceBundle labels;
     private Stage stage;
+
+    private List<SaveSlot> slotList = new ArrayList<>();
     private int popupSize = Integer.parseInt(constants.getString("popupSize"));
 
     /**
@@ -58,6 +60,9 @@ public class CreateSavePopup extends SceneCreator {
         slot2.setId("slot2");
         slot3 = new SaveSlot(labels, 3);
         slot3.setId("slot3");
+        slotList.add(slot1);
+        slotList.add(slot2);
+        slotList.add(slot3);
         VBox slotHolder = new VBox(saveGameText, slot1,slot2,slot3);
         savePane.getChildren().add(slotHolder);
         handleEvents();
@@ -68,18 +73,12 @@ public class CreateSavePopup extends SceneCreator {
 
      //maps each slot to its specific save file, and saves game on click.
     private void handleEvents(){
-        slot1.setOnMouseClicked(event->{
-            myController.saveGame(slot1.getNumber());
-            confirmSave();
-        });
-        slot2.setOnMouseClicked(event->{
-            myController.saveGame(slot2.getNumber());
-            confirmSave();
-        });
-        slot3.setOnMouseClicked(event->{
-            myController.saveGame(slot3.getNumber());
-            confirmSave();
-        });
+        for(SaveSlot s:slotList){
+            s.setOnMouseClicked(event->{
+                myController.saveGame(s.getNumber());
+                confirmSave();
+            });
+        }
     }
 
      // Opens a small popup that lets the user know the game's been saved.
