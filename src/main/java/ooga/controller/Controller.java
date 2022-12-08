@@ -255,14 +255,16 @@ public class Controller {
      * Sets up the view entities based on the model entities
      */
     private void setupModelObstacles(MapParser parser) {
-        for (int r = 0; r < mapWrapper.getRowSize(0); r++) {
-            for (int c = 0; c < mapWrapper.getColumnSize(); c++) {
+        for (int row = 0; row < mapWrapper.getRowSize(0); row++) {
+            for (int col = 0; col < mapWrapper.getColumnSize(); col++) {
                 try {
-                    int thisState = mapWrapper.getState(c,r);
-                    ResourceBundle obstacleBundle = ResourceBundle.getBundle("ResourceBundles.Obstacle");
-                    String obstacleStateString = parser.getObstacleStateMap().get(thisState);
-                    Class obstacleClass = Class.forName(obstacleBundle.getString(obstacleStateString));
-                    makeObstacle(obstacleClass, r, c);
+                    int thisState = mapWrapper.getState(col,row);
+                    if (mapWrapper.getObstacleFromState(thisState).contains("Wall") || mapWrapper.getObstacleFromState(thisState).contains("PowerUp")) {
+                        ResourceBundle obstacleBundle = ResourceBundle.getBundle("ResourceBundles.Obstacle");
+                        String obstacleStateString = parser.getObstacleStateMap().get(thisState);
+                        Class obstacleClass = Class.forName(obstacleBundle.getString(obstacleStateString));
+                        makeObstacle(obstacleClass, row, col);
+                    }
                 } catch (ClassNotFoundException e) {
                     throw new IllegalStateException("classNotFound", e);
                 }
