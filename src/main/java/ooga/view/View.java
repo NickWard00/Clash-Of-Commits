@@ -38,6 +38,7 @@ public class View {
     private boolean isActive;
     private MediaPlayer walking;
     private ResourceBundle labels;
+    private String myGameType;
 
     /**
      * Constructor for the View class
@@ -45,13 +46,13 @@ public class View {
      * @param controller the controller that this view is associated with
      * @param label the resource bundle for the labels
      */
-    public View(Stage stage, Controller controller, ResourceBundle label){
+    public View(Stage stage, Controller controller, String gameType, ResourceBundle label){
         this.isActive = false;
         this.stage = stage;
         this.myController = controller;
+        this.myGameType = gameType;
+        this.labels = label;
         setupGame(stage);
-        //myViewObstacles = new HashMap<>();
-        labels = label;
     }
 
     /**
@@ -85,7 +86,7 @@ public class View {
         handleKeyInputs();
 
         stage.setScene(myScene);
-        stage.setTitle("Adventure Mode");
+        stage.setTitle(myGameType);
         stage.getIcons().add(new Image("sprites/hero/SOUTH_STATIONARY.GIF"));
 
         createScrollableBackground();
@@ -113,11 +114,6 @@ public class View {
     public void changeEntityState(String entityName, DirectionState direction, MovementState movement) {
         EntityView entity = myViewEntities.get(entityName);
         entity.changeDirectionAndMovement(direction, movement);
-    }
-    //TODO: What is this method and is it used anywhere? Rename or delete?
-    public void changeEntityState(String entityName, MovementState movement){
-        EntityView entity = myViewEntities.get(entityName);
-        entity.changeMovement(movement);
     }
 
     /**

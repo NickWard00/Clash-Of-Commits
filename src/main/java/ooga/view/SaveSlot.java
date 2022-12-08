@@ -4,7 +4,6 @@ import javafx.scene.control.Label;
 import ooga.controller.SaveFileParser;
 
 import java.time.format.DateTimeFormatter;
-import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 /**
@@ -35,12 +34,19 @@ public class SaveSlot extends Slot{
     public SaveSlot(ResourceBundle label, int number){
         super(label);
         labels = label;
-        slotNumber =number;
-        saveFileParser.loadSaveInformation(number);
-        timeContent = saveFileParser.getTimeDate();
-        gameTypeContent = saveFileParser.getGameType();
-        mapNameContent = saveFileParser.getMapName();
-        time = new SubLabel(String.format("%s %s",labels.getString("time"), timeContent));
+        slotNumber = number;
+        try {
+            saveFileParser.loadSaveInformation(number);
+            timeContent = saveFileParser.getTimeDate();
+            gameTypeContent = saveFileParser.getGameType();
+            mapNameContent = saveFileParser.getMapName();
+        } catch (IllegalStateException e) {
+            timeContent = "No Save";
+            gameTypeContent = "No Save";
+            mapNameContent = "No Save";
+        }
+        DateTimeFormatter m = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
+        time = new SubLabel(String.format("%s %s", labels.getString("time"), timeContent));
         gameType = new SubLabel(String.format("%s %s", labels.getString("gameType"), gameTypeContent));
         mapName = new SubLabel(String.format("%s %s", labels.getString("mapName"), mapNameContent));
         this.getChildren().addAll(gameType,mapName,time);

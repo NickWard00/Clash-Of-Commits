@@ -3,6 +3,7 @@ package ooga.controller;
 import ooga.model.entities.Entity;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -10,14 +11,17 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  * @author Nick Ward, Melanie Wang
  */
 public class SaveFileParser {
-    private Properties properties;
-    private static final String SAVE_DIRECTORY = "data/Saves/Save_%s.sim";
+    private JSONObject jsonProperties;
+    private static final String SAVE_DIRECTORY = "data/Saves/Save_%s.json";
+    private static final String TIME_DATE_FORMAT = "MM/dd/yyyy HH:mm:ss";
     private String mapName;
     private String gameType;
     private String timeDate;
@@ -29,7 +33,7 @@ public class SaveFileParser {
      */
     public SaveFileParser(){
         entityMap = new HashMap<>();
-        properties = new Properties();
+        jsonProperties = new JSONObject();
     }
 
     /**
@@ -40,17 +44,21 @@ public class SaveFileParser {
      * @param gameType the type of game
      */
     public void saveGame(int saveFile, Map<String, Entity> modelEntities, String mapName, String gameType) {
-        properties.setProperty("Map", mapName);
-        properties.setProperty("GameType", gameType);
-        DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm_ss");
-        properties.setProperty("TimeDate", LocalDateTime.now().format(myFormat));
+        jsonProperties = new JSONObject();
+
+        jsonProperties.put("Map", mapName);
+        jsonProperties.put("GameType", gameType);
+        DateTimeFormatter myFormat = DateTimeFormatter.ofPattern(TIME_DATE_FORMAT);
+        jsonProperties.put("TimeDate", LocalDateTime.now().format(myFormat));
         modelEntities.entrySet().forEach(entry->{
             String entityName = entry.getKey();
             Entity entity = entry.getValue();
-            properties.setProperty(entityName, entity.getMyAttributes().get("EntityType") + ", " + entity.coordinates().get(0) + ", " + entity.coordinates().get(1));
+            jsonProperties.put(entityName, entity.getMyAttributes().get("EntityType") + ", " + entity.coordinates().get(0) + ", " + entity.coordinates().get(1));
         });
         try {
-            properties.store(new FileWriter(String.format(SAVE_DIRECTORY, saveFile)), null);
+            FileWriter file = new FileWriter(String.format(SAVE_DIRECTORY, saveFile));
+            file.write(jsonProperties.toJSONString());
+            file.close();
         } catch (IOException e) {
             throw new IllegalStateException("saveFileCannotSave", e);
         }
@@ -62,25 +70,24 @@ public class SaveFileParser {
      * @return
      */
     public void loadGame(int saveFile) throws IllegalStateException {
-        GeneralParser simParser = new GeneralParser();
         try {
-            properties = simParser.getSimData(String.format(SAVE_DIRECTORY, saveFile));
-        } catch (IllegalStateException e) {
+            jsonProperties = (JSONObject) new JSONParser().parse(new FileReader(String.format(SAVE_DIRECTORY, saveFile)));
+        } catch (IOException | ParseException e) {
             throw new IllegalStateException("saveFileNotFound", e);
         }
-        properties.entrySet().forEach(entry->{
-            String key = (String) entry.getKey();
-            if (key.equals("Map")){
-                mapName = (String) entry.getValue();
+        jsonProperties.keySet().forEach(key->{
+            String keyStr = key.toString();
+            if (keyStr.equals("Map")){
+                mapName = jsonProperties.get(key).toString();
             }
-            else if (key.equals("GameType")){
-                gameType = (String) entry.getValue();
+            else if (keyStr.equals("GameType")){
+                gameType = jsonProperties.get(key).toString();
             }
-            else if (key.equals("TimeDate")){
-                timeDate = (String) entry.getValue();
+            else if (keyStr.equals("TimeDate")){
+                timeDate = jsonProperties.get(key).toString();
             }
             else {
-                String[] entityDataArray = ((String) entry.getValue()).replaceAll("\\s+","").split(",");
+                String[] entityDataArray = (jsonProperties.get(key).toString()).replaceAll("\\s+","").split(",");
                 if (entityDataArray.length < 1){
                     throw new IllegalStateException("saveFileCorrupted");
                 }
@@ -89,7 +96,7 @@ public class SaveFileParser {
                 if (!Arrays.asList(fileNames).contains(String.format("%s.sim", entityDataArray[0]))){
                     throw new IllegalStateException("saveFileCorrupted");
                 }
-                entityMap.put(key, (String) entry.getValue());
+                entityMap.put(keyStr, jsonProperties.get(key).toString());
             }
         });
         entityMapParser = new EntityMapParser(entityMap);
@@ -110,25 +117,15 @@ public class SaveFileParser {
      * Loads the information of a save file if given the save file number
      * @param num the number of the save file
      */
-    public void loadSaveInformation(int num){
-        GeneralParser simParser = new GeneralParser();
+    public void loadSaveInformation(int num) throws IllegalStateException {
         try {
-            properties = simParser.getSimData(String.format(SAVE_DIRECTORY, num));
-        } catch (IllegalStateException e) {
+            jsonProperties = (JSONObject) new JSONParser().parse(new FileReader(String.format(SAVE_DIRECTORY, num)));
+        } catch (IOException | ParseException e) {
             throw new IllegalStateException("saveFileNotFound", e);
         }
-        properties.entrySet().forEach(entry->{
-            String key = (String) entry.getKey();
-            if (key.equals("Map")){
-                mapName = (String) entry.getValue();
-            }
-            else if (key.equals("GameType")){
-                gameType = (String) entry.getValue();
-            }
-            else if (key.equals("TimeDate")){
-                timeDate = (String) entry.getValue();
-            }
-    });
+        mapName = jsonProperties.get("Map").toString();
+        gameType = jsonProperties.get("GameType").toString();
+        timeDate = jsonProperties.get("TimeDate").toString();
     }
 
     /**

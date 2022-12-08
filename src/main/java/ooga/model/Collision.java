@@ -9,7 +9,6 @@ import ooga.model.obstacle.Obstacle;
 import ooga.model.obstacle.Wall;
 import ooga.model.obstacle.powerup.PowerUp;
 import ooga.view.EntityView;
-
 import java.util.List;
 import java.util.Map;
 
