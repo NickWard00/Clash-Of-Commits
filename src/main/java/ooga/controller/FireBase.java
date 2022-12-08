@@ -3,9 +3,8 @@ package ooga.controller;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.*;
+import org.apache.commons.logging.Log;
 import org.json.simple.JSONObject;
 
 import java.io.File;
@@ -13,10 +12,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+
 public class FireBase {
     private final String DATABASE_URL = "https://ooga-team-6-default-rtdb.firebaseio.com";
     private final String GOOGLE_APPLICATION_CREDENTIALS = "src/main/resources/firebase/ooga-team-6-firebase-adminsdk-s9ddn-49ef12d240.json";
     private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference ref;
     public FireBase() {
         try {
         File file = new File(GOOGLE_APPLICATION_CREDENTIALS);
@@ -46,6 +47,12 @@ public class FireBase {
                     }
                 }});
         }
+
+        //public void getFile(String key){
+        //    ref.child("key").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        //}
+
+
     }
 
 

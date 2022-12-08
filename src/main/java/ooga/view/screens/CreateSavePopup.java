@@ -69,7 +69,7 @@ public class CreateSavePopup extends SceneCreator {
         VBox slotHolder = new VBox(saveGameText, slot1,slot2,slot3, slot4);
         savePane.getChildren().add(slotHolder);
         handleEvents();
-        Scene scene = new Scene(savePane,popupSize, popupSize);
+        Scene scene = new Scene(savePane);
         scene.getStylesheets().add(styles.getString("saveCSS"));
         return scene;
     }
