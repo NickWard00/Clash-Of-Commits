@@ -28,13 +28,16 @@ public class EndGameScreen extends SceneCreator {
   private Button playAgainButton;
   private ResourceBundle constants;
   private VBox buttons;
+  private String css;
+  private boolean won;
 
-  public EndGameScreen(Stage stage) {
+  public EndGameScreen(Stage stage, boolean win) {
     this.resources = getLabels();
     this.constants = getConstants();
     this.currentStage = stage;
     this.styles = getStyles();
     this.screenSize = getScreenSize();
+    this.won = win;
   }
 
   //TODO: Refactor the constants out
@@ -42,18 +45,15 @@ public class EndGameScreen extends SceneCreator {
   public Scene makeScene() {
     this.pane = new StackPane();
     pane.setId("EndGameScreen");
-    playAgainButton = new Button(resources.getString("playAgainButtonWin"));
+    playAgainButton = new Button(resources.getString("playAgainButton"));
     playAgainButton.setId("playAgainButton");
-    text = new Text("Congratulations!!!");
-//    text = new Text("You have lost");
-    text.setId("message");
+    determineScreenType(won);
     buttons = new VBox();
     buttons.getChildren().addAll(text, playAgainButton);
     buttons.setAlignment(Pos.CENTER);
     pane.getChildren().add(buttons);
     endGameScene = new Scene(pane, screenSize, screenSize);
-    endGameScene.getStylesheets().add(styles.getString("winScreenCSS"));
-//    endGameScene.getStylesheets().add(styles.getString("loseScreenCSS"));
+    endGameScene.getStylesheets().add(styles.getString(css));
     handleEvents();
     return endGameScene;
   }
@@ -67,5 +67,19 @@ public class EndGameScreen extends SceneCreator {
     playAgainButton.setOnAction(event -> {
       returnToBeginning();
     });
+  }
+
+  //TODO: Refactor the Strings out?
+  private void determineScreenType(boolean win) {
+    if (win) {
+      text = new Text("Congratulations!!!");
+      text.setId("congratsMessage");
+      css = "winScreenCSS";
+    }
+    else {
+      text = new Text("You have lost");
+      text.setId("loseMessage");
+      css = "loseScreenCSS";
+    }
   }
 }
