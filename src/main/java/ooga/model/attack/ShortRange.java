@@ -1,13 +1,10 @@
 package ooga.model.attack;
 
-import ooga.model.hitBox.AttackHitBox;
-import ooga.model.state.DirectionState;
-import ooga.model.Entity;
+import ooga.model.entities.Entity;
 
 import java.util.Map;
 
 public class ShortRange extends Attack {
-
     private double coolDown;
 
     /**
@@ -20,5 +17,11 @@ public class ShortRange extends Attack {
         coolDown = attributes.getOrDefault("CoolDown", 1.0);
     }
 
-    public double getCoolDown() { return coolDown; }
+    /**
+     * Gets the cool down time of this attack
+     * @return the cool down time of this attack
+     */
+    public double getCoolDown() {
+        return coolDown;
+    }
 }

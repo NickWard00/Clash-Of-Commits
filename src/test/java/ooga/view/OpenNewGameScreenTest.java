@@ -13,6 +13,9 @@ import java.util.ResourceBundle;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Melanie Wang
+ */
 public class OpenNewGameScreenTest extends DukeApplicationTest {
     ResourceBundle labels = ResourceBundle.getBundle(
             "ResourceBundles.LabelsBundle");
@@ -32,6 +35,6 @@ public class OpenNewGameScreenTest extends DukeApplicationTest {
         clickOn(first);
         ToolBar hud = lookup("#HUD").query();
         Label score = (Label) hud.getItems().get(1);
-        assertEquals("Score:0", score.getText());
+        assertEquals("Score:  0", score.getText());
     }
 }

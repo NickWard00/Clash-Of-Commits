@@ -1,0 +1,28 @@
+@font-face {
+    font-family: "Retro Computer";
+    font-style: normal;
+    font-weight: 400;
+    src: url("/fonts/retro_computer.ttf");
+}
+
+.button{
+    -fx-font-family: "Retro Computer";
+    -fx-pref-width: 200px;
+}
+
+.label{
+    -fx-font-family: "Retro Computer";
+
+}
+
+.combo-box{
+    -fx-font-family: "Retro Computer";
+    -fx-pref-width: 200px;
+}
+.vbox{
+    -fx-padding: 15 15 15 15;
+    -fx-spacing: 10;
+    -fx-border-color: black;
+    -fx-border-insets: 5;
+    -fx-border-width: 3;
+}

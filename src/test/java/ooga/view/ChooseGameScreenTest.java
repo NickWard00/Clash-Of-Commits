@@ -11,6 +11,9 @@ import java.util.ResourceBundle;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Melanie Wang
+ */
 public class ChooseGameScreenTest extends DukeApplicationTest{
     ResourceBundle labels = ResourceBundle.getBundle(
             "ResourceBundles.LabelsBundle");
@@ -31,5 +34,14 @@ public class ChooseGameScreenTest extends DukeApplicationTest{
         GameSlot first = (GameSlot) slotBox.getChildren().get(0);
         Label gameType = (Label) first.getChildren().get(0);
         assertEquals(gameType.getText(), "The Beginning");
+    }
+
+    @Test
+    void testLoadSaveButton() {
+        Button loadSave = lookup("#loadSave").query();
+        clickOn(loadSave);
+        VBox slots = lookup("#slots").query();
+
+        assertEquals(slots.getChildren().size(), 3);
     }
 }

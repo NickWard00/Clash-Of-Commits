@@ -1,9 +1,5 @@
 package ooga.controller;
 
-import ooga.model.HighScore;
-import ooga.view.screens.LoseScreen;
-import ooga.view.screens.WinScreen;
-
 /**
  * This interface shows what happens when the game determines whether the user has won or lost the game.
  *
@@ -13,7 +9,7 @@ public interface GameState {
   /**
    * This method modifies a boolean variable to determine if the game is won or not.
    */
-  boolean determineWin();
+  boolean determineWin(int score);
 
   /**
    * This method modifies a boolean variable to determine if the game is lost of not.
@@ -30,12 +26,12 @@ public interface GameState {
 //   */
 //  HighScore getHighScore();
 //
-//  /**
-//   * This method displays the new scene when the game is won.
-//   */
+  /**
+   * This method displays the new scene when the game is won.
+   */
 //  WinScreen showWin();
-//
-//  /**
+
+  /**
 //   * This method displays the new scene when the game is lost.
 //   */
 //  LoseScreen showLost();

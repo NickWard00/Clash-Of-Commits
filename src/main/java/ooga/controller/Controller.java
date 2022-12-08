@@ -5,7 +5,7 @@ import javafx.animation.Timeline;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import ooga.model.Entity;
+import ooga.model.entities.Entity;
 import ooga.model.Model;
 import ooga.model.attack.Attack;
 import ooga.model.obstacle.DestroyableWall;
@@ -40,13 +40,9 @@ public class Controller {
     private Map<Integer, AttackView> myViewAttacks;
     private String myMainHeroName;
     private Map<KeyCode, String> actions;
-
+    private String myGameType;
     private String mapName;
-
     private DirectionState playerDirection;
-
-    private boolean playingGame;
-    private boolean choosingGame; //some sort of variable to control what is active at any given moment
 
     /**
      * Constructor for the controller, which initializes the model and view and sets up map based on map name
@@ -54,14 +50,13 @@ public class Controller {
      * @param map the name of the map to be displayed
      * @param labels the resource bundle containing the labels for the game
      */
-    public Controller(Stage stage, String map, ResourceBundle labels){
-        myModelEntities = new HashMap<>();
-        myViewEntities = new HashMap<>();
-        myModelAttacks = new HashMap<>();
-        myViewAttacks = new HashMap<>();
-        myModelObstacles = new HashMap<>();
-        myViewObstacles = new HashMap<>();
-        actions = Map.of(
+    public Controller(Stage stage, String map, String gameType, ResourceBundle labels){
+        this.myModelEntities = new HashMap<>();
+        this.myViewEntities = new HashMap<>();
+        this.myModelAttacks = new HashMap<>();
+        this.myViewAttacks = new HashMap<>();
+        this.myModelObstacles = new HashMap<>();
+        this.actions = Map.of(
                 KeyCode.UP, "moveUp",
                 KeyCode.DOWN, "moveDown",
                 KeyCode.RIGHT, "moveRight",
@@ -70,13 +65,16 @@ public class Controller {
                 KeyCode.W, "moveUp",
                 KeyCode.S, "moveDown",
                 KeyCode.D, "moveRight",
-                KeyCode.A, "moveLeft"
+                KeyCode.A, "moveLeft",
+                KeyCode.SHIFT, "sprint"
         );
-        mapName = map;
+        this.mapName = map;
+        this.myGameType = gameType;
 
         initializeModel();
 
         myView = new View(stage, this, labels);
+        myViewObstacles = myView.getViewObstacles();
     }
 
     /**
@@ -102,10 +100,16 @@ public class Controller {
         animation.play();
     }
 
+    /**
+     * Stops the animation of the game
+     */
     public void pauseAnimation(){
         animation.pause();
     }
 
+    /**
+     * Resumes the animation of the game
+     */
     public void playAnimation(){
         animation.play();
     }
@@ -119,6 +123,8 @@ public class Controller {
         updateEntityPosition(elapsedTime);
         updateAttackPosition(elapsedTime);
         checkForNewAttacks();
+        updatePlayerHealth();
+        //updatePlayerScore();
     }
 
     /**
@@ -164,20 +170,25 @@ public class Controller {
         }
     }
 
+    /**
+     * Checks if any obstacles have been destroyed and removes them from the game
+     */
     private void updateObstacles() {
         for (List<Double> coordinate : myViewObstacles.keySet()) {
             if (myModelObstacles.get(coordinate).getClass() == DestroyableWall.class) {
                 if (!((DestroyableWall) myModelObstacles.get(coordinate)).determineOnScreen()) {
-                    System.out.println("I should remove the obstacle now");
                     removeObstacle(coordinate);
                 }
             }
         }
     }
 
+    /**
+     * Checks if any new attacks have been created and adds them to the game
+     */
     private void checkForNewAttacks() {
         for (Entity entity : myModelEntities.values()) {
-            entity.checkAttack(myModelEntities.get("Hero1").coordinates());
+            entity.checkAttack(myModelEntities.get(getMainHeroName()).coordinates());
         }
     }
 
@@ -208,15 +219,23 @@ public class Controller {
         Attack.setMyController(this);
     }
 
+    /**
+     * Sets up the model obstacles based on the map parser
+     * @param num
+     */
     public void saveGame(int num){
         SaveFileParser saver = new SaveFileParser();
-        //TODO: replace temp gametype param with the actual gametype
-        saver.saveGame(num, myModelEntities, mapName, "The Beginning");
+        saver.saveGame(num, myModelEntities, mapName, myGameType);
     }
 
-    public void loadGame(int i){
+    /**
+     * Loads a game from a save file
+     * @param num
+     */
+    public void loadGame(int num){
         SaveFileParser saver = new SaveFileParser();
-        saver.loadGame(i);
+        saver.loadGame(num);
+        this.myGameType = saver.getGameType();
         myModelEntities = saver.getEntities();
         mapName = saver.getMapName();
     }
@@ -275,7 +294,7 @@ public class Controller {
         imagePath = String.format("%s%s.png", imagePath, attack.getDirection().getDirectionString());
         String attackType = attack.getClass().getSimpleName();
         double size = Double.parseDouble("" + attack.getMyAttributes().get("Size"));
-        return new AttackView(imagePath, attackType, attack.getCoordinates().get(0), attack.getCoordinates().get(1), (int) size, (int) size, attackID);
+        return new AttackView(imagePath, attackType, attack.coordinates().get(0), attack.coordinates().get(1), (int) size, (int) size, attackID);
     }
 
     /**
@@ -314,21 +333,34 @@ public class Controller {
         myModelAttacks.remove(attackID);
     }
 
+    /**
+     * Removes an obstacle in model and view based on the obstacle location
+     * @param coordinate
+     */
     public void removeObstacle(List<Double> coordinate) {
         myView.getGameScreen().removeObstacleFromScene(myViewObstacles.get(coordinate));
         myViewObstacles.remove(coordinate);
         myModelObstacles.remove(coordinate);
     }
 
-
-    public void passCollision(Object viewObj1, Object viewObj2) {
+    /**
+     * Translates the collision of an entity with an obstacle
+     * @param viewObject1
+     * @param viewObject2
+     */
+    public void passCollision(Object viewObject1, Object viewObject2) {
         //updateObstacles();
         CollisionHandler handler = new CollisionHandler(getViewModelMaps());
-        Map<?,?> modelMap1 = getCorrectModelMap(viewObj1);
-        Map<?,?> modelMap2 = getCorrectModelMap(viewObj2);
-        handler.translateCollision(viewObj1, viewObj2, modelMap1, modelMap2);
+        Map<?,?> modelMap1 = getCorrectModelMap(viewObject1);
+        Map<?,?> modelMap2 = getCorrectModelMap(viewObject2);
+        handler.translateCollision(viewObject1, viewObject2, modelMap1, modelMap2);
     }
 
+    /**
+     * Gives the correct model map based on the view object
+     * @param obj the view object
+     * @return the correct model map
+     */
     private Map<?,?> getCorrectModelMap(Object obj) {
         try {
             ResourceBundle bundle = ResourceBundle.getBundle("ResourceBundles.ViewToModel");
@@ -336,10 +368,9 @@ public class Controller {
             Object mapObject = Controller.class.getDeclaredMethod(String.format("getModel%s", objType)).invoke(this);
             return (Map<?,?>) mapObject;
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException("classNotFound", e);
         }
     }
-
 
     /**
      * Handles the key input press from the user that is detected in the view
@@ -347,18 +378,12 @@ public class Controller {
      */
     public void handleKeyPress(KeyCode keyCode){
         if (actions.containsKey(keyCode)) {
-            reflectMethod(keyCode);
-        }
-
-    }
-
-    public void reflectMethod(KeyCode k){
-        try {
-            Method currentAction = this.getClass().getDeclaredMethod(
-                    actions.get(k));
-            currentAction.invoke(this);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            throw new IllegalStateException("methodNotFound", e);
+            try {
+                Method currentAction = this.getClass().getDeclaredMethod(actions.get(keyCode));
+                currentAction.invoke(this);
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                throw new IllegalStateException("methodNotFound", e);
+            }
         }
     }
 
@@ -377,9 +402,12 @@ public class Controller {
         }
     }
 
+    /**
+     * Tells the model to attack and changes the state to attack
+     */
     private void attack(){
         myModel.attack();
-        myView.changeEntityState(myMainHeroName,  playerDirection, MovementState.ATTACK);
+        myView.changeEntityState(myMainHeroName, playerDirection, MovementState.ATTACK);
     }
 
     /**
@@ -423,8 +451,8 @@ public class Controller {
      * Reflection method that is called from handleKeyPress to move the hero in the north direction
      */
     private void moveUp() {
-        playerDirection=DirectionState.NORTH;
-        myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.NORTH);
+        playerDirection = DirectionState.NORTH;
+        myModel.changeEntityState(myMainHeroName, DirectionState.NORTH, MovementState.MOVING);
         myView.changeEntityState(myMainHeroName, DirectionState.NORTH, MovementState.MOVING);
     }
 
@@ -432,8 +460,8 @@ public class Controller {
      * Reflection method that is called from handleKeyPress to move the hero in the south direction
      */
     private void moveDown() {
-        playerDirection=DirectionState.SOUTH;
-        myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.SOUTH);
+        playerDirection = DirectionState.SOUTH;
+        myModel.changeEntityState(myMainHeroName, DirectionState.SOUTH, MovementState.MOVING);
         myView.changeEntityState(myMainHeroName, DirectionState.SOUTH, MovementState.MOVING);
     }
 
@@ -441,8 +469,8 @@ public class Controller {
      * Reflection method that is called from handleKeyPress to move the hero in the west direction
      */
     private void moveLeft(){
-        playerDirection=DirectionState.WEST;
-        myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.WEST);
+        playerDirection = DirectionState.WEST;
+        myModel.changeEntityState(myMainHeroName, DirectionState.WEST, MovementState.MOVING);
         myView.changeEntityState(myMainHeroName, DirectionState.WEST, MovementState.MOVING);
     }
 
@@ -450,10 +478,20 @@ public class Controller {
      * Reflection method that is called from handleKeyPress to move the hero in the east direction
      */
     private void moveRight(){
-        playerDirection=DirectionState.EAST;
-        myModel.changeEntityState(myMainHeroName, MovementState.MOVING, DirectionState.EAST);
+        playerDirection = DirectionState.EAST;
+        myModel.changeEntityState(myMainHeroName, DirectionState.EAST, MovementState.MOVING);
         myView.changeEntityState(myMainHeroName, DirectionState.EAST, MovementState.MOVING);
     }
+
+    private void sprint(){
+        //if(myModel.entityIsMoving(myMainHeroName))
+            myModel.changeEntityState(myMainHeroName, MovementState.SPRINTING);
+    }
+
+    private void sprintStop(){
+        myModel.changeEntityState(myMainHeroName, MovementState.MOVING);
+    }
+
 
     /**
      * Method that returns the name of the main hero, if it exists
@@ -500,14 +538,6 @@ public class Controller {
     }
 
     /**
-     * Returns the view obstacles
-     * @return myViewObstacles
-     */
-    public Map<List<Double>, BlockView> getViewObstacles() {
-        return myViewObstacles;
-    }
-
-    /**
      * Returns the model attacks
      * @return myModelAttacks
      */
@@ -523,9 +553,20 @@ public class Controller {
         return myViewAttacks;
     }
 
-    public Map<String, Map<?,?>> getViewModelMaps() {
+    /**
+     * Returns the corresponding map based on string input
+     * @return the corresponding map
+     */
+    private Map<String, Map<?,?>> getViewModelMaps() {
         return Map.of("modelEntities", myModelEntities, "viewEntities", myViewEntities,
                 "modelAttacks", myModelAttacks, "viewAttacks", myViewAttacks,
                 "modelObstacles", myModelObstacles, "viewObstacles", myViewObstacles);
+    }
+
+    /**
+     * updates the player's health bar on the HUD
+     */
+    private void updatePlayerHealth(){
+        myView.updateHealth(myModelEntities.get(myMainHeroName).getHp());
     }
 }

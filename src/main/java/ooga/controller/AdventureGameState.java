@@ -1,20 +1,23 @@
 package ooga.controller;
 
+import java.util.Map;
 import ooga.model.hero.MainHero;
+import ooga.view.EntityView;
 
 public class AdventureGameState implements GameState {
   private boolean winGame;
   private boolean loseGame;
   private int score;
+  private Map<String, EntityView> myViewEntities;
   private MainHero hero;
 
-  public AdventureGameState(MainHero hero, int score) {
-    this.hero = hero;
-    this.score = score;
+  public AdventureGameState(Map<String, EntityView> viewEntities) {
+    this.myViewEntities = viewEntities;
   }
 
   @Override
-  public boolean determineWin() {
+  public boolean determineWin(int score) {
+    this.score = score;
     if (score >= 100) {
       return true;
     }
@@ -23,29 +26,10 @@ public class AdventureGameState implements GameState {
 
   @Override
   public boolean determineLost() {
+//    myViewEntities.get("MainHero");
     if (hero.getHp() == 0) {
       return true;
     }
     return false;
   }
-//
-//  @Override
-//  public void setHighScore(HighScore addScore) {
-//
-//  }
-//
-//  @Override
-//  public HighScore getHighScore() {
-//    return null;
-//  }
-
-//  @Override
-//  public WinScene showWin(WinScene scene) {
-//    return scene;
-//  }
-//
-//  @Override
-//  public LoseScene showLost(LoseScene scene) {
-//    return scene;
-//  }
 }

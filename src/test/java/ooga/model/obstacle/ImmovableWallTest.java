@@ -6,9 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
-import ooga.model.Entity;
+import ooga.model.entities.Entity;
 import ooga.model.hero.MainHero;
-import ooga.model.obstacle.ImmovableWall;
 import ooga.model.state.MovementState;
 import org.junit.jupiter.api.Test;
 

@@ -11,6 +11,9 @@ import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Melanie Wang
+ */
 class StartScreenTest extends DukeApplicationTest {
 
     private Button startGame;

@@ -42,6 +42,10 @@ public class StartScreen extends SceneCreator {
     private Media music;
     private MediaPlayer m;
 
+    /**
+     * Constructor for the startscreen
+     * @param stage what stage the screen should be set in
+     */
     public StartScreen(Stage stage) {
         this.currentStage = stage;
         this.labels = getLabels();
