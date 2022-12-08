@@ -4,39 +4,16 @@ package ooga.controller;
 import ooga.model.Collision;
 import ooga.model.Entity;
 import ooga.model.attack.Attack;
-import ooga.model.enemy.Enemy;
-import ooga.model.hero.MainHero;
-import ooga.model.obstacle.DestroyableWall;
-import ooga.model.obstacle.Feature;
-import ooga.model.obstacle.ImmovableWall;
 import ooga.model.obstacle.Obstacle;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-import ooga.model.obstacle.Wall;
-import ooga.view.AttackView;
-import ooga.view.BlockView;
-import ooga.view.EntityView;
-
 public class CollisionHandler {
 
-    private Map<String, Entity> modelEntities;
-    private Map<String, EntityView> viewEntities;
-    private Map<Integer, Attack> modelAttacks;
-    private Map<Integer, AttackView> viewAttacks;
-    private Map<List<Double>, Obstacle> modelObstacles;
-    private Map<List<Double>, BlockView> viewObstacles;
     private Map<String, Map<?,?>> viewModelMap;
 
 
     public CollisionHandler(Map<String, Map<?,?>> viewModelMap) {
-        this.modelEntities = (Map<String, Entity>) viewModelMap.get("modelEntities");
-        this.viewEntities = (Map<String, EntityView>) viewModelMap.get("viewEntities");
-        this.modelAttacks = (Map<Integer, Attack>) viewModelMap.get("modelAttacks");
-        this.viewAttacks = (Map<Integer, AttackView>) viewModelMap.get("viewAttacks");
-        this.modelObstacles = (Map<List<Double>, Obstacle>) viewModelMap.get("modelObstacles");
-        this.viewObstacles = (Map<List<Double>, BlockView>) viewModelMap.get("viewObstacles");
         this.viewModelMap = viewModelMap;
     }
 

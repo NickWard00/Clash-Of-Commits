@@ -6,7 +6,6 @@ import ooga.model.hero.MainHero;
 import ooga.model.obstacle.*;
 import ooga.model.obstacle.powerup.PowerUp;
 import ooga.view.EntityView;
-
 import java.util.List;
 import java.util.Map;
 
