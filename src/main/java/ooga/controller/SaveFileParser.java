@@ -22,6 +22,8 @@ public class SaveFileParser {
     private String mapName;
     private String gameType;
     private String timeDate;
+    private String myHP;
+    private String myScore;
     private Map<String, String> entityMap;
     private EntityMapParser entityMapParser;
 
@@ -42,13 +44,15 @@ public class SaveFileParser {
      * @param mapName the name of the map
      * @param gameType the type of game
      */
-    public void saveGame(int saveFile, Map<String, Entity> modelEntities, String mapName, String gameType) {
+    public void saveGame(int saveFile, Map<String, Entity> modelEntities, String mapName, String gameType, String hp, String score){
         jsonProperties = new JSONObject();
 
         jsonProperties.put("Map", mapName);
         jsonProperties.put("GameType", gameType);
         DateTimeFormatter myFormat = DateTimeFormatter.ofPattern(TIME_DATE_FORMAT);
         jsonProperties.put("TimeDate", LocalDateTime.now().format(myFormat));
+        jsonProperties.put("HP", hp);
+        jsonProperties.put("Score", score);
         modelEntities.entrySet().forEach(entry->{
             String entityName = entry.getKey();
             Entity entity = entry.getValue();
@@ -67,9 +71,9 @@ public class SaveFileParser {
 
     }
 
-    public void saveGameToWeb(int saveFile, Map<String, Entity> modelEntities, String mapName, String gameType) throws FileNotFoundException {
+    public void saveGameToWeb(int saveFile, Map<String, Entity> modelEntities, String mapName, String gameType, String hp, String score) throws FileNotFoundException {
         fireBase = new FireBase();
-        saveGame(saveFile, modelEntities, mapName, gameType);
+        saveGame(saveFile, modelEntities, mapName, gameType, hp, score);
         try{
         JSONObject file= (JSONObject) new JSONParser().parse(new FileReader(String.format(SAVE_DIRECTORY, saveFile)));
         fireBase.update(file, "Save_4");
@@ -99,6 +103,12 @@ public class SaveFileParser {
             }
             else if (keyStr.equals("TimeDate")){
                 timeDate = jsonProperties.get(key).toString();
+            }
+            else if (keyStr.equals("HP")){
+                myHP = jsonProperties.get(key).toString();
+            }
+            else if (keyStr.equals("Score")){
+                myScore = jsonProperties.get(key).toString();
             }
             else {
                 String[] entityDataArray = (jsonProperties.get(key).toString()).replaceAll("\\s+","").split(",");
@@ -175,5 +185,20 @@ public class SaveFileParser {
         return entityMapParser.getEntities();
     }
 
+    /**
+     * Returns the HP associated with the save file
+     * @return the HP of the hero
+     */
+    public String getHeroHP() {
+    	return myHP;
+    }
+
+    /**
+     * Returns the score associated with the save file
+     * @return the score
+     */
+    public String getSaveScore() {
+    	return myScore;
+    }
 }
 
