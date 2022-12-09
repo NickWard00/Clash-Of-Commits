@@ -228,7 +228,7 @@ public class Controller {
      */
     public void saveGame(int num){
         SaveFileParser saver = new SaveFileParser();
-        saver.saveGame(num, myModelEntities, mapName, myGameType);
+        saver.saveGame(num, myModelEntities, mapName, myGameType, String.valueOf(myModelEntities.get(myMainHeroName).getHp()), String.valueOf(score));
     }
 
     /**
@@ -239,7 +239,15 @@ public class Controller {
         SaveFileParser saver = new SaveFileParser();
         saver.loadGame(num);
         this.myGameType = saver.getGameType();
+
         myModelEntities = saver.getEntities();
+        for (Entity entity : myModelEntities.values()) {
+            if (entity.getMyAttributes().get("EntityType").equals("MainHero") || entity.getMyAttributes().get("EntityType").equals("Link")) {
+                myMainHeroName = entity.getMyAttributes().get("Name");
+            }
+        }
+        myModelEntities.get(myMainHeroName).setHP(Integer.parseInt(saver.getHeroHP()));
+        score = Integer.parseInt(saver.getSaveScore());
         mapName = saver.getMapName();
     }
 
@@ -247,14 +255,16 @@ public class Controller {
      * Sets up the view entities based on the model entities
      */
     private void setupModelObstacles(MapParser parser) {
-        for (int r = 0; r < mapWrapper.getRowSize(0); r++) {
-            for (int c = 0; c < mapWrapper.getColumnSize(); c++) {
+        for (int row = 0; row < mapWrapper.getRowSize(0); row++) {
+            for (int col = 0; col < mapWrapper.getColumnSize(); col++) {
                 try {
-                    int thisState = mapWrapper.getState(c,r);
-                    ResourceBundle obstacleBundle = ResourceBundle.getBundle("ResourceBundles.Obstacle");
-                    String obstacleStateString = parser.getObstacleStateMap().get(thisState);
-                    Class obstacleClass = Class.forName(obstacleBundle.getString(obstacleStateString));
-                    makeObstacle(obstacleClass, r, c);
+                    int thisState = mapWrapper.getState(col,row);
+                    if (mapWrapper.getObstacleFromState(thisState).contains("Wall") || mapWrapper.getObstacleFromState(thisState).contains("PowerUp")) {
+                        ResourceBundle obstacleBundle = ResourceBundle.getBundle("ResourceBundles.Obstacle");
+                        String obstacleStateString = parser.getObstacleStateMap().get(thisState);
+                        Class obstacleClass = Class.forName(obstacleBundle.getString(obstacleStateString));
+                        makeObstacle(obstacleClass, row, col);
+                    }
                 } catch (ClassNotFoundException e) {
                     throw new IllegalStateException("classNotFound", e);
                 }

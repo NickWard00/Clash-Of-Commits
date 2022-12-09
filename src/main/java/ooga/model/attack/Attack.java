@@ -61,8 +61,8 @@ public abstract class Attack {
         int halfSize = Integer.parseInt(myEntity.getMyAttributes().get("Size"))/2;
         double centerX = myEntity.coordinates().get(0) + halfSize;
         double centerY = myEntity.coordinates().get(1) + halfSize;
-        this.xPos = centerX + myDirection.getVelocity().get(0) * halfSize;
-        this.yPos = centerY + myDirection.getVelocity().get(1) * halfSize;
+        this.xPos = centerX + myDirection.getVelocity().get(0) * (halfSize*1.5);
+        this.yPos = centerY + myDirection.getVelocity().get(1) * (halfSize*1.5);
     }
 
     /**
