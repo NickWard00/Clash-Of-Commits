@@ -49,7 +49,7 @@ public class Controller {
     private DirectionState playerDirection;
     private int score;
 
-    private SaveFileParser saver;
+    private SaveFileParser saver = new SaveFileParser();
 
     /**
      * Constructor for the controller, which initializes the model and view and sets up map based on map name
