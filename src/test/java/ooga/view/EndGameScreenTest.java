@@ -12,10 +12,7 @@ class EndGameScreenTest extends DukeApplicationTest {
   private EndGameScreen screen;
   private Scene scene;
 
-  @BeforeEach
-  void setup() {
-    screen = new EndGameScreen();
-  }
+
 
   @Test
   void testCreateScreen() {

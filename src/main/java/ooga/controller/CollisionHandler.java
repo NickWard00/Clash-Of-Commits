@@ -9,6 +9,7 @@ import java.util.*;
 
 public class CollisionHandler {
     private Map<String, Map<?,?>> viewModelMap;
+    private Collision myCollision;
 
     /**
      * Constructor for the CollisionHandler class
@@ -16,6 +17,7 @@ public class CollisionHandler {
      */
     public CollisionHandler(Map<String, Map<?,?>> viewModelMap) {
         this.viewModelMap = viewModelMap;
+        myCollision = new Collision(viewModelMap);
     }
 
     /**
@@ -29,9 +31,12 @@ public class CollisionHandler {
             Map<Object, Class> myClassCategory = Map.of(object1, class1, object2, class2);
             List<Object> myObjects = Arrays.asList(object1, object2);
             myObjects.sort(Comparator.comparing((Object o) -> indexMap.get(myClassCategory.get(o))));
-            Collision.class.getConstructor(
-                    myClassCategory.get(myObjects.get(0)), myClassCategory.get(myObjects.get(1)), Map.class).newInstance(myObjects.get(0), myObjects.get(1), viewModelMap);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            String className = String.format("ooga.model.%s%sCollision", myClassCategory.get(myObjects.get(0)).getSimpleName(), myClassCategory.get(myObjects.get(1)).getSimpleName());
+            Class thisClass = Class.forName(className);
+            Object myCollisionClass = thisClass.getConstructor(Map.class).newInstance(viewModelMap);
+            thisClass.getMethod("collide", myClassCategory.get(myObjects.get(0)), myClassCategory.get(myObjects.get(1)))
+                    .invoke(myCollisionClass, myObjects.get(0), myObjects.get(1));
+        } catch (InstantiationException | ClassNotFoundException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new IllegalStateException("noMethodFound", e);
         }
     }

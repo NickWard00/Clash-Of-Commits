@@ -1,0 +1,17 @@
+# Key: Enemy name = Enemy Type, X position, Y position
+Hero = MainHero, 35, 90
+Enemy1 = MagicValue, 150, 32
+Enemy2 = MagicValue, 190, 47
+Enemy3 = MagicValue, 230, 62
+Enemy4 = MagicValue, 270, 77
+Enemy5 = MagicValue, 310, 92
+Enemy6 = MagicValue, 350, 107
+Enemy7 = MagicValue, 390, 122
+Enemy8 = MagicValue, 430, 137
+Enemy9 = MagicValue, 470, 122
+Enemy10 = MagicValue, 510, 107
+Enemy11 = MagicValue, 550, 92
+Enemy12 = MagicValue, 590, 77
+Enemy13 = MagicValue, 630, 62
+Enemy14 = MagicValue, 670, 47
+Enemy15 = MagicValue, 710, 32

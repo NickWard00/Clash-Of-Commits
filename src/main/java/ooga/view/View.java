@@ -87,7 +87,6 @@ public class View {
 
         stage.setScene(myScene);
         stage.setTitle(myGameType);
-        stage.getIcons().add(new Image("sprites/hero/SOUTH_STATIONARY.GIF"));
 
         createScrollableBackground();
 
@@ -158,28 +157,28 @@ public class View {
      * Detects collisions for the view
      */
     private void detectCollisions() {
-        List<EntityView> myViewEntitiesList = new ArrayList<>(myViewEntities.values());
+        List<EntityView> myViewEntitiesList = myViewEntities.values().parallelStream().toList();
         for (EntityView entity : myViewEntitiesList) {
-            List<AttackView> myViewAttackList = new ArrayList<>(myViewAttacks.values());
+            List<AttackView> myViewAttackList = myViewAttacks.values().parallelStream().toList();
             for (AttackView attack : myViewAttackList) {
-                if (entity.localToScreen(entity.getBoundsInLocal()).intersects(attack.localToScreen(attack.getBoundsInLocal()))) {
+                if (entity.getBoundsInParent().intersects(attack.getBoundsInParent())) {
                     myController.passCollision(entity, attack);
                     break;
                 }
             }
-            List<BlockView> myViewObstacleList = new ArrayList<>(myViewObstacles.values());
+            List<BlockView> myViewObstacleList = myViewObstacles.values().parallelStream().toList();
             for (BlockView obstacle : myViewObstacleList) {
-                if (entity.localToScreen(entity.getBoundsInLocal()).intersects(obstacle.localToScreen(obstacle.getBoundsInLocal()))) {
+                if (entity.getBoundsInParent().intersects(obstacle.getBoundsInParent())) {
                     myController.passCollision(entity, obstacle);
                     break;
                 }
             }
         }
-        List<AttackView> myViewAttackList = new ArrayList<>(myViewAttacks.values());
+        List<AttackView> myViewAttackList = myViewAttacks.values().parallelStream().toList();
         for (AttackView attack : myViewAttackList) {
-            List<BlockView> myViewObstacleList = new ArrayList<>(myViewObstacles.values());
+            List<BlockView> myViewObstacleList = myViewObstacles.values().parallelStream().toList();
             for (BlockView obstacle : myViewObstacleList) {
-                if (attack.localToScreen(attack.getBoundsInLocal()).intersects(obstacle.localToScreen(obstacle.getBoundsInLocal()))) {
+                if (attack.getBoundsInParent().intersects(obstacle.getBoundsInParent())) {
                     myController.passCollision(attack, obstacle);
                     break;
                 }
@@ -203,10 +202,18 @@ public class View {
         return myViewObstacles;
     }
 
+    /**
+     * Updates the HUD based on the inputted hearts
+     * @param num
+     */
     public void updateHealth(int num){
         mainGameScreen.getHud().updateHealth(num);
     }
 
+    /**
+     * Updates the HUD based on the score
+     * @param score
+     */
     public void updateScore(int score) {
         mainGameScreen.getHud().updateScore(score);
     }

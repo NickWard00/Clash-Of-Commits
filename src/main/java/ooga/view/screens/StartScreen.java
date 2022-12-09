@@ -40,7 +40,7 @@ public class StartScreen extends SceneCreator {
     private int screenSize;
     private Map<String, String> languageMap;
     private Media music;
-    private MediaPlayer m;
+    private MediaPlayer myMedia;
 
     /**
      * Constructor for the startscreen
@@ -82,11 +82,12 @@ public class StartScreen extends SceneCreator {
         startGamePane.getChildren().addAll(background,buttonRow);
         StackPane.setAlignment(startGamePane, Pos.CENTER);
         handleEvents();
-        Scene s = new Scene(startGamePane, screenSize, screenSize);
-        s.getStylesheets().add(styles.getString("startScreenCSS"));
-        m = new MediaPlayer(music);
-        //m.setAutoPlay(true);
-        return s;
+        Scene scene = new Scene(startGamePane, screenSize, screenSize);
+        scene.getStylesheets().add(styles.getString("startScreenCSS"));
+        currentStage.setTitle(labels.getString("splashScreenTitle"));
+        currentStage.getIcons().add(new Image(labels.getString("splashScreenIcon")));
+        myMedia = new MediaPlayer(music);
+        return scene;
     }
 
     //moves to the next screen of the game
@@ -94,7 +95,7 @@ public class StartScreen extends SceneCreator {
         ChooseGameScreen c = new ChooseGameScreen(currentStage, labels);
         currentStage.setScene(c.makeScene());
         currentStage.show();
-        m.stop();
+        myMedia.stop();
     }
 
     //sets the language to english
