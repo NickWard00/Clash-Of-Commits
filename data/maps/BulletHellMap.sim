@@ -1,0 +1,11 @@
+Title=Bullet Hell Survival
+Author=Nick Ward
+Description=Bullet Hell Survival is a bullet hell game where you have to survive as long as possible.
+BoxSize=30
+Cell1=/blocks/tree.jpeg
+Cell2=/blocks/grass.jpeg
+
+Obstacle1=ImmovableWall
+Obstacle2=Feature
+
+Map=data/maps/BulletHellMap.csv

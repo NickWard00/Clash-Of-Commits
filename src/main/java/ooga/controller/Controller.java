@@ -157,7 +157,7 @@ public class Controller {
                 viewEntity.setY(newPosition.get(1));
             } else {
                 nowDead.add(viewEntity);
-                score += Integer.parseInt(scores.getString("enemy"));
+                score += Integer.parseInt(scores.getString(modelEntity.getMyAttributes().getOrDefault("EntityType", "Enemy").toLowerCase()));
             }
         }
         for (EntityView deadEntityView : nowDead) {
