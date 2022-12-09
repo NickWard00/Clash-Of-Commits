@@ -53,12 +53,30 @@ public class EnemyTest {
     void testBugHP() {
         Bug bug = new Bug(bugParser.getAttributeMap());
         assertEquals(bug.getMyAttributes().get("HP"), "3");
+        assertEquals(bug.getHp(), 3);
     }
 
     @Test
     void testMagicValueHP() {
         MagicValue magicValue = new MagicValue(magicValueParser.getAttributeMap());
         assertEquals(magicValue.getMyAttributes().get("HP"), "3");
+        assertEquals(magicValue.getHp(), 3);
+    }
+
+    @Test
+    void testBugDamage() {
+        Bug bug = new Bug(bugParser.getAttributeMap());
+        bug.setHP(1);
+        bug.changeHp(-1);
+        assertEquals(bug.getHp(), 0);
+    }
+
+    @Test
+    void testMagicValueDamage() {
+        MagicValue magicValue = new MagicValue(magicValueParser.getAttributeMap());
+        magicValue.setHP(1);
+        magicValue.changeHp(-1);
+        assertEquals(magicValue.getHp(), 0);
     }
 
     @Test
@@ -77,12 +95,14 @@ public class EnemyTest {
     void testBugSize() {
         Bug bug = new Bug(bugParser.getAttributeMap());
         assertEquals(bug.getMyAttributes().get("Size"), "30");
+        assertEquals(bug.getSize(), 30);
     }
 
     @Test
     void testMagicValueSize() {
         MagicValue magicValue = new MagicValue(magicValueParser.getAttributeMap());
         assertEquals(magicValue.getMyAttributes().get("Size"), "30");
+        assertEquals(magicValue.getSize(), 30);
     }
 
     @Test
@@ -113,24 +133,28 @@ public class EnemyTest {
     void testBugXPosition() {
         Bug bug = new Bug(bugParser.getAttributeMap());
         assertEquals(bug.getMyAttributes().get("XPosition"), "0");
+        assertEquals(bug.coordinates().get(0), 0);
     }
 
     @Test
     void testMagicValueXPosition() {
         MagicValue magicValue = new MagicValue(magicValueParser.getAttributeMap());
         assertEquals(magicValue.getMyAttributes().get("XPosition"), "0");
+        assertEquals(magicValue.coordinates().get(0), 0);
     }
 
     @Test
     void testBugYPosition() {
         Bug bug = new Bug(bugParser.getAttributeMap());
         assertEquals(bug.getMyAttributes().get("YPosition"), "0");
+        assertEquals(bug.coordinates().get(1), 0);
     }
 
     @Test
     void testMagicValueYPosition() {
         MagicValue magicValue = new MagicValue(magicValueParser.getAttributeMap());
         assertEquals(magicValue.getMyAttributes().get("YPosition"), "0");
+        assertEquals(magicValue.coordinates().get(1), 0);
     }
 
     @Test

@@ -49,12 +49,30 @@ public class HeroTest {
     void testMainHeroHP() {
         MainHero hero = new MainHero(mainHeroParser.getAttributeMap());
         assertEquals(hero.getMyAttributes().get("HP"), "5");
+        assertEquals(hero.getHp(), 5);
     }
 
     @Test
     void testLinkHP() {
         Link link = new Link(linkParser.getAttributeMap());
         assertEquals(link.getMyAttributes().get("HP"), "5");
+        assertEquals(link.getHp(), 5);
+    }
+
+    @Test
+    void testMainHeroDamage() {
+        MainHero hero = new MainHero(mainHeroParser.getAttributeMap());
+        hero.setHP(1);
+        hero.changeHp(-1);
+        assertEquals(hero.getHp(), 0);
+    }
+
+    @Test
+    void testLinkDamage() {
+        Link link = new Link(linkParser.getAttributeMap());
+        link.setHP(1);
+        link.changeHp(-1);
+        assertEquals(link.getHp(), 0);
     }
 
     @Test
@@ -73,12 +91,14 @@ public class HeroTest {
     void testMainHeroSize() {
         MainHero hero = new MainHero(mainHeroParser.getAttributeMap());
         assertEquals(hero.getMyAttributes().get("Size"), "30");
+        assertEquals(hero.getSize(), 30);
     }
 
     @Test
     void testLinkSize() {
         Link link = new Link(linkParser.getAttributeMap());
         assertEquals(link.getMyAttributes().get("Size"), "30");
+        assertEquals(link.getSize(), 30);
     }
 
     @Test
@@ -97,24 +117,28 @@ public class HeroTest {
     void testMainHeroXPosition() {
         MainHero hero = new MainHero(mainHeroParser.getAttributeMap());
         assertEquals(hero.getMyAttributes().get("XPosition"), "0");
+        assertEquals(0, hero.coordinates().get(0));
     }
 
     @Test
     void testLinkXPosition() {
         Link link = new Link(linkParser.getAttributeMap());
         assertEquals(link.getMyAttributes().get("XPosition"), "0");
+        assertEquals(0, link.coordinates().get(0));
     }
 
     @Test
     void testMainHeroYPosition() {
         MainHero hero = new MainHero(mainHeroParser.getAttributeMap());
         assertEquals(hero.getMyAttributes().get("YPosition"), "0");
+        assertEquals(0, hero.coordinates().get(1));
     }
 
     @Test
     void testLinkYPosition() {
         Link link = new Link(linkParser.getAttributeMap());
         assertEquals(link.getMyAttributes().get("YPosition"), "0");
+        assertEquals(0, link.coordinates().get(1));
     }
 
     @Test
