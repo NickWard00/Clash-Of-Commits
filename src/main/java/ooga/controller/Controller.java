@@ -46,6 +46,7 @@ public class Controller {
     private String mapName;
     private DirectionState playerDirection;
     private int score;
+    private List<Double> newCoordinates;
 
     /**
      * Constructor for the controller, which initializes the model and view and sets up map based on map name
@@ -187,9 +188,13 @@ public class Controller {
      */
     private void updateObstacles() {
         for (List<Double> coordinate : myViewObstacles.keySet()) {
-            if (myModelObstacles.get(coordinate).getClass() == DestroyableWall.class) {
-                if (!((DestroyableWall) myModelObstacles.get(coordinate)).determineOnScreen()) {
-                    removeObstacle(coordinate);
+            newCoordinates = new ArrayList<>();
+            for (int index = coordinate.size() - 1; index >= 0; index--) {
+                newCoordinates.add(coordinate.get(index));
+            }
+            if (myModelObstacles.get(newCoordinates).getClass() == DestroyableWall.class) {
+                if (!((DestroyableWall) myModelObstacles.get(newCoordinates)).determineOnScreen()) {
+                    removeObstacle(newCoordinates);
                 }
             }
         }
@@ -368,7 +373,7 @@ public class Controller {
      * @param viewObject2
      */
     public void passCollision(Object viewObject1, Object viewObject2) {
-        //updateObstacles();
+        updateObstacles();
         CollisionHandler handler = new CollisionHandler(getViewModelMaps());
         Map<?,?> modelMap1 = getCorrectModelMap(viewObject1);
         Map<?,?> modelMap2 = getCorrectModelMap(viewObject2);
