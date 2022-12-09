@@ -1,8 +1,6 @@
 package ooga.view;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -89,7 +87,6 @@ public class View {
 
         stage.setScene(myScene);
         stage.setTitle(myGameType);
-        stage.getIcons().add(new Image("sprites/hero/SOUTH_STATIONARY.GIF"));
 
         createScrollableBackground();
 
@@ -205,10 +202,18 @@ public class View {
         return myViewObstacles;
     }
 
+    /**
+     * Updates the HUD based on the inputted hearts
+     * @param num
+     */
     public void updateHealth(int num){
         mainGameScreen.getHud().updateHealth(num);
     }
 
+    /**
+     * Updates the HUD based on the score
+     * @param score
+     */
     public void updateScore(int score) {
         mainGameScreen.getHud().updateScore(score);
     }
