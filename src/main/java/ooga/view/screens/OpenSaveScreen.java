@@ -9,6 +9,8 @@ import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.view.SaveSlot;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -22,10 +24,12 @@ public class OpenSaveScreen extends SceneCreator {
     private SaveSlot slot1;
     private SaveSlot slot2;
     private SaveSlot slot3;
+    private SaveSlot slot4;
     private StackPane background;
     private ResourceBundle labels;
     private int screenSize;
     private Stage stage;
+    private List<SaveSlot> slotList = new ArrayList<>();
 
     /**
      * Constructor for open save screen
@@ -48,7 +52,11 @@ public class OpenSaveScreen extends SceneCreator {
         slot1 = new SaveSlot(labels, 1);
         slot2 = new SaveSlot(labels, 2);
         slot3 = new SaveSlot(labels,3);
+        slot4 = new SaveSlot(labels, 4);
         VBox slots = new VBox(slot1, slot2, slot3);
+        slotList.add(slot1);
+        slotList.add(slot2);
+        slotList.add(slot3);
         slots.setId("slots");
         background.setAlignment(Pos.CENTER);
         background.getChildren().add(slots);
@@ -62,16 +70,14 @@ public class OpenSaveScreen extends SceneCreator {
      * handles the clicking of the slots
      */
     public void handleEvents(){
-        slot1.setOnMouseClicked(event->{
-            Controller controller = new Controller(stage, "Save_1", slot1.getGameType(), labels);
-            controller.startAnimation();
-        });
-        slot2.setOnMouseClicked(event->{
-            Controller controller = new Controller(stage, "Save_2", slot2.getGameType(), labels);
-            controller.startAnimation();
-        });
-        slot3.setOnMouseClicked(event->{
-            Controller controller = new Controller(stage, "Save_3", slot3.getGameType(), labels);
+        for(SaveSlot s: slotList){
+            s.setOnMouseClicked(event->{
+                Controller controller = new Controller(stage, String.format("Save_%d", s.getNumber()), slot1.getGameType(), labels);
+                controller.startAnimation();
+            });
+        }
+        slot4.setOnMouseClicked(event->{
+            Controller controller = new Controller(stage, String.format("Save_%d", slot4.getNumber()), slot1.getGameType(), labels);
             controller.startAnimation();
         });
     }
