@@ -1,4 +1,4 @@
-package ooga.model;
+package ooga.model.collisions;
 
 import ooga.model.attack.Attack;
 import ooga.model.entities.Entity;

@@ -147,11 +147,11 @@ public class View {
      */
     private void handleKeyInputs() {
         myScene.setOnKeyPressed(event -> {
-            myController.handleKeyPress(event.getCode());
+            myController.checkKeyPress(event.getCode());
             walking.play();
         });
         myScene.setOnKeyReleased(event -> {
-            myController.handleKeyRelease(event.getCode());
+            myController.checkKeyRelease(event.getCode());
             walking.pause();
         });
     }

@@ -41,7 +41,8 @@ public class Controller {
     private Map<Integer, Attack> myModelAttacks;
     private Map<Integer, AttackView> myViewAttacks;
     private String myMainHeroName;
-    private Map<KeyCode, String> actions;
+    private Map<KeyCode, String> movementActions;
+    private Map<KeyCode, String> attackActions;
     private String myGameType;
     private String mapName;
     private DirectionState playerDirection;
@@ -59,17 +60,20 @@ public class Controller {
         this.myModelAttacks = new HashMap<>();
         this.myViewAttacks = new HashMap<>();
         this.myModelObstacles = new HashMap<>();
-        this.actions = Map.of(
+        this.movementActions = Map.of(
                 KeyCode.UP, "moveUp",
                 KeyCode.DOWN, "moveDown",
                 KeyCode.RIGHT, "moveRight",
                 KeyCode.LEFT, "moveLeft",
-                KeyCode.SPACE, "attack",
                 KeyCode.W, "moveUp",
                 KeyCode.S, "moveDown",
                 KeyCode.D, "moveRight",
                 KeyCode.A, "moveLeft",
                 KeyCode.SHIFT, "sprint"
+        );
+        this.attackActions = Map.of(
+                KeyCode.SPACE, "attack",
+                KeyCode.Z, "attack"
         );
         this.mapName = map;
         this.myGameType = gameType;
@@ -392,33 +396,67 @@ public class Controller {
     }
 
     /**
-     * Handles the key input press from the user that is detected in the view
+     * Checks if the key pressed is associated with a movement or attack action and passes it into handleKeyPress appropriately
+     * Calls changeHeroAttack if attack action was pressed
      * @param keyCode
      */
-    public void handleKeyPress(KeyCode keyCode){
-        if (actions.containsKey(keyCode)) {
+    public void checkKeyPress(KeyCode keyCode) {
+        if (movementActions.containsKey(keyCode)) {
+            handleKeyPress(movementActions.get(keyCode));
+        } else if (attackActions.containsKey(keyCode)) {
+            changeHeroAttack(keyCode);
+            handleKeyPress(attackActions.get(keyCode));
+        }
+    }
+
+    /**
+     * Changes the type of attack associated with the hero
+     * @param keyCode
+     */
+    private void changeHeroAttack(KeyCode keyCode) {
+        if (keyCode.isWhitespaceKey()) {
+            myModelEntities.get(myMainHeroName).setAttackType("LongRange");
+        } else {
+            myModelEntities.get(myMainHeroName).setAttackType("ShortRange");
+        }
+    }
+
+    /**
+     * Handles the key input press from the user that is detected in the view
+     * @param action
+     */
+    private void handleKeyPress(String action){
             try {
-                Method currentAction = this.getClass().getDeclaredMethod(actions.get(keyCode));
+                Method currentAction = this.getClass().getDeclaredMethod(action);
                 currentAction.invoke(this);
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                 throw new IllegalStateException("methodNotFound", e);
             }
+    }
+
+    /**
+     * Checks if the key released is associated with a movement or attack action and passes it into handleKeyRelease appropriately
+     * @param keyCode
+     */
+    public void checkKeyRelease(KeyCode keyCode) {
+        if (movementActions.containsKey(keyCode)) {
+            handleKeyRelease(movementActions.get(keyCode));
+        } else if (attackActions.containsKey(keyCode)) {
+            handleKeyRelease(attackActions.get(keyCode));
         }
     }
 
     /**
      * Handles the key input release from the user that is detected in the view
-     * @param keyCode
+     * @param action
      */
-    public void handleKeyRelease(KeyCode keyCode) {
-        if (actions.containsKey(keyCode)) {
+    private void handleKeyRelease(String action) {
             try {
-                Method currentAction = this.getClass().getDeclaredMethod(actions.get(keyCode) + "Stop");
+                Method currentAction = this.getClass().getDeclaredMethod(action + "Stop");
                 currentAction.invoke(this);
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                 throw new IllegalStateException("illegalKeyPress", e);
             }
-        }
     }
 
     /**

@@ -1,6 +1,6 @@
 package ooga.controller;
 
-import ooga.model.Collision;
+import ooga.model.collisions.Collision;
 import ooga.model.entities.Entity;
 import ooga.model.attack.Attack;
 import ooga.model.obstacle.Obstacle;
@@ -31,7 +31,7 @@ public class CollisionHandler {
             Map<Object, Class> myClassCategory = Map.of(object1, class1, object2, class2);
             List<Object> myObjects = Arrays.asList(object1, object2);
             myObjects.sort(Comparator.comparing((Object o) -> indexMap.get(myClassCategory.get(o))));
-            String className = String.format("ooga.model.%s%sCollision", myClassCategory.get(myObjects.get(0)).getSimpleName(), myClassCategory.get(myObjects.get(1)).getSimpleName());
+            String className = String.format("ooga.model.collisions.%s%sCollision", myClassCategory.get(myObjects.get(0)).getSimpleName(), myClassCategory.get(myObjects.get(1)).getSimpleName());
             Class thisClass = Class.forName(className);
             Object myCollisionClass = thisClass.getConstructor(Map.class).newInstance(viewModelMap);
             thisClass.getMethod("collide", myClassCategory.get(myObjects.get(0)), myClassCategory.get(myObjects.get(1)))
