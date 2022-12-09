@@ -106,6 +106,10 @@ public abstract class Entity {
         hp += diff;
     }
 
+    public void setHP(int hp) {
+        this.hp = hp;
+    }
+
     /**
      * Returns the attack type of this entity
      * @return

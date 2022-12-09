@@ -26,6 +26,8 @@ import java.lang.reflect.Method;
  * @author Nick Ward, Melanie Wang, Nicki Lee
  */
 public class Controller {
+    private static final ResourceBundle scores = ResourceBundle.getBundle(
+        "ResourceBundles.Score");
     private Timeline animation;
     private View myView;
     private Model myModel;
@@ -43,6 +45,7 @@ public class Controller {
     private String myGameType;
     private String mapName;
     private DirectionState playerDirection;
+    private int score;
 
     /**
      * Constructor for the controller, which initializes the model and view and sets up map based on map name
@@ -70,6 +73,7 @@ public class Controller {
         );
         this.mapName = map;
         this.myGameType = gameType;
+        this.score = Integer.parseInt(scores.getString("initialScore"));
 
         initializeModel();
 
@@ -115,6 +119,13 @@ public class Controller {
     }
 
     /**
+     * Stops the animation of the game
+     */
+    public void stopAnimation() {
+        animation.stop();
+    }
+
+    /**
      * Steps the animation of the game
      * @param elapsedTime the time elapsed since the last step
      */
@@ -124,7 +135,7 @@ public class Controller {
         updateAttackPosition(elapsedTime);
         myModel.checkForNewAttacks();
         updatePlayerHealth();
-        //updatePlayerScore();
+        updatePlayerScore();
     }
 
     /**
@@ -142,6 +153,7 @@ public class Controller {
                 viewEntity.setY(newPosition.get(1));
             } else {
                 nowDead.add(viewEntity);
+                score += Integer.parseInt(scores.getString("enemy"));
             }
         }
         for (EntityView deadEntityView : nowDead) {
@@ -216,7 +228,7 @@ public class Controller {
      */
     public void saveGame(int num){
         SaveFileParser saver = new SaveFileParser();
-        saver.saveGame(num, myModelEntities, mapName, myGameType);
+        saver.saveGame(num, myModelEntities, mapName, myGameType, String.valueOf(myModelEntities.get(myMainHeroName).getHp()), String.valueOf(score));
     }
 
     /**
@@ -227,7 +239,15 @@ public class Controller {
         SaveFileParser saver = new SaveFileParser();
         saver.loadGame(num);
         this.myGameType = saver.getGameType();
+
         myModelEntities = saver.getEntities();
+        for (Entity entity : myModelEntities.values()) {
+            if (entity.getMyAttributes().get("EntityType").equals("MainHero") || entity.getMyAttributes().get("EntityType").equals("Link")) {
+                myMainHeroName = entity.getMyAttributes().get("Name");
+            }
+        }
+        myModelEntities.get(myMainHeroName).setHP(Integer.parseInt(saver.getHeroHP()));
+        score = Integer.parseInt(saver.getSaveScore());
         mapName = saver.getMapName();
     }
 
@@ -235,14 +255,16 @@ public class Controller {
      * Sets up the view entities based on the model entities
      */
     private void setupModelObstacles(MapParser parser) {
-        for (int r = 0; r < mapWrapper.getRowSize(0); r++) {
-            for (int c = 0; c < mapWrapper.getColumnSize(); c++) {
+        for (int row = 0; row < mapWrapper.getRowSize(0); row++) {
+            for (int col = 0; col < mapWrapper.getColumnSize(); col++) {
                 try {
-                    int thisState = mapWrapper.getState(c,r);
-                    ResourceBundle obstacleBundle = ResourceBundle.getBundle("ResourceBundles.Obstacle");
-                    String obstacleStateString = parser.getObstacleStateMap().get(thisState);
-                    Class obstacleClass = Class.forName(obstacleBundle.getString(obstacleStateString));
-                    makeObstacle(obstacleClass, r, c);
+                    int thisState = mapWrapper.getState(col,row);
+                    if (mapWrapper.getObstacleFromState(thisState).contains("Wall") || mapWrapper.getObstacleFromState(thisState).contains("PowerUp")) {
+                        ResourceBundle obstacleBundle = ResourceBundle.getBundle("ResourceBundles.Obstacle");
+                        String obstacleStateString = parser.getObstacleStateMap().get(thisState);
+                        Class obstacleClass = Class.forName(obstacleBundle.getString(obstacleStateString));
+                        makeObstacle(obstacleClass, row, col);
+                    }
                 } catch (ClassNotFoundException e) {
                     throw new IllegalStateException("classNotFound", e);
                 }
@@ -309,9 +331,15 @@ public class Controller {
      * @param entityName
      */
     public void removeEntity(String entityName){
-        myView.getGameScreen().removeEntityFromScene(entityName);
-        myModelEntities.remove(entityName);
-        myViewEntities.remove(entityName);
+        if (entityName != myMainHeroName) {
+            myView.getGameScreen().removeEntityFromScene(entityName);
+            myModelEntities.remove(entityName);
+            myViewEntities.remove(entityName);
+        }
+        else {
+            myView.getGameScreen().nextScene();
+            stopAnimation();
+        }
     }
 
     /**
@@ -564,7 +592,14 @@ public class Controller {
     /**
      * updates the player's health bar on the HUD
      */
-    private void updatePlayerHealth(){
+    private void updatePlayerHealth() {
         myView.updateHealth(myModelEntities.get(myMainHeroName).getHp());
+    }
+
+    /**
+     * Updates the player's score on the HUD
+     */
+    public void updatePlayerScore() {
+        myView.updateScore(this.score);
     }
 }

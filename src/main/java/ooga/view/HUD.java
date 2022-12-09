@@ -146,6 +146,7 @@ public class HUD extends SceneCreator {
      */
     public void updateScore(int newScore){
         playerScore = newScore;
+        scoreText.setText(String.format("%s  %s",getLabels().getString("score"), playerScore));
     }
 
     /**
