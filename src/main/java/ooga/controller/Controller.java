@@ -2,6 +2,7 @@ package ooga.controller;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
@@ -20,10 +21,7 @@ import ooga.view.AttackView;
 import ooga.view.EntityView;
 import ooga.view.MapWrapper;
 import ooga.view.View;
-import ooga.view.screens.MainGameScreen;
-import ooga.view.screens.StartScreen;
 
-import java.io.FileNotFoundException;
 import java.util.*;
 
 import java.lang.reflect.InvocationTargetException;
@@ -51,10 +49,11 @@ public class Controller {
     private Map<KeyCode, String> actions;
     private String myGameType;
     private String mapName;
+    private Stage myStage;
     private DirectionState playerDirection;
     private int score;
     private List<Double> newCoordinates;
-
+    private ResourceBundle myLabels;
     private SaveFileParser saver = new SaveFileParser();
 
     /**
@@ -83,6 +82,8 @@ public class Controller {
         );
         this.mapName = map;
         this.myGameType = gameType;
+        this.myStage = stage;
+        this.myLabels = labels;
         this.score = Integer.parseInt(scores.getString("initialScore"));
 
         try {
@@ -111,7 +112,7 @@ public class Controller {
     /**
      * Begins the animation of the game
      */
-    public void startAnimation(){
+    public void startAnimation() {
         animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(new KeyFrame(Duration.seconds(SECOND_DELAY), e->step(SECOND_DELAY)));
@@ -144,12 +145,16 @@ public class Controller {
      * @param elapsedTime the time elapsed since the last step
      */
     private void step(double elapsedTime) {
-        myView.step(elapsedTime);
-        updateEntityPosition(elapsedTime);
-        updateAttackPosition(elapsedTime);
-        myModel.checkForNewAttacks();
-        updatePlayerHealth();
-        updatePlayerScore();
+        try {
+            myView.step(elapsedTime);
+            updateEntityPosition(elapsedTime);
+            updateAttackPosition(elapsedTime);
+            myModel.checkForNewAttacks();
+            updatePlayerHealth();
+            updatePlayerScore();
+        } catch (IllegalStateException e) {
+            showMessage(Alert.AlertType.ERROR, myLabels.getString(e.getMessage()), e);
+        }
     }
 
     /**
@@ -245,7 +250,7 @@ public class Controller {
      * Sets up the model obstacles based on the map parser
      * @param num
      */
-    public void saveGame(int num){
+    public void saveGame(int num) throws IllegalStateException {
         saver.saveGame(num, myModelEntities, mapName, myGameType,String.valueOf(myModelEntities.get(myMainHeroName).getHp()), String.valueOf(score));
     }
 
@@ -253,7 +258,7 @@ public class Controller {
      * saves game to online database (slot 4)
      * @param num the number of the slot
      */
-    public void saveGametoWeb(int num) throws FileNotFoundException {
+    public void saveGameToWeb(int num) {
         saver.saveGameToWeb(num, myModelEntities, mapName, myGameType, String.valueOf(myModelEntities.get(myMainHeroName).getHp()), String.valueOf(score));
     }
 
@@ -393,7 +398,7 @@ public class Controller {
      * @param viewObject1
      * @param viewObject2
      */
-    public void passCollision(Object viewObject1, Object viewObject2) {
+    public void passCollision(Object viewObject1, Object viewObject2) throws IllegalStateException {
         updateObstacles();
         CollisionHandler handler = new CollisionHandler(getViewModelMaps());
         Map<?,?> modelMap1 = getCorrectModelMap(viewObject1);
