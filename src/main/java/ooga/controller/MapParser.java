@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-
+/**
+ * This class is responsible for parsing the map properties file
+ * @author Nick Ward
+ */
 public class MapParser {
     private Properties properties;
     private Map<String, String> mapInfo;

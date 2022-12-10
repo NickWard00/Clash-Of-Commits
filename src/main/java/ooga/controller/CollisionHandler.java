@@ -7,6 +7,11 @@ import ooga.model.obstacle.Obstacle;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+
+/**
+ * This class is responsible for handling collisions between entities in the game.
+ * @author Nicki Lee
+ */
 public class CollisionHandler {
     private Map<String, Map<?,?>> viewModelMap;
     private Collision myCollision;
