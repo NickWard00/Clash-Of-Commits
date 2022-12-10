@@ -40,7 +40,6 @@ public class EndGameScreen extends SceneCreator {
     this.won = win;
   }
 
-  //TODO: Refactor the constants out
   @Override
   public Scene makeScene() {
     this.pane = new StackPane();

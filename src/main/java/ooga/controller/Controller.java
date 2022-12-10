@@ -10,6 +10,7 @@ import ooga.model.Model;
 import ooga.model.attack.Attack;
 import ooga.model.obstacle.DestroyableWall;
 import ooga.model.obstacle.Obstacle;
+import ooga.model.obstacle.powerup.PowerUp;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
 import ooga.view.BlockView;
@@ -199,7 +200,6 @@ public class Controller {
 
             if (myModelObstacles.get(newCoordinates).getClass() == DestroyableWall.class) {
                 if (((DestroyableWall) myModelObstacles.get(newCoordinates)).determineHP() <= 0) {
-                    System.out.println(newCoordinates);
                     removeObstacle(coordinate, newCoordinates);
                 }
             }
