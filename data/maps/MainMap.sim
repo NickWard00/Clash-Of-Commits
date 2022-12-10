@@ -41,4 +41,4 @@ Obstacle15=Feature
 Obstacle16=ImmovableWall
 Obstacle17=PowerUp
 
-Map=data/maps/MainMap.csv
+Map=data/maps/MadinMap.csv

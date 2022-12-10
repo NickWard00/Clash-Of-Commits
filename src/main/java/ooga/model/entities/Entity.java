@@ -5,6 +5,8 @@ import ooga.model.attack.Attack;
 import ooga.model.enemy.Enemy;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -66,8 +68,8 @@ public abstract class Entity {
             Map<String, Double> attributes = myAttackParser.getAttributeMap();
             Object o = Class.forName(attackBundle.getString(this.getAttackType())).getConstructor(Entity.class, Map.class).newInstance(this, attributes);
             return (Attack) o;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (ClassNotFoundException | InvocationTargetException | InstantiationException | RuntimeException | IllegalAccessException | NoSuchMethodException e) {
+            throw new IllegalStateException("attackNotFound", e);
         }
     }
 
