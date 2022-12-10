@@ -59,7 +59,7 @@ public class View {
      * The step function for the view that moves the stackpane and checks for collisions
      * @param elapsedTime the time elapsed
      */
-    public void step(double elapsedTime){
+    public void step(double elapsedTime) throws IllegalStateException {
         stackPane.setTranslateX((myScene.getWidth() - blockSize) / 2 - myHeroView.getX());
         stackPane.setTranslateY((myScene.getHeight() - blockSize) / 2 - myHeroView.getY());
         if (isActive) {
@@ -156,7 +156,7 @@ public class View {
     /**
      * Detects collisions for the view
      */
-    private void detectCollisions() {
+    private void detectCollisions() throws IllegalStateException {
         List<EntityView> myViewEntitiesList = myViewEntities.values().parallelStream().toList();
         for (EntityView entity : myViewEntitiesList) {
             List<AttackView> myViewAttackList = myViewAttacks.values().parallelStream().toList();

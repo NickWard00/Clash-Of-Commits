@@ -2,9 +2,12 @@ package ooga.controller;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import ooga.Main;
 import ooga.model.entities.Entity;
 import ooga.model.Model;
 import ooga.model.attack.Attack;
@@ -19,7 +22,6 @@ import ooga.view.EntityView;
 import ooga.view.MapWrapper;
 import ooga.view.View;
 
-import java.io.FileNotFoundException;
 import java.util.*;
 
 import java.lang.reflect.InvocationTargetException;
@@ -47,10 +49,11 @@ public class Controller {
     private Map<KeyCode, String> actions;
     private String myGameType;
     private String mapName;
+    private Stage myStage;
     private DirectionState playerDirection;
     private int score;
     private List<Double> newCoordinates;
-
+    private ResourceBundle myLabels;
     private SaveFileParser saver = new SaveFileParser();
 
     /**
@@ -59,7 +62,7 @@ public class Controller {
      * @param map the name of the map to be displayed
      * @param labels the resource bundle containing the labels for the game
      */
-    public Controller(Stage stage, String map, String gameType, ResourceBundle labels){
+    public Controller(Stage stage, String map, String gameType, ResourceBundle labels) {
         this.myModelEntities = new HashMap<>();
         this.myViewEntities = new HashMap<>();
         this.myModelAttacks = new HashMap<>();
@@ -79,18 +82,24 @@ public class Controller {
         );
         this.mapName = map;
         this.myGameType = gameType;
+        this.myStage = stage;
+        this.myLabels = labels;
         this.score = Integer.parseInt(scores.getString("initialScore"));
 
-        initializeModel();
+        try {
+            initializeModel();
 
-        myView = new View(stage, this, myGameType, labels);
-        myViewObstacles = myView.getViewObstacles();
+            myView = new View(stage, this, myGameType, labels);
+            myViewObstacles = myView.getViewObstacles();
+        } catch (IllegalStateException e){
+            showMessage(Alert.AlertType.ERROR, labels.getString(e.getMessage()), e);
+        }
     }
 
     /**
      * Initializes the model and parses all the data based on the map name given
      */
-    private void initializeModel() {
+    private void initializeModel() throws IllegalStateException {
         boolean loadSave = false;
         if (mapName.startsWith("Save")) {
             loadGame(Integer.parseInt(String.valueOf(mapName.charAt(mapName.length()-1))));
@@ -103,7 +112,7 @@ public class Controller {
     /**
      * Begins the animation of the game
      */
-    public void startAnimation(){
+    public void startAnimation() {
         animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(new KeyFrame(Duration.seconds(SECOND_DELAY), e->step(SECOND_DELAY)));
@@ -136,12 +145,16 @@ public class Controller {
      * @param elapsedTime the time elapsed since the last step
      */
     private void step(double elapsedTime) {
-        myView.step(elapsedTime);
-        updateEntityPosition(elapsedTime);
-        updateAttackPosition(elapsedTime);
-        myModel.checkForNewAttacks();
-        updatePlayerHealth();
-        updatePlayerScore();
+        try {
+            myView.step(elapsedTime);
+            updateEntityPosition(elapsedTime);
+            updateAttackPosition(elapsedTime);
+            myModel.checkForNewAttacks();
+            updatePlayerHealth();
+            updatePlayerScore();
+        } catch (IllegalStateException e) {
+            showMessage(Alert.AlertType.ERROR, myLabels.getString(e.getMessage()), e);
+        }
     }
 
     /**
@@ -210,7 +223,7 @@ public class Controller {
      * Parses all the data in the data files based on a certain map name
      * @param map the name of the map to be parsed
      */
-    private void parseData(String map, boolean loadSave) {
+    private void parseData(String map, boolean loadSave) throws IllegalStateException {
         MapParser mapParser = new MapParser(map);
         mapWrapper = mapParser.getMapWrapper();
         Map<Integer, String> stateToImageMap = mapParser.getStateToImageMap();
@@ -237,7 +250,7 @@ public class Controller {
      * Sets up the model obstacles based on the map parser
      * @param num
      */
-    public void saveGame(int num){
+    public void saveGame(int num) throws IllegalStateException {
         saver.saveGame(num, myModelEntities, mapName, myGameType,String.valueOf(myModelEntities.get(myMainHeroName).getHp()), String.valueOf(score));
     }
 
@@ -245,7 +258,7 @@ public class Controller {
      * saves game to online database (slot 4)
      * @param num the number of the slot
      */
-    public void saveGametoWeb(int num) throws FileNotFoundException {
+    public void saveGameToWeb(int num) {
         saver.saveGameToWeb(num, myModelEntities, mapName, myGameType, String.valueOf(myModelEntities.get(myMainHeroName).getHp()), String.valueOf(score));
     }
 
@@ -271,7 +284,7 @@ public class Controller {
     /**
      * Sets up the view entities based on the model entities
      */
-    private void setupModelObstacles(MapParser parser) {
+    private void setupModelObstacles(MapParser parser) throws IllegalStateException {
         for (int row = 0; row < mapWrapper.getRowSize(0); row++) {
             for (int col = 0; col < mapWrapper.getColumnSize(); col++) {
                 try {
@@ -283,7 +296,7 @@ public class Controller {
                         makeObstacle(obstacleClass, row, col);
                     }
                 } catch (ClassNotFoundException e) {
-                    throw new IllegalStateException("classNotFound", e);
+                    throw new IllegalStateException("noClassFound", e);
                 }
             }
         }
@@ -333,13 +346,13 @@ public class Controller {
      * @param xPosition the x position of the obstacle
      * @param yPosition the y position of the obstacle
      */
-    private Obstacle makeObstacle(Class<? extends Obstacle> obstacleClass, double xPosition, double yPosition) {
+    private Obstacle makeObstacle(Class<? extends Obstacle> obstacleClass, double xPosition, double yPosition) throws IllegalStateException {
         try {
             Obstacle newObstacle = obstacleClass.getConstructor(Double.class, Double.class).newInstance(xPosition, yPosition);
             myModelObstacles.put(Arrays.asList(xPosition, yPosition), newObstacle);
             return newObstacle;
         } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
-            throw new IllegalStateException("classNotFound", e);
+            throw new IllegalStateException("noClassFound", e);
         }
     }
 
@@ -385,7 +398,7 @@ public class Controller {
      * @param viewObject1
      * @param viewObject2
      */
-    public void passCollision(Object viewObject1, Object viewObject2) {
+    public void passCollision(Object viewObject1, Object viewObject2) throws IllegalStateException {
         updateObstacles();
         CollisionHandler handler = new CollisionHandler(getViewModelMaps());
         Map<?,?> modelMap1 = getCorrectModelMap(viewObject1);
@@ -400,14 +413,14 @@ public class Controller {
      * @param obj the view object
      * @return the correct model map
      */
-    private Map<?,?> getCorrectModelMap(Object obj) {
+    private Map<?,?> getCorrectModelMap(Object obj) throws IllegalStateException {
         try {
             ResourceBundle bundle = ResourceBundle.getBundle("ResourceBundles.ViewToModel");
             String objType = bundle.getString(obj.getClass().getSimpleName());
             Object mapObject = Controller.class.getDeclaredMethod(String.format("getModel%s", objType)).invoke(this);
             return (Map<?,?>) mapObject;
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            throw new IllegalStateException("classNotFound", e);
+            throw new IllegalStateException("noClassFound", e);
         }
     }
 
@@ -415,13 +428,13 @@ public class Controller {
      * Handles the key input press from the user that is detected in the view
      * @param keyCode
      */
-    public void handleKeyPress(KeyCode keyCode){
+    public void handleKeyPress(KeyCode keyCode) throws IllegalStateException {
         if (actions.containsKey(keyCode)) {
             try {
                 Method currentAction = this.getClass().getDeclaredMethod(actions.get(keyCode));
                 currentAction.invoke(this);
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                throw new IllegalStateException("methodNotFound", e);
+                throw new IllegalStateException("noMethodFound", e);
             }
         }
     }
@@ -430,7 +443,7 @@ public class Controller {
      * Handles the key input release from the user that is detected in the view
      * @param keyCode
      */
-    public void handleKeyRelease(KeyCode keyCode) {
+    public void handleKeyRelease(KeyCode keyCode) throws IllegalStateException {
         if (actions.containsKey(keyCode)) {
             try {
                 Method currentAction = this.getClass().getDeclaredMethod(actions.get(keyCode) + "Stop");
@@ -543,9 +556,9 @@ public class Controller {
      * Method that returns the name of the main hero, if it exists
      * @return the name of the main hero
      */
-    public String getMainHeroName() {
+    public String getMainHeroName() throws IllegalStateException {
         if (myMainHeroName == null) {
-            throw new IllegalStateException("mainHeroNotFound");
+            throw new IllegalStateException("noMainHeroFound");
         } else {
             return myMainHeroName;
         }
@@ -621,5 +634,9 @@ public class Controller {
      */
     public void updatePlayerScore() {
         myView.updateScore(this.score);
+    }
+
+    public void showMessage(Alert.AlertType type, String message, Exception e) {
+        new Alert(type, message).showAndWait();
     }
 }

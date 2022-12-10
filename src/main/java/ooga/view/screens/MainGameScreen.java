@@ -192,16 +192,14 @@ public class MainGameScreen extends SceneCreator {
      * changes the CSS style and calls the set methods for setting non-CSS sheet related effects
      * @param style string that details which style to change to
      */
-    public void changeStyle(String style){
+    public void changeStyle(String style) throws IllegalStateException {
         myScene.getStylesheets().clear();
         myScene.getStylesheets().add(styles.getString(String.format("%sCSS",style)));
         try {
-            Method changeCSS = this.getClass().getDeclaredMethod(
-                    styleMethods.get(style));
+            Method changeCSS = this.getClass().getDeclaredMethod(styleMethods.get(style));
             changeCSS.invoke(this);
-
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException("noMethodFound", e);
         }
     }
 

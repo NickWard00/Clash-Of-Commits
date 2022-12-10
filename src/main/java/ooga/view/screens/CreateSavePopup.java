@@ -3,15 +3,12 @@ package ooga.view.screens;
 import javafx.animation.PauseTransition;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.controller.Controller;
-import ooga.controller.SaveFileParser;
 import ooga.view.SaveSlot;
 
 import java.io.FileNotFoundException;
@@ -33,7 +30,6 @@ public class CreateSavePopup extends SceneCreator {
     private SaveSlot slot4;
     private ResourceBundle labels;
     private Stage stage;
-
     private List<SaveSlot> slotList = new ArrayList<>();
     private int popupSize = Integer.parseInt(constants.getString("popupSize"));
 
@@ -50,11 +46,11 @@ public class CreateSavePopup extends SceneCreator {
     }
 
     /**
-     * creates the scene
+     * Creates the scene
      * @return scene
      */
     @Override
-    public Scene makeScene(){
+    public Scene makeScene() throws IllegalStateException {
         StackPane savePane = new StackPane();
         slot1 = new SaveSlot(labels, 1);
         slot1.setId("slot1");
@@ -74,34 +70,34 @@ public class CreateSavePopup extends SceneCreator {
         return scene;
     }
 
-     //maps each slot to its specific save file, and saves game on click.
-    private void handleEvents(){
-        for(SaveSlot s:slotList){
+    /**
+     * Maps each slot to its specific save file, and saves game on click.
+     */
+    private void handleEvents() throws IllegalStateException {
+        for (SaveSlot s : slotList){
             s.setOnMouseClicked(event->{
                 myController.saveGame(s.getNumber());
                 confirmSave();
             });
         }
         slot4.setOnMouseClicked(event ->{
-            try {
-                myController.saveGametoWeb(4);
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+            myController.saveGameToWeb(4);
         });
     }
 
-     // Opens a small popup that lets the user know the game's been saved.
+    /**
+     * Opens a small popup that lets the user know the game's been saved.
+     */
     private void confirmSave(){
         Stage confirmation = new Stage();
         confirmation.initModality(Modality.APPLICATION_MODAL);
         confirmation.initOwner(stage);
         Label saveDone = new Label(labels.getString("saveConfirmation"));
-        Scene confirmationScene= new Scene(saveDone);
+        Scene confirmationScene = new Scene(saveDone);
         confirmation.setScene(confirmationScene);
         confirmation.show();
         PauseTransition delay = new PauseTransition(Duration.seconds(2));
-        delay.setOnFinished( event -> confirmation.close() );
+        delay.setOnFinished(event -> confirmation.close());
         delay.play();
     }
 }
