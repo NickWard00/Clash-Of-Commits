@@ -1,13 +1,13 @@
 package ooga.controller;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+/**
+ * This class is responsible for parsing the entity based on the corresponding sim file
+ * @author Nick Ward
+ */
 public class EntityParser {
     private String entityName;
     private String entityType;
@@ -16,7 +16,6 @@ public class EntityParser {
     private Properties entityProperties;
     private Map<String, String> attributeMap;
     private static final String ENTITY_DIRECTORY = "data/entity/%s.sim";
-
 
     /**
      * Constructor for EntityParser
@@ -40,7 +39,6 @@ public class EntityParser {
     public Map<String, String> getAttributeMap() {
         return attributeMap;
     }
-
 
     /**
      * Creates the attribute and state map
