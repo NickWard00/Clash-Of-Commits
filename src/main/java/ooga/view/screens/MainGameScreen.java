@@ -4,7 +4,9 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import javafx.collections.ObservableList;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToolBar;
@@ -251,7 +253,10 @@ public class MainGameScreen extends SceneCreator {
      * removes an obstacle from the scene
      * @param obstacle the obstacle to be removed
      */
-    public void removeObstacleFromScene(BlockView obstacle) { root.getChildren().remove(obstacle); }
+    public void removeObstacleFromScene(BlockView obstacle) {
+        mapPane.getChildren().remove(obstacle);
+        background.setContent(mapPane);
+    }
 
     /**
      * returns the stackpane that the map is located on
@@ -293,7 +298,7 @@ public class MainGameScreen extends SceneCreator {
     }
 
     public void nextScene() {
-        if (mapGameState.determineWin(1)) {
+        if (mapGameState.determineWin(hud.getScore())) {
             EndGameScreen winScreen = new EndGameScreen(stage, true);
             myScene = winScreen.makeScene();
             stage.setScene(myScene);

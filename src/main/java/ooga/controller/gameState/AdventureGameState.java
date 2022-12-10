@@ -1,8 +1,8 @@
 package ooga.controller.gameState;
 
 import java.util.Map;
+import java.util.ResourceBundle;
 import ooga.controller.Controller;
-import ooga.controller.gameState.MapGameState;
 import ooga.view.EntityView;
 
 /**
@@ -12,6 +12,8 @@ import ooga.view.EntityView;
  */
 
 public class AdventureGameState extends MapGameState {
+  private static final ResourceBundle gameScore = ResourceBundle.getBundle(
+      "ResourceBundles.Score");
   private int score;
 
   public AdventureGameState(Map<String, EntityView> viewEntities, Controller controller) {
@@ -21,10 +23,9 @@ public class AdventureGameState extends MapGameState {
   @Override
   public boolean determineWin(int score) {
     this.score = score;
-    if (score >= 100) {
+    if (this.score >= Integer.parseInt(gameScore.getString("adventureWinScore"))) {
       return true;
     }
     return false;
   }
-
 }

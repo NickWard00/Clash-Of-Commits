@@ -21,8 +21,6 @@ class PowerUpTest {
 
   @BeforeEach
   void setUp() {
-//    powerUpParser = new EntityParser("TestPowerUp", new String[]{"PowerUp", "1", "1"});
-//    powerUp = new PowerUp(powerUpParser.getAttributeMap());
     powerUp = new PowerUp(TEST_DEFAULT_X_POSITION, TEST_DEFAULT_Y_POSITION);
     heroParser = new EntityParser("TestHero", new String[]{"MainHero", "5", "5"});
     hero = new MainHero(heroParser.getAttributeMap());

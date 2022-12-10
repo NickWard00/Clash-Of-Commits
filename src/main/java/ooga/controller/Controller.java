@@ -10,6 +10,7 @@ import ooga.model.Model;
 import ooga.model.attack.Attack;
 import ooga.model.obstacle.DestroyableWall;
 import ooga.model.obstacle.Obstacle;
+import ooga.model.obstacle.powerup.PowerUp;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
 import ooga.view.BlockView;
@@ -48,6 +49,7 @@ public class Controller {
     private String mapName;
     private DirectionState playerDirection;
     private int score;
+    private List<Double> newCoordinates;
 
     private SaveFileParser saver = new SaveFileParser();
 
@@ -191,9 +193,14 @@ public class Controller {
      */
     private void updateObstacles() {
         for (List<Double> coordinate : myViewObstacles.keySet()) {
-            if (myModelObstacles.get(coordinate).getClass() == DestroyableWall.class) {
-                if (!((DestroyableWall) myModelObstacles.get(coordinate)).determineOnScreen()) {
-                    removeObstacle(coordinate);
+            newCoordinates = new ArrayList<>();
+            for (int index = coordinate.size() - 1; index >= 0; index--) {
+                newCoordinates.add(coordinate.get(index));
+            }
+
+            if (myModelObstacles.get(newCoordinates).getClass() == DestroyableWall.class) {
+                if (((DestroyableWall) myModelObstacles.get(newCoordinates)).determineHP() <= 0) {
+                    removeObstacle(coordinate, newCoordinates);
                 }
             }
         }
@@ -364,12 +371,13 @@ public class Controller {
 
     /**
      * Removes an obstacle in model and view based on the obstacle location
-     * @param coordinate
+     * @param viewCoordinate
+     * @param modelCoordinate
      */
-    public void removeObstacle(List<Double> coordinate) {
-        myView.getGameScreen().removeObstacleFromScene(myViewObstacles.get(coordinate));
-        myViewObstacles.remove(coordinate);
-        myModelObstacles.remove(coordinate);
+    public void removeObstacle(List<Double> viewCoordinate, List<Double> modelCoordinate) {
+        myView.getGameScreen().removeObstacleFromScene(myViewObstacles.get(viewCoordinate));
+        myViewObstacles.remove(viewCoordinate);
+        myModelObstacles.remove(modelCoordinate);
     }
 
     /**
@@ -378,11 +386,13 @@ public class Controller {
      * @param viewObject2
      */
     public void passCollision(Object viewObject1, Object viewObject2) {
-        //updateObstacles();
+        updateObstacles();
         CollisionHandler handler = new CollisionHandler(getViewModelMaps());
         Map<?,?> modelMap1 = getCorrectModelMap(viewObject1);
         Map<?,?> modelMap2 = getCorrectModelMap(viewObject2);
+//        updateObstacles();
         handler.translateCollision(viewObject1, viewObject2, modelMap1, modelMap2);
+
     }
 
     /**
