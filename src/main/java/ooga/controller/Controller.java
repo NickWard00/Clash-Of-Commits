@@ -196,9 +196,11 @@ public class Controller {
             for (int index = coordinate.size() - 1; index >= 0; index--) {
                 newCoordinates.add(coordinate.get(index));
             }
+
             if (myModelObstacles.get(newCoordinates).getClass() == DestroyableWall.class) {
-                if (!((DestroyableWall) myModelObstacles.get(newCoordinates)).determineOnScreen()) {
-                    removeObstacle(newCoordinates);
+                if (((DestroyableWall) myModelObstacles.get(newCoordinates)).determineHP() <= 0) {
+                    System.out.println(newCoordinates);
+                    removeObstacle(coordinate, newCoordinates);
                 }
             }
         }
@@ -369,12 +371,13 @@ public class Controller {
 
     /**
      * Removes an obstacle in model and view based on the obstacle location
-     * @param coordinate
+     * @param viewCoordinate
+     * @param modelCoordinate
      */
-    public void removeObstacle(List<Double> coordinate) {
-        myView.getGameScreen().removeObstacleFromScene(myViewObstacles.get(coordinate));
-        myViewObstacles.remove(coordinate);
-        myModelObstacles.remove(coordinate);
+    public void removeObstacle(List<Double> viewCoordinate, List<Double> modelCoordinate) {
+        myView.getGameScreen().removeObstacleFromScene(myViewObstacles.get(viewCoordinate));
+        myViewObstacles.remove(viewCoordinate);
+        myModelObstacles.remove(modelCoordinate);
     }
 
     /**
@@ -387,7 +390,9 @@ public class Controller {
         CollisionHandler handler = new CollisionHandler(getViewModelMaps());
         Map<?,?> modelMap1 = getCorrectModelMap(viewObject1);
         Map<?,?> modelMap2 = getCorrectModelMap(viewObject2);
+//        updateObstacles();
         handler.translateCollision(viewObject1, viewObject2, modelMap1, modelMap2);
+
     }
 
     /**
