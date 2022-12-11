@@ -89,7 +89,6 @@ public class Controller {
 
         try {
             initializeModel();
-
             myView = new View(stage, this, myGameType, labels);
             myViewObstacles = myView.getViewObstacles();
         } catch (IllegalStateException e){
@@ -102,7 +101,6 @@ public class Controller {
      */
     private void initializeModel() throws IllegalStateException {
         boolean loadSave = false;
-        System.out.println(mapName);
         if(mapName.startsWith("Save_4")){
             loadGameFromWeb();
             loadSave= true;
@@ -112,6 +110,7 @@ public class Controller {
             loadSave = true;
         }
         parseData(mapName, loadSave);
+
         myModel = new Model(this);
     }
 

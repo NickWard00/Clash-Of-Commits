@@ -5,7 +5,7 @@ import org.json.simple.JSONObject;
 /**
  *  Used to circumvent the asynchronous updating of the save file from the Firebase web database.
  *  I apologize because there may be a better way of "solving" asynchronous activity resulting
- *  in null variables but this was the only one I tried so far that was effective
+ *  in null variables but this was the only one I tried so far that was effective.
  */
 public interface CallBack {
         /**

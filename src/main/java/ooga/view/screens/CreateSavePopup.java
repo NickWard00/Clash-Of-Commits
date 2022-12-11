@@ -52,13 +52,13 @@ public class CreateSavePopup extends SceneCreator {
     @Override
     public Scene makeScene() throws IllegalStateException {
         StackPane savePane = new StackPane();
-        slot1 = new SaveSlot(labels, 1);
+        slot1 = new SaveSlot(labels, 1,false);
         slot1.setId("slot1");
-        slot2 = new SaveSlot(labels, 2);
+        slot2 = new SaveSlot(labels, 2,false);
         slot2.setId("slot2");
-        slot3 = new SaveSlot(labels, 3);
+        slot3 = new SaveSlot(labels, 3,false);
         slot3.setId("slot3");
-        slot4 = new SaveSlot(labels,4);
+        slot4 = new SaveSlot(labels,4,true);
         slotList.add(slot1);
         slotList.add(slot2);
         slotList.add(slot3);

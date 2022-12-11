@@ -9,11 +9,12 @@
 .SaveSlot{
     -fx-background-color: #B2BEB5;
     -fx-padding: 15 15 15 15;
-    -fx-spacing: 10;
+    -fx-spacing: 20;
     -fx-border-color: black;
     -fx-border-insets: 5;
     -fx-border-width: 3;
     -fx-font-family: "Retro Computer";
+    -fx-pref-height: 150;
 }
 .SaveSlot:hover{
     -fx-background-color: #8AA190;
