@@ -112,7 +112,7 @@ public class MainGameScreen extends SceneCreator {
         createHUD();
         myScene = new Scene(gameScreenPane, screenSize, screenSize);
         myScene.getStylesheets().add(styles.getString("DefaultCSS"));
-        musicPlayer= new MediaPlayer(music);
+        musicPlayer = new MediaPlayer(music);
         musicPlayer.setAutoPlay(true);
         nextScene();
         return myScene;
@@ -252,7 +252,21 @@ public class MainGameScreen extends SceneCreator {
      * @param obstacle the obstacle to be removed
      */
     public void removeObstacleFromScene(BlockView obstacle) {
+        double x = obstacle.getKey().get(0);
+        double y = obstacle.getKey().get(1);
+        double blockSizeX = obstacle.getFitWidth();
+        double blockSizeY = obstacle.getFitHeight();
         mapPane.getChildren().remove(obstacle);
+        ImageView emptyGrass;
+        if (obstacle.getImagePath().contains("winter")){
+            emptyGrass = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("blocks/winter_grass.jpeg")));
+        }
+        else {
+            emptyGrass = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("blocks/grass.jpeg")));
+        }
+        emptyGrass.setFitWidth(blockSizeX);
+        emptyGrass.setFitHeight(blockSizeY);
+        mapPane.add(emptyGrass, (int) x, (int) y);
         background.setContent(mapPane);
     }
 

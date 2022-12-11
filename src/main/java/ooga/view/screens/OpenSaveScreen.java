@@ -70,9 +70,9 @@ public class OpenSaveScreen extends SceneCreator {
      * handles the clicking of the slots
      */
     public void handleEvents(){
-        for(SaveSlot s: slotList){
+        for(SaveSlot s : slotList){
             s.setOnMouseClicked(event->{
-                Controller controller = new Controller(stage, String.format("Save_%d", s.getNumber()), slot1.getGameType(), labels);
+                Controller controller = new Controller(stage, String.format("Save_%d", s.getNumber()), s.getGameType(), labels);
                 controller.startAnimation();
             });
         }
