@@ -61,7 +61,6 @@ public class FireBase {
 
         } catch (IOException io) {
             System.out.println(io.getMessage());
-
         }
     }
 

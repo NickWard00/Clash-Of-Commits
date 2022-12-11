@@ -102,10 +102,9 @@ public class Controller {
      */
     private void initializeModel() throws IllegalStateException {
         boolean loadSave = false;
-        System.out.println(mapName);
-        if(mapName.startsWith("Save_4")){
+        if (mapName.startsWith("Save_4")){
             loadGameFromWeb();
-            loadSave= true;
+            loadSave = true;
         }
         else if (mapName.startsWith("Save")) {
             loadGame(Integer.parseInt(String.valueOf(mapName.charAt(mapName.length()-1))));
@@ -211,7 +210,8 @@ public class Controller {
      * Checks if any obstacles have been destroyed and removes them from the game
      */
     private void updateObstacles() {
-        for (List<Double> coordinate : myViewObstacles.keySet()) {
+        List<List<Double>> coordinates = myViewObstacles.keySet().stream().toList();
+        for (List<Double> coordinate : coordinates) {
             newCoordinates = new ArrayList<>();
             for (int index = coordinate.size() - 1; index >= 0; index--) {
                 newCoordinates.add(coordinate.get(index));
@@ -402,8 +402,9 @@ public class Controller {
      * @param viewCoordinate
      * @param modelCoordinate
      */
-    public void removeObstacle(List<Double> viewCoordinate, List<Double> modelCoordinate) {
-        myView.getGameScreen().removeObstacleFromScene(myViewObstacles.get(viewCoordinate));
+    private void removeObstacle(List<Double> viewCoordinate, List<Double> modelCoordinate) {
+        double blockSize = mapWrapper.getVisualProperties().get(0);
+        myView.getGameScreen().removeObstacleFromScene(myViewObstacles.get(viewCoordinate), blockSize);
         myViewObstacles.remove(viewCoordinate);
         myModelObstacles.remove(modelCoordinate);
     }
@@ -414,13 +415,11 @@ public class Controller {
      * @param viewObject2
      */
     public void passCollision(Object viewObject1, Object viewObject2) throws IllegalStateException {
-        updateObstacles();
         CollisionHandler handler = new CollisionHandler(getViewModelMaps());
         Map<?,?> modelMap1 = getCorrectModelMap(viewObject1);
         Map<?,?> modelMap2 = getCorrectModelMap(viewObject2);
-//        updateObstacles();
         handler.translateCollision(viewObject1, viewObject2, modelMap1, modelMap2);
-
+        updateObstacles();
     }
 
     /**
