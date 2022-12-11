@@ -102,6 +102,7 @@ public class Controller {
      */
     private void initializeModel() throws IllegalStateException {
         boolean loadSave = false;
+        System.out.println(mapName);
         if(mapName.startsWith("Save_4")){
             loadGameFromWeb();
             loadSave= true;
@@ -125,7 +126,7 @@ public class Controller {
     }
 
     /**
-     * Stops the animation of the game
+     * Pauses the animation of the game
      */
     public void pauseAnimation(){
         animation.pause();
@@ -267,6 +268,9 @@ public class Controller {
         saver.saveGameToWeb(num, myModelEntities, mapName, myGameType, String.valueOf(myModelEntities.get(myMainHeroName).getHp()), String.valueOf(score));
     }
 
+    /**
+     * calls upon the save file parser to load the game from the web
+     */
     public void loadGameFromWeb(){
         saver.loadGameFromWeb();
     }

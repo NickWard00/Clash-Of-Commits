@@ -77,8 +77,7 @@ public class OpenSaveScreen extends SceneCreator {
             });
         }
         slot4.setOnMouseClicked(event->{
-            Controller controller = new Controller(stage, String.format("Save_%d", slot4.getNumber()), slot1.getGameType(), labels);
-            controller.loadGameFromWeb();
+            Controller controller = new Controller(stage, String.format("Save_%d", slot4.getNumber()), slot4.getGameType(), labels);
             controller.startAnimation();
         });
     }

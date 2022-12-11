@@ -1,4 +1,5 @@
 package ooga.controller;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -16,8 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class allows for uploading a save file from the cloud
+ * This class allows for uploading and downloading a save file from the realtime database.
+ *
  * @author Melanie Wang
+ */
+
+
+/**
+ * Establishes connection with database
  */
 public class FireBase {
     private final String DATABASE_URL = "https://ooga-team-6-default-rtdb.firebaseio.com";
@@ -29,24 +36,24 @@ public class FireBase {
     private List<FirebaseApp> firebaseAppList = new ArrayList<>();
 
     private JSONObject saveFileWeb;
+
     public FireBase() {
 
         try {
-        File file = new File(GOOGLE_APPLICATION_CREDENTIALS);
-        InputStream serviceAccount = new FileInputStream(file);
+            File file = new File(GOOGLE_APPLICATION_CREDENTIALS);
+            InputStream serviceAccount = new FileInputStream(file);
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                    .setDatabaseUrl("https://ooga-team-6-default-rtdb.firebaseio.com")
+                    .setDatabaseUrl(DATABASE_URL)
                     .build();
 
-            firebaseAppList=FirebaseApp.getApps();
-            if(firebaseAppList!=null && !firebaseAppList.isEmpty()){
-                for(FirebaseApp app : firebaseAppList){
-                    if(app.getName().equals(FirebaseApp.DEFAULT_APP_NAME))
+            firebaseAppList = FirebaseApp.getApps();
+            if (firebaseAppList != null && !firebaseAppList.isEmpty()) {
+                for (FirebaseApp app : firebaseAppList) {
+                    if (app.getName().equals(FirebaseApp.DEFAULT_APP_NAME))
                         primaryApp = app;
                 }
-            }
-            else {
+            } else {
                 primaryApp = FirebaseApp.initializeApp(options);
             }
             firebaseDatabase = FirebaseDatabase.getInstance(DATABASE_URL);
@@ -57,43 +64,49 @@ public class FireBase {
 
         }
     }
-        public void update(JSONObject file) {
-            ref.setValue(file, new DatabaseReference.CompletionListener() {
-                @Override
-                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                    if (databaseError != null) {
-                        System.out.println("Data could not be saved " + databaseError.getMessage());
-                    } else {
-                        System.out.println("Data saved successfully.");
-                    }
-                }});
-        }
 
-        public JSONObject getSaveFileWeb(){
-            return saveFileWeb;
-        }
-
-        public void readData(CallBack callBack) {
-            ref.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Object s= dataSnapshot.getValue();
-                    try {
-                        saveFileWeb = (JSONObject) JSONValue.parse(new ObjectMapper().writeValueAsString(s));
-                        System.out.println(saveFileWeb);
-                        callBack.onCallback(saveFileWeb);
-                    } catch (JsonProcessingException e) {
-                        throw new RuntimeException(e);
-                    }
+    /**
+     * once given our desired save file, this method will upload the data to the database.
+     * @param file
+     */
+    public void update(JSONObject file) {
+        ref.setValue(file, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (databaseError != null) {
+                    //System.out.println("Data Save Failure" + databaseError.getMessage());
+                } else {
+                   // System.out.println("Data Saved!");
                 }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    System.out.println("cancelled");
-                }
-            });
-
-        }
+            }
+        });
     }
+
+    /**
+     * Reads data from the online database and sends it to other classes via callBack.
+     * @param callBack the interface used specifically to get around the asynchronous behavior of
+     * value event listeners. Without using this, the saveFileWeb will always be null in other classes.
+     */
+    public void readData(CallBack callBack) {
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Object s = dataSnapshot.getValue();
+                try {
+                    saveFileWeb = (JSONObject) JSONValue.parse(new ObjectMapper().writeValueAsString(s));
+                    callBack.onCallback(saveFileWeb);
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+               //log error here
+            }
+        });
+
+    }
+}
 
 

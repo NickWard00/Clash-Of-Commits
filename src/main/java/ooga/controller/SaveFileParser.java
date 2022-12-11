@@ -67,6 +67,13 @@ public class SaveFileParser {
         }
     }
 
+    /**
+     * Loads the save file saved to the web database.
+     * Uses a callback interface because getting information from the web is asynchronous
+     * (essentially, this method waits until the data is downloaded before returning the JSONObject)
+     * Then, writes the JSONObject from the web into our local save, Save_4, and then calls
+     * loadGame in order to load our newly updated save 4.
+     */
     public void loadGameFromWeb(){
         if(fireBase == null) {
             fireBase = new FireBase();
@@ -74,7 +81,6 @@ public class SaveFileParser {
         fireBase.readData(new CallBack() {
             @Override
             public void onCallback(JSONObject value) {
-                System.out.println(value);
                 try {
                     FileWriter localSave = new FileWriter(String.format(SAVE_DIRECTORY, 4));
                     localSave.write(value.toJSONString());
@@ -88,8 +94,17 @@ public class SaveFileParser {
         loadGame(4);
     }
 
-
-    public void saveGameToWeb(int saveFile, Map<String, Entity> modelEntities, String mapName, String gameType, String hp, String score) throws FileNotFoundException {
+    /**
+     * Used to save our save file to the web.
+     * Saves the file locally first, and then calls on Firebase to send the file to the online database.
+     * @param saveFile the number of the file we want to save
+     * @param modelEntities the entities present during our save
+     * @param mapName the name of the map the save is on
+     * @param gameType the type of game the player wants to save
+     * @param hp how much health the player had at the time of the save
+     * @param score the score at the time of the save
+     */
+    public void saveGameToWeb(int saveFile, Map<String, Entity> modelEntities, String mapName, String gameType, String hp, String score){
         if (fireBase == null) {
             fireBase = new FireBase();
         }
@@ -99,14 +114,12 @@ public class SaveFileParser {
             fireBase.update(file);
         } catch (IOException | ParseException e) {
             throw new IllegalStateException("cloudCannotSave", e);
-
         }
     }
 
     /**
      * Loads the game's current state
      * @param saveFile the number of the save file
-     * @return
      */
     public void loadGame(int saveFile) throws IllegalStateException {
         try {
