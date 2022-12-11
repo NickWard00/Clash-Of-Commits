@@ -251,19 +251,21 @@ public class MainGameScreen extends SceneCreator {
      * removes an obstacle from the scene
      * @param obstacle the obstacle to be removed
      */
-    public void removeObstacleFromScene(BlockView obstacle, double blockSize) {
+    public void removeObstacleFromScene(BlockView obstacle) {
         double x = obstacle.getKey().get(0);
         double y = obstacle.getKey().get(1);
+        double blockSizeX = obstacle.getFitWidth();
+        double blockSizeY = obstacle.getFitHeight();
         mapPane.getChildren().remove(obstacle);
-        ImageView emptyGrass = new ImageView();
+        ImageView emptyGrass;
         if (obstacle.getImagePath().contains("winter")){
             emptyGrass = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("blocks/winter_grass.jpeg")));
         }
         else {
             emptyGrass = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("blocks/grass.jpeg")));
         }
-        emptyGrass.setFitWidth(blockSize);
-        emptyGrass.setFitHeight(blockSize);
+        emptyGrass.setFitWidth(blockSizeX);
+        emptyGrass.setFitHeight(blockSizeY);
         mapPane.add(emptyGrass, (int) x, (int) y);
         background.setContent(mapPane);
     }

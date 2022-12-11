@@ -404,7 +404,7 @@ public class Controller {
      */
     private void removeObstacle(List<Double> viewCoordinate, List<Double> modelCoordinate) {
         double blockSize = mapWrapper.getVisualProperties().get(0);
-        myView.getGameScreen().removeObstacleFromScene(myViewObstacles.get(viewCoordinate), blockSize);
+        myView.getGameScreen().removeObstacleFromScene(myViewObstacles.get(viewCoordinate));
         myViewObstacles.remove(viewCoordinate);
         myModelObstacles.remove(modelCoordinate);
     }
