@@ -40,6 +40,10 @@ public class EndGameScreen extends SceneCreator {
     this.won = win;
   }
 
+  /**
+   * Method for generating the scene for when the game ends
+   * @return the scene
+   */
   @Override
   public Scene makeScene() {
     this.pane = new StackPane();
@@ -57,27 +61,35 @@ public class EndGameScreen extends SceneCreator {
     return endGameScene;
   }
 
+  /**
+   * Returns the scene to the start screen and displays that screen instead
+   */
   private void returnToBeginning() {
     StartScreen screen = new StartScreen(currentStage);
     currentStage.setScene(screen.makeScene());
     currentStage.show();
   }
+
+  /**
+   * Handles all of the user interface events in this screen
+   */
   private void handleEvents() {
     playAgainButton.setOnAction(event -> {
       returnToBeginning();
     });
   }
 
-  //TODO: Refactor the Strings out?
+  /**
+   * Used to determine whether to implement a winning screen or a losing screen to
+   * show end of the game.
+   */
   private void determineScreenType(boolean win) {
     if (win) {
-      text = new Text("Congratulations!!!");
-      text.setId("congratsMessage");
+      text = new Text(resources.getString("winMessage"));
       css = "winScreenCSS";
     }
     else {
-      text = new Text("You have lost");
-      text.setId("loseMessage");
+      text = new Text(resources.getString("loseMessage"));
       css = "loseScreenCSS";
     }
   }

@@ -20,6 +20,10 @@ public class AdventureGameState extends MapGameState {
     super(viewEntities, controller);
   }
 
+  /**
+   * Method to determine if the adventure game is won
+   * @return boolean representing whether the adventure game is won or not
+   */
   @Override
   public boolean determineWin(int score) {
     this.score = score;
