@@ -42,4 +42,12 @@ public class BlockView extends ImageView {
     public List<Double> getKey() {
         return Arrays.asList(getX(), getY());
     }
+
+    /**
+     * Returns the image path
+     * @return image path
+     */
+    public String getImagePath() {
+        return imagePath;
+    }
 }

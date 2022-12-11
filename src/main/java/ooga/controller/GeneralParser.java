@@ -24,7 +24,7 @@ public class GeneralParser {
             return properties;
         }
         catch (IOException e) {
-            throw new IllegalStateException("fileUploadError", e);
+            throw new IllegalStateException("simFileUploadError", e);
         }
     }
 }
