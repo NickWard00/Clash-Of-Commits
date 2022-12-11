@@ -2,10 +2,7 @@ package ooga.controller;
 
 import ooga.view.MapWrapper;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 
 public class MapParser {
@@ -121,5 +118,6 @@ public class MapParser {
     public Map<Integer, String> getObstacleStateMap() {
         return obstacleStateMap;
     }
+
 }
 

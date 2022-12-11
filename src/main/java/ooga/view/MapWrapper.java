@@ -162,4 +162,8 @@ public class MapWrapper {
     return obstacleStateMap.get(state);
   }
 
+  public Boolean isGrassBlock(Integer state){
+    return (stateImageMap.get(state).contains("grass"));
+  }
+
 }

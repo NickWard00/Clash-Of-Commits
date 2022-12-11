@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -34,6 +35,7 @@ public class View {
     private double blockSize;
     private BorderPane bPane;
     private StackPane stackPane;
+    private GridPane backgroundPane;
     private GridPane mapPane;
     private EntityView myHeroView;
     private MainGameScreen mainGameScreen;
@@ -81,7 +83,7 @@ public class View {
         setupMap();
 
         mainGameScreen = new MainGameScreen(stage, myController);
-        mainGameScreen.startGamePlay(mapPane, myViewEntities);
+        mainGameScreen.startGamePlay(backgroundPane, mapPane, myViewEntities);
         myScene = mainGameScreen.makeScene();
         setupWalkingMusic();
 
@@ -128,6 +130,7 @@ public class View {
         blockSize = myMapWrapper.getVisualProperties().get(0);
         myMapView = new MapView(myMapWrapper);
         mapPane = myMapView.createMap();
+        backgroundPane = myMapView.getBackground();
         myViewObstacles = myMapView.getViewObstacles();
     }
 
