@@ -15,7 +15,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * This class allows for uploading a save file from the cloud
+ * @author Melanie Wang
+ */
 public class FireBase {
     private final String DATABASE_URL = "https://ooga-team-6-default-rtdb.firebaseio.com";
     private final String GOOGLE_APPLICATION_CREDENTIALS = "src/main/resources/firebase/ooga-team-6-firebase-adminsdk-s9ddn-49ef12d240.json";

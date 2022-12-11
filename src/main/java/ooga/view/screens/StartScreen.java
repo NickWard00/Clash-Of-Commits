@@ -62,9 +62,12 @@ public class StartScreen extends SceneCreator {
         music = new Media(new File(media.getString("start")).toURI().toString());
     }
 
-    //makes the scene that is displayed on the screen
+    /**
+     * Makes the scene corresponding to the start screen
+     * @return the scene corresponding to the start screen
+     */
     @Override
-    public Scene makeScene(){
+    public Scene makeScene() throws IllegalStateException {
         background = new ImageView(new Image(images.getString("startScreenImage")));
         startGame = new Button(labels.getString("startButton"));
         startGame.setId("startGame");
@@ -90,37 +93,51 @@ public class StartScreen extends SceneCreator {
         return scene;
     }
 
-    //moves to the next screen of the game
-    public void nextScreen(ResourceBundle labels){
+    /**
+     * Selects the next screen to be displayed
+     * @param labels the resource bundle containing the labels
+     */
+    private void nextScreen(ResourceBundle labels){
         ChooseGameScreen c = new ChooseGameScreen(currentStage, labels);
         currentStage.setScene(c.makeScene());
         currentStage.show();
         myMedia.stop();
     }
 
-    //sets the language to english
-    public void setEnglish() {
+    /**
+     * Sets the language to English
+     */
+    private void setEnglish() {
         labels = ResourceBundle.getBundle(
                 "ResourceBundles.LabelsBundle");
     }
-    //sets the language to spanish
-    public void setSpanish() {
+
+    /**
+     * Sets the language to Spanish
+     */
+    private void setSpanish() {
         labels = ResourceBundle.getBundle(
                 "ResourceBundles.LabelsBundle_es");
     }
-    //sets the language to german
-    public void setGerman() {
+
+    /**
+     * Sets the language to German
+     */
+    private void setGerman() {
         labels = ResourceBundle.getBundle(
                 "ResourceBundles.LabelsBundle_de");
     }
-    //sets the language to simlish
-    public void setSimlish(){
+
+    /**
+     * Sets the language to simlish
+     */
+    private void setSimlish(){
         labels = ResourceBundle.getBundle(
                 "ResourceBundles.LabelsBundle_simlish");
     }
 
     //handles the changing of languages using the selector and the clicking of the start button
-    public void handleEvents(){
+    private void handleEvents() throws IllegalStateException {
         startGame.setOnAction(event -> {
             nextScreen(labels);
         });
@@ -131,7 +148,7 @@ public class StartScreen extends SceneCreator {
                 changeLanguage.invoke(this);
 
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                throw new RuntimeException(e);
+                throw new IllegalStateException("languageNotFound", e);
             }
         });
 

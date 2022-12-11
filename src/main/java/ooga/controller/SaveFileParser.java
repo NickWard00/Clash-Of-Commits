@@ -44,7 +44,7 @@ public class SaveFileParser {
      * @param mapName the name of the map
      * @param gameType the type of game
      */
-    public void saveGame(int saveFile, Map<String, Entity> modelEntities, String mapName, String gameType, String hp, String score){
+    public void saveGame(int saveFile, Map<String, Entity> modelEntities, String mapName, String gameType, String hp, String score) throws IllegalStateException {
         jsonProperties = new JSONObject();
 
         jsonProperties.put("Map", mapName);
@@ -89,17 +89,17 @@ public class SaveFileParser {
     }
 
 
-
     public void saveGameToWeb(int saveFile, Map<String, Entity> modelEntities, String mapName, String gameType, String hp, String score) throws FileNotFoundException {
-        if(fireBase == null) {
+        if (fireBase == null) {
             fireBase = new FireBase();
         }
         saveGame(saveFile, modelEntities, mapName, gameType, hp, score);
-        try{
-        JSONObject file= (JSONObject) new JSONParser().parse(new FileReader(String.format(SAVE_DIRECTORY, saveFile)));
-        fireBase.update(file);
-        }catch (IOException | ParseException e) {
-            throw new RuntimeException(e);
+        try {
+            JSONObject file = (JSONObject) new JSONParser().parse(new FileReader(String.format(SAVE_DIRECTORY, saveFile)));
+            fireBase.update(file);
+        } catch (IOException | ParseException e) {
+            throw new IllegalStateException("cloudCannotSave", e);
+
         }
     }
 
@@ -151,7 +151,7 @@ public class SaveFileParser {
      * Deletes the save file based on the save file number
      * @param saveFile the save file number
      */
-    public void deleteSaveFile(int saveFile) {
+    public void deleteSaveFile(int saveFile) throws IllegalStateException {
         File file = new File(String.format(SAVE_DIRECTORY, saveFile));
         if (!file.delete()){
             throw new IllegalStateException("cannotDeleteSaveFile");

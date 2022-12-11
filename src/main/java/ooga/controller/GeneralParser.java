@@ -5,6 +5,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * This class is responsible for parsing the general sim files
+ * @author Nick Ward
+ */
 public class GeneralParser {
     /**
      * Returns property of a given sim file
@@ -23,5 +27,4 @@ public class GeneralParser {
             throw new IllegalStateException("fileUploadError", e);
         }
     }
-
 }
