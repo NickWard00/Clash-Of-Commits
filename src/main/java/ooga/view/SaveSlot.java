@@ -24,6 +24,8 @@ public class SaveSlot extends Slot{
     private String mapNameContent;
 
     private int slotNumber;
+
+    private SubLabel webNotice;
     private SaveFileParser saveFileParser= new SaveFileParser();
 
     /**
@@ -31,7 +33,7 @@ public class SaveSlot extends Slot{
      * @param label the resource bundle for the labels
      * @param number the number of the slot
      */
-    public SaveSlot(ResourceBundle label, int number){
+    public SaveSlot(ResourceBundle label, int number, boolean web){
         super(label);
         labels = label;
         slotNumber = number;
@@ -41,16 +43,22 @@ public class SaveSlot extends Slot{
             gameTypeContent = saveFileParser.getGameType();
             mapNameContent = saveFileParser.getMapName();
         } catch (IllegalStateException e) {
-            timeContent = "No Save";
-            gameTypeContent = "No Save";
-            mapNameContent = "No Save";
+            timeContent = labels.getString("noSave");
+            gameTypeContent = labels.getString("noSave");
+            mapNameContent = labels.getString("noSave");
         }
-        DateTimeFormatter m = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
-        time = new SubLabel(String.format("%s %s", labels.getString("time"), timeContent));
-        gameType = new SubLabel(String.format("%s %s", labels.getString("gameType"), gameTypeContent));
-        mapName = new SubLabel(String.format("%s %s", labels.getString("mapName"), mapNameContent));
-        this.getChildren().addAll(gameType,mapName,time);
-        this.getStyleClass().add("SaveSlot");
+        if(web) {
+            webNotice= new SubLabel(labels.getString("webLoad"));
+            this.getChildren().add(webNotice);
+        }
+        else {
+            DateTimeFormatter m = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
+            time = new SubLabel(String.format("%s %s", labels.getString("time"), timeContent));
+            gameType = new SubLabel(String.format("%s %s", labels.getString("gameType"), gameTypeContent));
+            mapName = new SubLabel(String.format("%s %s", labels.getString("mapName"), mapNameContent));
+            this.getChildren().addAll(gameType, mapName, time);
+        }
+            this.getStyleClass().add("SaveSlot");
     }
 
     /**

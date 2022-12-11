@@ -49,10 +49,10 @@ public class OpenSaveScreen extends SceneCreator {
     @Override
     public Scene makeScene(){
         background = new StackPane();
-        slot1 = new SaveSlot(labels, 1);
-        slot2 = new SaveSlot(labels, 2);
-        slot3 = new SaveSlot(labels,3);
-        slot4 = new SaveSlot(labels, 4);
+        slot1 = new SaveSlot(labels, 1, false);
+        slot2 = new SaveSlot(labels, 2, false);
+        slot3 = new SaveSlot(labels,3,false);
+        slot4 = new SaveSlot(labels, 4, true);
         VBox slots = new VBox(slot1, slot2, slot3, slot4);
         slotList.add(slot1);
         slotList.add(slot2);
@@ -69,6 +69,7 @@ public class OpenSaveScreen extends SceneCreator {
     /**
      * handles the clicking of the slots
      */
+
     public void handleEvents(){
         for(SaveSlot s : slotList){
             s.setOnMouseClicked(event->{

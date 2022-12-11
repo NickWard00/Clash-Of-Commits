@@ -90,7 +90,6 @@ public class Controller {
 
         try {
             initializeModel();
-
             myView = new View(stage, this, myGameType, labels);
             myViewObstacles = myView.getViewObstacles();
         } catch (IllegalStateException e){
@@ -114,6 +113,7 @@ public class Controller {
             loadSave = true;
         }
         parseData(mapName, loadSave);
+
         myModel = new Model(this);
     }
 
