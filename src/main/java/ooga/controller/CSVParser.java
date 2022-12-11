@@ -8,12 +8,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 
+/**
+ * This class is responsible for parsing the CSV file and creating the map.
+ * @author Nick Ward
+ */
 public class CSVParser {
   private FileReader myFileReader;
 
   /**
-   * Parses the data from the csv file
-   *
+   * Parses the data from the csv file and returns the map wrapper
    * @param csvPath
    * @return
    */

@@ -7,6 +7,11 @@ import ooga.model.obstacle.Obstacle;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+
+/**
+ * This class is responsible for handling collisions between entities in the game.
+ * @author Nicki Lee
+ */
 public class CollisionHandler {
     private Map<String, Map<?,?>> viewModelMap;
     private Collision myCollision;
@@ -23,7 +28,7 @@ public class CollisionHandler {
     /**
      * Method which uses reflection to handle collisions of all types
      */
-    public void collision(Object object1, Object object2) {
+    public void collision(Object object1, Object object2) throws IllegalStateException {
         Map<Class, Integer> indexMap = Map.of(Attack.class, 0, Entity.class, 1, Obstacle.class, 2);
         try {
             Class class1 = getCorrectClassForCollision(object1);
@@ -48,7 +53,7 @@ public class CollisionHandler {
      * @param modelMap1
      * @param modelMap2
      */
-    public void translateCollision(Object viewObj1, Object viewObj2, Map<?,?> modelMap1, Map<?,?> modelMap2) {
+    public void translateCollision(Object viewObj1, Object viewObj2, Map<?,?> modelMap1, Map<?,?> modelMap2) throws IllegalStateException {
         try {
             Object key1 = viewObj1.getClass().getDeclaredMethod("getKey").invoke(viewObj1);
             Object key2 = viewObj2.getClass().getDeclaredMethod("getKey").invoke(viewObj2);

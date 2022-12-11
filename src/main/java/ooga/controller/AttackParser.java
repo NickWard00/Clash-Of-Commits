@@ -6,6 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+/**
+ * This class is responsible for parsing the attack properties file and creating the attack map
+ * that will be used to create the attacks for the entities in the game.
+ * @author Nicki Lee & Nick Ward
+ */
+
 public class AttackParser {
 
     private Entity myEntity;
@@ -15,7 +21,10 @@ public class AttackParser {
     private Map<String, Double> attributeMap;
     private String imagePath;
 
-
+    /**
+     * Constructor for the AttackParser class
+     * @param entity
+     */
     public AttackParser(Entity entity) {
         GeneralParser simParser = new GeneralParser();
         myEntity = entity;
@@ -31,7 +40,6 @@ public class AttackParser {
     public Map<String, Double> getAttributeMap() {
         return attributeMap;
     }
-
 
     /**
      * Creates the attribute map
@@ -49,6 +57,10 @@ public class AttackParser {
         });
     }
 
+    /**
+     * Returns the image path
+     * @return imagePath - the image path
+     */
     public String getImagePath() {
         return imagePath;
     }

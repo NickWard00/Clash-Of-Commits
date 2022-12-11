@@ -53,7 +53,7 @@ public class OpenSaveScreen extends SceneCreator {
         slot2 = new SaveSlot(labels, 2);
         slot3 = new SaveSlot(labels,3);
         slot4 = new SaveSlot(labels, 4);
-        VBox slots = new VBox(slot1, slot2, slot3);
+        VBox slots = new VBox(slot1, slot2, slot3, slot4);
         slotList.add(slot1);
         slotList.add(slot2);
         slotList.add(slot3);
@@ -77,7 +77,7 @@ public class OpenSaveScreen extends SceneCreator {
             });
         }
         slot4.setOnMouseClicked(event->{
-            Controller controller = new Controller(stage, String.format("Save_%d", slot4.getNumber()), slot1.getGameType(), labels);
+            Controller controller = new Controller(stage, String.format("Save_%d", slot4.getNumber()), slot4.getGameType(), labels);
             controller.startAnimation();
         });
     }

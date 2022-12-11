@@ -5,6 +5,9 @@ import ooga.model.entities.Entity;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+/**
+ * This class takes in an entitymap and creates the entities associated with the map
+ */
 public class EntityMapParser {
     private Properties properties;
     private Map<String, Entity> entities;
@@ -12,7 +15,7 @@ public class EntityMapParser {
     private static final String ENTITY_MAP_DIRECTORY = "data/%s.sim";
 
     /**
-     * Constructor for EntityMapParser
+     * Constructor for EntityMapParser, constructs the entities from the entity map (parsing)
      * @param entityMapLocation - the name of the entity map
      */
     public EntityMapParser(String entityMapLocation) throws IllegalStateException {
@@ -27,6 +30,11 @@ public class EntityMapParser {
         });
     }
 
+    /**
+     * Creates the model entity list based on the entity map data (no parsing)
+     * @param entityMapData
+     * @throws IllegalStateException
+     */
     public EntityMapParser(Map<String, String> entityMapData) throws IllegalStateException {
         entities = new HashMap<>();
         entityMapData.entrySet().forEach(entry->{
