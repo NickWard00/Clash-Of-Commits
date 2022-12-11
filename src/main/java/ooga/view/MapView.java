@@ -17,7 +17,6 @@ public class MapView {
     private int numColumns;
     private MapWrapper wrapper;
     private GridPane grid;
-    private GridPane background;
     private int blockSize;
     private double mapSizeX;
     private double mapSizeY;
@@ -41,7 +40,6 @@ public class MapView {
         numRows = wrapper.getColumnSize();
         numColumns = wrapper.getRowSize(0);
         grid = new GridPane();
-        background = new GridPane();
 
         blockSize = wrapper.getVisualProperties().get(0).intValue();
         mapSizeX = wrapper.getVisualProperties().get(1);
@@ -52,14 +50,9 @@ public class MapView {
                 int state = wrapper.getState(row, col);
                 String imagePath = wrapper.getImageFromState(state);
                 BlockView blockView = new BlockView(col, row, blockSize, state, imagePath);
-                if (!wrapper.isGrassBlock(state)) {
-                    grid.add(blockView, col, row);
-                    background.add(new BlockView(col, row, blockSize, state, grassBackgroundPath), row, col);
-                    if (wrapper.getObstacleFromState(state).contains("Wall") || wrapper.getObstacleFromState(state).contains("PowerUp")) {
-                        myViewObstacles.put(Arrays.asList((double) row, (double) col), blockView);
-                    }
-                } else {
-                    background.add(blockView, col, row);
+                grid.add(blockView, col, row);
+                if (wrapper.getObstacleFromState(state).contains("Wall") || wrapper.getObstacleFromState(state).contains("PowerUp")) {
+                    myViewObstacles.put(Arrays.asList((double) row, (double) col), blockView);
                 }
             }
         }
@@ -72,9 +65,5 @@ public class MapView {
      */
     public Map<List<Double>, BlockView> getViewObstacles() {
         return this.myViewObstacles;
-    }
-
-    public GridPane getBackground() {
-        return background;
     }
 }

@@ -6,7 +6,6 @@ import java.util.stream.Stream;
 
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -26,6 +25,7 @@ public class View {
     private Stage stage;
     private Controller myController;
     private Map<String, EntityView> myViewEntities;
+    private Map<List<Integer>, BlockView> myViewPowerUps;
     private MapWrapper myMapWrapper;
     private MapView myMapView;
     private Map<List<Double>, BlockView> myViewObstacles;
@@ -35,7 +35,6 @@ public class View {
     private double blockSize;
     private BorderPane bPane;
     private StackPane stackPane;
-    private GridPane backgroundPane;
     private GridPane mapPane;
     private EntityView myHeroView;
     private MainGameScreen mainGameScreen;
@@ -78,12 +77,13 @@ public class View {
     private void setupGame(Stage stage){
         myViewEntities = myController.getViewEntities();
         myViewAttacks = myController.getViewAttacks();
+        myViewPowerUps = myController.getMyViewPowerUps();
         myHeroView = myViewEntities.get(myController.getMainHeroName());
 
         setupMap();
 
         mainGameScreen = new MainGameScreen(stage, myController);
-        mainGameScreen.startGamePlay(backgroundPane, mapPane, myViewEntities);
+        mainGameScreen.startGamePlay(mapPane, myViewEntities, myViewPowerUps);
         myScene = mainGameScreen.makeScene();
         setupWalkingMusic();
 
@@ -130,7 +130,6 @@ public class View {
         blockSize = myMapWrapper.getVisualProperties().get(0);
         myMapView = new MapView(myMapWrapper);
         mapPane = myMapView.createMap();
-        backgroundPane = myMapView.getBackground();
         myViewObstacles = myMapView.getViewObstacles();
     }
 
@@ -214,6 +213,13 @@ public class View {
 
     public void updateScore(int score) {
         mainGameScreen.getHud().updateScore(score);
+    }
+
+    public double getBlockSize() { return blockSize; }
+
+    public void setViewPowerUps() {
+        myViewPowerUps = myController.getMyViewPowerUps();
+        mainGameScreen.addPowerUpsToRoot();
     }
 }
 

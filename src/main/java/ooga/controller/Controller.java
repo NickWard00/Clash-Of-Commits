@@ -10,6 +10,7 @@ import ooga.model.Model;
 import ooga.model.attack.Attack;
 import ooga.model.obstacle.DestroyableWall;
 import ooga.model.obstacle.Obstacle;
+import ooga.model.powerup.PowerUp;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
 import ooga.view.BlockView;
@@ -39,6 +40,8 @@ public class Controller {
     private Map<String, EntityView> myViewEntities;
     private Map<String, Entity> myModelEntities;
     private Map<List<Double>, Obstacle> myModelObstacles;
+    private Map<List<Integer>, PowerUp> myModelPowerUps;
+    private Map<List<Integer>, BlockView> myViewPowerUps;
     private Map<List<Double>, BlockView> myViewObstacles;
     private Map<Integer, Attack> myModelAttacks;
     private Map<Integer, AttackView> myViewAttacks;
@@ -64,6 +67,8 @@ public class Controller {
         this.myModelAttacks = new HashMap<>();
         this.myViewAttacks = new HashMap<>();
         this.myModelObstacles = new HashMap<>();
+        this.myModelPowerUps = new HashMap<>();
+        this.myViewPowerUps = new HashMap<>();
         this.movementActions = Map.of(
                 KeyCode.UP, "moveUp",
                 KeyCode.DOWN, "moveDown",
@@ -85,7 +90,9 @@ public class Controller {
 
         initializeModel();
 
+        setupViewPowerUps();
         myView = new View(stage, this, myGameType, labels);
+        myView.setViewPowerUps();
         myViewObstacles = myView.getViewObstacles();
     }
 
@@ -218,6 +225,8 @@ public class Controller {
         if (!loadSave) {
             EntityMapParser entityMapParser = new EntityMapParser("Entity_" + map);
             myModelEntities = entityMapParser.getEntities();
+            PowerUpParser powerUpMapParser = new PowerUpParser();
+            myModelPowerUps = powerUpMapParser.allPowerUps();
         }
 
         for (Entity entity : myModelEntities.values()) {
@@ -296,6 +305,15 @@ public class Controller {
     }
 
     /**
+     * Sets up the view powerups based on the model powerups
+     */
+    public void setupViewPowerUps() {
+        myModelPowerUps.forEach((key, value) -> {
+            myViewPowerUps.put(key, createViewPowerUp(value));
+        });
+    }
+
+    /**
      * Creates a view entity based on a model entity
      * @param entity the model entity to be converted to a view entity
      * @return the view entity created
@@ -309,6 +327,14 @@ public class Controller {
         String spriteLocation = entityAttributes.get("Sprites");
         String startingDirection = entityAttributes.get("Direction");
         return new EntityView(spriteLocation, startingDirection, imageName, xPos, yPos, size, size);
+    }
+
+    private BlockView createViewPowerUp(PowerUp powerup) {
+        int x = powerup.getKey().get(0);
+        int y = powerup.getKey().get(1);
+        int size = mapWrapper.getVisualProperties().get(0).intValue();
+        String path = powerup.getImagePath();
+        return new BlockView(x,y,size,0, path);
     }
 
     /**
@@ -628,13 +654,20 @@ public class Controller {
     }
 
     /**
+     * Returns the view powerups
+     * @return myViewPowerUps
+     */
+    public Map<List<Integer>, BlockView> getMyViewPowerUps() { return myViewPowerUps; }
+
+    /**
      * Returns the corresponding map based on string input
      * @return the corresponding map
      */
     private Map<String, Map<?,?>> getViewModelMaps() {
         return Map.of("modelEntities", myModelEntities, "viewEntities", myViewEntities,
                 "modelAttacks", myModelAttacks, "viewAttacks", myViewAttacks,
-                "modelObstacles", myModelObstacles, "viewObstacles", myViewObstacles);
+                "modelObstacles", myModelObstacles, "viewObstacles", myViewObstacles,
+                "modelPowerUps", myModelPowerUps, "viewPowerUps", myViewPowerUps);
     }
 
     /**

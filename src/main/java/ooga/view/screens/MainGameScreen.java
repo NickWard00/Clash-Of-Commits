@@ -22,6 +22,7 @@ import ooga.controller.Controller;
 import ooga.controller.gameState.MapGameState;
 import ooga.view.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,8 +38,8 @@ public class MainGameScreen extends SceneCreator {
     private boolean isPlaying = false;
     private int screenSize;
     private GridPane mapPane;
-    private GridPane backgroundPane;
     private Map<String, EntityView> myViewEntities;
+    private Map<List<Integer>, BlockView> myViewPowerUps;
     private Group root;
     private BorderPane gameScreenPane;
     private ScrollPane backgroundLayer;
@@ -81,10 +82,10 @@ public class MainGameScreen extends SceneCreator {
      * @param mapPane responsible for creating the view of the map
      * @param entities refers to all existing entities in the map
      */
-    public void startGamePlay(GridPane backgroundPane, GridPane mapPane, Map<String, EntityView> entities) {
+    public void startGamePlay(GridPane mapPane, Map<String, EntityView> entities, Map<List<Integer>, BlockView> powerups) {
         isPlaying = true;
         myViewEntities = entities;
-        this.backgroundPane = backgroundPane;
+        myViewPowerUps = powerups;
         this.mapPane = mapPane;
 
         music = new Media(new File(media.getString("lvl1")).toURI().toString());
@@ -102,7 +103,6 @@ public class MainGameScreen extends SceneCreator {
     @Override
     public Scene makeScene(){
         gameScreenPane = new BorderPane();
-        backgroundLayer = new ScrollPane();
         mapLayer = new ScrollPane();
         characters = new Pane();
         overlay = new Pane();
@@ -127,9 +127,6 @@ public class MainGameScreen extends SceneCreator {
      * generates the background (grid of the map)
      */
     private void makeBackground(){
-        backgroundLayer.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        backgroundLayer.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        backgroundLayer.setContent(backgroundPane);
         mapLayer.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         mapLayer.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         mapLayer.setContent(mapPane);
@@ -142,7 +139,7 @@ public class MainGameScreen extends SceneCreator {
      */
     private void makeCenterPane(){
         StackPane centerPaneMoving = new StackPane();
-        centerPaneMoving.getChildren().addAll(backgroundLayer, mapLayer, characters);
+        centerPaneMoving.getChildren().addAll(mapLayer, characters);
         centerPaneMoving.setBackground(Background.EMPTY);
         StackPane centerPaneStill = new StackPane(overlay);
         centerPaneStill.setBackground(Background.EMPTY);
@@ -187,6 +184,13 @@ public class MainGameScreen extends SceneCreator {
         }
         characters.getChildren().add(root);
     }
+
+    public void addPowerUpsToRoot() {
+        for (BlockView powerup : myViewPowerUps.values()) {
+            root.getChildren().add(powerup);
+        }
+    }
+
 
     /**
      * initializes the hud on the top of the screen
