@@ -56,6 +56,7 @@ public class Controller {
     private List<Double> newCoordinates;
     private ResourceBundle myLabels;
     private SaveFileParser saver = new SaveFileParser();
+    private boolean errorOccurred;
 
     /**
      * Constructor for the controller, which initializes the model and view and sets up map based on map name
@@ -93,6 +94,7 @@ public class Controller {
             myView = new View(stage, this, myGameType, labels);
             myViewObstacles = myView.getViewObstacles();
         } catch (IllegalStateException e){
+            errorOccurred = true;
             showMessage(Alert.AlertType.ERROR, labels.getString(e.getMessage()), e);
         }
     }
@@ -102,8 +104,9 @@ public class Controller {
      */
     private void initializeModel() throws IllegalStateException {
         boolean loadSave = false;
-        if (mapName.startsWith("Save_4")){
+        if (mapName.equals("Save_4")){
             loadGameFromWeb();
+            loadGame(Integer.parseInt(String.valueOf(mapName.charAt(mapName.length()-1))));
             loadSave = true;
         }
         else if (mapName.startsWith("Save")) {
@@ -118,10 +121,12 @@ public class Controller {
      * Begins the animation of the game
      */
     public void startAnimation() {
-        animation = new Timeline();
-        animation.setCycleCount(Timeline.INDEFINITE);
-        animation.getKeyFrames().add(new KeyFrame(Duration.seconds(SECOND_DELAY), e->step(SECOND_DELAY)));
-        animation.play();
+        if (!errorOccurred){
+            animation = new Timeline();
+            animation.setCycleCount(Timeline.INDEFINITE);
+            animation.getKeyFrames().add(new KeyFrame(Duration.seconds(SECOND_DELAY), e->step(SECOND_DELAY)));
+            animation.play();
+        }
     }
 
     /**
@@ -264,14 +269,14 @@ public class Controller {
      * saves game to online database (slot 4)
      * @param num the number of the slot
      */
-    public void saveGameToWeb(int num) throws FileNotFoundException {
+    public void saveGameToWeb(int num) throws IllegalStateException {
         saver.saveGameToWeb(num, myModelEntities, mapName, myGameType, String.valueOf(myModelEntities.get(myMainHeroName).getHp()), String.valueOf(score));
     }
 
     /**
      * calls upon the save file parser to load the game from the web
      */
-    public void loadGameFromWeb(){
+    public void loadGameFromWeb() throws IllegalStateException {
         saver.loadGameFromWeb();
     }
 

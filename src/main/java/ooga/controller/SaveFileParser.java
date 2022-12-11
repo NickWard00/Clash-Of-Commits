@@ -74,8 +74,8 @@ public class SaveFileParser {
      * Then, writes the JSONObject from the web into our local save, Save_4, and then calls
      * loadGame in order to load our newly updated save 4.
      */
-    public void loadGameFromWeb(){
-        if(fireBase == null) {
+    public void loadGameFromWeb() throws IllegalStateException {
+        if (fireBase == null) {
             fireBase = new FireBase();
         }
         fireBase.readData(new CallBack() {
@@ -90,8 +90,6 @@ public class SaveFileParser {
                 }
             }
         });
-
-        loadGame(4);
     }
 
     /**
@@ -124,8 +122,10 @@ public class SaveFileParser {
     public void loadGame(int saveFile) throws IllegalStateException {
         try {
             jsonProperties = (JSONObject) new JSONParser().parse(new FileReader(String.format(SAVE_DIRECTORY, saveFile)));
-        } catch (IOException | ParseException e) {
-            throw new IllegalStateException("saveFileNotFound", e);
+        } catch (IOException e) {
+            throw new IllegalStateException("saveFileCannotLoad", e);
+        } catch (ParseException e) {
+            throw new IllegalStateException("saveFileCannotParse", e);
         }
         jsonProperties.keySet().forEach(key->{
             String keyStr = key.toString();

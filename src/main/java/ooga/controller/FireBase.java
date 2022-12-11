@@ -38,7 +38,6 @@ public class FireBase {
     private JSONObject saveFileWeb;
 
     public FireBase() {
-
         try {
             File file = new File(GOOGLE_APPLICATION_CREDENTIALS);
             InputStream serviceAccount = new FileInputStream(file);
@@ -60,7 +59,7 @@ public class FireBase {
             ref = firebaseDatabase.getReference("Save_4");
 
         } catch (IOException io) {
-            System.out.println(io.getMessage());
+            throw new IllegalStateException("fileUploadError");
         }
     }
 
@@ -95,7 +94,7 @@ public class FireBase {
                     saveFileWeb = (JSONObject) JSONValue.parse(new ObjectMapper().writeValueAsString(s));
                     callBack.onCallback(saveFileWeb);
                 } catch (JsonProcessingException e) {
-                    throw new RuntimeException(e);
+                    throw new IllegalStateException("fileParsingError",e);
                 }
             }
 
