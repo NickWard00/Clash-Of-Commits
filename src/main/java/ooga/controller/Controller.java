@@ -249,6 +249,12 @@ public class Controller {
         saver.saveGameToWeb(num, myModelEntities, mapName, myGameType, String.valueOf(myModelEntities.get(myMainHeroName).getHp()), String.valueOf(score));
     }
 
+    public void loadGameFromWeb(){
+        saver.loadGameFromWeb();
+    }
+
+
+
     /**
      * Loads a game from a save file
      * @param num

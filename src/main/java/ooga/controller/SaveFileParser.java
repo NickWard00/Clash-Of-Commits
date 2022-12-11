@@ -68,15 +68,36 @@ public class SaveFileParser {
     }
 
     public void loadGameFromWeb(){
+        if(fireBase == null) {
+            fireBase = new FireBase();
+        }
+        fireBase.readData(new CallBack() {
+            @Override
+            public void onCallback(JSONObject value) {
+                System.out.println(value);
+                try {
+                    FileWriter localSave = new FileWriter(String.format(SAVE_DIRECTORY, 4));
+                    localSave.write(value.toJSONString());
+                    localSave.close();
+                } catch (IOException e) {
+                    throw new IllegalStateException("webFileCannotLoad", e);
+                }
+            }
+        });
 
+        loadGame(4);
     }
 
+
+
     public void saveGameToWeb(int saveFile, Map<String, Entity> modelEntities, String mapName, String gameType, String hp, String score) throws FileNotFoundException {
-        fireBase = new FireBase();
+        if(fireBase == null) {
+            fireBase = new FireBase();
+        }
         saveGame(saveFile, modelEntities, mapName, gameType, hp, score);
         try{
         JSONObject file= (JSONObject) new JSONParser().parse(new FileReader(String.format(SAVE_DIRECTORY, saveFile)));
-        fireBase.update(file, "Save_4");
+        fireBase.update(file);
         }catch (IOException | ParseException e) {
             throw new RuntimeException(e);
         }

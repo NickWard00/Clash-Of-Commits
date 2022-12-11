@@ -84,7 +84,7 @@ public class CreateSavePopup extends SceneCreator {
         }
         slot4.setOnMouseClicked(event ->{
             try {
-                myController.saveGametoWeb(4);
+                myController.saveGametoWeb(slot4.getNumber());
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
