@@ -22,6 +22,7 @@ import ooga.view.EntityView;
 import ooga.view.MapWrapper;
 import ooga.view.View;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 import java.lang.reflect.InvocationTargetException;
@@ -101,7 +102,12 @@ public class Controller {
      */
     private void initializeModel() throws IllegalStateException {
         boolean loadSave = false;
-        if (mapName.startsWith("Save")) {
+        System.out.println(mapName);
+        if(mapName.startsWith("Save_4")){
+            loadGameFromWeb();
+            loadSave= true;
+        }
+        else if (mapName.startsWith("Save")) {
             loadGame(Integer.parseInt(String.valueOf(mapName.charAt(mapName.length()-1))));
             loadSave = true;
         }
@@ -120,7 +126,7 @@ public class Controller {
     }
 
     /**
-     * Stops the animation of the game
+     * Pauses the animation of the game
      */
     public void pauseAnimation(){
         animation.pause();
@@ -258,9 +264,18 @@ public class Controller {
      * saves game to online database (slot 4)
      * @param num the number of the slot
      */
-    public void saveGameToWeb(int num) {
+    public void saveGameToWeb(int num) throws FileNotFoundException {
         saver.saveGameToWeb(num, myModelEntities, mapName, myGameType, String.valueOf(myModelEntities.get(myMainHeroName).getHp()), String.valueOf(score));
     }
+
+    /**
+     * calls upon the save file parser to load the game from the web
+     */
+    public void loadGameFromWeb(){
+        saver.loadGameFromWeb();
+    }
+
+
 
     /**
      * Loads a game from a save file

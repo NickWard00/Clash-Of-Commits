@@ -39,6 +39,12 @@
             <version>5.9.0</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.5.3</version>
+        </dependency>
         <!-- provides testing for JavaFX by simulating user interactions and checking using JUnit assertions -->
         <dependency>
             <groupId>org.testfx</groupId>
