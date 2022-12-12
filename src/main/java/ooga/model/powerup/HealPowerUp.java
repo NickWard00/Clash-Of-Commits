@@ -15,6 +15,7 @@ public class HealPowerUp extends PowerUp {
 
     @Override
     public void activatePowerUp(Entity entity) {
+        this.setAvailable(false);
         entity.changeHp(ADDITIONAL_HP);
     }
 

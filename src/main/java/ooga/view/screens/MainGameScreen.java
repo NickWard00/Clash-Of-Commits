@@ -110,6 +110,7 @@ public class MainGameScreen extends SceneCreator {
     @Override
     public Scene makeScene(){
         gameScreenPane = new BorderPane();
+        background = new ScrollPane();
         mapLayer = new ScrollPane();
         characters = new Pane();
         overlay = new Pane();
@@ -266,6 +267,10 @@ public class MainGameScreen extends SceneCreator {
      */
     public void removeAttackFromScene(AttackView attack) {
         root.getChildren().remove(attack);
+    }
+
+    public void removePowerUpFromScene(BlockView powerUp) {
+        root.getChildren().remove(powerUp);
     }
 
     /**

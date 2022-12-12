@@ -240,6 +240,15 @@ public class Controller {
         }
     }
 
+    private void updatePowerUps() {
+        List<List<Double>> coordinates = myModelPowerUps.keySet().stream().toList();
+        for (List<Double> coordinate : coordinates) {
+            if (!myModelPowerUps.get(coordinate).available()) {
+                removePowerUp(coordinate);
+            }
+        }
+    }
+
     /**
      * Parses all the data in the data files based on a certain map name
      * @param map the name of the map to be parsed
@@ -442,6 +451,13 @@ public class Controller {
         myModelObstacles.remove(modelCoordinate);
     }
 
+    private void removePowerUp(List<Double> coordinate) {
+        myModelPowerUps.remove(coordinate);
+        List<Integer> intCoordinate = Arrays.asList(coordinate.get(0).intValue(), coordinate.get(1).intValue());
+        myView.getGameScreen().removePowerUpFromScene(myViewPowerUps.get(intCoordinate));
+        myViewPowerUps.remove(intCoordinate);
+    }
+
     /**
      * Translates the collision of an entity with an obstacle
      * @param viewObject1
@@ -453,6 +469,7 @@ public class Controller {
         Map<?,?> modelMap2 = getCorrectModelMap(viewObject2);
         handler.translateCollision(viewObject1, viewObject2, modelMap1, modelMap2);
         updateObstacles();
+        updatePowerUps();
     }
 
     /**
