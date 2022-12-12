@@ -211,4 +211,6 @@ public abstract class Entity {
         return myMovement.equals(MovementState.MOVING);
     }
 
+    public void setAttackType(String newAttackType) { attackType = newAttackType; }
+
 }

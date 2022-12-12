@@ -1,0 +1,10 @@
+@font-face {
+    font-family: "Retro Computer";
+    font-style: normal;
+    font-weight: 400;
+    src: url("/fonts/retro_computer.ttf");
+}
+.label{
+    -fx-font-family: "Retro Computer";
+
+}

@@ -4,6 +4,7 @@ import java.util.*;
 
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -23,6 +24,7 @@ public class View {
     private Stage stage;
     private Controller myController;
     private Map<String, EntityView> myViewEntities;
+    private Map<List<Integer>, BlockView> myViewPowerUps;
     private MapWrapper myMapWrapper;
     private MapView myMapView;
     private Map<List<Double>, BlockView> myViewObstacles;
@@ -39,6 +41,8 @@ public class View {
     private MediaPlayer walking;
     private ResourceBundle labels;
     private String myGameType;
+
+    private List walkingActions = new ArrayList<KeyCode>(Arrays.asList(KeyCode.UP,KeyCode.DOWN, KeyCode.LEFT, KeyCode.RIGHT, KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D));
 
     /**
      * Constructor for the View class
@@ -74,12 +78,15 @@ public class View {
     private void setupGame(Stage stage){
         myViewEntities = myController.getViewEntities();
         myViewAttacks = myController.getViewAttacks();
+        myViewPowerUps = myController.getViewPowerUps();
         myHeroView = myViewEntities.get(myController.getMainHeroName());
 
         setupMap();
 
         mainGameScreen = new MainGameScreen(stage, myController);
-        mainGameScreen.startGamePlay(mapPane, myViewEntities, myGameType);
+
+        mainGameScreen.startGamePlay(mapPane, myViewEntities, myViewPowerUps, myGameType);
+
         myScene = mainGameScreen.makeScene();
         setupWalkingMusic();
 
@@ -144,12 +151,16 @@ public class View {
      */
     private void handleKeyInputs() {
         myScene.setOnKeyPressed(event -> {
-            myController.handleKeyPress(event.getCode());
-            walking.play();
+            myController.checkKeyPress(event.getCode());
+            if(walkingActions.contains(event.getCode())) {
+                walking.play();
+            }
         });
         myScene.setOnKeyReleased(event -> {
-            myController.handleKeyRelease(event.getCode());
-            walking.pause();
+            myController.checkKeyRelease(event.getCode());
+            if(walkingActions.contains(event.getCode())) {
+                walking.pause();
+            }
         });
     }
 
@@ -170,6 +181,13 @@ public class View {
             for (BlockView obstacle : myViewObstacleList) {
                 if (entity.getBoundsInParent().intersects(obstacle.getBoundsInParent())) {
                     myController.passCollision(entity, obstacle);
+                    break;
+                }
+            }
+            List<BlockView> myViewPowerUpsList = myViewPowerUps.values().parallelStream().toList();
+            for (BlockView powerUp : myViewPowerUpsList) {
+                if (entity.getBoundsInParent().intersects(powerUp.getBoundsInParent())) {
+                    myController.passCollision(entity, powerUp);
                     break;
                 }
             }
@@ -216,6 +234,13 @@ public class View {
      */
     public void updateScore(int score) {
         mainGameScreen.getHud().updateScore(score);
+    }
+
+    public double getBlockSize() { return blockSize; }
+
+    public void setViewPowerUps() {
+        myViewPowerUps = myController.getViewPowerUps();
+        mainGameScreen.addPowerUpsToRoot();
     }
 }
 

@@ -1,0 +1,3 @@
+# Key: PowerUp Name = PowerUp Type, X position, Y position
+Health1 = HealPowerUp, 530, 430
+Health2 = HealPowerUp, 500, 400

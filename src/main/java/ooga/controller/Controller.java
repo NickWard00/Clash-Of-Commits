@@ -7,13 +7,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import ooga.Main;
 import ooga.model.entities.Entity;
 import ooga.model.Model;
 import ooga.model.attack.Attack;
 import ooga.model.obstacle.DestroyableWall;
 import ooga.model.obstacle.Obstacle;
-import ooga.model.obstacle.powerup.PowerUp;
+import ooga.model.powerup.PowerUp;
 import ooga.model.state.DirectionState;
 import ooga.model.state.MovementState;
 import ooga.view.BlockView;
@@ -43,11 +42,14 @@ public class Controller {
     private Map<String, EntityView> myViewEntities;
     private Map<String, Entity> myModelEntities;
     private Map<List<Double>, Obstacle> myModelObstacles;
+    private Map<List<Double>, PowerUp> myModelPowerUps;
+    private Map<List<Integer>, BlockView> myViewPowerUps;
     private Map<List<Double>, BlockView> myViewObstacles;
     private Map<Integer, Attack> myModelAttacks;
     private Map<Integer, AttackView> myViewAttacks;
     private String myMainHeroName;
-    private Map<KeyCode, String> actions;
+    private Map<KeyCode, String> movementActions;
+    private Map<KeyCode, String> attackActions;
     private String myGameType;
     private String mapName;
     private Stage myStage;
@@ -70,17 +72,22 @@ public class Controller {
         this.myModelAttacks = new HashMap<>();
         this.myViewAttacks = new HashMap<>();
         this.myModelObstacles = new HashMap<>();
-        this.actions = Map.of(
+        this.myModelPowerUps = new HashMap<>();
+        this.myViewPowerUps = new HashMap<>();
+        this.movementActions = Map.of(
                 KeyCode.UP, "moveUp",
                 KeyCode.DOWN, "moveDown",
                 KeyCode.RIGHT, "moveRight",
                 KeyCode.LEFT, "moveLeft",
-                KeyCode.SPACE, "attack",
                 KeyCode.W, "moveUp",
                 KeyCode.S, "moveDown",
                 KeyCode.D, "moveRight",
                 KeyCode.A, "moveLeft",
                 KeyCode.SHIFT, "sprint"
+        );
+        this.attackActions = Map.of(
+                KeyCode.SPACE, "attack",
+                KeyCode.Z, "attack"
         );
         this.mapName = map;
         this.myGameType = gameType;
@@ -90,11 +97,14 @@ public class Controller {
 
         try {
             initializeModel();
+            setupViewPowerUps();
             myView = new View(stage, this, myGameType, labels);
+            myView.setViewPowerUps();
             myViewObstacles = myView.getViewObstacles();
         } catch (IllegalStateException e){
             errorOccurred = true;
-            showMessage(Alert.AlertType.ERROR, labels.getString(e.getMessage()), e);
+            //showMessage(Alert.AlertType.ERROR, labels.getString(e.getMessage()), e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -231,6 +241,15 @@ public class Controller {
         }
     }
 
+    private void updatePowerUps() {
+        List<List<Double>> coordinates = myModelPowerUps.keySet().stream().toList();
+        for (List<Double> coordinate : coordinates) {
+            if (!myModelPowerUps.get(coordinate).available()) {
+                removePowerUp(coordinate);
+            }
+        }
+    }
+
     /**
      * Parses all the data in the data files based on a certain map name
      * @param map the name of the map to be parsed
@@ -244,8 +263,10 @@ public class Controller {
         mapWrapper.setObstacleStateMap(mapParser.getObstacleStateMap());
 
         if (!loadSave) {
-            EntityMapParser entityMapParser = new EntityMapParser("Entity_" + map);
+            EntityMapParser entityMapParser = new EntityMapParser(myLabels.getString(String.format("EntityMap_%s", map)));
             myModelEntities = entityMapParser.getEntities();
+            PowerUpParser powerUpMapParser = new PowerUpParser(myLabels.getString(String.format("PowerUpMap_%s", map)));
+            myModelPowerUps = powerUpMapParser.getPowerUps();
         }
 
         for (Entity entity : myModelEntities.values()) {
@@ -263,7 +284,7 @@ public class Controller {
      * @param num
      */
     public void saveGame(int num) throws IllegalStateException {
-        saver.saveGame(num, myModelEntities, mapName, myGameType,String.valueOf(myModelEntities.get(myMainHeroName).getHp()), String.valueOf(score));
+        saver.saveGame(num, myModelEntities, myModelPowerUps, mapName, myGameType, String.valueOf(myModelEntities.get(myMainHeroName).getHp()), String.valueOf(score));
     }
 
     /**
@@ -271,7 +292,7 @@ public class Controller {
      * @param num the number of the slot
      */
     public void saveGameToWeb(int num) throws IllegalStateException {
-        saver.saveGameToWeb(num, myModelEntities, mapName, myGameType, String.valueOf(myModelEntities.get(myMainHeroName).getHp()), String.valueOf(score));
+        saver.saveGameToWeb(num, myModelEntities, myModelPowerUps, mapName, myGameType, String.valueOf(myModelEntities.get(myMainHeroName).getHp()), String.valueOf(score));
     }
 
     /**
@@ -290,6 +311,7 @@ public class Controller {
         this.myGameType = saver.getGameType();
 
         myModelEntities = saver.getEntities();
+        myModelPowerUps = saver.getPowerUps();
         for (Entity entity : myModelEntities.values()) {
             if (entity.getMyAttributes().get("EntityType").equals("MainHero") || entity.getMyAttributes().get("EntityType").equals("Link")) {
                 myMainHeroName = entity.getMyAttributes().get("Name");
@@ -331,6 +353,16 @@ public class Controller {
     }
 
     /**
+     * Sets up the view powerups based on the model powerups
+     */
+    public void setupViewPowerUps() {
+        myModelPowerUps.forEach((key, value) -> {
+            List<Integer> coordinates = Arrays.asList(key.get(0).intValue(), key.get(1).intValue());
+            myViewPowerUps.put(coordinates, createViewPowerUp(value));
+        });
+    }
+
+    /**
      * Creates a view entity based on a model entity
      * @param entity the model entity to be converted to a view entity
      * @return the view entity created
@@ -344,6 +376,14 @@ public class Controller {
         String spriteLocation = entityAttributes.get("Sprites");
         String startingDirection = entityAttributes.get("Direction");
         return new EntityView(spriteLocation, startingDirection, imageName, xPos, yPos, size, size);
+    }
+
+    private BlockView createViewPowerUp(PowerUp powerup) {
+        int x = powerup.getKey().get(0);
+        int y = powerup.getKey().get(1);
+        int size = mapWrapper.getVisualProperties().get(0).intValue();
+        String path = powerup.getImagePath();
+        return new BlockView(x,y,size,0, path, "PowerUp");
     }
 
     /**
@@ -413,6 +453,13 @@ public class Controller {
         myModelObstacles.remove(modelCoordinate);
     }
 
+    private void removePowerUp(List<Double> coordinate) {
+        myModelPowerUps.remove(coordinate);
+        List<Integer> intCoordinate = Arrays.asList(coordinate.get(0).intValue(), coordinate.get(1).intValue());
+        myView.getGameScreen().removePowerUpFromScene(myViewPowerUps.get(intCoordinate));
+        myViewPowerUps.remove(intCoordinate);
+    }
+
     /**
      * Translates the collision of an entity with an obstacle
      * @param viewObject1
@@ -424,6 +471,7 @@ public class Controller {
         Map<?,?> modelMap2 = getCorrectModelMap(viewObject2);
         handler.translateCollision(viewObject1, viewObject2, modelMap1, modelMap2);
         updateObstacles();
+        updatePowerUps();
     }
 
     /**
@@ -434,7 +482,11 @@ public class Controller {
     private Map<?,?> getCorrectModelMap(Object obj) throws IllegalStateException {
         try {
             ResourceBundle bundle = ResourceBundle.getBundle("ResourceBundles.ViewToModel");
-            String objType = bundle.getString(obj.getClass().getSimpleName());
+            String viewType = obj.getClass().getSimpleName();
+            if (obj.getClass() == BlockView.class) {
+                viewType += ((BlockView) obj).getBlockViewType();
+            }
+            String objType = bundle.getString(viewType);
             Object mapObject = Controller.class.getDeclaredMethod(String.format("getModel%s", objType)).invoke(this);
             return (Map<?,?>) mapObject;
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
@@ -443,32 +495,66 @@ public class Controller {
     }
 
     /**
-     * Handles the key input press from the user that is detected in the view
+     * Checks if the key pressed is associated with a movement or attack action and passes it into handleKeyPress appropriately
+     * Calls changeHeroAttack if attack action was pressed
      * @param keyCode
      */
-    public void handleKeyPress(KeyCode keyCode) throws IllegalStateException {
-        if (actions.containsKey(keyCode)) {
-            try {
-                Method currentAction = this.getClass().getDeclaredMethod(actions.get(keyCode));
-                currentAction.invoke(this);
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                throw new IllegalStateException("noMethodFound", e);
-            }
+    public void checkKeyPress(KeyCode keyCode) {
+        if (movementActions.containsKey(keyCode)) {
+            handleKeyPress(movementActions.get(keyCode));
+        } else if (attackActions.containsKey(keyCode)) {
+            changeHeroAttack(keyCode);
+            handleKeyPress(attackActions.get(keyCode));
+        }
+    }
+
+    /**
+     * Changes the type of attack associated with the hero
+     * @param keyCode
+     */
+    private void changeHeroAttack(KeyCode keyCode) {
+        if (keyCode.isWhitespaceKey()) {
+            myModelEntities.get(myMainHeroName).setAttackType("LongRange");
+        } else {
+            myModelEntities.get(myMainHeroName).setAttackType("ShortRange");
+        }
+    }
+
+    /**
+     * Handles the key input press from the user that is detected in the view
+     * @param action
+     */
+    private void handleKeyPress(String action) throws IllegalStateException {
+        try {
+            Method currentAction = this.getClass().getDeclaredMethod(action);
+            currentAction.invoke(this);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            throw new IllegalStateException("noMethodFound", e);
+        }
+    }
+
+    /**
+     * Checks if the key released is associated with a movement or attack action and passes it into handleKeyRelease appropriately
+     * @param keyCode
+     */
+    public void checkKeyRelease(KeyCode keyCode) {
+        if (movementActions.containsKey(keyCode)) {
+            handleKeyRelease(movementActions.get(keyCode));
+        } else if (attackActions.containsKey(keyCode)) {
+            handleKeyRelease(attackActions.get(keyCode));
         }
     }
 
     /**
      * Handles the key input release from the user that is detected in the view
-     * @param keyCode
+     * @param action
      */
-    public void handleKeyRelease(KeyCode keyCode) throws IllegalStateException {
-        if (actions.containsKey(keyCode)) {
-            try {
-                Method currentAction = this.getClass().getDeclaredMethod(actions.get(keyCode) + "Stop");
-                currentAction.invoke(this);
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                throw new IllegalStateException("illegalKeyPress", e);
-            }
+    private void handleKeyRelease(String action) throws IllegalStateException {
+        try {
+            Method currentAction = this.getClass().getDeclaredMethod(action + "Stop");
+            currentAction.invoke(this);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            throw new IllegalStateException("illegalKeyPress", e);
         }
     }
 
@@ -631,13 +717,22 @@ public class Controller {
     }
 
     /**
+     * Returns the view powerups
+     * @return myViewPowerUps
+     */
+    public Map<List<Integer>, BlockView> getViewPowerUps() { return myViewPowerUps; }
+
+    public Map<List<Double>, PowerUp> getModelPowerUps() { return myModelPowerUps;}
+
+    /**
      * Returns the corresponding map based on string input
      * @return the corresponding map
      */
     private Map<String, Map<?,?>> getViewModelMaps() {
         return Map.of("modelEntities", myModelEntities, "viewEntities", myViewEntities,
                 "modelAttacks", myModelAttacks, "viewAttacks", myViewAttacks,
-                "modelObstacles", myModelObstacles, "viewObstacles", myViewObstacles);
+                "modelObstacles", myModelObstacles, "viewObstacles", myViewObstacles,
+                "modelPowerUps", myModelPowerUps, "viewPowerUps", myViewPowerUps);
     }
 
     /**

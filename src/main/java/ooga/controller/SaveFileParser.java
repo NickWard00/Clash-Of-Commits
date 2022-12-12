@@ -7,7 +7,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import ooga.model.powerup.PowerUp;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -25,8 +28,9 @@ public class SaveFileParser {
     private String myHP;
     private String myScore;
     private Map<String, String> entityMap;
+    private Map<String, String> powerUpMap;
     private EntityMapParser entityMapParser;
-
+    private PowerUpParser powerUpParser;
     private FireBase fireBase;
 
     /**
@@ -34,6 +38,7 @@ public class SaveFileParser {
      */
     public SaveFileParser(){
         entityMap = new HashMap<>();
+        powerUpMap = new HashMap<>();
         jsonProperties = new JSONObject();
     }
 
@@ -44,7 +49,7 @@ public class SaveFileParser {
      * @param mapName the name of the map
      * @param gameType the type of game
      */
-    public void saveGame(int saveFile, Map<String, Entity> modelEntities, String mapName, String gameType, String hp, String score) throws IllegalStateException {
+    public void saveGame(int saveFile, Map<String, Entity> modelEntities, Map<List<Double>, PowerUp> modelPowerUps, String mapName, String gameType, String hp, String score) throws IllegalStateException {
         jsonProperties = new JSONObject();
 
         jsonProperties.put("Map", mapName);
@@ -57,6 +62,12 @@ public class SaveFileParser {
             String entityName = entry.getKey();
             Entity entity = entry.getValue();
             jsonProperties.put(entityName, entity.getMyAttributes().get("EntityType") + ", " + entity.coordinates().get(0) + ", " + entity.coordinates().get(1));
+        });
+        modelPowerUps.entrySet().forEach(entry->{
+            String powerUpName = entry.getValue().getName();
+            String powerUpType = entry.getValue().getPowerUpType();
+            List<Double> coordinates = entry.getKey();
+            jsonProperties.put(powerUpName, powerUpType + ", " + coordinates.get(0) + ", " + coordinates.get(1));
         });
         try {
             FileWriter file = new FileWriter(String.format(SAVE_DIRECTORY, saveFile));
@@ -102,11 +113,11 @@ public class SaveFileParser {
      * @param hp how much health the player had at the time of the save
      * @param score the score at the time of the save
      */
-    public void saveGameToWeb(int saveFile, Map<String, Entity> modelEntities, String mapName, String gameType, String hp, String score){
+    public void saveGameToWeb(int saveFile, Map<String, Entity> modelEntities, Map<List<Double>, PowerUp> modelPowerUps, String mapName, String gameType, String hp, String score){
         if (fireBase == null) {
             fireBase = new FireBase();
         }
-        saveGame(saveFile, modelEntities, mapName, gameType, hp, score);
+        saveGame(saveFile, modelEntities, modelPowerUps, mapName, gameType, hp, score);
         try {
             JSONObject file = (JSONObject) new JSONParser().parse(new FileReader(String.format(SAVE_DIRECTORY, saveFile)));
             fireBase.update(file);
@@ -149,15 +160,20 @@ public class SaveFileParser {
                 if (entityDataArray.length < 1){
                     throw new IllegalStateException("saveFileCorrupted");
                 }
-                File[] files = new File("data/entity").listFiles();
-                String[] fileNames = Arrays.stream(files).map(File::getName).toArray(String[]::new);
-                if (!Arrays.asList(fileNames).contains(String.format("%s.sim", entityDataArray[0]))){
-                    throw new IllegalStateException("saveFileCorrupted");
+                if (entityDataArray[0].contains("PowerUp")){
+                    powerUpMap.put(keyStr, jsonProperties.get(key).toString());
+                } else {
+                    File[] entityFiles = new File("data/entity").listFiles();
+                    String[] entityFileNames = Arrays.stream(entityFiles).map(File::getName).toArray(String[]::new);
+                    if (!Arrays.asList(entityFileNames).contains(String.format("%s.sim", entityDataArray[0]))){
+                        throw new IllegalStateException("saveFileCorrupted");
+                    }
+                    entityMap.put(keyStr, jsonProperties.get(key).toString());
                 }
-                entityMap.put(keyStr, jsonProperties.get(key).toString());
             }
         });
         entityMapParser = new EntityMapParser(entityMap);
+        powerUpParser = new PowerUpParser(powerUpMap);
     }
 
     /**
@@ -217,6 +233,14 @@ public class SaveFileParser {
      */
     public Map<String, Entity> getEntities(){
         return entityMapParser.getEntities();
+    }
+
+    /**
+     * Returns the power ups associated with the save file
+     * @return the power ups
+     */
+    public Map<List<Double>, PowerUp> getPowerUps(){
+        return powerUpParser.getPowerUps();
     }
 
     /**

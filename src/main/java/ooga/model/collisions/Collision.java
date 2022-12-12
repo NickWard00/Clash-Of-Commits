@@ -1,4 +1,4 @@
-package ooga.model;
+package ooga.model.collisions;
 
 import java.util.ResourceBundle;
 import java.util.Map;
