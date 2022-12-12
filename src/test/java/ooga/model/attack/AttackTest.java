@@ -51,4 +51,6 @@ class AttackTest {
     void attackTest_ShortRange() {
         Attack testShortRange = testBug.attack();
         assertInstanceOf(ShortRange.class, testShortRange);
-    }}
+    }
+
+}
