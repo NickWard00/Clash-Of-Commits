@@ -77,7 +77,7 @@ public class View {
     private void setupGame(Stage stage){
         myViewEntities = myController.getViewEntities();
         myViewAttacks = myController.getViewAttacks();
-        myViewPowerUps = myController.getMyViewPowerUps();
+        myViewPowerUps = myController.getViewPowerUps();
         myHeroView = myViewEntities.get(myController.getMainHeroName());
 
         setupMap();
@@ -178,6 +178,13 @@ public class View {
                     break;
                 }
             }
+            List<BlockView> myViewPowerUpsList = myViewPowerUps.values().parallelStream().toList();
+            for (BlockView powerUp : myViewPowerUpsList) {
+                if (entity.getBoundsInParent().intersects(powerUp.getBoundsInParent())) {
+                    myController.passCollision(entity, powerUp);
+                    break;
+                }
+            }
         }
         List<AttackView> myViewAttackList = myViewAttacks.values().parallelStream().toList();
         for (AttackView attack : myViewAttackList) {
@@ -218,7 +225,7 @@ public class View {
     public double getBlockSize() { return blockSize; }
 
     public void setViewPowerUps() {
-        myViewPowerUps = myController.getMyViewPowerUps();
+        myViewPowerUps = myController.getViewPowerUps();
         mainGameScreen.addPowerUpsToRoot();
     }
 }

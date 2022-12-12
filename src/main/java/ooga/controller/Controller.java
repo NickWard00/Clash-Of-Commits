@@ -40,7 +40,7 @@ public class Controller {
     private Map<String, EntityView> myViewEntities;
     private Map<String, Entity> myModelEntities;
     private Map<List<Double>, Obstacle> myModelObstacles;
-    private Map<List<Integer>, PowerUp> myModelPowerUps;
+    private Map<List<Double>, PowerUp> myModelPowerUps;
     private Map<List<Integer>, BlockView> myViewPowerUps;
     private Map<List<Double>, BlockView> myViewObstacles;
     private Map<Integer, Attack> myModelAttacks;
@@ -309,7 +309,8 @@ public class Controller {
      */
     public void setupViewPowerUps() {
         myModelPowerUps.forEach((key, value) -> {
-            myViewPowerUps.put(key, createViewPowerUp(value));
+            List<Integer> coordinates = Arrays.asList(key.get(0).intValue(), key.get(1).intValue());
+            myViewPowerUps.put(coordinates, createViewPowerUp(value));
         });
     }
 
@@ -334,7 +335,7 @@ public class Controller {
         int y = powerup.getKey().get(1);
         int size = mapWrapper.getVisualProperties().get(0).intValue();
         String path = powerup.getImagePath();
-        return new BlockView(x,y,size,0, path);
+        return new BlockView(x,y,size,0, path, "PowerUp");
     }
 
     /**
@@ -423,7 +424,11 @@ public class Controller {
     private Map<?,?> getCorrectModelMap(Object obj) {
         try {
             ResourceBundle bundle = ResourceBundle.getBundle("ResourceBundles.ViewToModel");
-            String objType = bundle.getString(obj.getClass().getSimpleName());
+            String viewType = obj.getClass().getSimpleName();
+            if (obj.getClass() == BlockView.class) {
+                viewType += ((BlockView) obj).getBlockViewType();
+            }
+            String objType = bundle.getString(viewType);
             Object mapObject = Controller.class.getDeclaredMethod(String.format("getModel%s", objType)).invoke(this);
             return (Map<?,?>) mapObject;
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
@@ -657,7 +662,9 @@ public class Controller {
      * Returns the view powerups
      * @return myViewPowerUps
      */
-    public Map<List<Integer>, BlockView> getMyViewPowerUps() { return myViewPowerUps; }
+    public Map<List<Integer>, BlockView> getViewPowerUps() { return myViewPowerUps; }
+
+    public Map<List<Double>, PowerUp> getModelPowerUps() { return myModelPowerUps;}
 
     /**
      * Returns the corresponding map based on string input

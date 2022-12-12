@@ -44,7 +44,7 @@ class MainGameScreenTest extends DukeApplicationTest {
         spriteLocation = entityAttributes.get("Sprites");
         startingDirection = entityAttributes.get("Direction");
         entityView = new EntityView(spriteLocation, startingDirection, imageName, xPos, yPos, size, size);
-        blockView = new BlockView((int) xPos, (int) yPos, size, 0, spriteLocation);
+        blockView = new BlockView((int) xPos, (int) yPos, size, 0, spriteLocation, "Obstacle");
     }
 
     @Test

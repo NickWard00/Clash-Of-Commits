@@ -49,7 +49,7 @@ public class MapView {
             for (int col = 0; col < numColumns; col++){
                 int state = wrapper.getState(row, col);
                 String imagePath = wrapper.getImageFromState(state);
-                BlockView blockView = new BlockView(col, row, blockSize, state, imagePath);
+                BlockView blockView = new BlockView(col, row, blockSize, state, imagePath, "Obstacle");
                 grid.add(blockView, col, row);
                 if (wrapper.getObstacleFromState(state).contains("Wall") || wrapper.getObstacleFromState(state).contains("PowerUp")) {
                     myViewObstacles.put(Arrays.asList((double) row, (double) col), blockView);

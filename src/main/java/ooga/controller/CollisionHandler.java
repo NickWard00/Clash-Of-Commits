@@ -4,6 +4,8 @@ import ooga.model.collisions.Collision;
 import ooga.model.entities.Entity;
 import ooga.model.attack.Attack;
 import ooga.model.obstacle.Obstacle;
+import ooga.model.powerup.PowerUp;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
@@ -24,7 +26,7 @@ public class CollisionHandler {
      * Method which uses reflection to handle collisions of all types
      */
     public void collision(Object object1, Object object2) {
-        Map<Class, Integer> indexMap = Map.of(Attack.class, 0, Entity.class, 1, Obstacle.class, 2);
+        Map<Class, Integer> indexMap = Map.of(Attack.class, 0, Entity.class, 1, Obstacle.class, 2, PowerUp.class, 3);
         try {
             Class class1 = getCorrectClassForCollision(object1);
             Class class2 = getCorrectClassForCollision(object2);
@@ -65,7 +67,7 @@ public class CollisionHandler {
      */
     private Class getCorrectClassForCollision(Object object) {
         Class myClass = object.getClass().getSuperclass();
-        if (myClass != Attack.class && myClass != Obstacle.class) {
+        if (myClass != Attack.class && myClass != Obstacle.class && myClass != PowerUp.class) {
             myClass = myClass.getSuperclass();
         }
         return myClass;

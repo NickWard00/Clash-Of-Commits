@@ -16,6 +16,7 @@ import java.util.List;
 public class BlockView extends ImageView {
     private String imagePath;
     private int state;
+    private String blockViewType;
 
     /**
      * Constructor for the BlockView
@@ -25,10 +26,11 @@ public class BlockView extends ImageView {
      * @param state: what type of block the block is (can the player walk through or not)
      * @param imagePath: what image the block should be set to
      */
-    public BlockView(int x, int y, int blockSize, int state, String imagePath){
+    public BlockView(int x, int y, int blockSize, int state, String imagePath, String blockViewType){
         super(new Image(imagePath));
         this.imagePath = imagePath;
         this.state = state;
+        this.blockViewType = blockViewType;
         setX(x);
         setY(y);
         setFitWidth(blockSize);
@@ -42,4 +44,6 @@ public class BlockView extends ImageView {
     public List<Double> getKey() {
         return Arrays.asList(getX(), getY());
     }
+
+    public String getBlockViewType() { return blockViewType; }
 }

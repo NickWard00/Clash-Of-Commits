@@ -7,7 +7,7 @@ import java.util.*;
 
 public class PowerUpParser {
 
-    private Map<List<Integer>, PowerUp> myPowerUps;
+    private Map<List<Double>, PowerUp> myPowerUps;
     private static final String POWER_UP_DATA_DIRECTORY = "data/PowerUp_MainMap.sim";
     private static final String POWER_UP_PATH = "ooga.model.powerup.";
     private Properties powerUpProperties;
@@ -18,12 +18,12 @@ public class PowerUpParser {
         powerUpProperties = simParser.getSimData(POWER_UP_DATA_DIRECTORY);
     }
 
-    public Map<List<Integer>, PowerUp> allPowerUps() {
+    public Map<List<Double>, PowerUp> allPowerUps() {
         powerUpProperties.entrySet().forEach(entry->{
             String powerUpType = (String) entry.getKey();
             List<String> val = Arrays.stream(entry.getValue().toString().replaceAll("\\s+","").split(",")).toList();
-            List<Integer> coordinates = Arrays.asList(Integer.parseInt(val.get(0)), Integer.parseInt(val.get(1)));
-            PowerUp powerUp = createPowerUp(powerUpType, coordinates.get(0), coordinates.get(1));
+            List<Double> coordinates = Arrays.asList(Double.parseDouble(val.get(0)), Double.parseDouble(val.get(1)));
+            PowerUp powerUp = createPowerUp(powerUpType, coordinates.get(0).intValue(), coordinates.get(1).intValue());
             myPowerUps.put(coordinates, powerUp);
         });
         return myPowerUps;
