@@ -8,6 +8,8 @@ import ooga.view.screens.EndGameScreen;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
+import java.util.ResourceBundle;
+
 class EndGameScreenTest extends DukeApplicationTest {
   private EndGameScreen winScreen;
   private Button playAgain;
@@ -15,7 +17,7 @@ class EndGameScreenTest extends DukeApplicationTest {
 
   @Override
   public void start(Stage stage) {
-    winScreen = new EndGameScreen(stage, true);
+    winScreen = new EndGameScreen(stage, ResourceBundle.getBundle("ResourceBundles/LabelsBundle.properties"), 0, "The Beginning",true);
     stage.setScene(winScreen.makeScene());
     stage.show();
     playAgain = lookup("#playAgainButton").query();

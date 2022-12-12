@@ -54,6 +54,7 @@ public class MainGameScreen extends SceneCreator {
     private MediaPlayer walkPlayer;
     private Stage stage;
     private Scene myScene;
+    private String myGameType;
     private double overlaySize = Integer.parseInt(constants.getString("overlaySize"));
     private Pane overlay;
     private ImageView snowy = new ImageView(new Image(images.getString("snowyImage")));
@@ -83,8 +84,9 @@ public class MainGameScreen extends SceneCreator {
      * @param entities refers to all existing entities in the map
      */
     public void startGamePlay(GridPane mapPane, Map<String, EntityView> entities, String gameType) {
-        isPlaying = true;
-        myViewEntities = entities;
+        this.isPlaying = true;
+        this.myViewEntities = entities;
+        this.myGameType = gameType;
         this.mapPane = mapPane;
 
         music = new Media(new File(media.getString("lvl1")).toURI().toString());
@@ -129,8 +131,6 @@ public class MainGameScreen extends SceneCreator {
     private void makeBackground(){
         background.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         background.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        //TODO: Set a completely grass background here?
-//        background.setContent()
         background.setContent(mapPane);
     }
 
@@ -316,13 +316,13 @@ public class MainGameScreen extends SceneCreator {
 
     public void nextScene() {
         if (mapGameState.determineWin(hud.getScore())) {
-            EndGameScreen winScreen = new EndGameScreen(stage, true);
+            EndGameScreen winScreen = new EndGameScreen(stage, labels, hud.getScore(), myGameType, true);
             myScene = winScreen.makeScene();
             stage.setScene(myScene);
             stage.show();
         }
         else if (mapGameState.determineLost()) {
-            EndGameScreen loseScreen = new EndGameScreen(stage, false);
+            EndGameScreen loseScreen = new EndGameScreen(stage, labels, hud.getScore(), myGameType,false);
             myScene = loseScreen.makeScene();
             stage.setScene(myScene);
             stage.show();
