@@ -9,11 +9,13 @@ import java.util.ResourceBundle;
 public abstract class PowerUp {
     private static final ResourceBundle POWER_UP_BUNDLE = ResourceBundle.getBundle("ResourceBundles.PowerUp");
     private String powerUpType;
+    private String myName;
     private List<Integer> myCoordinates;
     private String imagePath;
     private Boolean available;
 
-    public PowerUp(String type, int x, int y) {
+    public PowerUp(String name, String type, int x, int y) {
+        this.myName = name;
         this.powerUpType = type;
         this.myCoordinates = Arrays.asList(x,y);
         this.imagePath = POWER_UP_BUNDLE.getString(powerUpType);
@@ -26,9 +28,22 @@ public abstract class PowerUp {
         return myCoordinates;
     }
 
-    public String getImagePath() { return imagePath; }
-    public Boolean available() { return available; }
+    public String getPowerUpType() {
+        return powerUpType;
+    }
 
-    protected void setAvailable(Boolean available) { this.available = available; }
+    public String getName() {
+        return myName;
+    }
 
+    public String getImagePath() {
+        return imagePath;
+    }
+    public Boolean available() {
+        return available;
+    }
+
+    protected void setAvailable(Boolean available) {
+        this.available = available;
+    }
 }

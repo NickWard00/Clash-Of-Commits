@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
 /**
  * This class represents the screen that is displayed when the game is won.
  *
- * @author James Qu
+ * @author James Qu and Nick Ward
  */
 public class EndGameScreen extends SceneCreator {
   private Scene endGameScene;

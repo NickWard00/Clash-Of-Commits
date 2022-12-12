@@ -103,7 +103,8 @@ public class Controller {
             myViewObstacles = myView.getViewObstacles();
         } catch (IllegalStateException e){
             errorOccurred = true;
-            showMessage(Alert.AlertType.ERROR, labels.getString(e.getMessage()), e);
+            //showMessage(Alert.AlertType.ERROR, labels.getString(e.getMessage()), e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -262,10 +263,10 @@ public class Controller {
         mapWrapper.setObstacleStateMap(mapParser.getObstacleStateMap());
 
         if (!loadSave) {
-            EntityMapParser entityMapParser = new EntityMapParser("Entity_" + map);
+            EntityMapParser entityMapParser = new EntityMapParser(myLabels.getString(String.format("EntityMap_%s", map)));
             myModelEntities = entityMapParser.getEntities();
-            PowerUpParser powerUpMapParser = new PowerUpParser();
-            myModelPowerUps = powerUpMapParser.allPowerUps();
+            PowerUpParser powerUpMapParser = new PowerUpParser(myLabels.getString(String.format("PowerUpMap_%s", map)));
+            myModelPowerUps = powerUpMapParser.getPowerUps();
         }
 
         for (Entity entity : myModelEntities.values()) {
@@ -283,7 +284,7 @@ public class Controller {
      * @param num
      */
     public void saveGame(int num) throws IllegalStateException {
-        saver.saveGame(num, myModelEntities, mapName, myGameType,String.valueOf(myModelEntities.get(myMainHeroName).getHp()), String.valueOf(score));
+        saver.saveGame(num, myModelEntities, myModelPowerUps, mapName, myGameType, String.valueOf(myModelEntities.get(myMainHeroName).getHp()), String.valueOf(score));
     }
 
     /**
@@ -291,7 +292,7 @@ public class Controller {
      * @param num the number of the slot
      */
     public void saveGameToWeb(int num) throws IllegalStateException {
-        saver.saveGameToWeb(num, myModelEntities, mapName, myGameType, String.valueOf(myModelEntities.get(myMainHeroName).getHp()), String.valueOf(score));
+        saver.saveGameToWeb(num, myModelEntities, myModelPowerUps, mapName, myGameType, String.valueOf(myModelEntities.get(myMainHeroName).getHp()), String.valueOf(score));
     }
 
     /**
@@ -310,6 +311,7 @@ public class Controller {
         this.myGameType = saver.getGameType();
 
         myModelEntities = saver.getEntities();
+        myModelPowerUps = saver.getPowerUps();
         for (Entity entity : myModelEntities.values()) {
             if (entity.getMyAttributes().get("EntityType").equals("MainHero") || entity.getMyAttributes().get("EntityType").equals("Link")) {
                 myMainHeroName = entity.getMyAttributes().get("Name");
