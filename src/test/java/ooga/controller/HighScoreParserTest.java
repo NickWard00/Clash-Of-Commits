@@ -27,8 +27,8 @@ class HighScoreParserTest {
 
     @Test
     void testHighScoreParserSetHighScores() {
-        parser.setHighScores("MainMap", 100);
+        parser.setHighScores("TheBeginning", 100);
         Map<String, Integer> highScores = parser.getHighScores();
-        assertEquals(100, highScores.get("MainMap"));
+        assertEquals(100, highScores.get("TheBeginning"));
     }
 }
