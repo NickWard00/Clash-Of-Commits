@@ -42,6 +42,6 @@ public class ChooseGameScreenTest extends DukeApplicationTest{
         clickOn(loadSave);
         VBox slots = lookup("#slots").query();
 
-        assertEquals(slots.getChildren().size(), 3);
+        assertEquals(slots.getChildren().size(), 4);
     }
 }
