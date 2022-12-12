@@ -22,12 +22,13 @@ import javafx.stage.Stage;
 import ooga.controller.gameState.AdventureGameState;
 import ooga.controller.Controller;
 import ooga.controller.gameState.MapGameState;
+import ooga.controller.gameState.SurviveGameState;
 import ooga.view.*;
 
 import java.util.Map;
 
 /**
- * @author Melanie Wang, Nick Ward, Mayari Merchant
+ * @author Melanie Wang, Nick Ward, Mayari Merchant, James Qu
  */
 
 /**
@@ -81,7 +82,7 @@ public class MainGameScreen extends SceneCreator {
      * @param mapPane responsible for creating the view of the map
      * @param entities refers to all existing entities in the map
      */
-    public void startGamePlay(GridPane mapPane, Map<String, EntityView> entities) {
+    public void startGamePlay(GridPane mapPane, Map<String, EntityView> entities, String gameType) {
         isPlaying = true;
         myViewEntities = entities;
         this.mapPane = mapPane;
@@ -90,8 +91,12 @@ public class MainGameScreen extends SceneCreator {
         walk = new Media(new File(media.getString("walking")).toURI().toString());
         walkPlayer = new MediaPlayer(walk);
 
-        //TODO: Figure out how to decide what game state to use
-        mapGameState = new AdventureGameState(myViewEntities, controller);
+        if (gameType.equals("The Beginning") || gameType.equals("The Legend of Zelda for NES")) {
+            mapGameState = new AdventureGameState(myViewEntities, controller);
+        }
+        else if (gameType.equals("Survive")) {
+            mapGameState = new SurviveGameState(myViewEntities, controller);
+        }
     }
 
     /**

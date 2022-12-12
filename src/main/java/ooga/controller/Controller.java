@@ -162,6 +162,7 @@ public class Controller {
             myModel.checkForNewAttacks();
             updatePlayerHealth();
             updatePlayerScore();
+            myView.getGameScreen().nextScene();
         } catch (IllegalStateException e) {
             showMessage(Alert.AlertType.ERROR, myLabels.getString(e.getMessage()), e);
         }
