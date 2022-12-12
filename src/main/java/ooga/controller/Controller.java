@@ -50,6 +50,7 @@ public class Controller {
     private String myMainHeroName;
     private Map<KeyCode, String> movementActions;
     private Map<KeyCode, String> attackActions;
+    private Map<KeyCode, String> cheatCodeActions;
     private String myGameType;
     private String mapName;
     private Stage myStage;
@@ -87,7 +88,17 @@ public class Controller {
         );
         this.attackActions = Map.of(
                 KeyCode.SPACE, "attack",
-                KeyCode.Z, "attack"
+                KeyCode.Z, "attack",
+                KeyCode.CONTROL, "control",
+                KeyCode.X, "crossAttack"
+        );
+        this.cheatCodeActions = Map.of(
+                KeyCode.B, "block",
+                KeyCode.P, "pause",
+                KeyCode.Q, "quit",
+                KeyCode.L, "life",
+                KeyCode.O, "forceField",
+                KeyCode.DIGIT2, "doubleScore"
         );
         this.mapName = map;
         this.myGameType = gameType;
@@ -655,6 +666,43 @@ public class Controller {
     private void sprintStop(){
         myModel.changeEntityState(myMainHeroName, MovementState.MOVING);
     }
+
+    private void freeze(){
+
+    }
+
+    private void crossAttack(){
+
+    }
+
+    private void pause(){
+        pauseAnimation();
+    }
+
+    private void quit(){
+
+    }
+
+    private void block(){
+
+    }
+
+    private void forceField(){
+
+    }
+
+    private void addLife(){
+
+    }
+
+    private void doubleScore(){
+
+    }
+
+    private void doubleAttack(){
+
+    }
+
 
     /**
      * Method that returns the name of the main hero, if it exists
