@@ -11,29 +11,42 @@ public class PowerUpParser {
     private Properties powerUpProperties;
 
     public PowerUpParser(String powerUpPath) throws IllegalStateException {
-        GeneralParser simParser = new GeneralParser();
         myPowerUps = new HashMap<>();
+        GeneralParser simParser = new GeneralParser();
         powerUpProperties = simParser.getSimData(powerUpPath);
+
+        powerUpProperties.entrySet().forEach(entry->{
+            String name = (String) entry.getKey();
+            String[] powerUpDataArray = ((String) entry.getValue()).replaceAll("\\s+","").split(",");
+            List<Double> coordinates = Arrays.asList(Double.parseDouble(powerUpDataArray[1]), Double.parseDouble(powerUpDataArray[2]));
+            PowerUp powerUp = createPowerUp(name, powerUpDataArray[0], coordinates.get(0).intValue(), coordinates.get(1).intValue());
+            myPowerUps.put(Arrays.asList(coordinates.get(0), coordinates.get(1)), powerUp);
+        });
     }
 
-    public Map<List<Double>, PowerUp> allPowerUps() {
-        powerUpProperties.entrySet().forEach(entry->{
-            String powerUpType = (String) entry.getKey();
-            List<String> val = Arrays.stream(entry.getValue().toString().replaceAll("\\s+","").split(",")).toList();
-            List<Double> coordinates = Arrays.asList(Double.parseDouble(val.get(0)), Double.parseDouble(val.get(1)));
-            PowerUp powerUp = createPowerUp(powerUpType, coordinates.get(0).intValue(), coordinates.get(1).intValue());
-            myPowerUps.put(coordinates, powerUp);
+    public PowerUpParser(Map<String, String> powerUpData) throws IllegalStateException {
+        myPowerUps = new HashMap<>();
+
+        powerUpData.entrySet().forEach(entry->{
+            String name = entry.getKey();
+            String[] powerUpDataArray = (entry.getValue()).replaceAll("\\s+","").split(",");
+            List<Double> coordinates = Arrays.asList(Double.parseDouble(powerUpDataArray[1]), Double.parseDouble(powerUpDataArray[2]));
+            PowerUp powerUp = createPowerUp(name, powerUpDataArray[0], coordinates.get(0).intValue(), coordinates.get(1).intValue());
+            myPowerUps.put(Arrays.asList(coordinates.get(0), coordinates.get(1)), powerUp);
         });
+    }
+
+    public Map<List<Double>, PowerUp> getPowerUps() {
         return myPowerUps;
     }
 
-    private PowerUp createPowerUp(String type, int x, int y) {
+    private PowerUp createPowerUp(String name, String type, int x, int y) {
         try {
-            Class powerUpClass = Class.forName(String.format("%s%sPowerUp", POWER_UP_PATH, type));
-            Object o = powerUpClass.getConstructor(int.class, int.class).newInstance(x,y);
+            Class powerUpClass = Class.forName(String.format("%s%s", POWER_UP_PATH, type));
+            Object o = powerUpClass.getConstructor(String.class, int.class, int.class).newInstance(name, x, y);
             return (PowerUp) o;
         } catch (ClassNotFoundException | InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException("noPowerUpFound", e);
         }
     }
 
