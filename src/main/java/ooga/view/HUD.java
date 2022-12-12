@@ -55,6 +55,7 @@ public class HUD extends SceneCreator {
                 false,"setUpPlayButton"
         );
         playPause = new Button("", pauseButton);
+        playPause.setId("playPause");
         playerScore = Integer.parseInt(getConstants().getString("defaultScore"));
         scoreText = new Label(String.format("%s  %s",getLabels().getString("score"), playerScore));
         settings = new Button("", new ImageView(new Image(images.getString("settingsImage"))));
