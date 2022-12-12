@@ -1,11 +1,13 @@
 package ooga.view;
 
+import javafx.geometry.Insets;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Nick Ward
@@ -19,6 +21,7 @@ public class MapView {
     private double mapSizeX;
     private double mapSizeY;
     private Map<List<Double>, BlockView> myViewObstacles;
+    private String grassBackgroundPath = "blocks/grass.jpeg";
 
     /**
      * Constructor for MapView
@@ -46,7 +49,7 @@ public class MapView {
             for (int col = 0; col < numColumns; col++){
                 int state = wrapper.getState(row, col);
                 String imagePath = wrapper.getImageFromState(state);
-                BlockView blockView = new BlockView(col, row, blockSize, state, imagePath);
+                BlockView blockView = new BlockView(col, row, blockSize, state, imagePath, "Obstacle");
                 grid.add(blockView, col, row);
                 if (wrapper.getObstacleFromState(state).contains("Wall") || wrapper.getObstacleFromState(state).contains("PowerUp")) {
                     myViewObstacles.put(Arrays.asList((double) row, (double) col), blockView);

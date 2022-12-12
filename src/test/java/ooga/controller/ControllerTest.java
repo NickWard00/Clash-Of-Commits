@@ -47,14 +47,14 @@ public class ControllerTest extends DukeApplicationTest {
 
     @Test
     void keyPressTest() {
-        controller.handleKeyPress(KeyCode.UP);
-        controller.handleKeyRelease(KeyCode.UP);
-        controller.handleKeyPress(KeyCode.DOWN);
-        controller.handleKeyRelease(KeyCode.DOWN);
-        controller.handleKeyPress(KeyCode.LEFT);
-        controller.handleKeyRelease(KeyCode.LEFT);
-        controller.handleKeyPress(KeyCode.RIGHT);
-        controller.handleKeyRelease(KeyCode.RIGHT);
+        controller.checkKeyPress(KeyCode.UP);
+        controller.checkKeyRelease(KeyCode.UP);
+        controller.checkKeyPress(KeyCode.DOWN);
+        controller.checkKeyRelease(KeyCode.DOWN);
+        controller.checkKeyPress(KeyCode.LEFT);
+        controller.checkKeyRelease(KeyCode.LEFT);
+        controller.checkKeyPress(KeyCode.RIGHT);
+        controller.checkKeyRelease(KeyCode.RIGHT);
     }
 
     @Test

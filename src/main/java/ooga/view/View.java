@@ -24,6 +24,7 @@ public class View {
     private Stage stage;
     private Controller myController;
     private Map<String, EntityView> myViewEntities;
+    private Map<List<Integer>, BlockView> myViewPowerUps;
     private MapWrapper myMapWrapper;
     private MapView myMapView;
     private Map<List<Double>, BlockView> myViewObstacles;
@@ -77,12 +78,15 @@ public class View {
     private void setupGame(Stage stage){
         myViewEntities = myController.getViewEntities();
         myViewAttacks = myController.getViewAttacks();
+        myViewPowerUps = myController.getViewPowerUps();
         myHeroView = myViewEntities.get(myController.getMainHeroName());
 
         setupMap();
 
         mainGameScreen = new MainGameScreen(stage, myController);
-        mainGameScreen.startGamePlay(mapPane, myViewEntities, myGameType);
+
+        mainGameScreen.startGamePlay(mapPane, myViewEntities, myViewPowerUps, myGameType);
+
         myScene = mainGameScreen.makeScene();
         setupWalkingMusic();
 
@@ -147,13 +151,13 @@ public class View {
      */
     private void handleKeyInputs() {
         myScene.setOnKeyPressed(event -> {
-            myController.handleKeyPress(event.getCode());
+            myController.checkKeyPress(event.getCode());
             if(walkingActions.contains(event.getCode())) {
                 walking.play();
             }
         });
         myScene.setOnKeyReleased(event -> {
-            myController.handleKeyRelease(event.getCode());
+            myController.checkKeyRelease(event.getCode());
             if(walkingActions.contains(event.getCode())) {
                 walking.pause();
             }
@@ -177,6 +181,13 @@ public class View {
             for (BlockView obstacle : myViewObstacleList) {
                 if (entity.getBoundsInParent().intersects(obstacle.getBoundsInParent())) {
                     myController.passCollision(entity, obstacle);
+                    break;
+                }
+            }
+            List<BlockView> myViewPowerUpsList = myViewPowerUps.values().parallelStream().toList();
+            for (BlockView powerUp : myViewPowerUpsList) {
+                if (entity.getBoundsInParent().intersects(powerUp.getBoundsInParent())) {
+                    myController.passCollision(entity, powerUp);
                     break;
                 }
             }
@@ -223,6 +234,13 @@ public class View {
      */
     public void updateScore(int score) {
         mainGameScreen.getHud().updateScore(score);
+    }
+
+    public double getBlockSize() { return blockSize; }
+
+    public void setViewPowerUps() {
+        myViewPowerUps = myController.getViewPowerUps();
+        mainGameScreen.addPowerUpsToRoot();
     }
 }
 

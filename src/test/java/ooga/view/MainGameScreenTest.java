@@ -9,6 +9,7 @@ import ooga.view.screens.StartScreen;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -23,6 +24,7 @@ class MainGameScreenTest extends DukeApplicationTest {
     private String spriteLocation;
     private String startingDirection;
     private EntityView entityView;
+    private BlockView blockView;
     private Stage myStage;
     private Controller controller;
     private ResourceBundle labels = ResourceBundle.getBundle("ResourceBundles.LabelsBundle");
@@ -42,6 +44,7 @@ class MainGameScreenTest extends DukeApplicationTest {
         spriteLocation = entityAttributes.get("Sprites");
         startingDirection = entityAttributes.get("Direction");
         entityView = new EntityView(spriteLocation, startingDirection, imageName, xPos, yPos, size, size);
+        blockView = new BlockView((int) xPos, (int) yPos, size, 0, spriteLocation, "Obstacle");
     }
 
     @Test
@@ -55,7 +58,7 @@ class MainGameScreenTest extends DukeApplicationTest {
         GridPane mapGrid = mapPane.createMap();
 
         MainGameScreen mainGameScreen = new MainGameScreen(myStage, controller);
-        mainGameScreen.startGamePlay(mapGrid, Map.of("Hello", entityView), "The Beginning");
+        mainGameScreen.startGamePlay(mapGrid, Map.of("Hello", entityView), Map.of(Arrays.asList((int)xPos, (int)yPos), blockView), "The Beginning");
         assertTrue(mainGameScreen.isPlaying());
     }
     @Test
@@ -71,7 +74,7 @@ class MainGameScreenTest extends DukeApplicationTest {
 
         try {
             mainGameScreen.makeScene();
-            mainGameScreen.startGamePlay(mapGrid, Map.of("Hello", entityView), "The Beginning");
+            mainGameScreen.startGamePlay(mapGrid, Map.of("Hello", entityView), Map.of(Arrays.asList((int)xPos, (int)yPos), blockView), "The Beginning");
         } catch(Exception e){
             //any other exception should be thrown by US
             assertEquals("Incorrect GamePlay", e.getMessage());

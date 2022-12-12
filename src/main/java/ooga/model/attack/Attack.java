@@ -8,7 +8,6 @@ import java.util.*;
 import java.util.List;
 
 public abstract class Attack {
-    public static final ResourceBundle attackBundle = ResourceBundle.getBundle("ResourceBundles.Attack");
     private static Controller myController;
     private int damage;
     private double speed;

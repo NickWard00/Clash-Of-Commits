@@ -12,12 +12,10 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import ooga.controller.gameState.AdventureGameState;
 import ooga.controller.Controller;
@@ -25,6 +23,7 @@ import ooga.controller.gameState.MapGameState;
 import ooga.controller.gameState.SurviveGameState;
 import ooga.view.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,9 +40,11 @@ public class MainGameScreen extends SceneCreator {
     private int screenSize;
     private GridPane mapPane;
     private Map<String, EntityView> myViewEntities;
+    private Map<List<Integer>, BlockView> myViewPowerUps;
     private Group root;
     private BorderPane gameScreenPane;
     private ScrollPane background;
+    private ScrollPane mapLayer;
     private StackPane centerPaneConsolidated;
     private Pane characters;
     private HUD hud;
@@ -83,10 +84,11 @@ public class MainGameScreen extends SceneCreator {
      * @param mapPane responsible for creating the view of the map
      * @param entities refers to all existing entities in the map
      */
-    public void startGamePlay(GridPane mapPane, Map<String, EntityView> entities, String gameType) {
+    public void startGamePlay(GridPane mapPane, Map<String, EntityView> entities, Map<List<Integer>, BlockView> powerups, String gameType) {
         this.isPlaying = true;
         this.myViewEntities = entities;
         this.myGameType = gameType;
+        this.myViewPowerUps = powerups;
         this.mapPane = mapPane;
 
         music = new Media(new File(media.getString("lvl1")).toURI().toString());
@@ -109,6 +111,7 @@ public class MainGameScreen extends SceneCreator {
     public Scene makeScene(){
         gameScreenPane = new BorderPane();
         background = new ScrollPane();
+        mapLayer = new ScrollPane();
         characters = new Pane();
         overlay = new Pane();
         makeCharacters();
@@ -116,12 +119,15 @@ public class MainGameScreen extends SceneCreator {
         makeDefaultOverlay();
         makeCenterPane();
         gameScreenPane.setCenter(centerPaneConsolidated);
+        gameScreenPane.setBackground(Background.EMPTY);
         createHUD();
         myScene = new Scene(gameScreenPane, screenSize, screenSize);
         myScene.getStylesheets().add(styles.getString("DefaultCSS"));
         musicPlayer = new MediaPlayer(music);
         musicPlayer.setAutoPlay(true);
         nextScene();
+
+        myScene.setFill(Color.TRANSPARENT);
         return myScene;
     }
 
@@ -129,9 +135,10 @@ public class MainGameScreen extends SceneCreator {
      * generates the background (grid of the map)
      */
     private void makeBackground(){
-        background.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        background.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        background.setContent(mapPane);
+        mapLayer.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        mapLayer.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        mapLayer.setContent(mapPane);
+        mapLayer.setBackground(Background.EMPTY);
     }
 
     /**
@@ -140,9 +147,12 @@ public class MainGameScreen extends SceneCreator {
      */
     private void makeCenterPane(){
         StackPane centerPaneMoving = new StackPane();
-        centerPaneMoving.getChildren().addAll(background, characters);
+        centerPaneMoving.getChildren().addAll(mapLayer, characters);
+        centerPaneMoving.setBackground(Background.EMPTY);
         StackPane centerPaneStill = new StackPane(overlay);
+        centerPaneStill.setBackground(Background.EMPTY);
         centerPaneConsolidated = new StackPane();
+        centerPaneConsolidated.setBackground(Background.EMPTY);
         centerPaneConsolidated.getChildren().addAll(centerPaneMoving, centerPaneStill);
     }
 
@@ -182,6 +192,13 @@ public class MainGameScreen extends SceneCreator {
         }
         characters.getChildren().add(root);
     }
+
+    public void addPowerUpsToRoot() {
+        for (BlockView powerup : myViewPowerUps.values()) {
+            root.getChildren().add(powerup);
+        }
+    }
+
 
     /**
      * initializes the hud on the top of the screen
@@ -250,6 +267,10 @@ public class MainGameScreen extends SceneCreator {
      */
     public void removeAttackFromScene(AttackView attack) {
         root.getChildren().remove(attack);
+    }
+
+    public void removePowerUpFromScene(BlockView powerUp) {
+        root.getChildren().remove(powerUp);
     }
 
     /**
