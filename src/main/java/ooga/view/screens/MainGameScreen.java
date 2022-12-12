@@ -93,10 +93,10 @@ public class MainGameScreen extends SceneCreator {
         walk = new Media(new File(media.getString("walking")).toURI().toString());
         walkPlayer = new MediaPlayer(walk);
 
-        if (gameType.equals("The Beginning") || gameType.equals("The Legend of Zelda for NES")) {
+        if (gameType.equals(labels.getString("game1")) || gameType.equals(labels.getString("game3"))) {
             mapGameState = new AdventureGameState(myViewEntities, controller);
         }
-        else if (gameType.equals("Survive")) {
+        else if (gameType.equals(labels.getString("game2"))) {
             mapGameState = new SurviveGameState(myViewEntities, controller);
         }
     }
@@ -315,17 +315,23 @@ public class MainGameScreen extends SceneCreator {
     }
 
     public void nextScene() {
-        if (mapGameState.determineWin(hud.getScore())) {
+        mapGameState.updateScore(hud.getScore());
+        if (mapGameState.determineWin()) {
+            stopPlaying();
             EndGameScreen winScreen = new EndGameScreen(stage, labels, hud.getScore(), myGameType, true);
             myScene = winScreen.makeScene();
             stage.setScene(myScene);
             stage.show();
+            controller.stopAnimation();
+
         }
         else if (mapGameState.determineLost()) {
+            stopPlaying();
             EndGameScreen loseScreen = new EndGameScreen(stage, labels, hud.getScore(), myGameType,false);
             myScene = loseScreen.makeScene();
             stage.setScene(myScene);
             stage.show();
+            controller.stopAnimation();
         }
     }
 }

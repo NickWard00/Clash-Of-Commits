@@ -34,6 +34,7 @@ public class EndGameScreen extends SceneCreator {
   private String myGameType;
   private String css;
   private boolean won;
+  private Text scoreText;
 
   public EndGameScreen(Stage stage, ResourceBundle labels, int score, String gameType, boolean win) {
     this.labels = labels;
@@ -54,30 +55,16 @@ public class EndGameScreen extends SceneCreator {
   public Scene makeScene() {
     this.pane = new StackPane();
     pane.setId("EndGameScreen");
+    determineScreenType(won);
     playAgainButton = new Button(labels.getString("playAgainButton"));
     playAgainButton.setId("playAgainButton");
-    determineScreenType(won);
-    Text score;
-    if (won) {
-      HighScoreParser highScoreParser = new HighScoreParser(labels.getString("highScoreFile"));
-      highScoreParser.setHighScores(myGameType.replaceAll(" ", ""), currentScore);
-      int newScore = highScoreParser.getHighScores().get(myGameType.replaceAll(" ", ""));
-      if (newScore == currentScore) {
-        score = new Text(String.format("%s %s", labels.getString("newHighScore"), currentScore));
-      } else {
-        score = new Text(String.format("%s %s", labels.getString("score"), currentScore));
-      }
-    } else {
-        score = new Text(String.format("%s %s", labels.getString("score"), currentScore));
-    }
-
     buttons = new VBox();
-    buttons.getChildren().addAll(text, score, playAgainButton);
+    buttons.getChildren().addAll(text, scoreText, playAgainButton);
     buttons.setAlignment(Pos.CENTER);
     pane.getChildren().add(buttons);
+    handleEvents();
     endGameScene = new Scene(pane, screenSize, screenSize);
     endGameScene.getStylesheets().add(styles.getString(css));
-    handleEvents();
     return endGameScene;
   }
 
@@ -105,10 +92,19 @@ public class EndGameScreen extends SceneCreator {
    */
   private void determineScreenType(boolean win) {
     if (win) {
+      HighScoreParser highScoreParser = new HighScoreParser(labels.getString("highScoreFile"));
+      highScoreParser.setHighScores(myGameType.replaceAll(" ", ""), currentScore);
+      int newScore = highScoreParser.getHighScores().get(myGameType.replaceAll(" ", ""));
+      if (newScore == currentScore) {
+        scoreText = new Text(String.format("%s %s", labels.getString("newHighScore"), currentScore));
+      } else {
+        scoreText = new Text(String.format("%s %s", labels.getString("score"), currentScore));
+      }
       text = new Text(labels.getString("winMessage"));
       css = "winScreenCSS";
     }
     else {
+      scoreText = new Text(String.format("%s %s", labels.getString("score"), currentScore));
       text = new Text(labels.getString("loseMessage"));
       css = "loseScreenCSS";
     }
