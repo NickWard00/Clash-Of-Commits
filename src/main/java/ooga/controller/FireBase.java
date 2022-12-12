@@ -72,9 +72,7 @@ public class FireBase {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError != null) {
-                    //System.out.println("Data Save Failure" + databaseError.getMessage());
-                } else {
-                   // System.out.println("Data Saved!");
+                    throw new IllegalStateException("fileUploadError");
                 }
             }
         });
