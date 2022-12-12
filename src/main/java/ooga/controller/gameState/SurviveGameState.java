@@ -15,7 +15,6 @@ public class SurviveGameState extends MapGameState {
   private static final ResourceBundle constants = ResourceBundle.getBundle(
       "ResourceBundles.ViewConstants");
   private String heroName;
-  private EntityView mainHero;
 
   public SurviveGameState(Map<String, EntityView> viewEntities, Controller controller) {
     super(viewEntities, controller);
