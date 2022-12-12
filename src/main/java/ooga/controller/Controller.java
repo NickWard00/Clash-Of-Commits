@@ -281,8 +281,6 @@ public class Controller {
         saver.loadGameFromWeb();
     }
 
-
-
     /**
      * Loads a game from a save file
      * @param num
