@@ -37,7 +37,7 @@ public class FireBase {
 
     private JSONObject saveFileWeb;
 
-    public FireBase() {
+    public FireBase(String key) {
         try {
             File file = new File(GOOGLE_APPLICATION_CREDENTIALS);
             InputStream serviceAccount = new FileInputStream(file);
@@ -56,7 +56,7 @@ public class FireBase {
                 primaryApp = FirebaseApp.initializeApp(options);
             }
             firebaseDatabase = FirebaseDatabase.getInstance(DATABASE_URL);
-            ref = firebaseDatabase.getReference("Save_4");
+            ref = firebaseDatabase.getReference(key);
 
         } catch (IOException io) {
             throw new IllegalStateException("fileUploadError");
@@ -71,9 +71,6 @@ public class FireBase {
         ref.setValue(file, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                if (databaseError != null) {
-                    throw new IllegalStateException("fileUploadError");
-                }
             }
         });
     }
@@ -95,10 +92,8 @@ public class FireBase {
                     throw new IllegalStateException("fileParsingError",e);
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-               //log error here
             }
         });
 
