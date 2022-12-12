@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class EntityMapParserTest {
     @Test
     void testEntityMapParserGetEntities() {
-        EntityMapParser entityMapParser = new EntityMapParser("Entity_MainMap");
+        EntityMapParser entityMapParser = new EntityMapParser("data/entity-powerup-maps/Entity_MainMap.sim");
         assertTrue(entityMapParser.getEntities().size() > 0);
     }
 
@@ -19,7 +19,7 @@ class EntityMapParserTest {
         try{
             EntityMapParser entityMapParser = new EntityMapParser("Entity_Noexist");
         } catch (IllegalStateException e) {
-            assertEquals("fileUploadError", e.getMessage());
+            assertEquals("simFileUploadError", e.getMessage());
         }
     }
 }
