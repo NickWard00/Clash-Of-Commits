@@ -103,7 +103,8 @@ public class Controller {
             myViewObstacles = myView.getViewObstacles();
         } catch (IllegalStateException e){
             errorOccurred = true;
-            showMessage(Alert.AlertType.ERROR, labels.getString(e.getMessage()), e);
+            //showMessage(Alert.AlertType.ERROR, labels.getString(e.getMessage()), e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -262,9 +263,9 @@ public class Controller {
         mapWrapper.setObstacleStateMap(mapParser.getObstacleStateMap());
 
         if (!loadSave) {
-            EntityMapParser entityMapParser = new EntityMapParser("Entity_" + map);
+            EntityMapParser entityMapParser = new EntityMapParser(myLabels.getString(String.format("EntityMap_%s", map)));
             myModelEntities = entityMapParser.getEntities();
-            PowerUpParser powerUpMapParser = new PowerUpParser();
+            PowerUpParser powerUpMapParser = new PowerUpParser(myLabels.getString(String.format("PowerUpMap_%s", map)));
             myModelPowerUps = powerUpMapParser.allPowerUps();
         }
 

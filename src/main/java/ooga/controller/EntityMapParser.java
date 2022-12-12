@@ -12,7 +12,6 @@ public class EntityMapParser {
     private Properties properties;
     private Map<String, Entity> entities;
     private static final String ENTITY_PACKAGE = "ooga.model.%s.%s";
-    private static final String ENTITY_MAP_DIRECTORY = "data/%s.sim";
 
     /**
      * Constructor for EntityMapParser, constructs the entities from the entity map (parsing)
@@ -21,7 +20,7 @@ public class EntityMapParser {
     public EntityMapParser(String entityMapLocation) throws IllegalStateException {
         entities = new HashMap<>();
         GeneralParser simParser = new GeneralParser();
-        properties = simParser.getSimData(String.format(ENTITY_MAP_DIRECTORY, entityMapLocation));
+        properties = simParser.getSimData(entityMapLocation);
         properties.entrySet().forEach(entry->{
             String entityName = (String) entry.getKey();
             String[] entityDataArray = ((String) entry.getValue()).replaceAll("\\s+","").split(",");

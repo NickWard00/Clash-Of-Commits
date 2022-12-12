@@ -6,16 +6,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class PowerUpParser {
-
     private Map<List<Double>, PowerUp> myPowerUps;
-    private static final String POWER_UP_DATA_DIRECTORY = "data/PowerUp_MainMap.sim";
     private static final String POWER_UP_PATH = "ooga.model.powerup.";
     private Properties powerUpProperties;
 
-    public PowerUpParser() {
+    public PowerUpParser(String powerUpPath) throws IllegalStateException {
         GeneralParser simParser = new GeneralParser();
         myPowerUps = new HashMap<>();
-        powerUpProperties = simParser.getSimData(POWER_UP_DATA_DIRECTORY);
+        powerUpProperties = simParser.getSimData(powerUpPath);
     }
 
     public Map<List<Double>, PowerUp> allPowerUps() {
