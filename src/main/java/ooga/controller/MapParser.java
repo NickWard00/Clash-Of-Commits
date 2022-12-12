@@ -4,7 +4,10 @@ import ooga.view.MapWrapper;
 
 import java.util.*;
 
-
+/**
+ * This class is responsible for parsing the map properties file
+ * @author Nick Ward
+ */
 public class MapParser {
     private Properties properties;
     private Map<String, String> mapInfo;
@@ -21,7 +24,7 @@ public class MapParser {
      * Constructor for MapParser
      * @param mapSim
      */
-    public MapParser(String mapSim) {
+    public MapParser(String mapSim) throws IllegalStateException {
         GeneralParser simParser = new GeneralParser();
         mapInfo = new HashMap<>();
         mapCSVSelection = new HashMap<>();
@@ -38,7 +41,7 @@ public class MapParser {
     /**
      * Sets up the map wrapper map will all of the maps per level
      */
-    private void setupMapWrapperMap() {
+    private void setupMapWrapperMap() throws IllegalStateException {
         CSVParser csvParser = new CSVParser();
         mapCSVSelection.entrySet().forEach(entry->{
             String key = entry.getKey();

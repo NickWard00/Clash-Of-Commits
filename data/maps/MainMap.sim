@@ -1,4 +1,4 @@
-Title=Example Side Scroller
+Title=Adventure Game
 Author=Nicki Lee
 Mode=solo (solo, two-player, or timed)
 Description=A super cool side scroller game that will blow Professor Duvall's socks off
@@ -7,7 +7,7 @@ BoxSize=30
 Cell0=/blocks/grass.jpeg
 Cell1=/blocks/stump.jpeg
 Cell2=/blocks/bush.jpeg
-Cell3=/blocks/ice.jpeg
+Cell3=/blocks/water.jpeg
 Cell4=/blocks/flower_grass.jpeg
 Cell5=/blocks/grass_edge_east.jpeg
 Cell6=/blocks/grass_edge_north.jpeg
@@ -21,7 +21,7 @@ Cell13=/blocks/tree_3.jpeg
 Cell14=/blocks/winter_bush.jpeg
 Cell15=/blocks/winter_grass.jpeg
 Cell16=/blocks/winter_tree.jpeg
-Cell17=/blocks/heart.gif
+
 Obstacle0=Feature
 Obstacle1=ImmovableWall
 Obstacle2=DestroyableWall
@@ -39,6 +39,5 @@ Obstacle13=ImmovableWall
 Obstacle14=DestroyableWall
 Obstacle15=Feature
 Obstacle16=ImmovableWall
-Obstacle17=PowerUp
 
 Map=data/maps/MainMap.csv

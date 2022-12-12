@@ -1,11 +1,10 @@
 package ooga.view;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -43,6 +42,8 @@ public class View {
     private ResourceBundle labels;
     private String myGameType;
 
+    private List walkingActions = new ArrayList<KeyCode>(Arrays.asList(KeyCode.UP,KeyCode.DOWN, KeyCode.LEFT, KeyCode.RIGHT, KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D));
+
     /**
      * Constructor for the View class
      * @param stage the stage to be displayed
@@ -62,7 +63,7 @@ public class View {
      * The step function for the view that moves the stackpane and checks for collisions
      * @param elapsedTime the time elapsed
      */
-    public void step(double elapsedTime){
+    public void step(double elapsedTime) throws IllegalStateException {
         stackPane.setTranslateX((myScene.getWidth() - blockSize) / 2 - myHeroView.getX());
         stackPane.setTranslateY((myScene.getHeight() - blockSize) / 2 - myHeroView.getY());
         if (isActive) {
@@ -83,7 +84,9 @@ public class View {
         setupMap();
 
         mainGameScreen = new MainGameScreen(stage, myController);
-        mainGameScreen.startGamePlay(mapPane, myViewEntities, myViewPowerUps);
+
+        mainGameScreen.startGamePlay(mapPane, myViewEntities, myViewPowerUps, myGameType);
+
         myScene = mainGameScreen.makeScene();
         setupWalkingMusic();
 
@@ -91,7 +94,6 @@ public class View {
 
         stage.setScene(myScene);
         stage.setTitle(myGameType);
-        stage.getIcons().add(new Image("sprites/hero/SOUTH_STATIONARY.GIF"));
 
         createScrollableBackground();
 
@@ -150,18 +152,22 @@ public class View {
     private void handleKeyInputs() {
         myScene.setOnKeyPressed(event -> {
             myController.checkKeyPress(event.getCode());
-            walking.play();
+            if(walkingActions.contains(event.getCode())) {
+                walking.play();
+            }
         });
         myScene.setOnKeyReleased(event -> {
             myController.checkKeyRelease(event.getCode());
-            walking.pause();
+            if(walkingActions.contains(event.getCode())) {
+                walking.pause();
+            }
         });
     }
 
     /**
      * Detects collisions for the view
      */
-    private void detectCollisions() {
+    private void detectCollisions() throws IllegalStateException {
         List<EntityView> myViewEntitiesList = myViewEntities.values().parallelStream().toList();
         for (EntityView entity : myViewEntitiesList) {
             List<AttackView> myViewAttackList = myViewAttacks.values().parallelStream().toList();
@@ -214,10 +220,18 @@ public class View {
         return myViewObstacles;
     }
 
+    /**
+     * Updates the HUD based on the inputted hearts
+     * @param num
+     */
     public void updateHealth(int num){
         mainGameScreen.getHud().updateHealth(num);
     }
 
+    /**
+     * Updates the HUD based on the score
+     * @param score
+     */
     public void updateScore(int score) {
         mainGameScreen.getHud().updateScore(score);
     }

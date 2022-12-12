@@ -4,8 +4,9 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import javafx.geometry.Insets;
+import javafx.collections.ObservableList;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToolBar;
@@ -16,17 +17,17 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import ooga.controller.gameState.AdventureGameState;
 import ooga.controller.Controller;
 import ooga.controller.gameState.MapGameState;
+import ooga.controller.gameState.SurviveGameState;
 import ooga.view.*;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * @author Melanie Wang, Nick Ward, Mayari Merchant
+ * @author Melanie Wang, Nick Ward, Mayari Merchant, James Qu
  */
 
 /**
@@ -42,7 +43,7 @@ public class MainGameScreen extends SceneCreator {
     private Map<List<Integer>, BlockView> myViewPowerUps;
     private Group root;
     private BorderPane gameScreenPane;
-    private ScrollPane backgroundLayer;
+    private ScrollPane background;
     private ScrollPane mapLayer;
     private StackPane centerPaneConsolidated;
     private Pane characters;
@@ -54,6 +55,7 @@ public class MainGameScreen extends SceneCreator {
     private MediaPlayer walkPlayer;
     private Stage stage;
     private Scene myScene;
+    private String myGameType;
     private double overlaySize = Integer.parseInt(constants.getString("overlaySize"));
     private Pane overlay;
     private ImageView snowy = new ImageView(new Image(images.getString("snowyImage")));
@@ -82,18 +84,23 @@ public class MainGameScreen extends SceneCreator {
      * @param mapPane responsible for creating the view of the map
      * @param entities refers to all existing entities in the map
      */
-    public void startGamePlay(GridPane mapPane, Map<String, EntityView> entities, Map<List<Integer>, BlockView> powerups) {
-        isPlaying = true;
-        myViewEntities = entities;
-        myViewPowerUps = powerups;
+    public void startGamePlay(GridPane mapPane, Map<String, EntityView> entities, Map<List<Integer>, BlockView> powerups, String gameType) {
+        this.isPlaying = true;
+        this.myViewEntities = entities;
+        this.myGameType = gameType;
+        this.myViewPowerUps = powerups;
         this.mapPane = mapPane;
 
         music = new Media(new File(media.getString("lvl1")).toURI().toString());
         walk = new Media(new File(media.getString("walking")).toURI().toString());
         walkPlayer = new MediaPlayer(walk);
 
-        //TODO: Figure out how to decide what game state to use
-        mapGameState = new AdventureGameState(myViewEntities, controller);
+        if (gameType.equals("The Beginning") || gameType.equals("The Legend of Zelda for NES")) {
+            mapGameState = new AdventureGameState(myViewEntities, controller);
+        }
+        else if (gameType.equals("Survive")) {
+            mapGameState = new SurviveGameState(myViewEntities, controller);
+        }
     }
 
     /**
@@ -115,7 +122,7 @@ public class MainGameScreen extends SceneCreator {
         createHUD();
         myScene = new Scene(gameScreenPane, screenSize, screenSize);
         myScene.getStylesheets().add(styles.getString("DefaultCSS"));
-        musicPlayer= new MediaPlayer(music);
+        musicPlayer = new MediaPlayer(music);
         musicPlayer.setAutoPlay(true);
         nextScene();
 
@@ -206,16 +213,14 @@ public class MainGameScreen extends SceneCreator {
      * changes the CSS style and calls the set methods for setting non-CSS sheet related effects
      * @param style string that details which style to change to
      */
-    public void changeStyle(String style){
+    public void changeStyle(String style) throws IllegalStateException {
         myScene.getStylesheets().clear();
         myScene.getStylesheets().add(styles.getString(String.format("%sCSS",style)));
         try {
-            Method changeCSS = this.getClass().getDeclaredMethod(
-                    styleMethods.get(style));
+            Method changeCSS = this.getClass().getDeclaredMethod(styleMethods.get(style));
             changeCSS.invoke(this);
-
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException("noMethodFound", e);
         }
     }
 
@@ -267,7 +272,24 @@ public class MainGameScreen extends SceneCreator {
      * removes an obstacle from the scene
      * @param obstacle the obstacle to be removed
      */
-    public void removeObstacleFromScene(BlockView obstacle) { root.getChildren().remove(obstacle); }
+    public void removeObstacleFromScene(BlockView obstacle) {
+        double x = obstacle.getKey().get(0);
+        double y = obstacle.getKey().get(1);
+        double blockSizeX = obstacle.getFitWidth();
+        double blockSizeY = obstacle.getFitHeight();
+        mapPane.getChildren().remove(obstacle);
+        ImageView emptyGrass;
+        if (obstacle.getImagePath().contains("winter")){
+            emptyGrass = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("blocks/winter_grass.jpeg")));
+        }
+        else {
+            emptyGrass = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("blocks/grass.jpeg")));
+        }
+        emptyGrass.setFitWidth(blockSizeX);
+        emptyGrass.setFitHeight(blockSizeY);
+        mapPane.add(emptyGrass, (int) x, (int) y);
+        background.setContent(mapPane);
+    }
 
     /**
      * returns the stackpane that the map is located on
@@ -309,14 +331,14 @@ public class MainGameScreen extends SceneCreator {
     }
 
     public void nextScene() {
-        if (mapGameState.determineWin(1)) {
-            EndGameScreen winScreen = new EndGameScreen(stage, true);
+        if (mapGameState.determineWin(hud.getScore())) {
+            EndGameScreen winScreen = new EndGameScreen(stage, labels, hud.getScore(), myGameType, true);
             myScene = winScreen.makeScene();
             stage.setScene(myScene);
             stage.show();
         }
         else if (mapGameState.determineLost()) {
-            EndGameScreen loseScreen = new EndGameScreen(stage, false);
+            EndGameScreen loseScreen = new EndGameScreen(stage, labels, hud.getScore(), myGameType,false);
             myScene = loseScreen.makeScene();
             stage.setScene(myScene);
             stage.show();

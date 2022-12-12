@@ -66,4 +66,8 @@ public class MapView {
     public Map<List<Double>, BlockView> getViewObstacles() {
         return this.myViewObstacles;
     }
+
+    public int getBlockSize(){
+        return blockSize;
+    }
 }

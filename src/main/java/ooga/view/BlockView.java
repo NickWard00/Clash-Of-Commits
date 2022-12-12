@@ -46,4 +46,12 @@ public class BlockView extends ImageView {
     }
 
     public String getBlockViewType() { return blockViewType; }
+
+    /**
+     * Returns the image path
+     * @return image path
+     */
+    public String getImagePath() {
+        return imagePath;
+    }
 }

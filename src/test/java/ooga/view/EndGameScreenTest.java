@@ -2,24 +2,32 @@ package ooga.view;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
 import ooga.view.screens.EndGameScreen;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
+import java.util.ResourceBundle;
+
 class EndGameScreenTest extends DukeApplicationTest {
-  private EndGameScreen screen;
-  private Scene scene;
+  private EndGameScreen winScreen;
+  private Button playAgain;
+  private Button startGameButton;
 
-
-
+  @Override
+  public void start(Stage stage) {
+    winScreen = new EndGameScreen(stage, ResourceBundle.getBundle("ResourceBundles/LabelsBundle.properties"), 0, "The Beginning",true);
+    stage.setScene(winScreen.makeScene());
+    stage.show();
+    playAgain = lookup("#playAgainButton").query();
+  }
   @Test
-  void testCreateScreen() {
-    scene = screen.makeScene();
-    String expectedId = "WinningScreen";
-    String id = scene.getRoot().getId();
-    assertEquals(expectedId, id);
+  void testWinPlayAgainButton() {
+    clickOn(playAgain);
+    startGameButton = lookup("#startGame").query();
+    String expectedId = "Start Game";
+    assertEquals(expectedId, startGameButton.getText());
   }
 
 }

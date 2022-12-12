@@ -73,7 +73,8 @@ public class OpenNewGameScreen extends SceneCreator {
             controller.startAnimation();
         });
         slot3.setOnMouseClicked(event -> {
-            //TODO: add new game type
+            Controller controller = new Controller(stage, labels.getString("game3Map"), labels.getString("game3"), labels);
+            controller.startAnimation();
         });
     }
 }

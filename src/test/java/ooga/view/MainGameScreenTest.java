@@ -58,7 +58,7 @@ class MainGameScreenTest extends DukeApplicationTest {
         GridPane mapGrid = mapPane.createMap();
 
         MainGameScreen mainGameScreen = new MainGameScreen(myStage, controller);
-        mainGameScreen.startGamePlay(mapGrid, Map.of("Joe Mama", entityView), Map.of(Arrays.asList((int)xPos, (int)yPos), blockView));
+        mainGameScreen.startGamePlay(mapGrid, Map.of("Hello", entityView), Map.of(Arrays.asList((int)xPos, (int)yPos), blockView), "The Beginning");
         assertTrue(mainGameScreen.isPlaying());
     }
     @Test
@@ -74,7 +74,7 @@ class MainGameScreenTest extends DukeApplicationTest {
 
         try {
             mainGameScreen.makeScene();
-            mainGameScreen.startGamePlay(mapGrid, Map.of("Joe Mama", entityView), Map.of(Arrays.asList((int)xPos, (int)yPos), blockView));
+            mainGameScreen.startGamePlay(mapGrid, Map.of("Hello", entityView), Map.of(Arrays.asList((int)xPos, (int)yPos), blockView), "The Beginning");
         } catch(Exception e){
             //any other exception should be thrown by US
             assertEquals("Incorrect GamePlay", e.getMessage());

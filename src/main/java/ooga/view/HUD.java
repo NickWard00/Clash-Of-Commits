@@ -156,4 +156,12 @@ public class HUD extends SceneCreator {
     public void updateHealth(int newHealth){
         playerHealth.updateHealth(newHealth);
     }
+
+    /**
+     * Gets the score in the game
+     * @return the player's score
+     */
+    public int getScore() {
+        return playerScore;
+    }
 }
