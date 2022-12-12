@@ -29,6 +29,7 @@ public class AboutGamePopup extends VBox {
         intro = new Label(labels.getString("placeholder"));
         instructions = new Label(labels.getString("placeholder1"));
         this.getChildren().addAll(intro, instructions);
+        this.getStylesheets().add(SceneCreator.styles.getString("popupCSS"));
     }
 
 }

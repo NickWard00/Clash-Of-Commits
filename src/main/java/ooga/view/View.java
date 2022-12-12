@@ -4,6 +4,7 @@ import java.util.*;
 
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -39,6 +40,8 @@ public class View {
     private MediaPlayer walking;
     private ResourceBundle labels;
     private String myGameType;
+
+    private List walkingActions = new ArrayList<KeyCode>(Arrays.asList(KeyCode.UP,KeyCode.DOWN, KeyCode.LEFT, KeyCode.RIGHT, KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D));
 
     /**
      * Constructor for the View class
@@ -145,11 +148,15 @@ public class View {
     private void handleKeyInputs() {
         myScene.setOnKeyPressed(event -> {
             myController.handleKeyPress(event.getCode());
-            walking.play();
+            if(walkingActions.contains(event.getCode())) {
+                walking.play();
+            }
         });
         myScene.setOnKeyReleased(event -> {
             myController.handleKeyRelease(event.getCode());
-            walking.pause();
+            if(walkingActions.contains(event.getCode())) {
+                walking.pause();
+            }
         });
     }
 
