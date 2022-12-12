@@ -14,32 +14,24 @@ import ooga.view.EntityView;
 public class SurviveGameState extends MapGameState {
   private static final ResourceBundle constants = ResourceBundle.getBundle(
       "ResourceBundles.ViewConstants");
-  private int score;
-  private EntityView mainHero;
+  private String heroName;
 
   public SurviveGameState(Map<String, EntityView> viewEntities, Controller controller) {
     super(viewEntities, controller);
-    mainHero = viewEntities.get("Hero");
+    heroName = controller.getMainHeroName();
   }
 
   /**
+   *
    * Method to determine if the survive game is won
-   * @return boolean representing whether the adventure game is won or not
+   * @return boolean representing whether the survive game is won or not
    */
   @Override
-  public boolean determineWin(int score) {
-    this.score = score;
-    if (mainHero.getX() >= Double.parseDouble(constants.getString("surviveGameWinPosition"))) {
+  public boolean determineWin() {
+    if (viewEntities.get(heroName).getX() >= Double.parseDouble(constants.getString("surviveGameWinPosition"))) {
       return true;
     }
     return false;
   }
 
-  /**
-   * Method to get the score in the survive game
-   * @return score in the game
-   */
-  public int getScore() {
-    return this.score;
-  }
 }
