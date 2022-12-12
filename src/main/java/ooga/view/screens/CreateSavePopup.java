@@ -82,6 +82,7 @@ public class CreateSavePopup extends SceneCreator {
         }
         slot4.setOnMouseClicked(event ->{
             myController.saveGameToWeb(slot4.getNumber());
+            confirmSave();
         });
     }
 
@@ -94,9 +95,10 @@ public class CreateSavePopup extends SceneCreator {
         confirmation.initOwner(stage);
         Label saveDone = new Label(labels.getString("saveConfirmation"));
         Scene confirmationScene = new Scene(saveDone);
+        confirmationScene.getStylesheets().add(styles.getString("popupCSS"));
         confirmation.setScene(confirmationScene);
         confirmation.show();
-        PauseTransition delay = new PauseTransition(Duration.seconds(2));
+        PauseTransition delay = new PauseTransition(Duration.seconds(1.5));
         delay.setOnFinished(event -> confirmation.close());
         delay.play();
     }
