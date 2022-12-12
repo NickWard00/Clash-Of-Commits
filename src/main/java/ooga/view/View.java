@@ -79,7 +79,7 @@ public class View {
         setupMap();
 
         mainGameScreen = new MainGameScreen(stage, myController);
-        mainGameScreen.startGamePlay(mapPane, myViewEntities);
+        mainGameScreen.startGamePlay(mapPane, myViewEntities, myGameType);
         myScene = mainGameScreen.makeScene();
         setupWalkingMusic();
 
