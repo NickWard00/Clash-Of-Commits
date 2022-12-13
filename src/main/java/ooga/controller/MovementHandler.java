@@ -14,6 +14,7 @@ import java.util.Map;
 public class MovementHandler {
     private Controller controller;
     private String myMainHeroName;
+
     private static final Map<KeyCode, String> movementActions = Map.of(
             KeyCode.UP, "moveUp",
             KeyCode.DOWN, "moveDown",
@@ -37,7 +38,8 @@ public class MovementHandler {
             KeyCode.Q, "quit",
             KeyCode.L, "life",
             KeyCode.O, "forceField",
-            KeyCode.DIGIT2, "doubleScore"
+            KeyCode.DIGIT2, "doubleScore",
+            KeyCode.NUMPAD2, "doubleScore"
     );
     private boolean moving;
 
@@ -72,6 +74,9 @@ public class MovementHandler {
 
     private void attackStop(){
         controller.changeEntityState(myMainHeroName, MovementState.STATIONARY);
+    }
+    private void crossAttackStop() {
+
     }
     private void attack(){
         controller.attack();
@@ -157,7 +162,16 @@ public class MovementHandler {
     }
 
     private void crossAttack(){
+        /*moveLeftStop();
+        attack();
+        moveUpStop();
+        attack();
+        moveRightStop();
+        attack();
+        moveDownStop();
+        attack();*/
 
+        controller.crossAttack();
     }
 
     private void pause(){
@@ -167,28 +181,31 @@ public class MovementHandler {
 
     }
 
-    private void quit(){
+    public void quit(){
 
     }
 
-    private void block(){
+    public void block(){
 
     }
 
-    private void forceField(){
+    public void forceField(){
 
     }
 
-    private void addLife(){
-
+    public void life(){
+        controller.addLife();
     }
 
-    private void doubleScore(){
-
+    public void doubleScore(){
+        controller.doubleScore();
     }
 
-    private void doubleAttack(){
+    public void doubleAttack(){
 
+    }
+    public boolean isMoving(){
+        return moving;
     }
 
 

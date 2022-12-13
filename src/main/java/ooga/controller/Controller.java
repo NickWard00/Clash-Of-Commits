@@ -3,7 +3,6 @@ package ooga.controller;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-
 import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
@@ -38,6 +37,7 @@ public class Controller {
         "ResourceBundles.Score");
     private Timeline animation;
     private View myView;
+    private int score;
     private Model myModel;
     private MapWrapper mapWrapper;
     private boolean animationPlaying;
@@ -60,7 +60,6 @@ public class Controller {
     private String mapName;
     private Stage myStage;
     private DirectionState playerDirection;
-    private int score;
     private List<Double> newCoordinates;
     private ResourceBundle myLabels;
     private SaveFileParser saver = new SaveFileParser();
@@ -554,9 +553,10 @@ public class Controller {
             movementHandler.handleKeyRelease(movementActions.get(keyCode));
         } else if (attackActions.containsKey(keyCode)) {
             movementHandler.handleKeyRelease(attackActions.get(keyCode));
-        } else if(cheatCodeActions.containsKey(keyCode)) {
-            movementHandler.handleKeyRelease(cheatCodeActions.get(keyCode));
         }
+        /* else if(cheatCodeActions.containsKey(keyCode)) {
+            movementHandler.handleKeyRelease(cheatCodeActions.get(keyCode));
+        }*/
     }
 
 
@@ -567,8 +567,12 @@ public class Controller {
         myModel.attack();
         myView.changeEntityState(myMainHeroName, playerDirection, MovementState.ATTACK);
     }
+    public void crossAttack(){
+        //myModel.crossAttack();
+        myView.changeEntityState(myMainHeroName,playerDirection,MovementState.ATTACK);
+    }
 
-      public void changeEntityState(String entityName, DirectionState direction, MovementState movement){
+    public void changeEntityState(String entityName, DirectionState direction, MovementState movement){
         playerDirection = direction;
         myModel.changeEntityState(myMainHeroName, direction, movement);
         myView.changeEntityState(myMainHeroName, direction, movement);
@@ -679,5 +683,22 @@ public class Controller {
     }
     public void playPause(){
         
+    }
+
+    /**
+     * getter for MovementHandler to allow the MovementHandlerTest's
+     * Controller and MovementHandler to be appropriately linked
+     * @return
+     */
+    public MovementHandler getMovementHandler() {
+        return movementHandler;
+    }
+
+    public void addLife(){
+        myModel.addLife();
+    }
+    public void doubleScore(){
+        score*=2;
+        myView.updateScore(score);
     }
 }

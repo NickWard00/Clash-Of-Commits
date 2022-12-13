@@ -22,6 +22,7 @@ public abstract class Entity {
     private int hp;
     private double speed;
     private int size;
+    private boolean enabled;
     private DirectionState myDirection;
     private MovementState myMovement;
     private Map<String, String> myAttributes;
@@ -222,4 +223,10 @@ public abstract class Entity {
         attackType = newAttackType;
     }
 
+    public void disableAction(){
+        enabled = false;
+    }
+    public void enableAction(){
+        enabled = true;
+    }
 }

@@ -234,6 +234,10 @@ public class View {
      */
     public void updateScore(int score) {
         mainGameScreen.getHud().updateScore(score);
+        //myView.getGameScreen().nextScene();
+    }
+    public int getScore(){
+        return mainGameScreen.getHud().getScore();
     }
 
     /**
