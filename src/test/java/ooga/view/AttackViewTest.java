@@ -12,6 +12,9 @@ import java.util.ResourceBundle;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * @author Nick Ward
+ */
 class AttackViewTest extends DukeApplicationTest {
     private String attackType;
     private double xPos;

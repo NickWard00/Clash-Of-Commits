@@ -7,6 +7,9 @@ import ooga.model.state.MovementState;
 
 import java.util.Map;
 
+/**
+ * @author Nick Ward
+ */
 public class Model {
     private Controller myController;
     private Map<String, Entity> myModelEntities;

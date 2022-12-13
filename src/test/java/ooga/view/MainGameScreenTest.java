@@ -15,6 +15,9 @@ import java.util.ResourceBundle;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Nick Ward, Mayari Merchant
+ */
 class MainGameScreenTest extends DukeApplicationTest {
     private Map<String, String> entityAttributes;
     private String imageName;

@@ -11,6 +11,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Nicki Lee
+ */
 class BlockViewTest {
     private BlockView blockView;
     private HashMap<Integer, String> expectedValues;

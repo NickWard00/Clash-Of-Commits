@@ -5,6 +5,9 @@ import ooga.model.entities.Entity;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * @author Nicki Lee, Nick Ward
+ */
 public class HealPowerUp extends PowerUp {
     private static final String POWER_UP_TYPE = "HealPowerUp";
     private static final int ADDITIONAL_HP = 1;

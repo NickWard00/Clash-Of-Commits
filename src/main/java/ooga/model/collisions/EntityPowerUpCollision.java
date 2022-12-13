@@ -6,6 +6,9 @@ import ooga.model.powerup.PowerUp;
 
 import java.util.Map;
 
+/**
+ * @author Nicki Lee
+ */
 public class EntityPowerUpCollision extends Collision {
     public EntityPowerUpCollision(Map<String, Map<?, ?>> viewModelMap) {
         super(viewModelMap);

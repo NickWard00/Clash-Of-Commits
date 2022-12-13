@@ -10,6 +10,9 @@ import util.DukeApplicationTest;
 
 import java.util.ResourceBundle;
 
+/**
+ * @author James Qu
+ */
 class EndGameScreenTest extends DukeApplicationTest {
   private EndGameScreen winScreen;
   private Button playAgain;

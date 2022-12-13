@@ -2,6 +2,9 @@ package ooga.model.enemy;
 
 import java.util.Map;
 
+/**
+ * @author Nicki Lee
+ */
 public class Bug extends Enemy {
     /**
      * Constructor for the Bug subclass which extends Enemy

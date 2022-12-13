@@ -7,6 +7,9 @@ import ooga.view.EntityView;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Nicki Lee
+ */
 public class AttackEntityCollision extends Collision {
 
     private Map<String, EntityView> viewEntities;

@@ -6,6 +6,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * @author Nicki Lee, Nick Ward
+ */
 public abstract class PowerUp {
     private static final ResourceBundle POWER_UP_BUNDLE = ResourceBundle.getBundle("ResourceBundles.PowerUp");
     private String powerUpType;

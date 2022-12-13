@@ -6,6 +6,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
+@author Nick Ward
+ **/
+/**
  * This class takes in an entitymap and creates the entities associated with the map
  */
 public class EntityMapParser {

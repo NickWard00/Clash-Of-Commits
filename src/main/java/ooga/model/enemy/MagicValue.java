@@ -2,6 +2,9 @@ package ooga.model.enemy;
 
 import java.util.Map;
 
+/**
+ * @author Nicki Lee
+ */
 public class MagicValue extends Enemy {
     /**
      * Constructor for the MagicValue subclass which extends Enemy

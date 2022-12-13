@@ -5,6 +5,10 @@ import ooga.model.powerup.PowerUp;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+/**
+ * @author Nick Ward
+ *
+ */
 public class PowerUpParser {
     private Map<List<Double>, PowerUp> myPowerUps;
     private static final String POWER_UP_PATH = "ooga.model.powerup.";
