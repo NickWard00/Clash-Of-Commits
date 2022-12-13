@@ -57,5 +57,6 @@ class AttackEntityCollisionTest extends DukeApplicationTest {
     @Test
     void collideTest() {
         myCollision.collide(attack, hero);
+        assertInstanceOf(AttackEntityCollision.class, myCollision);
     }
 }
