@@ -23,6 +23,9 @@ import ooga.view.View;
 import java.util.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * @author Nick Ward, Melanie Wang, Nicki Lee
@@ -59,6 +62,7 @@ public class Controller {
     private ResourceBundle myLabels;
     private SaveFileParser saver = new SaveFileParser();
     private boolean errorOccurred;
+    private static final Logger LOG = LogManager.getLogger(Controller.class);
 
     /**
      * Constructor for the controller, which initializes the model and view and sets up map based on map name
@@ -114,8 +118,8 @@ public class Controller {
             myViewObstacles = myView.getViewObstacles();
         } catch (IllegalStateException e){
             errorOccurred = true;
-            //showMessage(Alert.AlertType.ERROR, labels.getString(e.getMessage()), e);
-            throw new RuntimeException(e);
+            showMessage(Alert.AlertType.ERROR, labels.getString(e.getMessage()), e);
+            LOG.error(e);
         }
 
     }

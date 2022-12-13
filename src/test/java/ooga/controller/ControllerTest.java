@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,7 +24,7 @@ public class ControllerTest extends DukeApplicationTest {
     }
 
     void setupController(Stage stage) {
-        controller = new Controller(stage, "MainMap","", null);
+        controller = new Controller(stage, "MainMap","", ResourceBundle.getBundle("ResourceBundles.LabelsBundle"));
     }
 
     @Test
