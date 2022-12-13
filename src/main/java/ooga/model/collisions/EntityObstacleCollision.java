@@ -30,9 +30,6 @@ public class EntityObstacleCollision extends Collision {
             EntityView heroEntityView = viewEntities.get(entity.getMyAttributes().get("Name"));
             heroEntityView.setX(knockBackCoordinate.get(0));
             heroEntityView.setY(knockBackCoordinate.get(1));
-        /** } else if (entity.getClass() == MainHero.class && obstacle.getClass() == PowerUp.class) {
-            ((PowerUp) obstacle).upgradeHP(entity, POWERUP_HP_ADDER);
-            ((PowerUp) obstacle).remove(); */
         } else if (obstacle.getBlocker()) {
             String myName = entity.getMyAttributes().get("Name");
             EntityView myEntityView = viewEntities.get(myName);

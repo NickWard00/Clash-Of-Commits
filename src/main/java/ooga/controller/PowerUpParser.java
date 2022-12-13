@@ -40,7 +40,7 @@ public class PowerUpParser {
         return myPowerUps;
     }
 
-    private PowerUp createPowerUp(String name, String type, int x, int y) {
+    public PowerUp createPowerUp(String name, String type, int x, int y) {
         try {
             Class powerUpClass = Class.forName(String.format("%s%s", POWER_UP_PATH, type));
             Object o = powerUpClass.getConstructor(String.class, int.class, int.class).newInstance(name, x, y);
