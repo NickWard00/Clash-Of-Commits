@@ -2,6 +2,8 @@ package ooga.controller;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
+
 import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
@@ -20,6 +22,7 @@ import ooga.view.EntityView;
 import ooga.view.MapWrapper;
 import ooga.view.View;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 import java.lang.reflect.InvocationTargetException;
