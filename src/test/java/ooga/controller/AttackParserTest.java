@@ -27,10 +27,10 @@ class AttackParserTest {
         Map<String, Double> attributes = attackParser.getAttributeMap();
         Double expectedSpeed = 120.0;
         Double expectedDamage = -1.0;
-        Double expectedCoolDown = 0.2;
         assertEquals(expectedSpeed, attributes.get("Speed"));
         assertEquals(expectedDamage, attributes.get("Damage"));
-        assertEquals(expectedCoolDown, attributes.get("CoolDown"));
+        assertEquals(1.0, attributes.get("MaxDuration"));
+        assertEquals(10, attributes.get("Size"));
     }
 
 }

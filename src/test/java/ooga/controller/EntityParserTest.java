@@ -35,7 +35,7 @@ class EntityParserTest {
         try{
             EntityParser entityParser = new EntityParser(name, entityData);
         } catch (IllegalStateException e) {
-            assertEquals("fileUploadError", e.getMessage());
+            assertEquals("simFileUploadError", e.getMessage());
         }
     }
 
