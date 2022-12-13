@@ -62,6 +62,9 @@ Cheat Keys:
 SHIFT - doubles the player's speed while moving into a sprint 
 L - adds a life to the player's HP 
 2 - doubles the player's score 
+X - shoots out an attack in all four directions (currently non-functional due to inability to disable cooldown time for cheat keys)
+F - unimplemented cheat code to freeze all enemy movement for one second 
+B - unimplemented cheat code to disable player's health points from decreasing following collision with an attack 
 P - not necessarily a cheat key, but a keyboard shortcut to pause the game 
 Q - not necessarily a cheat key, but a keyboard shortcut to quit the game back to title screen 
 

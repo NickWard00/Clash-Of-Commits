@@ -208,7 +208,7 @@ public abstract class Entity {
     }
 
     /**
-     *
+     * method to disable movement of certain entities for cheat keys
      * @return true if the entity's MovementState is MOVING 
      */
     public boolean isMoving(){

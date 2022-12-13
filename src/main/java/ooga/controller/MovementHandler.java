@@ -76,7 +76,7 @@ public class MovementHandler {
         controller.changeEntityState(myMainHeroName, MovementState.STATIONARY);
     }
     private void crossAttackStop() {
-
+        controller.changeEntityState(myMainHeroName, DirectionState.SOUTH, MovementState.STATIONARY);
     }
     private void attack(){
         controller.attack();
@@ -162,16 +162,16 @@ public class MovementHandler {
     }
 
     private void crossAttack(){
-        /*moveLeftStop();
+        moveLeftStop();
         attack();
         moveUpStop();
         attack();
         moveRightStop();
         attack();
         moveDownStop();
-        attack();*/
-
-        controller.crossAttack();
+        attack();
+        attackStop();
+        //controller.crossAttack();
     }
 
     private void playPause(){
@@ -186,26 +186,20 @@ public class MovementHandler {
     public void block(){
 
     }
-
     public void forceField(){
 
     }
-
     public void life(){
         controller.addLife();
     }
-
     public void doubleScore(){
         controller.doubleScore();
     }
-
     public void doubleAttack(){
 
     }
     public boolean isMoving(){
         return moving;
     }
-
-
 
 }

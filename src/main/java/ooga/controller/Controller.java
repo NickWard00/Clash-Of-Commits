@@ -514,7 +514,7 @@ public class Controller {
      * @param keyCode
      */
     private void changeHeroAttack(KeyCode keyCode) {
-        if (keyCode.isWhitespaceKey()) {
+        if (!keyCode.equals(KeyCode.Z)) {
             myModelEntities.get(myMainHeroName).setAttackType("LongRange");
         } else {
             myModelEntities.get(myMainHeroName).setAttackType("ShortRange");
