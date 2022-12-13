@@ -1,6 +1,8 @@
 package ooga.view;
 
 import javafx.stage.Stage;
+import ooga.model.state.DirectionState;
+import ooga.model.state.MovementState;
 import ooga.view.screens.StartScreen;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
@@ -8,6 +10,7 @@ import util.DukeApplicationTest;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class EntityViewTest extends DukeApplicationTest {
     private Map<String, String> entityAttributes;
@@ -53,5 +56,18 @@ class EntityViewTest extends DukeApplicationTest {
     void testEntityViewSize() {
         assertEquals(size, entityView.getFitWidth());
         assertEquals(size, entityView.getFitHeight());
+    }
+
+    @Test
+    void testChangeDirection() {
+        entityView.changeDirectionAndMovement(DirectionState.NORTH, MovementState.MOVING);
+        entityView.changeDirectionAndMovement(DirectionState.SOUTH, MovementState.MOVING);
+        entityView.changeDirectionAndMovement(DirectionState.EAST, MovementState.MOVING);
+        entityView.changeDirectionAndMovement(DirectionState.WEST, MovementState.MOVING);
+        entityView.changeDirectionAndMovement(DirectionState.NORTH, MovementState.STATIONARY);
+        entityView.changeDirectionAndMovement(DirectionState.SOUTH, MovementState.STATIONARY);
+        entityView.changeDirectionAndMovement(DirectionState.EAST, MovementState.STATIONARY);
+        entityView.changeDirectionAndMovement(DirectionState.WEST, MovementState.STATIONARY);
+        assertTrue(entityView.getKey() != null);
     }
 }

@@ -80,4 +80,13 @@ class MainGameScreenTest extends DukeApplicationTest {
             assertEquals("Incorrect GamePlay", e.getMessage());
         }
     }
+
+    @Test
+    void testChangeCSS(){
+        MainGameScreen mainGameScreen = new MainGameScreen(myStage, controller);
+        mainGameScreen.makeScene();
+        mainGameScreen.startGamePlay(new GridPane(), Map.of("Hello", entityView), Map.of(Arrays.asList((int)xPos, (int)yPos), blockView), "The Beginning");
+        mainGameScreen.changeStyle("test");
+        assertEquals("test", mainGameScreen.makeScene().getStylesheets().get(0));
+    }
 }

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,16 +26,11 @@ class BlockViewTest {
 
     @Test
     void createBlockView(){
-        /*mapBlocks();
-        String actualPath;
-        String expectedPath;
-        for(int i = 0; i<4; i++) {
-            blockView = new BlockView(0, 0, i, new GridPane());
-            actualPath = blockView.getImagePath();
-            expectedPath = "/blocks/" + expectedValues.get(i%4);
-            //System.out.println(i + ": actual: "+ actualPath + " expected: " + expectedPath);
-            assertEquals(actualPath, expectedPath);
-        }*/
+        mapBlocks();
+        for (int i = 0; i < 4; i++){
+            blockView = new BlockView(0, 0, 0, i, "resources/sprites/obstacles/", "Obstacle");
+            assertEquals(List.of(0,0), blockView.getKey());
+        }
     }
 
 }

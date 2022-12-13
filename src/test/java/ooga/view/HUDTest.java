@@ -41,7 +41,7 @@ public class HUDTest extends DukeApplicationTest {
     @Test
     void testAboutPopup(){
         VBox slotBox = lookup("#slotbox").query();
-        GameSlot first = (GameSlot) slotBox.getChildren().get(0);
+        GameSlot first = (GameSlot) slotBox.getChildren().get(1);
         clickOn(first);
         ToolBar hud = lookup("#HUD").query();
         about = (Button) hud.getItems().get(2);
@@ -54,7 +54,7 @@ public class HUDTest extends DukeApplicationTest {
     @Test
     void testPausePlayButton(){
         VBox slotBox = lookup("#slotbox").query();
-        GameSlot first = (GameSlot) slotBox.getChildren().get(0);
+        GameSlot first = (GameSlot) slotBox.getChildren().get(1);
         clickOn(first);
         ToolBar hud = lookup("#HUD").query();
         Button playPause = (Button) hud.getItems().get(3);
