@@ -21,7 +21,7 @@ Melanie Wang: Did the majority of the GUI frontend design and implementation exc
 
 Nicki Lee: Was responsible for enemy and hero attacks, powerups, and detecting those specific collisions. Also created most of the model structures.
 
-Mayari Merchant: Worked on error handling and cheat keys. Supported Nicki and James on collision detection. 
+Mayari Merchant: Worked on error handling and cheat keys. Supported Nicki and James on collision detection. Refactored bulky methods and classes. 
 
 James Qu: Was responsible for obstacles and handling their collisions with entities. Also played roles in the frontend (scoring).
 
@@ -58,7 +58,12 @@ Errors handled:
 * All errors are thrown as IllegalStateExceptions and are caught in the controller and displayed to the user
 * The key along with each of the errors corresponds to a key in the ResourceBundle so that errors can be displayed in different languages
 
-Cheat Keys:
+Cheat Keys: 
+SHIFT - doubles the player's speed while moving into a sprint 
+L - adds a life to the player's HP 
+2 - doubles the player's score 
+P - not necessarily a cheat key, but a keyboard shortcut to pause the game 
+Q - not necessarily a cheat key, but a keyboard shortcut to quit the game back to title screen 
 
 Features implemented:
 1. Language Selection- player can select between 4 languages.
@@ -105,7 +110,7 @@ We have also implemented extra features that make our game more enjoyable to pla
 
 
 ### Impressions
-We had a lot of fun coding this assignment. Right guys?
+We had a lot of fun coding this assignment. Right guys? Right. 
 Overall, I think our group enjoyed this assignment because we had a lot of creative freedom with it. We also lucked out in the random team selection
 because everyone contributed pretty regularly to our game's development. I think in order to improve this assignment, you should ~~behead~~ penalize any students that don't do their fair share of work.
 Also, the assignment is a LOT of work. We had everyone working regularly, pulling an easy 15-20 hours a week and still
