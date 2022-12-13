@@ -259,5 +259,8 @@ public class View {
     public Scene getScene(){
         return myScene;
     }
+    public void updatePlayPause(boolean playing){
+        mainGameScreen.getHud().updatePlayPause(playing);
+    }
 }
 

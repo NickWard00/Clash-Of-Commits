@@ -15,7 +15,7 @@ public class MovementHandler {
     private Controller controller;
     private String myMainHeroName;
 
-    private static final Map<KeyCode, String> movementActions = Map.of(
+    public static final Map<KeyCode, String> MOVEMENT_ACTIONS = Map.of(
             KeyCode.UP, "moveUp",
             KeyCode.DOWN, "moveDown",
             KeyCode.RIGHT, "moveRight",
@@ -26,14 +26,14 @@ public class MovementHandler {
             KeyCode.A, "moveLeft",
             KeyCode.SHIFT, "sprint"
     );
-    private static final Map<KeyCode, String> attackActions = Map.of(
+    public static final Map<KeyCode, String> ATTACK_ACTIONS = Map.of(
             KeyCode.SPACE, "attack",
             KeyCode.Z, "attack",
             KeyCode.X, "crossAttack"
     );
-    private static final Map<KeyCode, String> cheatCodeActions = Map.of(
+    public static final Map<KeyCode, String> CHEAT_CODE_ACTIONS = Map.of(
             KeyCode.B, "block",
-            KeyCode.P, "pause",
+            KeyCode.P, "playPause",
             KeyCode.Q, "quit",
             KeyCode.L, "life",
             KeyCode.O, "forceField",
@@ -174,12 +174,10 @@ public class MovementHandler {
         controller.crossAttack();
     }
 
-    private void pause(){
+    private void playPause(){
         controller.playPause();
     }
-    private void pauseStop(){
 
-    }
 
     public void quit(){
         controller.quitToTitle();
