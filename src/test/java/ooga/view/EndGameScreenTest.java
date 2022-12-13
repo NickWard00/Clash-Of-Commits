@@ -17,7 +17,7 @@ class EndGameScreenTest extends DukeApplicationTest {
 
   @Override
   public void start(Stage stage) {
-    winScreen = new EndGameScreen(stage, ResourceBundle.getBundle("ResourceBundles/LabelsBundle.properties"), 0, "The Beginning",true);
+    winScreen = new EndGameScreen(stage, ResourceBundle.getBundle("ResourceBundles/LabelsBundle"), 0, "The Beginning",true);
     stage.setScene(winScreen.makeScene());
     stage.show();
     playAgain = lookup("#playAgainButton").query();

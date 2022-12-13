@@ -25,8 +25,6 @@ public class HealthStatus extends HBox {
             this.getChildren().add(new ImageView(new Image(SceneCreator.images.getString("healthImage"))));
         }
         this.getStyleClass().add("HealthStatus");
-        //this.setSpacing(5);
-        //this.setMinWidth(300);
     }
 
     /**

@@ -27,7 +27,7 @@ class MapParserTest {
         try {
             MapParser mapParser = new MapParser("noexistmap");
         } catch (IllegalStateException e) {
-            assertEquals("fileUploadError", e.getMessage());
+            assertEquals("simFileUploadError", e.getMessage());
         }
     }
 

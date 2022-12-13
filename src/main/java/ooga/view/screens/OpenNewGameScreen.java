@@ -13,13 +13,14 @@ import ooga.view.MapWrapper;
 import java.util.ResourceBundle;
 
 /**
+ * This screen is for when a player wishes to start a brand new game.
  * @author Melanie Wang
  */
-//this screen is for when a player wishes to start a brand new game.
 public class OpenNewGameScreen extends SceneCreator {
     private GameSlot slot1;
     private GameSlot slot2;
     private GameSlot slot3;
+    private GameSlot slot4;
     private StackPane background;
     private ResourceBundle labels;
     private ResourceBundle styles;
@@ -38,8 +39,9 @@ public class OpenNewGameScreen extends SceneCreator {
         screenSize = getScreenSize();
     }
 
-    /*
-    makes the scene
+    /**
+     * Creates the scene for the screen
+     * @return the scene
      */
     @Override
     public Scene makeScene(){
@@ -50,7 +52,9 @@ public class OpenNewGameScreen extends SceneCreator {
         slot1.setId("slot2");
         slot3 = new GameSlot(labels.getString("game3"), labels);
         slot1.setId("slot3");
-        VBox slots = new VBox(slot1,slot2,slot3);
+        slot4 = new GameSlot(labels.getString("game4"), labels);
+        slot1.setId("slot4");
+        VBox slots = new VBox(slot1,slot2,slot3,slot4);
         slots.getStyleClass().add("vbox");
         slots.setId("slotbox");
         slots.setAlignment(Pos.CENTER);
@@ -62,7 +66,9 @@ public class OpenNewGameScreen extends SceneCreator {
         return scene;
     }
 
-    //handles clicking on the slots
+    /**
+     * Handles clicking on the slots
+     */
     private void handleEvents(){
         slot1.setOnMouseClicked(event -> {
             Controller controller = new Controller(stage, labels.getString("game1Map"), labels.getString("game1"), labels);
@@ -74,6 +80,10 @@ public class OpenNewGameScreen extends SceneCreator {
         });
         slot3.setOnMouseClicked(event -> {
             Controller controller = new Controller(stage, labels.getString("game3Map"), labels.getString("game3"), labels);
+            controller.startAnimation();
+        });
+        slot4.setOnMouseClicked(event -> {
+            Controller controller = new Controller(stage, labels.getString("game4Map"), labels.getString("game4"), labels);
             controller.startAnimation();
         });
     }

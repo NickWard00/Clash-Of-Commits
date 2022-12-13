@@ -177,17 +177,6 @@ public class SaveFileParser {
     }
 
     /**
-     * Deletes the save file based on the save file number
-     * @param saveFile the save file number
-     */
-    public void deleteSaveFile(int saveFile) throws IllegalStateException {
-        File file = new File(String.format(SAVE_DIRECTORY, saveFile));
-        if (!file.delete()){
-            throw new IllegalStateException("cannotDeleteSaveFile");
-        }
-    }
-
-    /**
      * Loads the information of a save file if given the save file number
      * @param num the number of the save file
      */

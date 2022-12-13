@@ -16,10 +16,11 @@ import ooga.view.EntityView;
 public abstract class MapGameState {
   private static final ResourceBundle viewConstants = ResourceBundle.getBundle(
       "ResourceBundles.ViewConstants");
-  private Map<String, EntityView> viewEntities;
+  protected Map<String, EntityView> viewEntities;
   private Map<String, Entity> modelEntities;
   private String hero;
-  private Controller controller;
+  protected Controller controller;
+  protected int score;
 
   public MapGameState(Map<String, EntityView> viewEntities, Controller controller) {
     this.viewEntities = viewEntities;
@@ -27,10 +28,18 @@ public abstract class MapGameState {
   }
 
   /**
+   * Used to update and keep track of the score of the game type
+   */
+  public void updateScore(int score) {
+    this.score = score;
+  }
+
+
+  /**
    * Abstract method to determine if the game is won
    * @return boolean representing whether the certain game is won or not
    */
-  public abstract boolean determineWin(int score);
+  public abstract boolean determineWin();
 
   /**
    * Used to determine if the game is lost.
@@ -46,5 +55,12 @@ public abstract class MapGameState {
       return true;
     }
     return false;
+  }
+
+  /**
+   * Used to get the score of the certain game type
+   */
+  public int getScore() {
+    return this.score;
   }
 }

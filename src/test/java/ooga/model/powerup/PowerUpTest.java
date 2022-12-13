@@ -19,21 +19,23 @@ class PowerUpTest {
   private PowerUp powerUp;
   private MainHero hero;
 
+  private static final int TEST_HP = 1;
+  private static final int TEST_DEFAULT_X_POSITION = 1;
+  private static final int TEST_DEFAULT_Y_POSITION = 1;
 
   @BeforeEach
   void setUp() {
-    powerUpParser = new PowerUpParser("data/entity-powerup-maps/PowerUp_MainMap.sim");
-    powerUp = powerUpParser.createPowerUp("TestPowerUp", "HealPowerUp", 2,2);
+    powerUp = new HealPowerUp("test1", TEST_DEFAULT_X_POSITION, TEST_DEFAULT_Y_POSITION);
     heroParser = new EntityParser("TestHero", new String[]{"MainHero", "5", "5"});
     hero = new MainHero(heroParser.getAttributeMap());
   }
 
 
   @Test
-  void getKeyTest() {
-    List<Integer> expected = Arrays.asList(2,2);
-    List<Integer> actual = powerUp.getKey();
-    assertEquals(expected, actual);
+  void testUpdateHP() {
+    int hpBefore = hero.getHp();
+    powerUp.activatePowerUp(hero);
+    assertEquals(hpBefore + 1, hero.getHp());
   }
 
   @Test
