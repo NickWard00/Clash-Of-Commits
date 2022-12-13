@@ -51,4 +51,12 @@ class AttackTest {
     void attackTest_ShortRange() {
         Attack testShortRange = testBug.attack();
         assertInstanceOf(ShortRange.class, testShortRange);
-    }}
+    }
+
+    @Test
+    void activeAttackTest() {
+        Attack attack = testBug.attack();
+        attack.activateAttack();
+        assertTrue(attack.getMyEntity().isMoving());
+    }
+}

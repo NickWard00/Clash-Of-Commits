@@ -236,8 +236,17 @@ public class View {
         mainGameScreen.getHud().updateScore(score);
     }
 
-    public double getBlockSize() { return blockSize; }
+    /**
+     * Returns the block size
+     * @return the block size
+     */
+    public double getBlockSize() {
+        return blockSize;
+    }
 
+    /**
+     * Sets the view powerups
+     */
     public void setViewPowerUps() {
         myViewPowerUps = myController.getViewPowerUps();
         mainGameScreen.addPowerUpsToRoot();
