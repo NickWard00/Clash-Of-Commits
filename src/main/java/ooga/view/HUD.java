@@ -158,6 +158,18 @@ public class HUD extends SceneCreator {
         playerHealth.updateHealth(newHealth);
     }
 
+    public void updatePlayPause(boolean playing){
+        play = playing;
+        try {
+            Method tryButton = this.getClass().getDeclaredMethod(
+                    playPauseMethods.get(play));
+            tryButton.invoke(this);
+
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            throw new IllegalStateException("noMethodFound", e);
+        }
+    }
+
     /**
      * Gets the score in the game
      * @return the player's score

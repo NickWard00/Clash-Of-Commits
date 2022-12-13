@@ -14,6 +14,7 @@ public class Model {
     private Controller myController;
     private Map<String, Entity> myModelEntities;
     private Entity myHeroModel;
+    private static final int ADDITIONAL_HP = 1;
 
     /**
      * Constructor for the Model class
@@ -55,6 +56,15 @@ public class Model {
             entity.changeMovement(movement);
         }
     }
+
+    /**
+     * Changes HP of hero upon L "increase life" cheat key
+     * @author Mayari Merchant
+     */
+    public void addLife(){
+        myHeroModel.changeHp(ADDITIONAL_HP);
+    }
+
 
     /**
      * Actives the attack of the hero

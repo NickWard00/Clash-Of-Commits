@@ -14,7 +14,8 @@ import java.util.Map;
 public class MovementHandler {
     private Controller controller;
     private String myMainHeroName;
-    private static final Map<KeyCode, String> movementActions = Map.of(
+
+    public static final Map<KeyCode, String> MOVEMENT_ACTIONS = Map.of(
             KeyCode.UP, "moveUp",
             KeyCode.DOWN, "moveDown",
             KeyCode.RIGHT, "moveRight",
@@ -25,20 +26,21 @@ public class MovementHandler {
             KeyCode.A, "moveLeft",
             KeyCode.SHIFT, "sprint"
     );
-    private static final Map<KeyCode, String> attackActions = Map.of(
+    public static final Map<KeyCode, String> ATTACK_ACTIONS = Map.of(
             KeyCode.SPACE, "attack",
             KeyCode.Z, "attack",
-            KeyCode.CONTROL, "control",
             KeyCode.X, "crossAttack"
     );
-    private static final Map<KeyCode, String> cheatCodeActions = Map.of(
+    public static final Map<KeyCode, String> CHEAT_CODE_ACTIONS = Map.of(
             KeyCode.B, "block",
-            KeyCode.P, "pause",
+            KeyCode.P, "playPause",
             KeyCode.Q, "quit",
             KeyCode.L, "life",
             KeyCode.O, "forceField",
-            KeyCode.DIGIT2, "doubleScore"
-    );
+            KeyCode.DIGIT2, "doubleScore",
+            KeyCode.NUMPAD2, "doubleScore",
+            KeyCode.CONTROL, "control"
+            );
     private boolean moving;
 
     public MovementHandler(Controller controller, String mainHeroName){
@@ -72,6 +74,9 @@ public class MovementHandler {
 
     private void attackStop(){
         controller.changeEntityState(myMainHeroName, MovementState.STATIONARY);
+    }
+    private void crossAttackStop() {
+        controller.changeEntityState(myMainHeroName, DirectionState.SOUTH, MovementState.STATIONARY);
     }
     private void attack(){
         controller.attack();
@@ -157,40 +162,44 @@ public class MovementHandler {
     }
 
     private void crossAttack(){
-
+        moveLeftStop();
+        attack();
+        moveUpStop();
+        attack();
+        moveRightStop();
+        attack();
+        moveDownStop();
+        attack();
+        attackStop();
+        //controller.crossAttack();
     }
 
-    private void pause(){
+    private void playPause(){
         controller.playPause();
     }
-    private void pauseStop(){
 
+
+    public void quit(){
+        controller.quitToTitle();
     }
 
-    private void quit(){
+    public void block(){
 
     }
-
-    private void block(){
-
-    }
-
-    private void forceField(){
+    public void forceField(){
 
     }
-
-    private void addLife(){
+    public void life(){
+        controller.addLife();
+    }
+    public void doubleScore(){
+        controller.doubleScore();
+    }
+    public void doubleAttack(){
 
     }
-
-    private void doubleScore(){
-
+    public boolean isMoving(){
+        return moving;
     }
-
-    private void doubleAttack(){
-
-    }
-
-
 
 }

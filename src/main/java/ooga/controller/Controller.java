@@ -3,7 +3,7 @@ package ooga.controller;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
@@ -27,8 +27,14 @@ import java.util.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import ooga.view.screens.StartScreen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import static ooga.controller.MovementHandler.MOVEMENT_ACTIONS;
+import static ooga.controller.MovementHandler.ATTACK_ACTIONS;
+import static ooga.controller.MovementHandler.CHEAT_CODE_ACTIONS;
 
 /**
  * @author Nick Ward, Melanie Wang, Nicki Lee
@@ -38,6 +44,7 @@ public class Controller {
         "ResourceBundles.Score");
     private Timeline animation;
     private View myView;
+    private int score;
     private Model myModel;
     private MapWrapper mapWrapper;
     private boolean animationPlaying;
@@ -52,15 +59,11 @@ public class Controller {
     private Map<Integer, Attack> myModelAttacks;
     private Map<Integer, AttackView> myViewAttacks;
     private String myMainHeroName;
-    private Map<KeyCode, String> movementActions;
     private MovementHandler movementHandler;
-    private Map<KeyCode, String> attackActions;
-    private Map<KeyCode, String> cheatCodeActions;
     private String myGameType;
     private String mapName;
     private Stage myStage;
     private DirectionState playerDirection;
-    private int score;
     private List<Double> newCoordinates;
     private ResourceBundle myLabels;
     private SaveFileParser saver = new SaveFileParser();
@@ -81,31 +84,6 @@ public class Controller {
         this.myModelObstacles = new HashMap<>();
         this.myModelPowerUps = new HashMap<>();
         this.myViewPowerUps = new HashMap<>();
-        this.movementActions = Map.of(
-                KeyCode.UP, "moveUp",
-                KeyCode.DOWN, "moveDown",
-                KeyCode.RIGHT, "moveRight",
-                KeyCode.LEFT, "moveLeft",
-                KeyCode.W, "moveUp",
-                KeyCode.S, "moveDown",
-                KeyCode.D, "moveRight",
-                KeyCode.A, "moveLeft",
-                KeyCode.SHIFT, "sprint"
-        );
-        this.attackActions = Map.of(
-                KeyCode.SPACE, "attack",
-                KeyCode.Z, "attack",
-                KeyCode.CONTROL, "control",
-                KeyCode.X, "crossAttack"
-        );
-        this.cheatCodeActions = Map.of(
-                KeyCode.B, "block",
-                KeyCode.P, "pause",
-                KeyCode.Q, "quit",
-                KeyCode.L, "life",
-                KeyCode.O, "forceField",
-                KeyCode.DIGIT2, "doubleScore"
-        );
         this.mapName = map;
         this.myGameType = gameType;
         this.myStage = stage;
@@ -521,13 +499,13 @@ public class Controller {
      * @param keyCode
      */
     public void checkKeyPress(KeyCode keyCode) {
-        if (movementActions.containsKey(keyCode)) {
-            movementHandler.handleKeyPress(movementActions.get(keyCode));
-        } else if (attackActions.containsKey(keyCode)) {
+        if (MOVEMENT_ACTIONS.containsKey(keyCode)) {
+            movementHandler.handleKeyPress(MOVEMENT_ACTIONS.get(keyCode));
+        } else if (ATTACK_ACTIONS.containsKey(keyCode)) {
             changeHeroAttack(keyCode);
-            movementHandler.handleKeyPress(attackActions.get(keyCode));
-        } else if(cheatCodeActions.containsKey(keyCode)) {
-            movementHandler.handleKeyPress(cheatCodeActions.get(keyCode));
+            movementHandler.handleKeyPress(ATTACK_ACTIONS.get(keyCode));
+        } else if(CHEAT_CODE_ACTIONS.containsKey(keyCode)) {
+            movementHandler.handleKeyPress(CHEAT_CODE_ACTIONS.get(keyCode));
         }
     }
 
@@ -536,7 +514,7 @@ public class Controller {
      * @param keyCode
      */
     private void changeHeroAttack(KeyCode keyCode) {
-        if (keyCode.isWhitespaceKey()) {
+        if (!keyCode.equals(KeyCode.Z)) {
             myModelEntities.get(myMainHeroName).setAttackType("LongRange");
         } else {
             myModelEntities.get(myMainHeroName).setAttackType("ShortRange");
@@ -550,13 +528,14 @@ public class Controller {
      * @param keyCode
      */
     public void checkKeyRelease(KeyCode keyCode) {
-        if (movementActions.containsKey(keyCode)) {
-            movementHandler.handleKeyRelease(movementActions.get(keyCode));
-        } else if (attackActions.containsKey(keyCode)) {
-            movementHandler.handleKeyRelease(attackActions.get(keyCode));
-        } else if(cheatCodeActions.containsKey(keyCode)) {
-            movementHandler.handleKeyRelease(cheatCodeActions.get(keyCode));
+        if (MOVEMENT_ACTIONS.containsKey(keyCode)) {
+            movementHandler.handleKeyRelease(MOVEMENT_ACTIONS.get(keyCode));
+        } else if (ATTACK_ACTIONS.containsKey(keyCode)) {
+            movementHandler.handleKeyRelease(ATTACK_ACTIONS.get(keyCode));
         }
+        /* else if(cheatCodeActions.containsKey(keyCode)) {
+            movementHandler.handleKeyRelease(cheatCodeActions.get(keyCode));
+        }*/
     }
 
 
@@ -567,8 +546,12 @@ public class Controller {
         myModel.attack();
         myView.changeEntityState(myMainHeroName, playerDirection, MovementState.ATTACK);
     }
+    public void crossAttack(){
+        //myModel.crossAttack();
+        myView.changeEntityState(myMainHeroName,playerDirection,MovementState.ATTACK);
+    }
 
-      public void changeEntityState(String entityName, DirectionState direction, MovementState movement){
+    public void changeEntityState(String entityName, DirectionState direction, MovementState movement){
         playerDirection = direction;
         myModel.changeEntityState(myMainHeroName, direction, movement);
         myView.changeEntityState(myMainHeroName, direction, movement);
@@ -678,6 +661,35 @@ public class Controller {
         new Alert(type, message).showAndWait();
     }
     public void playPause(){
-        
+        if(animationPlaying){
+            pauseAnimation();
+        } else playAnimation();
+        myView.updatePlayPause(animationPlaying);
+    }
+
+    /**
+     * getter for MovementHandler - sole function is to allow the MovementHandlerTest's
+     * Controller and MovementHandler to be appropriately linked for accurate testing
+     * @return MovementHandler
+     */
+    public MovementHandler getMovementHandler() {
+        return movementHandler;
+    }
+
+    public void addLife(){
+        myModel.addLife();
+    }
+    public void doubleScore(){
+        score*=2;
+        myView.updateScore(score);
+    }
+    public void quitToTitle(){
+        myStage.close();
+        Stage newStage = new Stage();
+        StartScreen s = new StartScreen(newStage);
+        newStage.setScene(s.makeScene());
+        newStage.show();
+        Stage toClose = (Stage)(myView.getScene().getWindow());
+        toClose.close();
     }
 }
