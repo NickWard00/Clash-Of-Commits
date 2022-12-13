@@ -91,4 +91,18 @@ class EntityTest {
         assertFalse(testBug.withinAttackRange(testHero.coordinates()));
         assertFalse(testMagicValue.withinAttackRange(testHero.coordinates()));
     }
+
+    @Test
+    void withinAttackRangeTest_SameCoordinates() {
+        testBug.attack();
+        testMagicValue.attack();
+        assertTrue(testBug.withinAttackRange(testBug.coordinates()));
+        assertTrue(testMagicValue.withinAttackRange(testMagicValue.coordinates()));
+    }
+
+    @Test
+    void attackTypeChangeTest() {
+        testBug.setAttackType("LongRange");
+        assertEquals("LongRange", testBug.getAttackType());
+    }
 }
