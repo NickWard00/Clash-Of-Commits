@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import ooga.controller.Controller;
 import ooga.view.EntityView;
-import ooga.view.HUD;
 
 /**
  * This subclass helps determine what the win and lose conditions are for our adventure type game.
