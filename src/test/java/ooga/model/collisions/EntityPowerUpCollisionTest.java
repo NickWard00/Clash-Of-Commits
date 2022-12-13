@@ -4,7 +4,7 @@ import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.EntityParser;
 import ooga.model.hero.MainHero;
-import ooga.model.obstacle.DestroyableWall;
+import ooga.model.powerup.HealPowerUp;
 import ooga.view.EntityView;
 import ooga.view.screens.StartScreen;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,14 +16,14 @@ import java.util.ResourceBundle;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class EntityObstacleCollisionTest extends DukeApplicationTest {
+class EntityPowerUpCollisionTest extends DukeApplicationTest {
 
     private EntityParser heroParser;
     private MainHero hero;
     private EntityView heroView;
     private Map<String, Map<?,?>> viewEntities;
-    private DestroyableWall obstacle;
-    private EntityObstacleCollision myCollision;
+    private HealPowerUp powerUp;
+    private EntityPowerUpCollision myCollision;
 
     @Override
     public void start(Stage stage) {
@@ -39,15 +39,14 @@ class EntityObstacleCollisionTest extends DukeApplicationTest {
         hero = new MainHero(heroParser.getAttributeMap());
         heroView = new EntityView("sprites/hero/SOUTH.gif", "TestHeroView");
         viewEntities = Map.of("viewEntities", Map.of("TestHero", heroView));
-        obstacle = new DestroyableWall(5.0,5.0);
-        myCollision = new EntityObstacleCollision(viewEntities);
+        powerUp = new HealPowerUp("TestPowerUp", 5, 5);
+        myCollision = new EntityPowerUpCollision(viewEntities);
     }
 
     @Test
     void collideTest() {
-        myCollision.collide(hero, obstacle);
-        assertInstanceOf(EntityObstacleCollision.class, myCollision);
+        myCollision.collide(hero, powerUp);
+        assertInstanceOf(EntityPowerUpCollision.class, myCollision);
     }
-
 
 }
