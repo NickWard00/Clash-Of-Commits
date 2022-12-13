@@ -29,7 +29,6 @@ public class MovementHandler {
     private static final Map<KeyCode, String> attackActions = Map.of(
             KeyCode.SPACE, "attack",
             KeyCode.Z, "attack",
-            KeyCode.CONTROL, "control",
             KeyCode.X, "crossAttack"
     );
     private static final Map<KeyCode, String> cheatCodeActions = Map.of(
@@ -39,8 +38,9 @@ public class MovementHandler {
             KeyCode.L, "life",
             KeyCode.O, "forceField",
             KeyCode.DIGIT2, "doubleScore",
-            KeyCode.NUMPAD2, "doubleScore"
-    );
+            KeyCode.NUMPAD2, "doubleScore",
+            KeyCode.CONTROL, "control"
+            );
     private boolean moving;
 
     public MovementHandler(Controller controller, String mainHeroName){
@@ -182,7 +182,7 @@ public class MovementHandler {
     }
 
     public void quit(){
-
+        controller.quitToTitle();
     }
 
     public void block(){

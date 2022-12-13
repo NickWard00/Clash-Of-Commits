@@ -255,5 +255,9 @@ public class View {
         myViewPowerUps = myController.getViewPowerUps();
         mainGameScreen.addPowerUpsToRoot();
     }
+
+    public Scene getScene(){
+        return myScene;
+    }
 }
 

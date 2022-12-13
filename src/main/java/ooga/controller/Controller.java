@@ -3,6 +3,7 @@ package ooga.controller;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
@@ -26,6 +27,8 @@ import java.util.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import ooga.view.screens.StartScreen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -700,5 +703,14 @@ public class Controller {
     public void doubleScore(){
         score*=2;
         myView.updateScore(score);
+    }
+    public void quitToTitle(){
+        myStage.close();
+        Stage newStage = new Stage();
+        StartScreen s = new StartScreen(newStage);
+        newStage.setScene(s.makeScene());
+        newStage.show();
+        Stage toClose = (Stage)(myView.getScene().getWindow());
+        toClose.close();
     }
 }
