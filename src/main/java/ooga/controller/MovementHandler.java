@@ -51,7 +51,6 @@ public class MovementHandler {
             Method currentAction = this.getClass().getDeclaredMethod(action + "Stop");
             currentAction.invoke(this);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            System.out.println("key release exception on action: " + action);
             throw new IllegalStateException("illegalKeyPress", e);
         }
     }
@@ -64,7 +63,6 @@ public class MovementHandler {
             Method currentAction = this.getClass().getDeclaredMethod(action);
             currentAction.invoke(this);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            System.out.println("keypress exception on action: " + action);
             throw new IllegalStateException("noMethodFound", e);
         }
     }

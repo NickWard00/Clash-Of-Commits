@@ -31,7 +31,7 @@ public class OpenNewGameScreenTest extends DukeApplicationTest {
     @Test
     void testGameType1Transition(){
         VBox slotBox = lookup("#slotbox").query();
-        GameSlot first = (GameSlot) slotBox.getChildren().get(0);
+        GameSlot first = (GameSlot) slotBox.getChildren().get(1);
         clickOn(first);
         ToolBar hud = lookup("#HUD").query();
         Label score = (Label) hud.getItems().get(1);
