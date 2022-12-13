@@ -70,9 +70,9 @@ public class SettingsPopup extends VBox {
     /**
      * monitors the events for the buttons added (saving the game, quitting the game, changing CSS)
      */
-    public void handleEvents(){
+    private void handleEvents(){
         saveGame.setOnAction(event->{
-            saveStage=new Stage();
+            saveStage = new Stage();
             saveStage.initModality(Modality.APPLICATION_MODAL);
             saveStage.initOwner(stage);
             CreateSavePopup csp = new CreateSavePopup(controller, labels, saveStage);

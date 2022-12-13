@@ -21,7 +21,7 @@ class GeneralParserTest {
         try {
             Properties properties = parser.getSimData("data/maps/NoExist.sim");
         } catch (IllegalStateException e) {
-            assertEquals("fileUploadError", e.getMessage());
+            assertEquals("simFileUploadError", e.getMessage());
         }
     }
 }
