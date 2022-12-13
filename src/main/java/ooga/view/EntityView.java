@@ -67,6 +67,10 @@ public class EntityView extends ImageView {
      */
     public void changeDirectionAndMovement(DirectionState direction, MovementState movement) {
         String spriteDirection = direction.getDirectionString();
+        //Casts Sprinting movements to Moving View movements, as there is no difference in the sprite
+        if(movement.equals(MovementState.SPRINTING)){
+            movement = MovementState.MOVING;
+        }
         String spriteMovement = movement.getMovementString();
         try {
             String path = String.format("set%s_%sSprite", spriteDirection, spriteMovement);

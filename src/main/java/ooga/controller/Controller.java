@@ -2,7 +2,6 @@ package ooga.controller;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
@@ -21,11 +20,9 @@ import ooga.view.EntityView;
 import ooga.view.MapWrapper;
 import ooga.view.View;
 
-import java.io.FileNotFoundException;
 import java.util.*;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 /**
  * @author Nick Ward, Melanie Wang, Nicki Lee
@@ -37,6 +34,7 @@ public class Controller {
     private View myView;
     private Model myModel;
     private MapWrapper mapWrapper;
+    private boolean animationPlaying;
     private static final double FRAMES_PER_SECOND = 60;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     private Map<String, EntityView> myViewEntities;
@@ -49,6 +47,7 @@ public class Controller {
     private Map<Integer, AttackView> myViewAttacks;
     private String myMainHeroName;
     private Map<KeyCode, String> movementActions;
+    private MovementHandler movementHandler;
     private Map<KeyCode, String> attackActions;
     private Map<KeyCode, String> cheatCodeActions;
     private String myGameType;
@@ -105,6 +104,7 @@ public class Controller {
         this.myStage = stage;
         this.myLabels = labels;
         this.score = Integer.parseInt(scores.getString("initialScore"));
+        movementHandler = new MovementHandler(this, myMainHeroName);
 
         try {
             initializeModel();
@@ -117,6 +117,7 @@ public class Controller {
             //showMessage(Alert.AlertType.ERROR, labels.getString(e.getMessage()), e);
             throw new RuntimeException(e);
         }
+
     }
 
     /**
@@ -154,6 +155,7 @@ public class Controller {
      * Pauses the animation of the game
      */
     public void pauseAnimation(){
+        animationPlaying = true;
         animation.pause();
     }
 
@@ -161,6 +163,7 @@ public class Controller {
      * Resumes the animation of the game
      */
     public void playAnimation(){
+        animationPlaying = false;
         animation.play();
     }
 
@@ -512,10 +515,12 @@ public class Controller {
      */
     public void checkKeyPress(KeyCode keyCode) {
         if (movementActions.containsKey(keyCode)) {
-            handleKeyPress(movementActions.get(keyCode));
+            movementHandler.handleKeyPress(movementActions.get(keyCode));
         } else if (attackActions.containsKey(keyCode)) {
             changeHeroAttack(keyCode);
-            handleKeyPress(attackActions.get(keyCode));
+            movementHandler.handleKeyPress(attackActions.get(keyCode));
+        } else if(cheatCodeActions.containsKey(keyCode)) {
+            movementHandler.handleKeyPress(cheatCodeActions.get(keyCode));
         }
     }
 
@@ -531,18 +536,7 @@ public class Controller {
         }
     }
 
-    /**
-     * Handles the key input press from the user that is detected in the view
-     * @param action
-     */
-    private void handleKeyPress(String action) throws IllegalStateException {
-        try {
-            Method currentAction = this.getClass().getDeclaredMethod(action);
-            currentAction.invoke(this);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            throw new IllegalStateException("noMethodFound", e);
-        }
-    }
+
 
     /**
      * Checks if the key released is associated with a movement or attack action and passes it into handleKeyRelease appropriately
@@ -550,158 +544,34 @@ public class Controller {
      */
     public void checkKeyRelease(KeyCode keyCode) {
         if (movementActions.containsKey(keyCode)) {
-            handleKeyRelease(movementActions.get(keyCode));
+            movementHandler.handleKeyRelease(movementActions.get(keyCode));
         } else if (attackActions.containsKey(keyCode)) {
-            handleKeyRelease(attackActions.get(keyCode));
+            movementHandler.handleKeyRelease(attackActions.get(keyCode));
+        } else if(cheatCodeActions.containsKey(keyCode)) {
+            movementHandler.handleKeyRelease(cheatCodeActions.get(keyCode));
         }
     }
 
-    /**
-     * Handles the key input release from the user that is detected in the view
-     * @param action
-     */
-    private void handleKeyRelease(String action) throws IllegalStateException {
-        try {
-            Method currentAction = this.getClass().getDeclaredMethod(action + "Stop");
-            currentAction.invoke(this);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            throw new IllegalStateException("illegalKeyPress", e);
-        }
-    }
 
     /**
      * Tells the model to attack and changes the state to attack
      */
-    private void attack(){
+    public void attack(){
         myModel.attack();
         myView.changeEntityState(myMainHeroName, playerDirection, MovementState.ATTACK);
     }
 
-    /**
-     * Reflection method that is called from handleKeyRelease to stop the hero from moving in the north direction
-     */
-    private void moveUpStop(){
-        myModel.changeEntityState(myMainHeroName, DirectionState.NORTH, MovementState.STATIONARY);
-        myView.changeEntityState(myMainHeroName, DirectionState.NORTH, MovementState.STATIONARY);
+      public void changeEntityState(String entityName, DirectionState direction, MovementState movement){
+        playerDirection = direction;
+        myModel.changeEntityState(myMainHeroName, direction, movement);
+        myView.changeEntityState(myMainHeroName, direction, movement);
+    }
+    public void changeEntityState(String entityName, MovementState movement){
+        myModel.changeEntityState(myMainHeroName, playerDirection, movement);
+        myView.changeEntityState(myMainHeroName, playerDirection, movement);
     }
 
-    /**
-     * Reflection method that is called from handleKeyRelease to stop the hero from attacking
-     */
-    private void attackStop(){
-        myModel.changeEntityState(myMainHeroName, playerDirection, MovementState.STATIONARY);
-        myView.changeEntityState(myMainHeroName, playerDirection, MovementState.STATIONARY);
-    }
 
-    /**
-     * Reflection method that is called from handleKeyRelease to stop the hero from moving in the south direction
-     */
-    private void moveDownStop(){
-        myModel.changeEntityState(myMainHeroName, DirectionState.SOUTH, MovementState.STATIONARY);
-        myView.changeEntityState(myMainHeroName, DirectionState.SOUTH, MovementState.STATIONARY);
-    }
-
-    /**
-     * Reflection method that is called from handleKeyRelease to stop the hero from moving in the west direction
-     */
-    private void moveLeftStop(){
-        myModel.changeEntityState(myMainHeroName, DirectionState.WEST, MovementState.STATIONARY);
-        myView.changeEntityState(myMainHeroName, DirectionState.WEST, MovementState.STATIONARY);
-    }
-
-    /**
-     * Reflection method that is called from handleKeyRelease to stop the hero from moving in the east direction
-     */
-    private void moveRightStop(){
-        myModel.changeEntityState(myMainHeroName, DirectionState.EAST, MovementState.STATIONARY);
-        myView.changeEntityState(myMainHeroName, DirectionState.EAST, MovementState.STATIONARY);
-    }
-
-    /**
-     * Reflection method that is called from handleKeyPress to move the hero in the north direction
-     */
-    private void moveUp() {
-        playerDirection = DirectionState.NORTH;
-        myModel.changeEntityState(myMainHeroName, DirectionState.NORTH, MovementState.MOVING);
-        myView.changeEntityState(myMainHeroName, DirectionState.NORTH, MovementState.MOVING);
-    }
-
-    /**
-     * Reflection method that is called from handleKeyPress to move the hero in the south direction
-     */
-    private void moveDown() {
-        playerDirection = DirectionState.SOUTH;
-        myModel.changeEntityState(myMainHeroName, DirectionState.SOUTH, MovementState.MOVING);
-        myView.changeEntityState(myMainHeroName, DirectionState.SOUTH, MovementState.MOVING);
-    }
-
-    /**
-     * Reflection method that is called from handleKeyPress to move the hero in the west direction
-     */
-    private void moveLeft(){
-        playerDirection = DirectionState.WEST;
-        myModel.changeEntityState(myMainHeroName, DirectionState.WEST, MovementState.MOVING);
-        myView.changeEntityState(myMainHeroName, DirectionState.WEST, MovementState.MOVING);
-    }
-
-    /**
-     * Reflection method that is called from handleKeyPress to move the hero in the east direction
-     */
-    private void moveRight(){
-        playerDirection = DirectionState.EAST;
-        myModel.changeEntityState(myMainHeroName, DirectionState.EAST, MovementState.MOVING);
-        myView.changeEntityState(myMainHeroName, DirectionState.EAST, MovementState.MOVING);
-    }
-
-    /**
-     * Reflection method that is called from handleKeyPress to move allow the player to sprint
-     */
-    private void sprint(){
-        myModel.changeEntityState(myMainHeroName, MovementState.SPRINTING);
-    }
-
-    /**
-     * Reflection method that is called from handleKeyRelease to stop the hero from sprinting
-     */
-    private void sprintStop(){
-        myModel.changeEntityState(myMainHeroName, MovementState.MOVING);
-    }
-
-    private void freeze(){
-
-    }
-
-    private void crossAttack(){
-
-    }
-
-    private void pause(){
-        pauseAnimation();
-    }
-
-    private void quit(){
-
-    }
-
-    private void block(){
-
-    }
-
-    private void forceField(){
-
-    }
-
-    private void addLife(){
-
-    }
-
-    private void doubleScore(){
-
-    }
-
-    private void doubleAttack(){
-
-    }
 
 
     /**
@@ -799,5 +669,8 @@ public class Controller {
 
     public void showMessage(Alert.AlertType type, String message, Exception e) {
         new Alert(type, message).showAndWait();
+    }
+    public void playPause(){
+        
     }
 }
