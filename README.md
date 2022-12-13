@@ -12,7 +12,7 @@ Start Date: 11/02/22
 
 Finish Date: 12/14/22
 
-Hours Spent: 
+Hours Spent: ~330
 
 ### Primary Roles
 
@@ -44,6 +44,8 @@ Errors handled:
 * trying to parse bad data files
 * trying to get data files that do not exist
 * trying to load saves that contain corrupt/no information
+
+Cheat Keys:
 
 Features implemented:
 1. Language Selection- player can select between 4 languages.
@@ -77,6 +79,7 @@ bugs and magic values.
 
 Known Bugs:
 * If you try really, really hard, you can glitch out of the boundaries of the game.
+* In Bullet Hell, if you collide with the enemies enough times, you will get launched out of the map.
 
 Challenge Features:
 Our map loading system is extremely flexible and is done by reading resource files. We were able to load the entire
@@ -90,8 +93,8 @@ We have also implemented extra features that make our game more enjoyable to pla
 We had a lot of fun coding this assignment. Right guys?
 Overall, I think our group enjoyed this assignment because we had a lot of creative freedom with it. We also lucked out in the random team selection
 because everyone contributed pretty regularly to our game's development. I think in order to improve this assignment, you should ~~behead~~ penalize any students that don't do their fair share of work.
-Also, the assignment is a LOT of work. We had everyone working regularly, pulling an easy 10-20 hours a week and still
-we won't have completed EVERYTHING on your assignment checklist. Especially that 85% testing coverage requirement...please revise that to around 50% like the previous assignments for the sake of world peace.
+Also, the assignment is a LOT of work. We had everyone working regularly, pulling an easy 15-20 hours a week and still
+we may not have completed EVERYTHING on your assignment checklist. Especially that 85% testing coverage requirement...please revise that to around 50% like the previous assignments for the sake of world peace.
 
 Extendable areas in the future:
 1. Creation of more game areas - we talked about incorporating blocks on the maps such as cave blocks, that when stepped on would move the player onto a new map.

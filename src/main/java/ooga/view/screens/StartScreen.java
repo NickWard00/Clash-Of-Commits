@@ -90,6 +90,7 @@ public class StartScreen extends SceneCreator {
         currentStage.setTitle(labels.getString("splashScreenTitle"));
         currentStage.getIcons().add(new Image(labels.getString("splashScreenIcon")));
         myMedia = new MediaPlayer(music);
+        myMedia.play();
         return scene;
     }
 
