@@ -8,6 +8,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+/**
+ * @author Mayari Merchant, Nick Ward, Nicki Lee, Melanie Wang
+ */
 public class MovementHandler {
     private Controller controller;
     private String myMainHeroName;

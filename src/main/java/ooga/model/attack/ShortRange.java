@@ -4,6 +4,9 @@ import ooga.model.entities.Entity;
 
 import java.util.Map;
 
+/**
+ * @author Nicki Lee
+ */
 public class ShortRange extends Attack {
 
     /**

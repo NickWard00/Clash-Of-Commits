@@ -12,6 +12,9 @@ import java.util.ResourceBundle;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Mayari Merchant, Nick Ward
+ */
 class MapViewTest extends DukeApplicationTest {
     private static final String MAP_BLOCKS_PROPERTIES = "ResourceBundles.MapBlocks";
     @Override

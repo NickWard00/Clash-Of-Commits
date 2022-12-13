@@ -3,6 +3,9 @@ package ooga.model.collisions;
 import java.util.ResourceBundle;
 import java.util.Map;
 
+/**
+* @author Nicki Lee, James Qu
+ */
 public class Collision {
     private static final ResourceBundle COLLISION_VALUES = ResourceBundle.getBundle(
         "ResourceBundles.Collision");

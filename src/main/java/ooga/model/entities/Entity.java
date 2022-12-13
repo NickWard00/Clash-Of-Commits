@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+/**
+ * @author Nicki Lee, Nick Ward
+ */
 public abstract class Entity {
     private double xPos;
     private double yPos;

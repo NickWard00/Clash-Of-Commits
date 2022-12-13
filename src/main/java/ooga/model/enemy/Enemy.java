@@ -3,6 +3,9 @@ package ooga.model.enemy;
 import java.util.Map;
 import ooga.model.entities.Entity;
 
+/**
+ * @author Nicki Lee
+ */
 public abstract class Enemy extends Entity {
     /**
      * Constructor for the Enemy superclass that also extends the Entity class

@@ -10,6 +10,9 @@ import util.DukeApplicationTest;
 
 import java.util.ResourceBundle;
 
+/**
+ * @author Nick Ward, Nicki Lee, Mayari Merchant
+ */
 public class ViewTest extends DukeApplicationTest {
     private View view;
     @Override

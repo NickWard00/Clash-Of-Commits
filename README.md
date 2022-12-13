@@ -15,8 +15,18 @@ Finish Date: 12/14/22
 Hours Spent: ~330
 
 ### Primary Roles
+Nick Ward: Did all of the parsing, saving and loading of files (backend), error handling, and also was key in model, view, and controller method design and implementation.
 
+Melanie Wang: Did the majority of the GUI frontend design and implementation excluding the win/lose screens. Also connected saving/loading to the web via FireBase, and drew all the game assets.
 
+Nicki Lee: Was responsible for enemy and hero attacks, powerups, and detecting those specific collisions. Also created most of the model structures.
+
+Mayari Merchant: Worked on error handling and cheat keys. Supported Nicki and James on collision detection. 
+
+James Qu: Was responsible for obstacles and handling their collisions with entities. Also played roles in the frontend (scoring).
+
+We collectively wrote tests together. Our testing coverage is ~85% (at least on our laptops), and we've included a photo
+as proof. 
 ### Resources Used
 All images were drawn in Procreate illustration software by Melanie Wang.
 
@@ -83,6 +93,8 @@ bugs and magic values.
 Known Bugs:
 * If you try really, really hard, you can glitch out of the boundaries of the game.
 * In Bullet Hell, if you collide with the enemies enough times, you will get launched out of the map.
+* If you approach an enemy, and it starts firing, and then you quit the game and restart a new game, the enemy will now
+be invisible. We tried to fix this for a long time, but couldn't quite get it in time.
 
 Challenge Features:
 Our map loading system is extremely flexible and is done by reading resource files. We were able to load the entire

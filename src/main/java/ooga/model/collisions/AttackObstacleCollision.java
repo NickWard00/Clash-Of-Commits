@@ -6,6 +6,9 @@ import ooga.model.obstacle.DestroyableWall;
 import ooga.model.obstacle.Obstacle;
 import java.util.Map;
 
+/**
+ * @author Nicki Lee
+ */
 public class AttackObstacleCollision extends Collision {
 
     public AttackObstacleCollision(Map<String, Map<?, ?>> viewModelMap) {

@@ -7,6 +7,9 @@ import ooga.model.entities.Entity;
 import java.util.*;
 import java.util.List;
 
+/**
+ * @author Nicki Lee
+ */
 public abstract class Attack {
     private static Controller myController;
     private int damage;

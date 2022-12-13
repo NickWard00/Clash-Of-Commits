@@ -12,6 +12,9 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * @author Nick Ward
+ */
 class EntityViewTest extends DukeApplicationTest {
     private Map<String, String> entityAttributes;
     private String imageName;

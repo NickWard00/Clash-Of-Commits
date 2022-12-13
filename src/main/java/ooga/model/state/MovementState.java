@@ -3,6 +3,9 @@ package ooga.model.state;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Nicki Lee, Nick Ward, Melanie Wang
+ */
 public enum MovementState {
     STATIONARY("STATIONARY", 0),
     MOVING("MOVING", 1),

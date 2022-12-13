@@ -2,6 +2,9 @@ package ooga.model.hero;
 
 import java.util.Map;
 
+/**
+ * @author Nicki Lee, Nick Ward
+ */
 public class MainHero extends Hero {
     /**
      * Constructor for the MainHero class that extends the Hero superclass
