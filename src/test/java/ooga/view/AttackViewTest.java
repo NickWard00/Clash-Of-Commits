@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,7 +25,7 @@ class AttackViewTest extends DukeApplicationTest {
     public void start(Stage stage) {
         StartScreen ss = new StartScreen(stage);
         stage.setScene(ss.makeScene());
-        Controller controller = new Controller(stage, "MainMap", "", null);
+        Controller controller = new Controller(stage, "MainMap", "", ResourceBundle.getBundle("ResourceBundles.LabelsBundle"));
         size = 50;
         xPos = 100;
         yPos = 100;

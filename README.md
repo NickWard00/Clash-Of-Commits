@@ -41,9 +41,12 @@ Data files needed:
 To start the project/test the project: everything in the repository except the doc folder
 
 Errors handled:
-* trying to parse bad data files
-* trying to get data files that do not exist
-* trying to load saves that contain corrupt/no information
+* Trying to parse bad data files
+* If the game enters a state where data structures are not initialized
+* Trying to get data files that do not exist
+* Trying to load saves that contain corrupt/no information
+* All errors are thrown as IllegalStateExceptions and are caught in the controller and displayed to the user
+* The key along with each of the errors corresponds to a key in the ResourceBundle so that errors can be displayed in different languages
 
 Cheat Keys:
 

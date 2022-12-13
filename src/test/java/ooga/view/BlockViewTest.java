@@ -28,7 +28,7 @@ class BlockViewTest {
     void createBlockView(){
         mapBlocks();
         for (int i = 0; i < 4; i++){
-            blockView = new BlockView(0, 0, 0, i, "resources/sprites/obstacles/", "Obstacle");
+            blockView = new BlockView(0, 0, 0, i, "/blocks/zelda/0.png", "Obstacle");
             assertEquals(List.of(0,0), blockView.getKey());
         }
     }
