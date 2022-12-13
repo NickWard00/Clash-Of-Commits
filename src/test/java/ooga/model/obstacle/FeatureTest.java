@@ -2,6 +2,7 @@ package ooga.model.obstacle;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -10,6 +11,11 @@ public class FeatureTest {
   private static final double TEST_Y_POSITION = 1.0;
   private Feature feature;
 
+  @Test
+  void featureTest() {
+    Feature feature = new Feature(1.0, 2.0);
+    assertInstanceOf(Feature.class, feature);
+  }
 
   @Test
   void testPositionFeature() {

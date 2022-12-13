@@ -74,4 +74,9 @@ class DestroyableWallTest {
       defaultWall.updateHP(-1);
       assertTrue(defaultWall.determineOnScreen());
   }
+
+  @Test
+  void determineOnScreenTest() {
+    assertTrue(defaultWall.determineOnScreen());
+  }
 }

@@ -47,7 +47,7 @@ class PowerUpTest {
 
   @Test
   void getNameTest() {
-    String expected = "TestPowerUp";
+    String expected = "test1";
     String actual = powerUp.getName();
     assertEquals(expected, actual);
   }
