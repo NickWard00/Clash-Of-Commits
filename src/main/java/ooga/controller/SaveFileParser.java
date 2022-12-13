@@ -87,7 +87,7 @@ public class SaveFileParser {
      */
     public void loadGameFromWeb() throws IllegalStateException {
         if (fireBase == null) {
-            fireBase = new FireBase(String.format(SAVE_DIRECTORY, 4));
+            fireBase = new FireBase("Save_4");
         }
         fireBase.readData(new CallBack() {
             @Override
@@ -115,7 +115,7 @@ public class SaveFileParser {
      */
     public void saveGameToWeb(int saveFile, Map<String, Entity> modelEntities, Map<List<Double>, PowerUp> modelPowerUps, String mapName, String gameType, String hp, String score){
         if (fireBase == null) {
-            fireBase = new FireBase(String.format(SAVE_DIRECTORY, 4));
+            fireBase = new FireBase("Save_4");
         }
         saveGame(saveFile, modelEntities, modelPowerUps, mapName, gameType, hp, score);
         try {
