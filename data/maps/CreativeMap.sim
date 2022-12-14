@@ -8,6 +8,6 @@ Cell2=/blocks/bush.jpeg
 
 Obstacle0=Feature
 Obstacle1=ImmovableWall
-Obstacle2=BreakableWall
+Obstacle2=DestroyableWall
 
 Map=data/maps/CreativeMap.csv
