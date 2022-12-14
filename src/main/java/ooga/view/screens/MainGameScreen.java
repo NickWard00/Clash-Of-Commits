@@ -25,6 +25,7 @@ import ooga.view.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * @author Melanie Wang, Nick Ward, Mayari Merchant, James Qu
@@ -59,19 +60,22 @@ public class MainGameScreen extends SceneCreator {
     private ImageView snowy = new ImageView(new Image(images.getString("snowyImage")));
     private ImageView dark = new ImageView(new Image(images.getString("darkImage")));
 
-    private Map<String,String> styleMethods = Map.of(
-            labels.getString("css1"), "setDefault",
-            labels.getString("css2"),"setDark",
-            labels.getString("css3"),"setSnowy"
-    );
+    private Map<String,String> styleMethods;
     private MapGameState mapGameState;
+    private ResourceBundle labels;
 
     /**
      * Constructor for maingamescreen
      * @param stage the stage that the screen is set on
      * @param myController the controller of the game
      */
-    public MainGameScreen(Stage stage, Controller myController){
+    public MainGameScreen(Stage stage, Controller myController, ResourceBundle labels){
+        this.labels = labels;
+        this.styleMethods = Map.of(
+                labels.getString("css1"), "setDefault",
+                labels.getString("css2"),"setDark",
+                labels.getString("css3"),"setSnowy"
+        );
         this.screenSize = getScreenSize();
         this.stage = stage;
         controller = myController;
@@ -204,7 +208,7 @@ public class MainGameScreen extends SceneCreator {
      * initializes the hud on the top of the screen
      */
     public void createHUD(){
-        hud = new HUD(stage, this, controller);
+        hud = new HUD(stage, this, controller, labels);
         ToolBar top = hud.makeHUD();
         top.setId("HUD");
         gameScreenPane.setTop(top);

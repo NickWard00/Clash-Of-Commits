@@ -17,6 +17,7 @@ import ooga.view.screens.SettingsPopup;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * @author Melanie Wang
@@ -37,6 +38,7 @@ public class HUD extends SceneCreator {
     private Stage stage;
     private MainGameScreen mainGameScreen;
     private Map <Boolean, String> playPauseMethods;
+    private ResourceBundle labels;
 
     /**
      * Constructor for the HUD class
@@ -44,7 +46,8 @@ public class HUD extends SceneCreator {
      * @param mainGameScreen
      * @param controller
      */
-    public HUD(Stage stage, MainGameScreen mainGameScreen, Controller controller){
+    public HUD(Stage stage, MainGameScreen mainGameScreen, Controller controller, ResourceBundle labels){
+        this.labels = labels;
         this.popup = new Stage();
         this.controller = controller;
         play = true;
@@ -57,7 +60,7 @@ public class HUD extends SceneCreator {
         playPause = new Button("", pauseButton);
         playPause.setId("playPause");
         playerScore = Integer.parseInt(getConstants().getString("defaultScore"));
-        scoreText = new Label(String.format("%s  %s",getLabels().getString("score"), playerScore));
+        scoreText = new Label(String.format("%s  %s", labels.getString("score"), playerScore));
         settings = new Button("", new ImageView(new Image(images.getString("settingsImage"))));
         about = new Button("", new ImageView(new Image(images.getString("aboutImage"))));
         about.setFocusTraversable(false);
@@ -147,7 +150,7 @@ public class HUD extends SceneCreator {
      */
     public void updateScore(int newScore){
         playerScore = newScore;
-        scoreText.setText(String.format("%s  %s",getLabels().getString("score"), playerScore));
+        scoreText.setText(String.format("%s  %s", labels.getString("score"), playerScore));
     }
 
     /**

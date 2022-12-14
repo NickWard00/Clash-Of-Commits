@@ -83,7 +83,7 @@ public class View {
 
         setupMap();
 
-        mainGameScreen = new MainGameScreen(stage, myController);
+        mainGameScreen = new MainGameScreen(stage, myController, labels);
 
         mainGameScreen.startGamePlay(mapPane, myViewEntities, myViewPowerUps, myGameType);
 
