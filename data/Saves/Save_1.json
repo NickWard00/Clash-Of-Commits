@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-{"Hero1":"MainHero, 509.33333333333485, 400.0","Score":"0","HP":"7","GameType":"The Beginning","TimeDate":"12\/13\/2022 00:32:09","MagicVal1":"MagicValue, 600.0, 290.5","Map":"MainMap"}
-=======
-{"Hero1":"MainHero, 400.0, 400.0","Score":"0","Health2":"HealPowerUp, 500.0, 400.0","Health1":"HealPowerUp, 530.0, 430.0","HP":"5","GameType":"The Beginning","TimeDate":"12\/13\/2022 00:02:19","MagicVal1":"MagicValue, 600.0, 214.0","Map":"MainMap"}
->>>>>>> a0e7822 (saves?)
+{"Hero1":"MainHero, 400.0, 400.0","Score":"0","Health2":"HealPowerUp, 500.0, 400.0","Health1":"HealPowerUp, 530.0, 430.0","HP":"5","GameType":"The Beginning","TimeDate":"12\/14\/2022 16:06:10","MagicVal1":"MagicValue, 600.0, 292.0","Map":"MainMap"}

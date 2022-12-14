@@ -1,5 +1,15 @@
 # Key: Enemy name = Enemy Type, X position, Y position
-MagicVal1 = MagicValue, 600, 390
-#MagicVal2 = MagicValue, 1550, 470
-#Bug1 = Bug, 1300, 390
 Hero1 = MainHero, 400, 400
+MagicVal1 = MagicValue, 600, 390
+MagicVal2 = MagicValue, 1980, 1970
+MagicVal3 = MagicValue, 2038, 1755
+MagicVal4 = MagicValue, 3132, 1580
+MagicVal5 = MagicValue, 2269, 186
+MagicVal6 = MagicValue, 1963, 946
+MagicVal7 = MagicValue, 1874, 1333
+
+Bug1 = Bug, 850, 470
+Bug2 = Bug, 1009, 909
+Bug3 = Bug, 3262, 1633
+Bug4 = Bug, 1661, 1243
+Bug5 = Bug, 856, 1775

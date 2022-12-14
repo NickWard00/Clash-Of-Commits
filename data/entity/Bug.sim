@@ -7,5 +7,5 @@ HP=3
 Attack=ShortRange
 AttackRange=120
 CoolDown=1.0
-Direction=SOUTH
+Direction=WEST
 Movement=MOVING
