@@ -60,13 +60,13 @@ class MainGameScreenTest extends DukeApplicationTest {
         MapView mapPane = new MapView(map);
         GridPane mapGrid = mapPane.createMap();
 
-        MainGameScreen mainGameScreen = new MainGameScreen(myStage, controller);
+        MainGameScreen mainGameScreen = new MainGameScreen(myStage, controller, labels);
         mainGameScreen.startGamePlay(mapGrid, Map.of("Hello", entityView), Map.of(Arrays.asList((int)xPos, (int)yPos), blockView), "The Beginning");
         assertTrue(mainGameScreen.isPlaying());
     }
     @Test
     void startGamePlayErrorTest(){
-        MainGameScreen mainGameScreen = new MainGameScreen(myStage, controller);
+        MainGameScreen mainGameScreen = new MainGameScreen(myStage, controller, labels);
         MapParser mapParser = new MapParser("MainMap");
         MapWrapper map = mapParser.getMapWrapper();
         map.setStateToImageMap(mapParser.getStateToImageMap());
@@ -86,7 +86,7 @@ class MainGameScreenTest extends DukeApplicationTest {
 
     @Test
     void testChangeCSS(){
-        MainGameScreen mainGameScreen = new MainGameScreen(myStage, controller);
+        MainGameScreen mainGameScreen = new MainGameScreen(myStage, controller, labels);
         mainGameScreen.makeScene();
         mainGameScreen.startGamePlay(new GridPane(), Map.of("Hello", entityView), Map.of(Arrays.asList((int)xPos, (int)yPos), blockView), "The Beginning");
         mainGameScreen.changeStyle("test");
