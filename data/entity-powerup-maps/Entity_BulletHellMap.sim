@@ -15,3 +15,30 @@ Enemy12 = MagicValue, 590, 77
 Enemy13 = MagicValue, 630, 62
 Enemy14 = MagicValue, 670, 47
 Enemy15 = MagicValue, 710, 32
+
+Enemy16 = MagicValue, 1000, 137
+Enemy17 = MagicValue, 1040, 137
+Enemy18 = MagicValue, 1080, 137
+Enemy19 = MagicValue, 1120, 137
+Enemy20 = MagicValue, 1160, 137
+Enemy21 = MagicValue, 1200, 137
+
+Enemy22 = Bug, 1500, 77
+Enemy23 = Bug, 1540, 122
+Enemy24 = Bug, 1580, 47
+Enemy25 = Bug, 1620, 122
+Enemy26 = Bug, 1660, 77
+Enemy27 = Bug, 1700, 122
+Enemy28 = Bug, 1740, 47
+
+Enemy29 = MagicValue, 2400, 77
+Enemy30 = MagicValue, 2440, 137
+Enemy31 = MagicValue, 2480, 32
+Enemy32 = MagicValue, 2520, 137
+Enemy33 = MagicValue, 2560, 77
+Enemy34 = MagicValue, 2600, 137
+
+
+
+
+
