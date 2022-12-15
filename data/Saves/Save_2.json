@@ -1,6 +1,1 @@
-<<<<<<< HEAD
-{"Hero1":"MainHero, 400.0, 400.0","Score":"0","Health2":"HealPowerUp, 500.0, 400.0","Health1":"HealPowerUp, 530.0, 430.0","HP":"5","GameType":"The Beginning","TimeDate":"12\/12\/2022 23:40:26","MagicVal1":"MagicValue, 600.0, 302.5","Map":"MainMap"}
-
-=======
-{"Hero1":"MainHero, 400.0, 400.0","Score":"0","Health2":"HealPowerUp, 500.0, 400.0","Health1":"HealPowerUp, 530.0, 430.0","HP":"5","GameType":"The Beginning","TimeDate":"12\/13\/2022 00:02:03","MagicVal1":"MagicValue, 600.0, 243.5","Map":"MainMap"}
->>>>>>> a0e7822 (saves?)
+{"Bug3":"Bug, 3163.666666666649, 1633.0","Bug2":"Bug, 1082.3333333333276, 909.0","Bug1":"Bug, 923.3333333333367, 470.0","HP":"4","GameType":"The Beginning","MagicVal3":"MagicValue, 2038.0, 1927.0","MagicVal2":"MagicValue, 1980.0, 1816.0","MagicVal5":"MagicValue, 2269.0, 120.0","MagicVal4":"MagicValue, 3132.0, 1868.0","Hero1":"MainHero, 724.9999999999964, 228.33333333333204","Score":"10","MagicVal7":"MagicValue, 1874.0, 481.0","MagicVal6":"MagicValue, 1963.0, 958.0","Health3":"HealPowerUp, 3329.0, 164.0","Health2":"HealPowerUp, 1840.0, 1895.0","TimeDate":"12\/14\/2022 20:08:43","Health4":"HealPowerUp, 2028.0, 947.0","Map":"MainMap","Bug5":"Bug, 1061.0000000000043, 1775.0","Bug4":"Bug, 3006.0000000001396, 1243.0"}

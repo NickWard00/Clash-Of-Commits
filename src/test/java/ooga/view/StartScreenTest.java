@@ -69,7 +69,7 @@ class StartScreenTest extends DukeApplicationTest {
         select(languageSelector,language);
         clickOn(startGame);
         newGame = lookup("#newGame").query();
-        assertText("Nuevo Juego", newGame.getText());
+        assertText("Nuevo juego", newGame.getText());
     }
 
 
